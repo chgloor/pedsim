@@ -9,7 +9,6 @@ using namespace std;
 
 #include "agent.h"
 #include "mainwindow.h"
-#include "pov.h"
 
 #define ZOOMFACTOR 1.1
 
@@ -21,10 +20,7 @@ extern long systemtime;
 
 MainWindow::MainWindow() {
 
-	//	textEdit = new QTextEdit;
 	graphicsView = new QGraphicsView();
-	
-	//	setCentralWidget(textEdit);
 	setCentralWidget(graphicsView);
 	
 	createActions();
@@ -47,8 +43,8 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 
 
 void MainWindow::about() {
-	QMessageBox::about(this, tr("About SpaceSim"),
-							 tr("<b>SpaceSim</b> is a small pedestrian simulation system"
+	QMessageBox::about(this, tr("About PedSim"),
+							 tr("<b>PedSim</b> is a small pedestrian simulation system"
 								 "with an interactive GUI, "
 								 "suitable for small experiments."));
 }
@@ -75,13 +71,13 @@ void MainWindow::createActions() {
      zoomoutAct->setStatusTip(tr("Zoom Out"));
      connect(zoomoutAct, SIGNAL(triggered()), this, SLOT(zoomout()));
 
-     resetTimeAct = new QAction(QIcon(":/images/backward.png"), tr("Reset"), this);
-     resetTimeAct->setStatusTip(tr("Reset Time"));
-     connect(resetTimeAct, SIGNAL(triggered()), this, SLOT(resetTime()));
+//      resetTimeAct = new QAction(QIcon(":/images/backward.png"), tr("Reset"), this);
+//      resetTimeAct->setStatusTip(tr("Reset Time"));
+//      connect(resetTimeAct, SIGNAL(triggered()), this, SLOT(resetTime()));
 
-     startTimeAct = new QAction(QIcon(":/images/start.png"), tr("Start"), this);
-     startTimeAct->setStatusTip(tr("Start"));
-     connect(startTimeAct, SIGNAL(triggered()), this, SLOT(startTime()));
+//      startTimeAct = new QAction(QIcon(":/images/start.png"), tr("Start"), this);
+//      startTimeAct->setStatusTip(tr("Start"));
+//      connect(startTimeAct, SIGNAL(triggered()), this, SLOT(startTime()));
  }
 
 void MainWindow::createMenus() {
@@ -105,9 +101,9 @@ void MainWindow::createToolBars() {
 	editToolBar->addAction(zoominAct);
 	editToolBar->addAction(zoomoutAct);
 	
-	editToolBar = addToolBar(tr("Play"));
-	editToolBar->addAction(resetTimeAct);
-	editToolBar->addAction(startTimeAct);	
+// 	editToolBar = addToolBar(tr("Play"));
+// 	editToolBar->addAction(resetTimeAct);
+// 	editToolBar->addAction(startTimeAct);	
 }
 
 void MainWindow::createStatusBar() {
@@ -152,19 +148,10 @@ void MainWindow::timestep() {
 	systemtime++;
 	for (AgentIterator iter = agent.begin(); iter != agent.end(); ++iter) {
 		iter->move(systemtime);
-		if (iter->isalive()) {
-			Tagent a = *iter;
-		}
+		Tagent a = *iter;
 	}
 
 	char t[255];
 	sprintf(t, "Systemtime: %08ld", systemtime);
 	statusBar()->showMessage(t);
-
-	sprintf(t, "pov/frame-%08ld.pov", systemtime);
-	Tpov pov(t, systemtime);
-	for (AgentIterator iter = agent.begin(); iter != agent.end(); ++iter) {
-		//		pov.drawAgent(iter->getid(), iter->gettype(), iter->getx(), iter->gety(), iter->getz(), iter->getvx(), iter->getvy(), iter->getvz(), iter->isfireing(), iter->getnex(), iter->getney(), iter->getnez());
-		pov.drawAgent(iter);
-	}
 }

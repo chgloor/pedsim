@@ -11,9 +11,12 @@
 
 //#include <QApplication>
 #include <QGraphicsItem>
+#include <QQueue>
 
 #include <iostream>
-#include <vector>
+//#include <vector>
+
+#include "vector.h"
 
 
 using namespace std;
@@ -36,13 +39,7 @@ class Tagent {
   double vy;                                        ///< velocity of the agent
   double vz;                                        ///< velocity of the agent
   int type;                                         
-  double energy;                                    ///< how much energy the agent has. [0..100]
-  int deadsince;                                    ///< if the agent is alive: -1, else: systemtiem of death
-  bool fire;                                        ///< true if the agent is currently shooting at somebody
-
-  vector<Tagent>::iterator enemynearest;            ///< the nearest enemy to this agent
-  double enemydist;                                 ///< the distance to the nearest enemy
-
+  
  public:
   Tagent();
   void move(long systemtime);                       ///< This is the main function of the agent, here, all the dynamics takes place
@@ -59,15 +56,12 @@ class Tagent {
   double getvx() { return vx; };                    ///< returns the agents vx velocity
   double getvy() { return vy; };                    ///< returns the agents vy velocity
   double getvz() { return vz; };                    ///< returns the agents vz velocity
-  double getnex();                                  ///< returns the agents nearest enemy position
-  double getney();                                  ///< returns the agents nearest enemy position
-  double getnez();                                  ///< returns the agents nearest enemy position
-  bool isalive() { return (deadsince < 0); };       ///< returns true if the agent is still alive
-  long getdeadsince() { return (deadsince); };      ///< returns how long the agent is already dead
-  bool isfireing() { return fire; };                ///< returns true if the agent is shooting
-  void hit(long systemtime);                        ///< called if the agent was hit by another agents sword
   void print() {cout << "agent " << id << ": " << x << "/" << y << "/" << z << endl; }; ///< prints the agents state (simple) to stdout
   QGraphicsRectItem *rect;
+
+  QQueue<Tvector> destinations;                      ///< coordinates of the next destinations
+  Tvector destination;                               ///< coordinates of the next destination
+  bool hasreacheddestination;                        ///< true if it ahs reached its destination
 };
 
 /// A container for the agents. Defined here because some methods inside the Tagent class iterate over this container
