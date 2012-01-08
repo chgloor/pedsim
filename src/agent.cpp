@@ -11,6 +11,8 @@
 
 #include "main.h"
 #include "agent.h"
+#include "obstacle.h"
+#include "vector.h"
 
 #include <QPen>
 
@@ -18,6 +20,7 @@
 #include <vector>
 
 extern AgentContainer agent;
+extern ObstacleContainer obstacle;
 
 const double h = 0.4;
 
@@ -39,6 +42,8 @@ Tagent::Tagent() {
   vy = 0;
   vz = 0;
   hasreacheddestination = true;
+  
+  vmax = 1.5 + 2.0*(double)rand()/(double)RAND_MAX; // in m/s between 1.5 and 3.5
 };
 
 
@@ -52,6 +57,27 @@ void Tagent::setPosition(double px, double py, double pz) {
 	x = px, y = py; z = pz; 
 };
 
+Tvector obstacleforce(double p1, double p2, double oc11, double oc12, double oc21, double oc22) {
+	
+	double a1 = oc11;
+	double a2 = oc12;
+	double b1 = oc21 - oc11;
+	double b2 = oc22 - oc12;
+	
+	//	cout << a1 << "/" << a2 << " " << b1 << "/" << b2 << ", " << p1 << "/" << p2 << endl;
+
+	double lambda = (p1*b1 + p2*b2 - b1*a1 - b2*a2) / (b1*b1 + b2*b2);
+
+	//	cout << lambda << endl;
+
+	Tvector v; v.z = 0;
+	if (lambda <= 0) { v.x = oc11; v.y = oc12; return v; };
+	if (lambda >= 1) { v.x = oc21; v.y = oc22; return v; };
+	
+	v.x = a1 + lambda*b1;
+	v.y = a2 + lambda*b2;
+	return v;
+} 
 
 // ----------------------------------------------------
 // Name: move
@@ -60,36 +86,37 @@ void Tagent::setPosition(double px, double py, double pz) {
 //!Return value: void
 // ----------------------------------------------------
 void Tagent::move(long systemtime) {
-	double vmax = 3; // in m/s
+	//	double vmax = 3; // in m/s
 		  	
 	double sax = 0; // 'social' acceleration in x direction
 	double say = 0;
 	double saz = 0;
 
 	for (AgentIterator iter = agent.begin(); iter!=agent.end(); iter++) {  // iterate over all agents == O(N^2) :(
+		double fx = 0;
+		double fy = 0;
+		double fz = 0;
 		if ((iter->id != id)) {
-			double fx = 0;
-			double fy = 0;
-			double fz = 0;
-			double distancex = x - iter->x;
-			double distancey = y - iter->y;
-			double distancez = z - iter->z;
-			float dist2 = (distancex * distancex + distancey * distancey + distancez * distancez);  // dist2 = distanz im quadrat
-			
-			if ((dist2 > 0.000004) && (dist2 < 100)) { // 2cm- 10m distance
-				fx = (distancex-0)/(exp(dist2-1));   // this was originally "exp(dist-1)"
-				fy = (distancey-0)/(exp(dist2-1));
-			} else {
-				fx = 0; fy = 0; fz = 0;
+			if ((abs(x-iter->x) < 10) && (abs(y-iter->y) < 10)) { // quick dist check
+				double distancex = x - iter->x;
+				double distancey = y - iter->y;
+				double distancez = z - iter->z;
+				double dist2 = (distancex * distancex + distancey * distancey + distancez * distancez);  // dist2 = distanz im quadrat
+				double dist = sqrt(dist2);
+				
+				if ((dist2 > 0.000004) && (dist2 < 100)) { // 2cm- 10m distance
+					fx = (distancex-0)/(exp(dist-1));   // this was originally "exp(dist-1)"
+					fy = (distancey-0)/(exp(dist-1));
+				}		
 			}
 			
-			sax += 50.0f*fx; // kummulieren ueber alle agenten
-			say += 50.0f*fy;
-			saz += 50.0f*fz;
+			sax += 5.0f*fx; // kummulieren ueber alle agenten
+			say += 5.0f*fy;
+			saz += 5.0f*fz;
 		}
 	}
 
-	// calculate desire to go to center of simulation 0/0/0
+	// calculate desire to go to destination
 	double eax = 0;
 	double eay = 0;
 	double eaz = 0;
@@ -98,14 +125,14 @@ void Tagent::move(long systemtime) {
 		destination = destinations.dequeue();
 		hasreacheddestination = false;
 	}
-	if (true) { // heute: immer richtung 0/0/0
+	if (true) { 
 		double distancex = x - destination.x;
 		double distancey = y - destination.y;
 		double distancez = z - destination.z;
 		float dist2 = (distancex * distancex + distancey * distancey + distancez * distancez);  // dist2 = distanz im quadrat
 	
 		if (hasreacheddestination == false) {
-			if (dist2 < 2) {
+			if (dist2 < 8*8) { // 8^2 m
 				hasreacheddestination = true;
 				destinations.enqueue(destination); // round queue
 			}
@@ -113,28 +140,53 @@ void Tagent::move(long systemtime) {
 
 		//    if (dist2 > 0) {
 		if (true) { // immer richtung 0/0/0
-			eax = -0.5f * distancex / sqrt(dist2);
-			eay = -0.5f * distancey / sqrt(dist2);
-			eaz = -0.5f * distancez / sqrt(dist2);
+			eax = -vmax * distancex / sqrt(dist2);
+			eay = -vmax * distancey / sqrt(dist2);
+			eaz = -vmax * distancez / sqrt(dist2);
 		}
 	}
-	
+
+	// obstacles
+	double oax = 0;
+	double oay = 0;
+	double oaz = 0;
+
+	Tobstacle o;
+	foreach (o, obstacle) {
+		Tvector ov = obstacleforce(x, y, o.getax(), o.getay(), o.getbx(), o.getby());
+		//		cout << "fp " << ov.x << "/" << ov.y << endl;
+
+		double dox = x - ov.x;
+		double doy = y - ov.y;
+
+		float disto2 = (dox * dox + doy * doy);  // dist2 = distanz im quadrat
+		
+		if ((disto2 > 0.000004) && (disto2 < 400)) { // 2cm- 20m distance
+			oax += 50.0f*(dox-0)/(exp(disto2-1));   // this was originally "exp(dist-1)"
+			oay += 50.0f*(doy-0)/(exp(disto2-1));
+		} else {
+			oax += 0; oay += 0; 
+		}
+
+		
+	}
+
 	// sum up all the acelerations of the agent
-	ax = h*sax + h*eax;
-	ay = h*say + h*eay;
-	az = h*saz + h*eaz;
+	ax = h*sax + h*eax + h*oax;
+	ay = h*say + h*eay + h*oay;
+	az = h*saz + h*eaz + h*oaz;
 	
 	// calculate the new velocity based on v0 and the acceleration
 	vx = 0.5*vx + ax;
 	vy = 0.5*vy + ay;
-	vz = 0.5*vz + az;
+	vz = 0; //0.5*vz + az;
 	
 	//	double speed = ( sqrt(vx*vx + vy*vy + vz*vz) / vmax );
 	double speed = (sqrt(vx*vx + vy*vy + vz*vz));
 	if (speed > vmax) {
-		vx = vx / speed;
-		vy = vy / speed;
-		vz = vz / speed;
+		vx = (vx / speed) * vmax;
+		vy = (vy / speed) * vmax;
+		vz = (vz / speed) * vmax;
 	}
 	
 
@@ -150,3 +202,4 @@ void Tagent::move(long systemtime) {
 	// 		cerr << "agent " << id << " eaz " << eaz << " z " << z << endl;
 
 }
+

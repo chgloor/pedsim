@@ -25,8 +25,8 @@ class MainWindow : public QMainWindow {
 	void zoomin();
 	void zoomout();
 
-	void startTime();
-	void resetTime();
+	/* void startTime(); */
+	/* void resetTime(); */
 
 	void timestep();
 	
@@ -37,22 +37,23 @@ class MainWindow : public QMainWindow {
 	void createStatusBar();
 	void readSettings();
 	void writeSettings();
+
 	QString strippedName(const QString &fullFileName);
 
 	QMenu *fileMenu;
 	QMenu *editMenu;
 	QMenu *helpMenu;
-	QToolBar *fileToolBar;
+	//	QToolBar *fileToolBar;
 	QToolBar *editToolBar;
 	QAction *exitAct;
 	QAction *aboutAct;
-	QAction *aboutQtAct;
+	//	QAction *aboutQtAct;
 
 	QAction *zoominAct;
 	QAction *zoomoutAct;
 
-	QAction *resetTimeAct;
-	QAction *startTimeAct;
+	//	QAction *resetTimeAct;
+	//	QAction *startTimeAct;
 };
 
 #endif

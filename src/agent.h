@@ -39,7 +39,8 @@ class Tagent {
   double vy;                                        ///< velocity of the agent
   double vz;                                        ///< velocity of the agent
   int type;                                         
-  
+  double vmax;                                      ///< individual max velocity per agent
+
  public:
   Tagent();
   void move(long systemtime);                       ///< This is the main function of the agent, here, all the dynamics takes place

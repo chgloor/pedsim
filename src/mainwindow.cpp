@@ -22,6 +22,7 @@ MainWindow::MainWindow() {
 
 	graphicsView = new QGraphicsView();
 	setCentralWidget(graphicsView);
+	graphicsView->scale(2, 2);
 	
 	createActions();
 	createMenus();
@@ -32,8 +33,8 @@ MainWindow::MainWindow() {
 	
 	QTimer *timer = new QTimer(this);
 	connect(timer, SIGNAL(timeout()), this, SLOT(timestep()));
-	//	timer->start(1000/10);
-	timer->start(0);
+	timer->start(1000/20);
+	//timer->start(0);
 
 }
 
@@ -59,9 +60,9 @@ void MainWindow::createActions() {
      aboutAct->setStatusTip(tr("Show the application's About box"));
      connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));
 
-     aboutQtAct = new QAction(tr("About &Qt"), this);
-     aboutQtAct->setStatusTip(tr("Show the Qt library's About box"));
-     connect(aboutQtAct, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+     // aboutQtAct = new QAction(tr("About &Qt"), this);
+     // aboutQtAct->setStatusTip(tr("Show the Qt library's About box"));
+     // connect(aboutQtAct, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 
      zoominAct = new QAction(QIcon(":/images/zoomin.png"), tr("Zoom In"), this);
      zoominAct->setStatusTip(tr("Zoom In"));
@@ -91,12 +92,12 @@ void MainWindow::createMenus() {
 
 	helpMenu = menuBar()->addMenu(tr("&Help"));
 	helpMenu->addAction(aboutAct);
-	helpMenu->addAction(aboutQtAct);
+	//	helpMenu->addAction(aboutQtAct);
 }
 
 void MainWindow::createToolBars() {
-	fileToolBar = addToolBar(tr("File"));
-	editToolBar = addToolBar(tr("Edit"));
+	// fileToolBar = addToolBar(tr("File"));
+	// editToolBar = addToolBar(tr("Edit"));
 	editToolBar = addToolBar(tr("Zoom"));
 	editToolBar->addAction(zoominAct);
 	editToolBar->addAction(zoomoutAct);
@@ -136,13 +137,13 @@ void MainWindow::zoomout() {
 		graphicsView->scale(1/ZOOMFACTOR, 1/ZOOMFACTOR);
 }
 
-void MainWindow::startTime() {
-		graphicsView->scale(1/ZOOMFACTOR, 1/ZOOMFACTOR);
-}
+// void MainWindow::startTime() {
+// 		graphicsView->scale(1/ZOOMFACTOR, 1/ZOOMFACTOR);
+// }
 
-void MainWindow::resetTime() {
-		graphicsView->scale(1/ZOOMFACTOR, 1/ZOOMFACTOR);
-}
+// void MainWindow::resetTime() {
+// 		graphicsView->scale(1/ZOOMFACTOR, 1/ZOOMFACTOR);
+// }
 
 void MainWindow::timestep() {	
 	systemtime++;
