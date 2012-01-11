@@ -4,6 +4,6 @@ SUBDIRS = src
 
 #CONFIG += ordered
 
-CONFIG += debug
+CONFIG += release
 
 

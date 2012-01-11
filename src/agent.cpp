@@ -13,18 +13,20 @@
 #include "agent.h"
 #include "obstacle.h"
 #include "vector.h"
+#include "config.h"
 
 #include <QPen>
 
 
 #include <vector>
 
+using namespace std;
+
 extern AgentContainer agent;
 extern ObstacleContainer obstacle;
+extern Config config;
 
 const double h = 0.4;
-
-using namespace std;
 
 
 // ----------------------------------------------------
@@ -42,10 +44,35 @@ Tagent::Tagent() {
   vy = 0;
   vz = 0;
   hasreacheddestination = true;
+  destination.settype(1); // point
+  destination.setr(1);
+  follow = -1;
   
-  vmax = 1.5 + 2.0*(double)rand()/(double)RAND_MAX; // in m/s between 1.5 and 3.5
+  vmax = 2.0 + 2.0*(double)rand()/(double)RAND_MAX; // in m/s between 2.0 and 4.0
 };
 
+/// 
+/// \author  chgloor
+/// \date    2012-01-08
+/// \return  
+/// \warning 
+/// \param   
+void Tagent::setFollow(int id) {
+	follow = id;
+}
+int Tagent::getFollow() {
+	return follow;
+}
+
+/// 
+/// \author  chgloor
+/// \date    2012-01-08
+/// \return  
+/// \warning 
+/// \param   
+void Tagent::setVmax(double pvmax) {
+	vmax = pvmax;
+}
 
 // ----------------------------------------------------
 // Name: setPosition
@@ -57,6 +84,12 @@ void Tagent::setPosition(double px, double py, double pz) {
 	x = px, y = py; z = pz; 
 };
 
+/// 
+/// \author  chgloor
+/// \date    2012-01-10
+/// \return  
+/// \warning 
+/// \param   
 Tvector obstacleforce(double p1, double p2, double oc11, double oc12, double oc21, double oc22) {
 	
 	double a1 = oc11;
@@ -98,21 +131,21 @@ void Tagent::move(long systemtime) {
 		double fz = 0;
 		if ((iter->id != id)) {
 			if ((abs(x-iter->x) < 10) && (abs(y-iter->y) < 10)) { // quick dist check
-				double distancex = x - iter->x;
-				double distancey = y - iter->y;
-				double distancez = z - iter->z;
+				double distancex = x+h*vx - iter->x;
+				double distancey = y+h*vy - iter->y;
+				double distancez = z+h*vz - iter->z;
 				double dist2 = (distancex * distancex + distancey * distancey + distancez * distancez);  // dist2 = distanz im quadrat
 				double dist = sqrt(dist2);
 				
-				if ((dist2 > 0.000004) && (dist2 < 100)) { // 2cm- 10m distance
+				if ((dist2 > 0.000004) && (dist2 < 400)) { // 2cm- 20m distance
 					fx = (distancex-0)/(exp(dist-1));   // this was originally "exp(dist-1)"
 					fy = (distancey-0)/(exp(dist-1));
 				}		
 			}
 			
-			sax += 5.0f*fx; // kummulieren ueber alle agenten
-			say += 5.0f*fy;
-			saz += 5.0f*fz;
+			sax += config.simPedForce*fx; // kummulieren ueber alle agenten
+			say += config.simPedForce*fy;
+			saz += config.simPedForce*fz;
 		}
 	}
 
@@ -120,31 +153,55 @@ void Tagent::move(long systemtime) {
 	double eax = 0;
 	double eay = 0;
 	double eaz = 0;
-	
+		
 	if ((hasreacheddestination == true) && (destinations.size() > 0)) {
+		lastdestination.setx(destination.getx());
+		lastdestination.sety(destination.gety());
 		destination = destinations.dequeue();
 		hasreacheddestination = false;
 	}
+
+	if (follow > 0) {
+		destination.setx(agent.at(follow).getx());
+		destination.sety(agent.at(follow).gety());
+		destination.settype(1); // point
+		destination.setr(0); // point
+	}
+	
+
+	bool reached;
+	Tvector ef = destination.getForce(x, y, lastdestination.getx(), lastdestination.gety(), &reached);
+	eax = ef.x * vmax; // walk with full speed if nothing else affects me
+	eay = ef.y * vmax;
+
+	if (hasreacheddestination == false) {
+		//		if (destination.hasReached(x, y) == true) {
+		if (reached == true) {
+			hasreacheddestination = true;
+			destinations.enqueue(destination); // round queue
+		}
+	} // next: one step in dir of dest ... 
+
+	
+	/*
 	if (true) { 
-		double distancex = x - destination.x;
-		double distancey = y - destination.y;
-		double distancez = z - destination.z;
-		float dist2 = (distancex * distancex + distancey * distancey + distancez * distancez);  // dist2 = distanz im quadrat
+		double distancex = x - destination.getx();
+		double distancey = y - destination.gety();
+		float dist2 = (distancex * distancex + distancey * distancey);  // dist2 = distanz im quadrat
 	
 		if (hasreacheddestination == false) {
-			if (dist2 < 8*8) { // 8^2 m
+			if (dist2 < 15*15) { // 15^2 m
 				hasreacheddestination = true;
 				destinations.enqueue(destination); // round queue
 			}
 		} // next: one step in dir of dest ... 
 
-		//    if (dist2 > 0) {
-		if (true) { // immer richtung 0/0/0
+		if (true) {
 			eax = -vmax * distancex / sqrt(dist2);
 			eay = -vmax * distancey / sqrt(dist2);
-			eaz = -vmax * distancez / sqrt(dist2);
 		}
 	}
+	*/
 
 	// obstacles
 	double oax = 0;
@@ -154,16 +211,15 @@ void Tagent::move(long systemtime) {
 	Tobstacle o;
 	foreach (o, obstacle) {
 		Tvector ov = obstacleforce(x, y, o.getax(), o.getay(), o.getbx(), o.getby());
-		//		cout << "fp " << ov.x << "/" << ov.y << endl;
 
 		double dox = x - ov.x;
 		double doy = y - ov.y;
 
-		float disto2 = (dox * dox + doy * doy);  // dist2 = distanz im quadrat
-		
+		double disto2 = (dox * dox + doy * doy);  // dist2 = distanz im quadrat
+		double disto = sqrt(disto2);
 		if ((disto2 > 0.000004) && (disto2 < 400)) { // 2cm- 20m distance
-			oax += 50.0f*(dox-0)/(exp(disto2-1));   // this was originally "exp(dist-1)"
-			oay += 50.0f*(doy-0)/(exp(disto2-1));
+			oax += config.simWallForce*(dox-0)/(exp(disto-1)); 
+			oay += config.simWallForce*(doy-0)/(exp(disto-1));
 		} else {
 			oax += 0; oay += 0; 
 		}
@@ -177,8 +233,8 @@ void Tagent::move(long systemtime) {
 	az = h*saz + h*eaz + h*oaz;
 	
 	// calculate the new velocity based on v0 and the acceleration
-	vx = 0.5*vx + ax;
-	vy = 0.5*vy + ay;
+	vx = 0.75*vx + ax;
+	vy = 0.75*vy + ay;
 	vz = 0; //0.5*vz + az;
 	
 	//	double speed = ( sqrt(vx*vx + vy*vy + vz*vz) / vmax );

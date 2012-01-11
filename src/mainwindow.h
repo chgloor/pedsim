@@ -7,6 +7,7 @@
 
 class QAction;
 class QMenu;
+class Control;
 
 class MainWindow : public QMainWindow {
 	Q_OBJECT
@@ -41,7 +42,7 @@ class MainWindow : public QMainWindow {
 	QString strippedName(const QString &fullFileName);
 
 	QMenu *fileMenu;
-	QMenu *editMenu;
+	QMenu *viewMenu;
 	QMenu *helpMenu;
 	//	QToolBar *fileToolBar;
 	QToolBar *editToolBar;
@@ -52,8 +53,12 @@ class MainWindow : public QMainWindow {
 	QAction *zoominAct;
 	QAction *zoomoutAct;
 
+	Control *uicontrol;
+
 	//	QAction *resetTimeAct;
 	//	QAction *startTimeAct;
+
+	QTimer *timer;
 };
 
 #endif

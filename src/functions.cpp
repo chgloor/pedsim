@@ -3,7 +3,7 @@
 // Description: some small functions needed somewhere.  general functions
 // Introduced: chgloor Thursday, August 28, 2003 15:36:48
 // ----------------------------------------------------
-#include <stdio.h>                                          // sscanf
+//#include <stdio.h>                                          // sscanf
 
 // ----------------------------------------------------
 // Name: time2sec 
@@ -14,6 +14,7 @@
 // Introduced: chgloor Thursday, August 28, 2003 15:37:16
 // Return value: seconds since midnight of first day
 // ----------------------------------------------------
+/*
 long time2sec (const char *time) {
   long seconds = 0;
   unsigned hh = 0;
@@ -31,3 +32,4 @@ long time2sec (const char *time) {
   seconds = hh*3600 + mm*60 + ss;
   return seconds;
 }
+*/

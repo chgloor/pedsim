@@ -9,6 +9,8 @@ using namespace std;
 
 #include "agent.h"
 #include "mainwindow.h"
+#include "control.h"
+#include "config.h"
 
 #define ZOOMFACTOR 1.1
 
@@ -18,21 +20,29 @@ extern AgentContainer agent;
 /// number of (time) steps simulated so far 
 extern long systemtime;
 
+extern Config config;
+
 MainWindow::MainWindow() {
 
 	graphicsView = new QGraphicsView();
 	setCentralWidget(graphicsView);
 	graphicsView->scale(2, 2);
 	
+
+	uicontrol = new Control(this, false);
+	addDockWidget(Qt::LeftDockWidgetArea, uicontrol);
+
+
 	createActions();
 	createMenus();
-	createToolBars();
+	//	createToolBars();
 	createStatusBar();
 	
 	readSettings();
 	
-	QTimer *timer = new QTimer(this);
+	timer = new QTimer(this);
 	connect(timer, SIGNAL(timeout()), this, SLOT(timestep()));
+	timer->setSingleShot(true);
 	timer->start(1000/20);
 	//timer->start(0);
 
@@ -47,7 +57,7 @@ void MainWindow::about() {
 	QMessageBox::about(this, tr("About PedSim"),
 							 tr("<b>PedSim</b> is a small pedestrian simulation system"
 								 "with an interactive GUI, "
-								 "suitable for small experiments."));
+								 "suitable for small experiments. <br>(c) 2012 by Christian Gloor"));
 }
 
 void MainWindow::createActions() {
@@ -86,7 +96,10 @@ void MainWindow::createMenus() {
 	fileMenu->addSeparator();
 	fileMenu->addAction(exitAct);
 	
-	editMenu = menuBar()->addMenu(tr("&Edit"));
+	viewMenu = menuBar()->addMenu(tr("&View"));
+
+	viewMenu->addAction(uicontrol->toggleViewAction());
+
 
 	menuBar()->addSeparator();
 
@@ -152,7 +165,8 @@ void MainWindow::timestep() {
 		Tagent a = *iter;
 	}
 
-	char t[255];
-	sprintf(t, "Systemtime: %08ld", systemtime);
-	statusBar()->showMessage(t);
+	// char t[255];
+	// sprintf(t, "Systemtime: %08ld", systemtime);
+	statusBar()->showMessage(QString("Systemtime: %1").arg(systemtime));
+	timer->start(config.simSpeed);
 }

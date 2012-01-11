@@ -17,7 +17,7 @@
 //#include <vector>
 
 #include "vector.h"
-
+#include "waypoint.h"
 
 using namespace std;
 
@@ -40,7 +40,7 @@ class Tagent {
   double vz;                                        ///< velocity of the agent
   int type;                                         
   double vmax;                                      ///< individual max velocity per agent
-
+  int follow;
  public:
   Tagent();
   void move(long systemtime);                       ///< This is the main function of the agent, here, all the dynamics takes place
@@ -57,11 +57,17 @@ class Tagent {
   double getvx() { return vx; };                    ///< returns the agents vx velocity
   double getvy() { return vy; };                    ///< returns the agents vy velocity
   double getvz() { return vz; };                    ///< returns the agents vz velocity
-  void print() {cout << "agent " << id << ": " << x << "/" << y << "/" << z << endl; }; ///< prints the agents state (simple) to stdout
-  QGraphicsRectItem *rect;
+  
+  void setFollow(int id);
+  int getFollow();
+  void setVmax(double vmax);
 
-  QQueue<Tvector> destinations;                      ///< coordinates of the next destinations
-  Tvector destination;                               ///< coordinates of the next destination
+  void print() {cout << "agent " << id << ": " << x << "/" << y << "/" << z << endl; }; ///< prints the agents state (simple) to stdout
+  
+  QGraphicsRectItem *rect;  
+  QQueue<Twaypoint> destinations;                      ///< coordinates of the next destinations
+  Twaypoint destination;                               ///< coordinates of the next destination
+  Twaypoint lastdestination;                               ///< coordinates of the last destination
   bool hasreacheddestination;                        ///< true if it ahs reached its destination
 };
 
