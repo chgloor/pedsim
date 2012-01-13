@@ -86,11 +86,17 @@ int main(int argc, char *argv[]) {
 	Twaypoint w11(-112, -2, 16, scene);    waypoint.push_back(w11);
 	Twaypoint w2(163, -55, 16, scene);    waypoint.push_back(w2);
 	Twaypoint w22(112, -2, 16, scene);     waypoint.push_back(w22);
-	Twaypoint w23(165, -140, 15, scene);  waypoint.push_back(w23);
-	Twaypoint w3(0, -140, 15, scene);     waypoint.push_back(w3);
-	Twaypoint wsr(10, -38, 8, scene);     waypoint.push_back(wsr);
-	Twaypoint wsl(-10, -38, 8, scene);    waypoint.push_back(wsl);
-	Twaypoint w4(0, 118, 15, scene);      waypoint.push_back(w4);
+	Twaypoint w23(165, -120, 15, scene);  waypoint.push_back(w23);
+	Twaypoint w3(0, -120, 15, scene);     waypoint.push_back(w3);
+	Twaypoint wstr( 12, -68, 8, scene);     waypoint.push_back(wstr);
+	Twaypoint wstl(-12, -68, 8, scene);    waypoint.push_back(wstl);
+	Twaypoint wsr( 17,  0, 8, scene);     waypoint.push_back(wsr);
+	Twaypoint wsl(-17,  0, 8, scene);    waypoint.push_back(wsl);
+	Twaypoint wst( 0, -17, 8, scene);     waypoint.push_back(wst);
+	Twaypoint wsb( 0,  17, 8, scene);    waypoint.push_back(wsb);
+	Twaypoint w4(0, 110, 15, scene);      waypoint.push_back(w4);
+	Twaypoint wr1( 20, -142, 8, scene);      waypoint.push_back(wr1);
+	Twaypoint wr2(150, -142, 8, scene);      waypoint.push_back(wr2);
 
 
 	// saeulen
@@ -150,10 +156,10 @@ int main(int argc, char *argv[]) {
 
 	// bottleneck
 	obstacle.push_back(Tobstacle( 180, -45,  180, -65, scene->addLine(1,1,0,0,QPen(Qt::gray, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin))));
-	obstacle.push_back(Tobstacle( 180, -65,  172, -85, scene->addLine(1,1,0,0,QPen(Qt::gray, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin))));
-	obstacle.push_back(Tobstacle( 150, -65,  158, -85, scene->addLine(1,1,0,0,QPen(Qt::gray, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin))));
-	obstacle.push_back(Tobstacle( 180,-100,  172, -85, scene->addLine(1,1,0,0,QPen(Qt::gray, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin))));
-	obstacle.push_back(Tobstacle( 150,-100,  158, -85, scene->addLine(1,1,0,0,QPen(Qt::gray, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin))));
+	obstacle.push_back(Tobstacle( 180, -65,  170, -85, scene->addLine(1,1,0,0,QPen(Qt::gray, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin))));
+	obstacle.push_back(Tobstacle( 150, -65,  160, -85, scene->addLine(1,1,0,0,QPen(Qt::gray, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin))));
+	obstacle.push_back(Tobstacle( 180,-100,  170, -85, scene->addLine(1,1,0,0,QPen(Qt::gray, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin))));
+	obstacle.push_back(Tobstacle( 150,-100,  160, -85, scene->addLine(1,1,0,0,QPen(Qt::gray, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin))));
 
 	obstacle.push_back(Tobstacle( 150,-100,  150,-135, scene->addLine(1,1,0,0,QPen(Qt::gray, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin))));
 	obstacle.push_back(Tobstacle( 180,-100,  180,-150, scene->addLine(1,1,0,0,QPen(Qt::gray, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin))));
@@ -168,37 +174,54 @@ int main(int argc, char *argv[]) {
 	// o2.setPosition(-50, 10, -5, 25);
 	// obstacle.push_back(o2);
 
-	for (int i = 0; i<100; i++) { 
+	for (int i = 0; i<50; i++) { 
 		Tagent a;
 		
-		if (i < 4) {
-			a.setFollow(10);
-			a.setVmax(2); 
+		if ((i > 0) && (i <= 4)) {
+			a.setFollow(i-1);
+			a.setVmax(2.2); 
 			a.rect = scene->addRect(QRectF(0, 0, 1, 1), QPen(Qt::red, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));	
-		} else if (i == 10) {
-			a.setVmax(1.8); 
+		} else if (i == 0) {
+			a.setVmax(2.2); 
 			a.rect = scene->addRect(QRectF(0, 0, 1, 1), QPen(Qt::yellow, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));	
 		} else {
 			a.rect = scene->addRect(QRectF(0, 0, 1, 1), QPen(Qt::green, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));	
 		}
 		a.setPosition( XXX +  qrand()/(RAND_MAX/50) -100, YYY + qrand()/(RAND_MAX/10) -5, ZZZ);
 		
+
 		a.destinations.enqueue(w11);
 		a.destinations.enqueue(w1);
 		a.destinations.enqueue(w11);
+
+		if (i%2 == 0) { a.destinations.enqueue(wsb); } else {a.destinations.enqueue(wst); }
+
 		a.destinations.enqueue(w22);
 		a.destinations.enqueue(w2);
 		a.destinations.enqueue(w23);
 
+		a.destinations.enqueue(wr2);
+		a.destinations.enqueue(wr1);
+
 		a.destinations.enqueue(w3);
-		a.destinations.enqueue(wsr);
+		//		a.destinations.enqueue(wsr);
+		if (i%2 == 0) { a.destinations.enqueue(wstr); } else {a.destinations.enqueue(wstl); }
+		if (i%2 == 0) { a.destinations.enqueue(wsr); } else {a.destinations.enqueue(wsl); }
 		a.destinations.enqueue(w4);
-		a.destinations.enqueue(wsl);
+		//		a.destinations.enqueue(wsl);
+		if (i%2 == 0) { a.destinations.enqueue(wsr); } else {a.destinations.enqueue(wsl); }
+		if (i%2 == 0) { a.destinations.enqueue(wstr); } else {a.destinations.enqueue(wstl); }
 		a.destinations.enqueue(w3);
+
+		a.destinations.enqueue(wr1);
+		a.destinations.enqueue(wr2);
 
 		a.destinations.enqueue(w23);
 		a.destinations.enqueue(w2);
 		a.destinations.enqueue(w22);
+
+		//		a.destinations.enqueue(wsl);
+		if (i%2 == 0) { a.destinations.enqueue(wsb); } else {a.destinations.enqueue(wst); }
 		
 
 		agent.push_back(a);

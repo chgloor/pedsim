@@ -153,6 +153,7 @@ void Tagent::move(long systemtime) {
 	double eax = 0;
 	double eay = 0;
 	double eaz = 0;
+
 		
 	if ((hasreacheddestination == true) && (destinations.size() > 0)) {
 		lastdestination.setx(destination.getx());
@@ -182,33 +183,20 @@ void Tagent::move(long systemtime) {
 		}
 	} // next: one step in dir of dest ... 
 
-	
-	/*
-	if (true) { 
-		double distancex = x - destination.getx();
-		double distancey = y - destination.gety();
-		float dist2 = (distancex * distancex + distancey * distancey);  // dist2 = distanz im quadrat
-	
-		if (hasreacheddestination == false) {
-			if (dist2 < 15*15) { // 15^2 m
-				hasreacheddestination = true;
-				destinations.enqueue(destination); // round queue
-			}
-		} // next: one step in dir of dest ... 
+	eax = eax + 0.1*eay;
+	eay = eay + 0.1*eax;
 
-		if (true) {
-			eax = -vmax * distancex / sqrt(dist2);
-			eay = -vmax * distancey / sqrt(dist2);
-		}
-	}
-	*/
-
+	
 	// obstacles
 	double oax = 0;
 	double oay = 0;
 	double oaz = 0;
 
 	Tobstacle o;
+	double mindisto = 99999; // obstacle with is closest only  --chgloor 2012-01-12
+	double minoax = 0;
+	double minoay = 0;
+
 	foreach (o, obstacle) {
 		Tvector ov = obstacleforce(x, y, o.getax(), o.getay(), o.getbx(), o.getby());
 
@@ -217,15 +205,17 @@ void Tagent::move(long systemtime) {
 
 		double disto2 = (dox * dox + doy * doy);  // dist2 = distanz im quadrat
 		double disto = sqrt(disto2);
-		if ((disto2 > 0.000004) && (disto2 < 400)) { // 2cm- 20m distance
-			oax += config.simWallForce*(dox-0)/(exp(disto-1)); 
-			oay += config.simWallForce*(doy-0)/(exp(disto-1));
+		if ((disto < mindisto) && (disto2 > 0.000004) && (disto2 < 1600)) { // 2cm- 40m distance
+			minoax += config.simWallForce*(dox-0)/(exp(disto-1)); 
+			minoay += config.simWallForce*(doy-0)/(exp(disto-1));
+			mindisto = disto;
 		} else {
 			oax += 0; oay += 0; 
-		}
-
-		
+		}		
 	}
+	oax = minoax;
+	oay = minoay;
+
 
 	// sum up all the acelerations of the agent
 	ax = h*sax + h*eax + h*oax;
