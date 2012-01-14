@@ -9,12 +9,10 @@
 #ifndef _agent_h_
 #define _agent_h_ 1
 
-//#include <QApplication>
 #include <QGraphicsItem>
 #include <QQueue>
 
 #include <iostream>
-//#include <vector>
 
 #include "vector.h"
 #include "waypoint.h"
@@ -42,8 +40,8 @@ class Tagent {
   double vmax;                                      ///< individual max velocity per agent
   int follow;
  public:
-  Tagent();
-  void move(long systemtime);                       ///< This is the main function of the agent, here, all the dynamics takes place
+  Tagent(QGraphicsScene *pscene);
+  void move();                       ///< This is the main function of the agent, here, all the dynamics takes place
   void setPosition(double px, double py, double pz);///< set the agents position (to beam the agent)
   void setType(int t) {type = t; };                 ///< sets the agent type
   int getid() { return id; };                       ///< returns the agents id
@@ -64,7 +62,13 @@ class Tagent {
 
   void print() {cout << "agent " << id << ": " << x << "/" << y << "/" << z << endl; }; ///< prints the agents state (simple) to stdout
   
+  QGraphicsScene *scene;
   QGraphicsRectItem *rect;  
+  QGraphicsLineItem *linev;  
+  QGraphicsLineItem *lineea;  
+  QGraphicsLineItem *lineoa;  
+  QGraphicsLineItem *linesa;  
+
   QQueue<Twaypoint> destinations;                      ///< coordinates of the next destinations
   Twaypoint destination;                               ///< coordinates of the next destination
   Twaypoint lastdestination;                               ///< coordinates of the last destination

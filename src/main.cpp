@@ -21,8 +21,6 @@
 #include <iostream>                       // cout
 #include <stdlib.h>                       // random
 
-//#include <vector>
-
 #include "mainwindow.h"
 #include "agent.h"
 #include "obstacle.h"
@@ -35,10 +33,6 @@
 
 using namespace std;
 
-
-//#define VERSION_M "2"
-//#define VERSION_A "pre"
-
 /// this containers contain agents and obstacles
 AgentContainer agent;                             
 ObstacleContainer obstacle;
@@ -48,9 +42,6 @@ Config config;
 
 /// number of (time) steps simulated so far 
 long systemtime = 0;
-/// stream object used to send events over the network
-
-//Tevent *event;
 
 // start location center
 #define XXX 0
@@ -168,27 +159,19 @@ int main(int argc, char *argv[]) {
 	// ramp
 	obstacle.push_back(Tobstacle( 150,-135,  20,-135, scene->addLine(1,1,0,0,QPen(Qt::gray, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin))));
   
+	for (int i = 0; i<200; i++) { 
+		Tagent a(scene);
 
-	// Tobstacle o2;
-	// o2.line = scene->addLine(0,0,1,1, QPen(Qt::gray, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-	// o2.setPosition(-50, 10, -5, 25);
-	// obstacle.push_back(o2);
-
-	for (int i = 0; i<50; i++) { 
-		Tagent a;
-		
 		if ((i > 0) && (i <= 4)) {
 			a.setFollow(i-1);
 			a.setVmax(2.2); 
-			a.rect = scene->addRect(QRectF(0, 0, 1, 1), QPen(Qt::red, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));	
 		} else if (i == 0) {
 			a.setVmax(2.2); 
-			a.rect = scene->addRect(QRectF(0, 0, 1, 1), QPen(Qt::yellow, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));	
 		} else {
-			a.rect = scene->addRect(QRectF(0, 0, 1, 1), QPen(Qt::green, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));	
 		}
-		a.setPosition( XXX +  qrand()/(RAND_MAX/50) -100, YYY + qrand()/(RAND_MAX/10) -5, ZZZ);
-		
+
+		if (i%2 == 0) a.setPosition( XXX +  qrand()/(RAND_MAX/80) -100, YYY + qrand()/(RAND_MAX/20) -10, ZZZ);
+		if (i%2 == 1) a.setPosition( XXX +  qrand()/(RAND_MAX/80) +20, YYY + qrand()/(RAND_MAX/20) -10, ZZZ);
 
 		a.destinations.enqueue(w11);
 		a.destinations.enqueue(w1);
@@ -204,11 +187,9 @@ int main(int argc, char *argv[]) {
 		a.destinations.enqueue(wr1);
 
 		a.destinations.enqueue(w3);
-		//		a.destinations.enqueue(wsr);
 		if (i%2 == 0) { a.destinations.enqueue(wstr); } else {a.destinations.enqueue(wstl); }
 		if (i%2 == 0) { a.destinations.enqueue(wsr); } else {a.destinations.enqueue(wsl); }
 		a.destinations.enqueue(w4);
-		//		a.destinations.enqueue(wsl);
 		if (i%2 == 0) { a.destinations.enqueue(wsr); } else {a.destinations.enqueue(wsl); }
 		if (i%2 == 0) { a.destinations.enqueue(wstr); } else {a.destinations.enqueue(wstl); }
 		a.destinations.enqueue(w3);
@@ -220,15 +201,16 @@ int main(int argc, char *argv[]) {
 		a.destinations.enqueue(w2);
 		a.destinations.enqueue(w22);
 
-		//		a.destinations.enqueue(wsl);
 		if (i%2 == 0) { a.destinations.enqueue(wsb); } else {a.destinations.enqueue(wst); }
 		
-
 		agent.push_back(a);
 	}
-	
+
+	mainwindow.graphicsView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);	
 	mainwindow.graphicsView->setScene(scene);
 	mainwindow.graphicsView->setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
+	mainwindow.graphicsView->setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
+	mainwindow.graphicsView->show();
 
 	return app.exec();
 }

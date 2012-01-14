@@ -16,7 +16,7 @@
 #include "config.h"
 
 #include <QPen>
-
+#include <QGraphicsScene>
 
 #include <vector>
 
@@ -26,17 +26,16 @@ extern AgentContainer agent;
 extern ObstacleContainer obstacle;
 extern Config config;
 
-const double h = 0.4;
-
 
 // ----------------------------------------------------
 // Name: constructor
 //!Description: set intial values
 //!Introduced: chgloor Monday, December 29, 2003 11:10:37
 // ----------------------------------------------------
-Tagent::Tagent() {
+Tagent::Tagent(QGraphicsScene *pscene) {
   static int staticid = 0;
   id = staticid++;
+  scene = pscene;
   x = 0;
   y = 0;
   z = 0;
@@ -47,16 +46,18 @@ Tagent::Tagent() {
   destination.settype(1); // point
   destination.setr(1);
   follow = -1;
-  
-  vmax = 2.0 + 2.0*(double)rand()/(double)RAND_MAX; // in m/s between 2.0 and 4.0
+  rect = scene->addRect(QRectF(0,0,1,1), QPen(Qt::darkGreen, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin), QBrush(QColor(Qt::darkGreen)));	
+  lineea = scene->addLine(QLineF(0, 0, 1, 1), QPen(Qt::red, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));	
+  lineoa = scene->addLine(QLineF(0, 0, 1, 1), QPen(Qt::blue, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));	
+  linesa = scene->addLine(QLineF(0, 0, 1, 1), QPen(Qt::green, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));	
+  linev  = scene->addLine(QLineF(0, 0, 1, 1), QPen(Qt::yellow, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));	
+  vmax = 2.0 + 1.0*(double)rand()/(double)RAND_MAX; // in m/s between 2.0 and 4.0
 };
+
 
 /// 
 /// \author  chgloor
 /// \date    2012-01-08
-/// \return  
-/// \warning 
-/// \param   
 void Tagent::setFollow(int id) {
 	follow = id;
 }
@@ -64,15 +65,14 @@ int Tagent::getFollow() {
 	return follow;
 }
 
+
 /// 
 /// \author  chgloor
 /// \date    2012-01-08
-/// \return  
-/// \warning 
-/// \param   
 void Tagent::setVmax(double pvmax) {
 	vmax = pvmax;
 }
+
 
 // ----------------------------------------------------
 // Name: setPosition
@@ -84,24 +84,16 @@ void Tagent::setPosition(double px, double py, double pz) {
 	x = px, y = py; z = pz; 
 };
 
+
 /// 
 /// \author  chgloor
 /// \date    2012-01-10
-/// \return  
-/// \warning 
-/// \param   
-Tvector obstacleforce(double p1, double p2, double oc11, double oc12, double oc21, double oc22) {
-	
+Tvector obstacleforce(double p1, double p2, double oc11, double oc12, double oc21, double oc22) {	
 	double a1 = oc11;
 	double a2 = oc12;
 	double b1 = oc21 - oc11;
 	double b2 = oc22 - oc12;
-	
-	//	cout << a1 << "/" << a2 << " " << b1 << "/" << b2 << ", " << p1 << "/" << p2 << endl;
-
 	double lambda = (p1*b1 + p2*b2 - b1*a1 - b2*a2) / (b1*b1 + b2*b2);
-
-	//	cout << lambda << endl;
 
 	Tvector v; v.z = 0;
 	if (lambda <= 0) { v.x = oc11; v.y = oc12; return v; };
@@ -112,16 +104,19 @@ Tvector obstacleforce(double p1, double p2, double oc11, double oc12, double oc2
 	return v;
 } 
 
+
 // ----------------------------------------------------
 // Name: move
 //!Description: does the agent dynamics stuff 
 //!Introduced: chgloor Monday, December 29, 2003 11:10:58
 //!Return value: void
 // ----------------------------------------------------
-void Tagent::move(long systemtime) {
-	//	double vmax = 3; // in m/s
+void Tagent::move() {
 		  	
-	double sax = 0; // 'social' acceleration in x direction
+	//
+	//  ' S O C I A L '   A C C E L E R A T I O N 
+	//
+	double sax = 0; 
 	double say = 0;
 	double saz = 0;
 
@@ -131,29 +126,29 @@ void Tagent::move(long systemtime) {
 		double fz = 0;
 		if ((iter->id != id)) {
 			if ((abs(x-iter->x) < 10) && (abs(y-iter->y) < 10)) { // quick dist check
-				double distancex = x+h*vx - iter->x;
-				double distancey = y+h*vy - iter->y;
-				double distancez = z+h*vz - iter->z;
-				double dist2 = (distancex * distancex + distancey * distancey + distancez * distancez);  // dist2 = distanz im quadrat
-				double dist = sqrt(dist2);
-				
+				double distancex = x - iter->x;
+				double distancey = y - iter->y;
+				double distancez = z - iter->z;
+				double dist2 = (distancex * distancex + distancey * distancey + distancez * distancez);  
+				double expdist = exp(sqrt(dist2)-1);
 				if ((dist2 > 0.000004) && (dist2 < 400)) { // 2cm- 20m distance
-					fx = (distancex-0)/(exp(dist-1));   // this was originally "exp(dist-1)"
-					fy = (distancey-0)/(exp(dist-1));
-				}		
+					fx = distancex/expdist;
+					fy = distancey/expdist;
+				}						
+				sax += config.simPedForce*fx; 
+				say += config.simPedForce*fy;
+				saz += config.simPedForce*fz;
 			}
-			
-			sax += config.simPedForce*fx; // kummulieren ueber alle agenten
-			say += config.simPedForce*fy;
-			saz += config.simPedForce*fz;
 		}
 	}
 
-	// calculate desire to go to destination
+
+	//
+	//  D E S I R E   A C C E L E R A T I O N
+	//
 	double eax = 0;
 	double eay = 0;
 	double eaz = 0;
-
 		
 	if ((hasreacheddestination == true) && (destinations.size() > 0)) {
 		lastdestination.setx(destination.getx());
@@ -169,83 +164,102 @@ void Tagent::move(long systemtime) {
 		destination.setr(0); // point
 	}
 	
-
 	bool reached;
 	Tvector ef = destination.getForce(x, y, lastdestination.getx(), lastdestination.gety(), &reached);
 	eax = ef.x * vmax; // walk with full speed if nothing else affects me
 	eay = ef.y * vmax;
 
 	if (hasreacheddestination == false) {
-		//		if (destination.hasReached(x, y) == true) {
 		if (reached == true) {
 			hasreacheddestination = true;
 			destinations.enqueue(destination); // round queue
 		}
-	} // next: one step in dir of dest ... 
-
-	eax = eax + 0.1*eay;
-	eay = eay + 0.1*eax;
-
+	} 
 	
-	// obstacles
+	if (config.mlTendency == true) {
+		eax = eax + 0.1*eay;
+		eay = eay + -0.1*eax;
+	}
+
+
+	// 
+	//  O B S T A C L E   A C C E L E R A T I O N
+	//
 	double oax = 0;
 	double oay = 0;
 	double oaz = 0;
 
 	Tobstacle o;
-	double mindisto = 99999; // obstacle with is closest only  --chgloor 2012-01-12
-	double minoax = 0;
-	double minoay = 0;
-
+	double mindisto2 = 99999; // obstacle with is closest only  --chgloor 2012-01-12
+	double mindox = 0;
+	double mindoy = 0;
 	foreach (o, obstacle) {
 		Tvector ov = obstacleforce(x, y, o.getax(), o.getay(), o.getbx(), o.getby());
-
 		double dox = x - ov.x;
 		double doy = y - ov.y;
-
 		double disto2 = (dox * dox + doy * doy);  // dist2 = distanz im quadrat
-		double disto = sqrt(disto2);
-		if ((disto < mindisto) && (disto2 > 0.000004) && (disto2 < 1600)) { // 2cm- 40m distance
-			minoax += config.simWallForce*(dox-0)/(exp(disto-1)); 
-			minoay += config.simWallForce*(doy-0)/(exp(disto-1));
-			mindisto = disto;
-		} else {
-			oax += 0; oay += 0; 
-		}		
+		if ((disto2 < mindisto2) && (disto2 > 0.000004)) { // 2cm - inf distance
+			mindisto2 = disto2;
+			mindox = dox;
+			mindoy = doy;
+		}	
 	}
-	oax = minoax;
-	oay = minoay;
+	double oaxyf = exp(sqrt(mindisto2)-1);
+	oax = config.simWallForce*mindox/oaxyf;
+	oay = config.simWallForce*mindoy/oaxyf;
 
 
-	// sum up all the acelerations of the agent
-	ax = h*sax + h*eax + h*oax;
-	ay = h*say + h*eay + h*oay;
-	az = h*saz + h*eaz + h*oaz;
+	//
+	//  T O T A L   A C C E L E R A T I O N
+	//
+
+	// ax = config.simh*sax + config.simh*eax + config.simh*oax;
+	// ay = config.simh*say + config.simh*eay + config.simh*oay;
+	// az = config.simh*saz + config.simh*eaz + config.simh*oaz;
+	ax = sax + eax + oax; // h also in calculation of the forces? arent they indep of the constant h?  --chgloor 2012-01-14
+	ay = say + eay + oay;
+	az = saz + eaz + oaz;
 	
 	// calculate the new velocity based on v0 and the acceleration
 	vx = 0.75*vx + ax;
 	vy = 0.75*vy + ay;
-	vz = 0; //0.5*vz + az;
+	vz = 0; //0.75*vz + az;
 	
 	//	double speed = ( sqrt(vx*vx + vy*vy + vz*vz) / vmax );
 	double speed = (sqrt(vx*vx + vy*vy + vz*vz));
 	if (speed > vmax) {
 		vx = (vx / speed) * vmax;
 		vy = (vy / speed) * vmax;
-		vz = (vz / speed) * vmax;
+		//vz = (vz / speed) * vmax;
 	}
-	
 
 	// position update == actual move 
-	x = x + h * vx; // x = x0 + v*t
-	y = y + h * vy;
+	x = x + config.simh * vx; // x = x0 + v*t
+	y = y + config.simh * vy;
 	z = 0; // z + h * vz; // 2D  --chgloor 2012-01-04
 
-	//		rect->setPos(rect->mapFromScene(x, y));
-	rect->setPos(x, y);
-	// 		cerr << "agent " << id << " eax " << eax << " x " << x << endl;
-	// 		cerr << "agent " << id << " eay " << eay << " y " << y << endl;
-	// 		cerr << "agent " << id << " eaz " << eaz << " z " << z << endl;
 
+	//
+	//  G R A P H I C   S C E N E   U P D A T E
+	//
+
+	//		rect->setPos(rect->mapFromScene(x, y));
+	rect->setPos(x-0.5, y-0.5); // upper left edge
+	if (config.showDirection == true) {
+		linev->setLine(x, y, x+2*vx, y+2*vy);
+		linev->setVisible(true);
+	} else { linev->setVisible(false); }
+	if (config.showForces == true) {
+		lineea->setLine(x, y, x+2*eax, y+2*eay);
+		lineea->setVisible(true);
+		linesa->setLine(x, y, x+2*sax, y+2*say);
+		linesa->setVisible(true);
+		lineoa->setLine(x, y, x+2*oax, y+2*oay);
+		lineoa->setVisible(true);
+	} else {
+		lineea->setVisible(false);
+		linesa->setVisible(false);
+		lineoa->setVisible(false);
+	}
 }
 

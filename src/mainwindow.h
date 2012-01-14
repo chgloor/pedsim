@@ -23,6 +23,7 @@ class MainWindow : public QMainWindow {
 	private slots:
 	void about();
 
+public slots:
 	void zoomin();
 	void zoomout();
 

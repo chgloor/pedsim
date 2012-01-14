@@ -34,8 +34,8 @@ Twaypoint::Twaypoint(double px, double py, double pr, QGraphicsScene *pscene) {
   r = pr;
   type = 0; // normal
   scene = pscene;
-  ellipse = scene->addEllipse(x-r, y-r, r*2, r*2, QPen(Qt::darkRed, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin), QBrush(QColor(44, 0, 0)));
-  norm = scene->addLine(x-r, y-r, x+r, y+r, QPen(Qt::darkRed, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+  ellipse = scene->addEllipse(x-r, y-r, r*2, r*2, QPen(QColor(44,0,0), 0.5, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin), QBrush(QColor(44, 0, 0)));
+  norm = scene->addLine(x-r, y-r, x+r, y+r, QPen(Qt::darkRed, 0.5, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
   //  path = scene->addLine(x-r, y-r, x+r, y+r, QPen(Qt::darkBlue, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 
 	ellipse->setVisible(config.guiShowWaypoints);

@@ -18,6 +18,10 @@ class Config : public QObject {
 	double simWallForce;
 	double simPedForce;
 	int simSpeed;
+	bool mlTendency;
+	bool showForces;
+	bool showDirection;
+	double simh;
 
  signals: 
 	//	void showWaypoints(bool show);

@@ -20,7 +20,8 @@ void Style::polish (QPalette &palette) {
 	// Custom colors
 
 	// A general background color.
-	palette.setColor( QPalette::Background, QColor( 27, 27, 27 ) );
+	//	palette.setColor( QPalette::Background, QColor( 27, 27, 27 ) ); // mil
+	palette.setColor( QPalette::Background, QColor( 44, 44, 44 ) ); ///orange
 
 	// A general foreground color.
 	palette.setColor( QPalette::Foreground, QColor( 255, 255, 255 ) );
@@ -33,17 +34,20 @@ void Style::polish (QPalette &palette) {
 
 	// The foreground color used with Base. This is usually the same as the Foreground, in which case it must provide good contrast with Background and Base.
 	//	palette.setColor( QPalette::Text, QColor( 255, 170, 0 ) );
-	palette.setColor( QPalette::Text, QColor( 100, 170, 0 ) );
+	//	palette.setColor( QPalette::Text, QColor( 100, 170, 0 ) ); // mil
+	palette.setColor( QPalette::Text, QColor( 255, 130, 0 ) ); // orange
 
 	// The general button background color. This background can be different from Background as some styles require a different background color for buttons.
 	palette.setColor( QPalette::Button, QColor( 66, 66, 66 ) );
 
 	// A foreground color used with the Button color.
 	//	palette.setColor( QPalette::ButtonText, QColor( 255, 200, 0 ) );
-	palette.setColor( QPalette::ButtonText, QColor( 130, 200, 50 ) );
+	//	palette.setColor( QPalette::ButtonText, QColor( 130, 200, 50 ) ); // mil
+	//	palette.setColor( QPalette::ButtonText, QColor( 200, 130, 50 ) ); // orange
+	palette.setColor( QPalette::ButtonText, QColor( 255, 255, 255 ) ); // orange
 
-	// Lighter than Button color. --> used for the dock window resize bars
-	palette.setColor( QPalette::Light, QColor( 100, 100, 100 ) );
+	// Lighter than Button color. --> used for the dock window resize bars *AND* for inacive text shadows
+	palette.setColor( QPalette::Light, QColor( 180, 70, 0 ) );
 
 	// Between Button and Light. --> not used?
 	palette.setColor( QPalette::Midlight, QColor( 134, 134, 134 ) );
@@ -55,7 +59,7 @@ void Style::polish (QPalette &palette) {
 	palette.setColor( QPalette::Mid, QColor( 60, 60, 60 ) );
 
 	// A very dark color. By default, the shadow color is Qt::black. --> e.g. group box borders
-	palette.setColor( QPalette::Shadow, QColor( 170, 170, 0 ) );
+	palette.setColor( QPalette::Shadow, QColor( 180, 70, 0 ) );
 
 	// A color to indicate a selected item or the current item.
 	//	palette.setColor( QPalette::Highlight, QColor( 138, 0, 0 ) );

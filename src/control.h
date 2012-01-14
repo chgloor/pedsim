@@ -14,18 +14,22 @@ class Control : public QDockWidget {
 	Control(QWidget *parent = 0, bool admin = false);
 
  signals: 
-	//	void showWaypoints(bool show);
+	void zoomin();
+	void zoomout();
 
  public slots:
 	void showWaypoints(bool show);
 	void simWallForce(int value);
 	void simPedForce(int value);
 	void simSpeed(int value);
-	//	  void updateSubsystemConnectedIR(QString ready);
+	void simh(int value);
+	void mlTendency(bool value);
+
+	void showForces(bool show);
+	void showDirection(bool show);
 
  private:
 	  Ui_Control ui;
-	  //	  bool ison;
 
  };
 

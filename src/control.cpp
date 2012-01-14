@@ -21,9 +21,19 @@ Control::Control(QWidget *parent, bool admin) : QDockWidget(parent) {
 	}
 
 	connect(ui.waypointsCheckBox, SIGNAL(toggled(bool)), this, SLOT(showWaypoints(bool)));
+
+	connect(ui.showForcesCheckBox, SIGNAL(toggled(bool)), this, SLOT(showForces(bool)));
+	connect(ui.showDirectionCheckBox, SIGNAL(toggled(bool)), this, SLOT(showDirection(bool)));
+
+
+	connect(ui.mlTendencyCheckBox, SIGNAL(toggled(bool)), this, SLOT(mlTendency(bool)));
 	connect(ui.wallforceSlider, SIGNAL(valueChanged(int)), this, SLOT(simWallForce(int)));
 	connect(ui.pedforceSlider, SIGNAL(valueChanged(int)), this, SLOT(simPedForce(int)));
 	connect(ui.simspeedSlider, SIGNAL(valueChanged(int)), this, SLOT(simSpeed(int)));
+	connect(ui.simhSlider, SIGNAL(valueChanged(int)), this, SLOT(simh(int)));
+
+	connect(ui.zoominButton, SIGNAL(clicked()), this, SIGNAL(zoomin()));
+	connect(ui.zoomoutButton, SIGNAL(clicked()), this, SIGNAL(zoomout()));
 }
 
 void Control::showWaypoints(bool show) {
@@ -42,3 +52,18 @@ void Control::simSpeed(int value) {
 	config.setSimSpeed(1000/value); // div value by 10
 }
 
+void Control::mlTendency(bool value) {
+	config.mlTendency = value;
+}
+
+void Control::showForces(bool show) {
+	config.showForces = show;
+}
+
+void Control::showDirection(bool show) {
+	config.showDirection = show;
+}
+
+void Control::simh(int value) {
+	config.simh = 0.01f*value;
+}
