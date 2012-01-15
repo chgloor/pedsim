@@ -263,8 +263,8 @@ void Tagent::move() {
 	az = saz + eaz + oaz +    0;
 	
 	// calculate the new velocity based on v0 and the acceleration
-	vx = 0.85*vx + ax; 
-	vy = 0.85*vy + ay; // <<<<<<<<<<<-----------  is this 0.85 dependent of h?? think so   --chgloor 2012-01-15
+	vx = 0.75*vx + ax; 
+	vy = 0.75*vy + ay; // <<<<<<<<<<<-----------  is this 0.85 dependent of h?? think so   --chgloor 2012-01-15
 	vz = 0; //0.75*vz + az;
 	
 	//	double speed = ( sqrt(vx*vx + vy*vy + vz*vz) / vmax );

@@ -47,8 +47,8 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 }
 
 void MainWindow::about() {
-	QMessageBox::about(this, tr("About PedSim"),
-							 tr("<b>PedSim</b> is a small pedestrian simulation system"
+	QMessageBox::about(this, tr("About PedSim Demo"),
+							 tr("<b>PedSim Demo</b> is a small pedestrian simulation system"
 								 "with an interactive GUI, "
 								 "suitable for small experiments. <br>(c) 2012 by Christian Gloor"));
 }
