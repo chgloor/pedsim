@@ -46,6 +46,13 @@ long systemtime = 0;
 #define YYY 0
 #define ZZZ 0
 
+template<class T> T fromString(const std::string& s) {
+     std::istringstream stream (s);
+     T t;
+     stream >> t;
+     return t;
+}
+
 // ----------------------------------------------------
 // Name: main
 // Description: - 
@@ -55,6 +62,12 @@ long systemtime = 0;
 int main(int argc, char *argv[]) {
 	cout << "simple pedestrian simulation" << endl;
 	//	srandom(3);
+
+	int nagents = 100;
+	QString s = argv[1];
+	if (s != "") {
+		nagents  = s.toInt();
+	}
 
 	Q_INIT_RESOURCE(application);
 	
@@ -157,7 +170,7 @@ int main(int argc, char *argv[]) {
 	// ramp
 	obstacle.push_back(Tobstacle( 150,-135,  20,-135, scene->addLine(1,1,0,0,QPen(Qt::gray, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin))));
   
-	for (int i = 0; i<100; i++) { 
+	for (int i = 0; i<nagents; i++) { 
 		Tagent a(scene);
 
 		if ((i > 0) && (i <= 4)) {

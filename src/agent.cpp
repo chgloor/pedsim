@@ -117,14 +117,12 @@ void Tagent::move() {
 	double say = 0;
 	double saz = 0;
 
-	int lookforwardcount = 0;
-		
 	for (AgentIterator iter = agent.begin(); iter!=agent.end(); iter++) {  // iterate over all agents == O(N^2) :(
 		double fx = 0;
 		double fy = 0;
 		double fz = 0;
 		if ((iter->id != id)) {
-			//	if ((abs(x-iter->x) < 10) && (abs(y-iter->y) < 10)) { // quick dist check
+			if ((abs(x-iter->x) < 10) && (abs(y-iter->y) < 10)) { // quick dist check
 				double distancex = iter->x - x;
 				double distancey = iter->y - y;
 				double distancez = iter->z - z;
@@ -137,49 +135,9 @@ void Tagent::move() {
 				sax += config.simPedForce*fx; 
 				say += config.simPedForce*fy;
 				saz += config.simPedForce*fz;
-				if ((config.mlLookAhead) && (dist2 < 400)) { // look ahead feature
-					double at2v  = atan2(-vx, -vy); 
-					double at2d  = atan2(-distancex, -distancey);
-					double at2v2 = atan2(-iter->vx, -iter->vy);
-
-					// Tvector a; a.x = -distancex; a.y = -distancey; a.z = -distancez;
-					// Tvector v; v.x = vx; v.y = vy; v.z = vz; // old velocity
-					// Tvector v2; v2.x = iter->vx; v2.y = iter->vy; v2.z = iter->vz; // other guy's old velocity
-					// double s = a.scalar(&a, &v);
-					// double vv = v.scalar(&v, &v2);
-					double pi = 3.14159265;
-					double s = at2d - at2v;   if (s > pi) s -= 2*pi;   if (s < -pi) s += 2*pi; 
-					double vv = at2v - at2v2; if (vv > pi) vv -= 2*pi; if (vv < -pi) vv += 2*pi;
-					
-					//					if (id==0) cout << s << " - " << vv << endl;
-					if ((vv < -2.5) || (vv > 2.5)) { // entgegengesetzte richtung
-						if ((s < 0) && (s > -0.3)) { // position vor mir, in meine richtung
-							lookforwardcount--;
-						} 
-						if ((s > 0) && (s < 0.3)) {
-							lookforwardcount++;
-						}
-						}
-				}
-				//}
+			}
 		}
 	}
-
-	// look forward normal to velocity (past)
-	//	if (id==0) cout << lookforwardcount << endl;
-	// double lfax = 1.0f *  vy * lookforwardcount;
-	// double lfay = 1.0f * -vx * lookforwardcount;
-	double lfax = 0;
-	double lfay = 0;
-	if (lookforwardcount < 0) {
-		lfax = 0.5f *  vy;  
-		lfay = 0.5f * -vx;   // <<<<<<<<<<---------------------- base lf on eax instead of on v. must move it, then. would look better anyway, better separated  --chgloor 2012-01-15
-	}
-	if (lookforwardcount >  0) {
-		lfax = 0.5f *  vy;
-		lfay = 0.5f * -vx;
-	}
-
 
 
 	//
@@ -219,6 +177,51 @@ void Tagent::move() {
 		eax = eax + 0.1*eay;
 		eay = eay + -0.1*eax;
 	}
+
+
+	//
+	//  L O O K I N G   F O R W A R D
+	//
+	double lfax = 0;
+	double lfay = 0;
+	double lfaz = 0;
+
+	int lookforwardcount = 0;
+		
+	for (AgentIterator iter = agent.begin(); iter!=agent.end(); iter++) {  // iterate over all agents == O(N^2) :(
+		if ((iter->id != id)) {
+			double distancex = iter->x - x;
+			double distancey = iter->y - y;
+			double dist2 = (distancex * distancex + distancey * distancey); // 2D  
+			if ((config.mlLookAhead) && (dist2 < 400)) { // look ahead feature
+				double at2v  = atan2(-eax, -eay); // was vx, vy  --chgloor 2012-01-15 
+				double at2d  = atan2(-distancex, -distancey);
+				double at2v2 = atan2(-iter->vx, -iter->vy);
+				double pi = 3.14159265;
+				double s = at2d - at2v;   if (s > pi) s -= 2*pi;   if (s < -pi) s += 2*pi; 
+				double vv = at2v - at2v2; if (vv > pi) vv -= 2*pi; if (vv < -pi) vv += 2*pi;
+				if ((vv < -2.5) || (vv > 2.5)) { // entgegengesetzte richtung
+					if ((s < 0) && (s > -0.3)) { // position vor mir, in meine richtung
+						lookforwardcount--;
+					} 
+					if ((s > 0) && (s < 0.3)) {
+						lookforwardcount++;
+					}
+				}
+			}
+		}
+	}
+	lfaz = 0; // 2d  --chgloor 2012-01-15
+	if (lookforwardcount < 0) {
+		lfax = 0.5f *  eay; // was vx, vy  --chgloor 2012-01-15  
+		lfay = 0.5f * -eax;
+	}
+	if (lookforwardcount >  0) {
+		lfax = 0.5f * -eay;
+		lfay = 0.5f *  eax;
+	}
+
+
 
 
 	// 
