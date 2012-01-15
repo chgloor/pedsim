@@ -18,7 +18,8 @@ Config::Config() { // make sure this reflects what is set as default in the suer
 	simWallForce = 10;
 	simPedForce = 10;
 	simSpeed = 1000/20;
-	mlTendency = true;
+	mlTendency = false;
+	mlLookAhead = false;
 	showForces = false;
 	showDirection = false;
 	simh = 0.4;

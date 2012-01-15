@@ -27,6 +27,8 @@ Control::Control(QWidget *parent, bool admin) : QDockWidget(parent) {
 
 
 	connect(ui.mlTendencyCheckBox, SIGNAL(toggled(bool)), this, SLOT(mlTendency(bool)));
+	connect(ui.mlLookAheadCheckBox, SIGNAL(toggled(bool)), this, SLOT(mlLookAhead(bool)));
+
 	connect(ui.wallforceSlider, SIGNAL(valueChanged(int)), this, SLOT(simWallForce(int)));
 	connect(ui.pedforceSlider, SIGNAL(valueChanged(int)), this, SLOT(simPedForce(int)));
 	connect(ui.simspeedSlider, SIGNAL(valueChanged(int)), this, SLOT(simSpeed(int)));
@@ -54,6 +56,10 @@ void Control::simSpeed(int value) {
 
 void Control::mlTendency(bool value) {
 	config.mlTendency = value;
+}
+
+void Control::mlLookAhead(bool value) {
+	config.mlLookAhead = value;
 }
 
 void Control::showForces(bool show) {

@@ -2,10 +2,6 @@
 // pedsim - A microscopic pedestrian simulation system. 
 // Copyright (c) 2003 - 2004 by Christian Gloor
 //                              
-// You can redistribute and/or modify this program under the terms of
-// the GNU General Public License.  See copying.txt for details.
-// 
-
 
 #include "math.h"
 
@@ -18,10 +14,10 @@
 
 #include <vector>
 
-
 using namespace std;
 
 extern Config config;
+
 
 /// Description: set intial values
 /// \author  chgloor
@@ -40,8 +36,8 @@ Twaypoint::Twaypoint(double px, double py, double pr, QGraphicsScene *pscene) {
 
 	ellipse->setVisible(config.guiShowWaypoints);
 	norm->setVisible(config.guiShowWaypoints);
-
 };
+
 
 /// 
 /// \author  chgloor
@@ -59,9 +55,6 @@ Twaypoint::Twaypoint() {
 /// 
 /// \author  chgloor
 /// \date    2012-01-10
-/// \return  
-/// \warning 
-/// \param   
 Tvector normalpoint(double p1, double p2, double oc11, double oc12, double oc21, double oc22) {
 	double a1 = oc11;
 	double a2 = oc12;
@@ -95,13 +88,8 @@ Tvector Twaypoint::getForce(double myx, double myy, double fromx, double fromy, 
 		double dist2 = (distancex * distancex + distancey * distancey);  // dist2 = distanz im quadrat
 		double dist = sqrt(dist2);
 
-		// cout << "Dist " << distancex << "/" << distancey << " (" << dist << ")" << endl;
-		
 		double normalex = distancey / dist;
 		double normaley = distancex / dist;
-		
-		// cout << "Norm " << normalex << "/" << normaley << " (" << dist << ")" << endl;
-		// cout << "This " << this->getx() << "/" << this->gety() << " (" << this->getr() << ")" << endl;
 		
 		double oc11 = x + r * normalex;
 		double oc12 = y - r * normaley;
@@ -110,26 +98,17 @@ Tvector Twaypoint::getForce(double myx, double myy, double fromx, double fromy, 
 		
 		norm->setLine(oc11, oc12, oc21, oc22);
 		
-		// cout << "NDist " << oc11 << "/" << oc22 << endl;
-		
 		Tvector pnormal = normalpoint(myx, myy, oc11, oc12, oc21, oc22);
-		
-		//	path->setLine(fromx, fromy, pnormal.x, pnormal.y);
 		
 		double pndistancex = myx - pnormal.x;
 		double pndistancey = myy - pnormal.y;
 		double pndist2 = (pndistancex * pndistancex + pndistancey * pndistancey);  // dist2 = distanz im quadrat
 		double pndist = sqrt(pndist2);
 		
-		if (pndist < 3) { *reached = true; } else { *reached = false; } 
-		
-		if (pndist == 0) { f.x = 0; f.y = 0; return f; }
-		
+		if (pndist < 3) { *reached = true; } else { *reached = false; } 		
+		if (pndist == 0) { f.x = 0; f.y = 0; return f; }	  
 		f.x = -pndistancex / pndist;
 		f.y = -pndistancey / pndist;
-		
-		// cout << "PNDist " << f.x << "/" << f.y << " (" << pndist2 << ")" << endl;
-		
 	} else if (type == 1) { // point
 		double distancex = x - myx;
 		double distancey = y - myy;
@@ -140,22 +119,4 @@ Tvector Twaypoint::getForce(double myx, double myy, double fromx, double fromy, 
 		if (dist < r) { *reached = true; } else { *reached = false; };
 	}
 	return f;
-}
-
-
-
-
-
-
-/// 
-/// \author  chgloor
-/// \date    2012-01-10
-/// \return  
-/// \warning 
-/// \param   
-bool Twaypoint::hasReached(double myx, double myy) {
-	 double distancex = myx - this->getx();
-	 double distancey = myy - this->gety();
-	 double dist2 = (distancex * distancex + distancey * distancey);  // dist2 = distanz im quadrat
-	if (dist2 < (r*r)) { return true; } else { return false; }
 }

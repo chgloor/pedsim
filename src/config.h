@@ -19,6 +19,7 @@ class Config : public QObject {
 	double simPedForce;
 	int simSpeed;
 	bool mlTendency;
+	bool mlLookAhead;
 	bool showForces;
 	bool showDirection;
 	double simh;

@@ -2,9 +2,6 @@
 // pedsim - A microscopic pedestrian simulation system. 
 // Copyright (c) 2003 - 2004 by Christian Gloor
 //                              
-// You can redistribute and/or modify this program under the terms of
-// the GNU General Public License.  See copying.txt for details.
-// 
 
 #ifndef _waypoint_h_
 #define _waypoint_h_ 1
@@ -14,10 +11,8 @@
 #include <QQueue>
 
 #include <iostream>
-//#include <vector>
 
 #include "vector.h"
-
 
 using namespace std;
 
@@ -52,7 +47,6 @@ class Twaypoint {
   void setr(double pr) { r = pr; };                      ///< sets the waypoints x position
   void settype(int t) { type = t; };                       
   Tvector getForce(double myx, double myy, double fromx, double fromy, bool *reached); ///< returns the force into the direction of the waypoint
-  bool hasReached(double myx, double myy); ///< returns true if the agent has reached the waypoint
 };
 
 /// A container for the waypoints. Defined here because some methods inside the Twaypoint class iterate over this container

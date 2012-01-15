@@ -29,8 +29,6 @@
 #include "waypoint.h"
 #include "config.h"
 
-#include "main.h"
-
 using namespace std;
 
 /// this containers contain agents and obstacles
@@ -159,7 +157,7 @@ int main(int argc, char *argv[]) {
 	// ramp
 	obstacle.push_back(Tobstacle( 150,-135,  20,-135, scene->addLine(1,1,0,0,QPen(Qt::gray, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin))));
   
-	for (int i = 0; i<200; i++) { 
+	for (int i = 0; i<100; i++) { 
 		Tagent a(scene);
 
 		if ((i > 0) && (i <= 4)) {
@@ -206,10 +204,10 @@ int main(int argc, char *argv[]) {
 		agent.push_back(a);
 	}
 
-	mainwindow.graphicsView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);	
 	mainwindow.graphicsView->setScene(scene);
 	mainwindow.graphicsView->setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
 	mainwindow.graphicsView->setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
+	mainwindow.graphicsView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);	
 	mainwindow.graphicsView->show();
 
 	return app.exec();

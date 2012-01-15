@@ -2,10 +2,6 @@
 // pedsim - A microscopic pedestrian simulation system. 
 // Copyright (c) 2003 - 2004 by Christian Gloor
 //                              
-// You can redistribute and/or modify this program under the terms of
-// the GNU General Public License.  See copying.txt for details.
-// 
-
 
 #include "math.h"
 
@@ -14,12 +10,11 @@
 
 #include <QPen>
 
-
 #include <vector>
 
-extern ObstacleContainer obstacle;
-
 using namespace std;
+
+extern ObstacleContainer obstacle;
 
 
 /// Description: set intial values
@@ -36,6 +31,7 @@ Tobstacle::Tobstacle(double pax, double pay, double pbx, double pby, QGraphicsLi
   line->setLine(ax, ay, bx, by);
 };
 
+
 /// 
 /// \author  chgloor
 /// \date    2012-01-07
@@ -49,16 +45,13 @@ Tobstacle::Tobstacle() {
   line = NULL;
 };
 
+
 /// 
 /// \author  chgloor
 /// \date    2012-01-07
-/// \return  
-/// \warning 
-/// \param   
 void Tobstacle::setPosition(double pax, double pay, double pbx, double pby) {
 	ax = pax, ay = pay;
 	bx = pbx, by = pby;
 
 	line->setLine(ax, ay, bx, by);
-
 };

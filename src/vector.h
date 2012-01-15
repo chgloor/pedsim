@@ -1,5 +1,4 @@
 //
-// spacesim - A microscopic space fight simulation system. 
 // Copyright (c) 2010 by Christian Gloor
 //                              
 
@@ -14,6 +13,7 @@ class Tvector {
 	double y;
 	double z;
 	void cross(Tvector *a, Tvector *b);
+	double scalar(Tvector *a, Tvector *b);
 	void normalize();
 };
 

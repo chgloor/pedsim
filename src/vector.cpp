@@ -23,3 +23,10 @@ void Tvector::normalize() {
 	y = y / length;
 	z = z / length;
 }
+
+/// vector scalar product
+/// \author  chgloor
+/// \date    2012-01-14
+double Tvector::scalar(Tvector *a, Tvector *b) {
+	return acos( (a->x*b->x + a->y*b->y + a->z*b->z) / ( sqrt(a->x*a->x + a->y*a->y + a->z*a->z) * sqrt(b->x*b->x + b->y*b->y + b->z*b->z) ) );
+}

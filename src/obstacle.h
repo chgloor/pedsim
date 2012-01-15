@@ -1,20 +1,15 @@
 //
 // pedsim - A microscopic pedestrian simulation system. 
-// Copyright (c) 2003 - 2004 by Christian Gloor
+// Copyright (c) 2003 - 2012 by Christian Gloor
 //                              
-// You can redistribute and/or modify this program under the terms of
-// the GNU General Public License.  See copying.txt for details.
-// 
 
 #ifndef _obstacle_h_
 #define _obstacle_h_ 1
 
-//#include <QApplication>
 #include <QGraphicsItem>
 #include <QQueue>
 
 #include <iostream>
-//#include <vector>
 
 #include "vector.h"
 
@@ -46,7 +41,6 @@ class Tobstacle {
   double getay() { return ay; };                      ///< returns the obstacles y position
   double getbx() { return bx; };                      ///< returns the obstacles x position
   double getby() { return by; };                      ///< returns the obstacles y position
-  //  void print() {cout << "obstacle " << id << ": " << x << "/" << y << "/" << z << endl; }; ///< prints the obstacles state (simple) to stdout
   QGraphicsLineItem *line;
 
 };

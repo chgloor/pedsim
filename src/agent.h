@@ -2,9 +2,6 @@
 // pedsim - A microscopic pedestrian simulation system. 
 // Copyright (c) 2003 - 2004 by Christian Gloor
 //                              
-// You can redistribute and/or modify this program under the terms of
-// the GNU General Public License.  See copying.txt for details.
-// 
 
 #ifndef _agent_h_
 #define _agent_h_ 1
@@ -68,6 +65,7 @@ class Tagent {
   QGraphicsLineItem *lineea;  
   QGraphicsLineItem *lineoa;  
   QGraphicsLineItem *linesa;  
+  QGraphicsLineItem *linelfa;  
 
   QQueue<Twaypoint> destinations;                      ///< coordinates of the next destinations
   Twaypoint destination;                               ///< coordinates of the next destination

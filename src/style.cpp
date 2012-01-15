@@ -1,5 +1,6 @@
+
 #include "style.h"
-#include "iostream"
+
 #include <QPlastiqueStyle>
 #include <QWindowsStyle>
 #include <QStyleOption>
@@ -8,13 +9,17 @@
 #include <QPalette>
 #include <QDebug>
 
+#include <iostream>
+
 using namespace std;
+
 
 Style::Style() {}
 
 void Style::drawPrimitive(PrimitiveElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const {
 		QPlastiqueStyle::drawPrimitive(element, option, painter, widget);
 }
+
 
 void Style::polish (QPalette &palette) {
 	// Custom colors
