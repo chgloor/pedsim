@@ -55,6 +55,7 @@ long systemtime = 0;
 // Return value: 0
 // ----------------------------------------------------
 int main(int argc, char *argv[]) {
+
 	Tscene *pedscene = new Tscene();
 
 	int nagents = 100;
@@ -68,7 +69,6 @@ int main(int argc, char *argv[]) {
 	QApplication app(argc, argv);
 	QApplication::setStyle(new Style());
 
-
 	MainWindow mainwindow;
 	mainwindow.show();
 
@@ -76,6 +76,7 @@ int main(int argc, char *argv[]) {
 
 	graphicsscene->setBackgroundBrush(Qt::black);
 	graphicsscene->setItemIndexMethod(QGraphicsScene::NoIndex);
+
 
 	Waypoint w1(-160, -51, 17, graphicsscene);
 	Waypoint w11(-112, -2, 16, graphicsscene);
