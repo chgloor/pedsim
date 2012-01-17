@@ -14,7 +14,7 @@
 
 using namespace std;
 
-extern AgentContainer agent;                             
+extern vector<Agent*> myagents;                             
 extern long systemtime;
 extern Config config;
 
@@ -125,8 +125,10 @@ void MainWindow::zoomout() {
 void MainWindow::timestep() {	
 	systemtime++;
 
-	for (AgentIterator iter = agent.begin(); iter != agent.end(); ++iter) {
-		iter->move();
+	//	for (AgentIterator iter = agent.begin(); iter != agent.end(); ++iter) {
+	for (vector<Agent*>::iterator iter = myagents.begin(); iter != myagents.end(); ++iter) {
+		Agent *a = (*iter);
+		a->move();
 	}
 
 	statusBar()->showMessage(QString("Systemtime: %1").arg(systemtime));

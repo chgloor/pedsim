@@ -1,10 +1,10 @@
 
 
-#include "vector.h"
+#include "ped_vector.h"
 
 #include "math.h"
 
-/// vector cross product helper
+/// Vector cross product helper
 /// \author  chgloor
 /// \date    2010-02-12
 void Tvector::cross(Tvector *a, Tvector *b) {
@@ -14,7 +14,7 @@ void Tvector::cross(Tvector *a, Tvector *b) {
 }
 
 
-/// vector normalization
+/// Vector normalization
 /// \author  chgloor
 /// \date    2010-02-12
 void Tvector::normalize() {
@@ -24,7 +24,7 @@ void Tvector::normalize() {
 	z = z / length;
 }
 
-/// vector scalar product
+/// Vector scalar product
 /// \author  chgloor
 /// \date    2012-01-14
 double Tvector::scalar(Tvector *a, Tvector *b) {

@@ -2,10 +2,8 @@
 // Copyright (c) 2010 by Christian Gloor
 //                              
 
-#ifndef _vector_h_ 
-#define _vector_h_ 1
-
-
+#ifndef _ped_vector_h_ 
+#define _ped_vector_h_ 1
 
 class Tvector {
  public:
@@ -16,7 +14,6 @@ class Tvector {
 	double scalar(Tvector *a, Tvector *b);
 	void normalize();
 };
-
 
 
 #endif
