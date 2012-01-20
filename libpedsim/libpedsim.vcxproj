@@ -74,6 +74,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="pedsim.h" />
     <ClInclude Include="ped_agent.h" />
     <ClInclude Include="ped_obstacle.h" />
     <ClInclude Include="ped_scene.h" />

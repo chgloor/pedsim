@@ -1,5 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node2" href="$classTwaypoint.html" title="{Twaypoint\n|&#45; id\l&#45; x\l&#45; y\l&#45; r\l&#45; type\l|+ Twaypoint()\l+ Twaypoint()\l+ setType()\l+ getid()\l+ gettype()\l+ getx()\l+ gety()\l+ getr()\l+ setx()\l+ sety()\l+ setr()\l+ settype()\l+ getForce()\l+ normalpoint()\l}" alt="" coords="13,6,123,386"/>
-<area shape="rect" id="node4" href="$classTscene.html" title="{Tscene\n|+ agent\l+ obstacle\l|+ Tscene()\l+ addAgent()\l+ addObstacle()\l}" alt="" coords="308,471,423,609"/>
-<area shape="rect" id="node9" href="$classTvector.html" title="{Tvector\n|+ x\l+ y\l+ z\l|+ Tvector()\l+ cross()\l+ scalar()\l+ normalize()\l}" alt="" coords="447,454,545,626"/>
-</map>

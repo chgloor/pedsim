@@ -22,7 +22,9 @@ class Obstacle: public Ped::Tobstacle {
   Obstacle(double ax, double ay, double bx, double by, QGraphicsLineItem *l);
   QGraphicsLineItem *line;
 
-  void setPosition(double ax, double ay, double bx, double by);  ///< set the obstacles position
+  void setPosition(double ax, double ay, double bx, double by);
+
+  void rotate(double x, double y, double phi); 
 
 };
 

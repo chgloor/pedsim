@@ -34,6 +34,13 @@ Ped::Tagent::Tagent() {
   vmax = 2.0 + 1.0*(double)rand()/(double)RAND_MAX; // in m/s between 2.0 and 4.0
   mlLookAhead = false;
   mlTendency = false;
+
+  factorsocialforce = 5.0f;
+  factorobstacleforce = 10.0f;
+  factordesiredforce = 1.0f;
+  factorlookaheadforce = 1.0f;
+
+
 };
 
 
@@ -93,6 +100,27 @@ void Ped::Tagent::setVmax(double pvmax) {
 void Ped::Tagent::setPosition(double px, double py, double pz) {
 	p.x = px; p.y = py; p.z = pz; 
 };
+
+
+/// Sets the factor by which the social force is multiplied. Values between 0 and about 10 do make sense.
+/// \date    2012-01-20
+/// \param   f The factor
+void Ped::Tagent::setfactorsocialforce(double f) {factorsocialforce = f; };
+
+/// Sets the factor by which the obstacle force is multiplied. Values between 0 and about 10 do make sense.
+/// \date    2012-01-20
+/// \param   f The factor
+void Ped::Tagent::setfactorobstacleforce(double f) {factorobstacleforce = f; };
+
+/// Sets the factor by which the desired force is multiplied. Values between 0 and about 10 do make sense.
+/// \date    2012-01-20
+/// \param   f The factor
+void Ped::Tagent::setfactordesiredforce(double f) {factordesiredforce = f; };
+
+/// Sets the factor by which the look ahead force is multiplied. Values between 0 and about 10 do make sense.
+/// \date    2012-01-20
+/// \param   f The factor
+void Ped::Tagent::setfactorlookaheadforce(double f) {factorlookaheadforce = f; };
 
 
 /// Calculates the social force between this agent and all the other agents belonging to the same scene.
@@ -259,9 +287,9 @@ void Ped::Tagent::move(double h) {
 
 	//  sum of all forces --> acceleration
 	Ped::Tvector a; 
-	a.x = 1.0f * socialforce.x + 1.0f * desiredforce.x + 10.0f * obstacleforce.x + lookaheadforce.x + tendencyforce.x;
-	a.y = 1.0f * socialforce.y + 1.0f * desiredforce.y + 10.0f * obstacleforce.y + lookaheadforce.y + tendencyforce.y;
-	a.z = 1.0f * socialforce.z + 1.0f * desiredforce.z + 10.0f * obstacleforce.z + lookaheadforce.z + tendencyforce.z;
+	a.x = factorsocialforce * socialforce.x + factordesiredforce * desiredforce.x + factorobstacleforce * obstacleforce.x + factorlookaheadforce * lookaheadforce.x + tendencyforce.x;
+	a.y = factorsocialforce * socialforce.y + factordesiredforce * desiredforce.y + factorobstacleforce * obstacleforce.y + factorlookaheadforce * lookaheadforce.y + tendencyforce.y;
+	a.z = factorsocialforce * socialforce.z + factordesiredforce * desiredforce.z + factorobstacleforce * obstacleforce.z + factorlookaheadforce * lookaheadforce.z + tendencyforce.z;
 	
 	// calculate the new velocity based on v0 and the acceleration
 	v.x = 0.75 * v.x + a.x; 

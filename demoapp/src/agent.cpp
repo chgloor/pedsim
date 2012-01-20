@@ -101,6 +101,9 @@ Ped::Tvector Agent::lookaheadForce(Ped::Tvector desired) {
 /// \date    2012-01-17
 void Agent::move(double h) {
 
+	setfactorsocialforce(config.simPedForce);
+	setfactorobstacleforce(config.simWallForce);
+
 	Tagent::move(h);
 
 	rect->setPos(getx()-0.5, gety()-0.5); // upper left edge

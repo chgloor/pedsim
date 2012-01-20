@@ -48,6 +48,9 @@ long systemtime = 0;
 #define YYY 0
 #define ZZZ 0
 
+Obstacle *doorobstacle1;
+Obstacle *doorobstacle2;
+
 // ----------------------------------------------------
 // Name: main
 // Description: - 
@@ -163,6 +166,13 @@ int main(int argc, char *argv[]) {
 
 	// ramp
 	pedscene->addObstacle(new Obstacle( 150,-135,  20,-135, graphicsscene->addLine(1,1,0,0,QPen(Qt::gray, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin))));
+
+	// gate
+	doorobstacle1 = new Obstacle( -100, 15, -100, -15, graphicsscene->addLine(1,1,0,0,QPen(Qt::darkGray, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)));
+	pedscene->addObstacle(doorobstacle1);
+	doorobstacle2 = new Obstacle( -115, 0, -85, 00, graphicsscene->addLine(1,1,0,0,QPen(Qt::darkGray, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)));
+	pedscene->addObstacle(doorobstacle2);
+
 
 	for (int i = 0; i<nagents; i++) { 
 		Agent *a = new Agent(graphicsscene);

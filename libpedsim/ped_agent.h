@@ -23,6 +23,9 @@ using namespace std;
 
 namespace Ped {
 
+/// \example example.cpp
+
+
 /// This is the main class of the library. It contains the Tagent, which eventually will move through the
 /// Tscene and interact with Tobstacle and other Tagent.  You can use it as it is, and access the agent's 
 /// coordinates using the getx() etc methods. Or, if you want to change the way the agent behaves, you can
@@ -51,6 +54,11 @@ namespace Ped {
 		bool mlLookAhead;
 		bool mlTendency;
 		
+		double factorsocialforce;
+		double factorobstacleforce;
+		double factordesiredforce;
+		double factorlookaheadforce;
+
 	public:
 		Tagent(); 
 		virtual void move(double h);                      
@@ -80,6 +88,12 @@ namespace Ped {
 		double getvx() { return v.x; };                   
 		double getvy() { return v.y; };                   
 		double getvz() { return v.z; };                   
+
+		void setfactorsocialforce(double f);
+		void setfactorobstacleforce(double f);
+		void setfactordesiredforce(double f);
+		void setfactorlookaheadforce(double f);
+
 		
 		void assignScene(Tscene *s);
 		

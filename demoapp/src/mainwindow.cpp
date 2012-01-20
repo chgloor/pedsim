@@ -9,6 +9,7 @@
 #include "mainwindow.h"
 #include "control.h"
 #include "config.h"
+#include "obstacle.h"
 
 #define ZOOMFACTOR 1.2
 
@@ -17,6 +18,9 @@ using namespace std;
 extern vector<Agent*> myagents;                             
 extern long systemtime;
 extern Config config;
+
+extern Obstacle *doorobstacle1;
+extern Obstacle *doorobstacle2;
 
 
 MainWindow::MainWindow() {
@@ -130,6 +134,9 @@ void MainWindow::timestep() {
 		a->move(config.simh);
 		//		a->print();
 	}
+
+	doorobstacle1->rotate(-100, 0, config.simh * 0.1);
+	doorobstacle2->rotate(-100, 0, config.simh * 0.1);
 
 	statusBar()->showMessage(QString("Systemtime: %1").arg(systemtime));
 	timer->start(config.simSpeed);
