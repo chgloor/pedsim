@@ -1,0 +1,132 @@
+\hypertarget{classPed_1_1Tvector}{
+\subsection{Ped::Tvector Class Reference}
+\label{classPed_1_1Tvector}\index{Ped::Tvector@{Ped::Tvector}}
+}
+
+
+{\ttfamily \#include $<$ped\_\-vector.h$>$}
+
+\subsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classPed_1_1Tvector_aa02ef092df574ad31a20ebf4a0b229b3}{Tvector} ()
+\item 
+void \hyperlink{classPed_1_1Tvector_a37c7cf44762a031fa800695cae60613a}{cross} (\hyperlink{classPed_1_1Tvector}{Tvector} $\ast$a, \hyperlink{classPed_1_1Tvector}{Tvector} $\ast$b)
+\item 
+double \hyperlink{classPed_1_1Tvector_a77b066e39fae7ad784d24d08be94b31c}{scalar} (\hyperlink{classPed_1_1Tvector}{Tvector} $\ast$a, \hyperlink{classPed_1_1Tvector}{Tvector} $\ast$b)
+\item 
+void \hyperlink{classPed_1_1Tvector_a1599095e978b9bd8cbab69b2b04ed027}{normalize} ()
+\end{DoxyCompactItemize}
+\subsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classPed_1_1Tvector_a044393d1b7bce39be634b78a45afa0ba}{
+double {\bfseries x}}
+\label{classPed_1_1Tvector_a044393d1b7bce39be634b78a45afa0ba}
+
+\item 
+\hypertarget{classPed_1_1Tvector_ad36c1fd9f63e13ed41f7e7da0d5f1b92}{
+double {\bfseries y}}
+\label{classPed_1_1Tvector_ad36c1fd9f63e13ed41f7e7da0d5f1b92}
+
+\item 
+\hypertarget{classPed_1_1Tvector_a1a3c39b01c440d52745f75670547eb29}{
+double {\bfseries z}}
+\label{classPed_1_1Tvector_a1a3c39b01c440d52745f75670547eb29}
+
+\end{DoxyCompactItemize}
+
+
+\subsubsection{Detailed Description}
+Vector helper class. This is basically a struct with some related functions attached. \begin{DoxyAuthor}{Author}
+chgloor 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2010-\/02-\/12 
+\end{DoxyDate}
+
+
+\subsubsection{Constructor \& Destructor Documentation}
+\hypertarget{classPed_1_1Tvector_aa02ef092df574ad31a20ebf4a0b229b3}{
+\index{Ped::Tvector@{Ped::Tvector}!Tvector@{Tvector}}
+\index{Tvector@{Tvector}!Ped::Tvector@{Ped::Tvector}}
+\paragraph[{Tvector}]{\setlength{\rightskip}{0pt plus 5cm}Ped::Tvector::Tvector (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hfill}
+\label{classPed_1_1Tvector_aa02ef092df574ad31a20ebf4a0b229b3}
+Default constructor, which makes sure that all the values are set to 0. \begin{DoxyDate}{Date}
+2012-\/01-\/16 
+\end{DoxyDate}
+
+
+\subsubsection{Member Function Documentation}
+\hypertarget{classPed_1_1Tvector_a37c7cf44762a031fa800695cae60613a}{
+\index{Ped::Tvector@{Ped::Tvector}!cross@{cross}}
+\index{cross@{cross}!Ped::Tvector@{Ped::Tvector}}
+\paragraph[{cross}]{\setlength{\rightskip}{0pt plus 5cm}void Ped::Tvector::cross (
+\begin{DoxyParamCaption}
+\item[{{\bf Ped::Tvector} $\ast$}]{a, }
+\item[{{\bf Ped::Tvector} $\ast$}]{b}
+\end{DoxyParamCaption}
+)}\hfill}
+\label{classPed_1_1Tvector_a37c7cf44762a031fa800695cae60613a}
+Vector cross product helper: calculates the cross product of two vectors. \begin{DoxyDate}{Date}
+2010-\/02-\/12 
+\end{DoxyDate}
+\begin{Desc}
+\item[\hyperlink{todo__todo000004}{Todo}]This syntax is a bit weird. Will change in future. \end{Desc}
+\begin{DoxyWarning}{Warning}
+The result is assigned to the vector calling the method. 
+\end{DoxyWarning}
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$a} & The first vector \\
+\hline
+{\em $\ast$b} & The second vector \\
+\hline
+\end{DoxyParams}
+\hypertarget{classPed_1_1Tvector_a1599095e978b9bd8cbab69b2b04ed027}{
+\index{Ped::Tvector@{Ped::Tvector}!normalize@{normalize}}
+\index{normalize@{normalize}!Ped::Tvector@{Ped::Tvector}}
+\paragraph[{normalize}]{\setlength{\rightskip}{0pt plus 5cm}void Ped::Tvector::normalize (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hfill}
+\label{classPed_1_1Tvector_a1599095e978b9bd8cbab69b2b04ed027}
+Normalizes the vector to a length of 1. \begin{DoxyDate}{Date}
+2010-\/02-\/12 
+\end{DoxyDate}
+\hypertarget{classPed_1_1Tvector_a77b066e39fae7ad784d24d08be94b31c}{
+\index{Ped::Tvector@{Ped::Tvector}!scalar@{scalar}}
+\index{scalar@{scalar}!Ped::Tvector@{Ped::Tvector}}
+\paragraph[{scalar}]{\setlength{\rightskip}{0pt plus 5cm}double Ped::Tvector::scalar (
+\begin{DoxyParamCaption}
+\item[{{\bf Ped::Tvector} $\ast$}]{a, }
+\item[{{\bf Ped::Tvector} $\ast$}]{b}
+\end{DoxyParamCaption}
+)}\hfill}
+\label{classPed_1_1Tvector_a77b066e39fae7ad784d24d08be94b31c}
+Vector scalar product helper: calculates the scalar product of two vectors. \begin{DoxyDate}{Date}
+2012-\/01-\/14 
+\end{DoxyDate}
+\begin{Desc}
+\item[\hyperlink{todo__todo000005}{Todo}]This syntax is a bit weird. Will change in future. \end{Desc}
+\begin{DoxyReturn}{Returns}
+double The scalar product. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$a} & The first vector \\
+\hline
+{\em $\ast$b} & The second vector \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+ped\_\-vector.h\item 
+ped\_\-vector.cpp\end{DoxyCompactItemize}

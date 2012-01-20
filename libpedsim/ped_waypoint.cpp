@@ -1,6 +1,6 @@
 //
 // pedsim - A microscopic pedestrian simulation system. 
-// Copyright (c) 2003 - 2004 by Christian Gloor
+// Copyright (c) 2003 - 2012 by Christian Gloor
 //                              
 
 #include "math.h"
@@ -11,10 +11,12 @@
 
 using namespace std;
 
-/// Constructor: Sets some intial values
-/// \author  chgloor
+/// Constructor: Sets some intial values. The agent has to pass within the give radius. 
 /// \date    2012-01-07
-Twaypoint::Twaypoint(double px, double py, double pr) {
+/// \param   px The x coordinate of the waypoint
+/// \param   py The y coordinate of the waypoint
+/// \param   pr The radius of the waypoint
+Ped::Twaypoint::Twaypoint(double px, double py, double pr) {
   static int staticid = 0;
   id = staticid++;
   x = px;
@@ -24,10 +26,9 @@ Twaypoint::Twaypoint(double px, double py, double pr) {
 };
 
 
-/// Constructor
-/// \author  chgloor
+/// Default Constructor - sets the most basic parameters.
 /// \date    2012-01-07
-Twaypoint::Twaypoint() {
+Ped::Twaypoint::Twaypoint() {
   static int staticid = 0;
   id = staticid++;
   x = 0;
@@ -36,11 +37,17 @@ Twaypoint::Twaypoint() {
 };
 
 
-/// Calculated the point that is on the given line and normal to the give position.
+/// Calculates the point that is on the given line and normal to the give position.
 /// If it is not inside the line, the start or end point of the line is returned.
-/// \author  chgloor
 /// \date    2012-01-10
-Tvector Twaypoint::normalpoint(double p1, double p2, double oc11, double oc12, double oc21, double oc22) {
+/// \param   p1 The x coordinate of the point outside the obstacle
+/// \param   p2 The y coordinate of the point outside the obstacle
+/// \param   oc11 The x coordinate of the first corner of the obstacle
+/// \param   oc12 The y coordinate of the first corner of the obstacle
+/// \param   oc21 The x coordinate of the second corner of the obstacle
+/// \param   oc22 The y coordinate of the second corner of the obstacle
+/// \return  Tvector The calculated point
+Ped::Tvector Ped::Twaypoint::normalpoint(double p1, double p2, double oc11, double oc12, double oc21, double oc22) {
 	double a1 = oc11;
 	double a2 = oc12;
 	double b1 = oc21 - oc11;
@@ -48,7 +55,7 @@ Tvector Twaypoint::normalpoint(double p1, double p2, double oc11, double oc12, d
 
 	double lambda = (p1*b1 + p2*b2 - b1*a1 - b2*a2) / (b1*b1 + b2*b2);
 
-	Tvector v; v.z = 0;
+	Ped::Tvector v; v.z = 0;
 	if (lambda <= 0) { v.x = oc11; v.y = oc12; return v; };
 	if (lambda >= 1) { v.x = oc21; v.y = oc22; return v; };
 	
@@ -58,11 +65,16 @@ Tvector Twaypoint::normalpoint(double p1, double p2, double oc11, double oc12, d
 } 
 
 
-/// returns the force into the direction of the waypoint
-/// \author  chgloor
+/// Returns the force into the direction of the waypoint
 /// \date    2012-01-10
-Tvector Twaypoint::getForce(double myx, double myy, double fromx, double fromy, bool *reached) {
-	Tvector f;
+/// \param   myx The x coordinate of the current position of the agent
+/// \param   myy The y coordinate of the current position of the agent
+/// \param   fromx The x coordinate of the last assigned waypoint, i.e. where the agent is coming from
+/// \param   fromy The y coordinate of the last assigned waypoint, i.e. where the agent is coming from
+/// \param   *reached Set to true if the agent has reached the waypoint in this call.
+/// \return  Tvector The calculated force
+Ped::Tvector Ped::Twaypoint::getForce(double myx, double myy, double fromx, double fromy, bool *reached) {
+	Ped::Tvector f;
 		
 	if (type == 0) { // use normal to direction
 		double distancex = x - fromx;
@@ -78,7 +90,7 @@ Tvector Twaypoint::getForce(double myx, double myy, double fromx, double fromy, 
 		double oc21 = x - r * normalex;
 		double oc22 = y + r * normaley;
 				
-		Tvector pnormal = normalpoint(myx, myy, oc11, oc12, oc21, oc22);
+		Ped::Tvector pnormal = normalpoint(myx, myy, oc11, oc12, oc21, oc22);
 		
 		double pndistancex = myx - pnormal.x;
 		double pndistancey = myy - pnormal.y;

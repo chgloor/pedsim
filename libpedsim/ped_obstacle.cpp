@@ -1,6 +1,6 @@
 //
 // pedsim - A microscopic pedestrian simulation system. 
-// Copyright (c) 2003 - 2004 by Christian Gloor
+// Copyright (c) 2003 - 2012 by Christian Gloor
 //                              
 
 #include "math.h"
@@ -11,10 +11,13 @@
 
 using namespace std;
 
-/// Description: set intial values
-/// \author  chgloor
+/// Constructor used to set intial values.
 /// \date    2012-01-07
-Tobstacle::Tobstacle(double pax, double pay, double pbx, double pby) {
+/// \param pax x coordinate of the first corner of the obstacle.
+/// \param pay y coordinate of the first corner of the obstacle.
+/// \param pbx x coordinate of the second corner of the obstacle.
+/// \param pby y coordinate of the second corner of the obstacle.
+Ped::Tobstacle::Tobstacle(double pax, double pay, double pbx, double pby) {
   static int staticid = 0;
   id = staticid++;
   ax = pax;
@@ -24,10 +27,9 @@ Tobstacle::Tobstacle(double pax, double pay, double pbx, double pby) {
 };
 
 
-/// 
-/// \author  chgloor
+/// Default constructor, places a wall from 0/0 to 1/1
 /// \date    2012-01-07
-Tobstacle::Tobstacle() {
+Ped::Tobstacle::Tobstacle() {
   static int staticid = 0;
   id = staticid++;
   ax = 0;
@@ -37,10 +39,13 @@ Tobstacle::Tobstacle() {
 };
 
 
-/// Moves the obstacle to a new position.
-/// \author  chgloor
+/// Moves the obstacle to a new position. Can be uses to simulate opening doors etc. 
 /// \date    2012-01-07
-void Tobstacle::setPosition(double pax, double pay, double pbx, double pby) {
+/// \param pax x coordinate of the first corner of the obstacle.
+/// \param pay y coordinate of the first corner of the obstacle.
+/// \param pbx x coordinate of the second corner of the obstacle.
+/// \param pby y coordinate of the second corner of the obstacle.
+void Ped::Tobstacle::setPosition(double pax, double pay, double pbx, double pby) {
 	ax = pax, ay = pay;
 	bx = pbx, by = pby;
 };
@@ -50,19 +55,18 @@ void Tobstacle::setPosition(double pax, double pay, double pbx, double pby) {
 /// x/y can be the location of an agent, but it can also be anything else, 
 /// for example a grid coordinate of the user interface, if you want to display
 /// the obstacle forces on the map.
-/// \author  chgloor
 /// \date    2012-01-17
 /// \return  Tvector forces
 /// \param   double x: The x coordinate of the point
 /// \param   double y: The y coordinate of the point
-Tvector Tobstacle::obstacleforce(double x, double y) {	
+Ped::Tvector Ped::Tobstacle::obstacleforce(double x, double y) {	
 	double a1 = this->ax;
 	double a2 = this->ay;
 	double b1 = this->bx - this->ax;
 	double b2 = this->by - this->ay;
 	double lambda = (x*b1 + y*b2 - b1*a1 - b2*a2) / (b1*b1 + b2*b2);
 
-	Tvector v; v.z = 0;
+	Ped::Tvector v; v.z = 0;
 	if (lambda <= 0) { v.x = ax; v.y = ay; return v; };
 	if (lambda >= 1) { v.x = bx; v.y = by; return v; };
 	

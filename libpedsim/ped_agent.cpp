@@ -1,6 +1,6 @@
 //
 // pedsim - A microscopic pedestrian simulation system. 
-// Copyright (c) 2003 - 2004 by Christian Gloor
+// Copyright (c) 2003 - 20012 by Christian Gloor
 //                              
 
 
@@ -15,118 +15,155 @@
 
 using namespace std;
 
-// ----------------------------------------------------
-// Name: constructor
-//!Description: set intial values
-//!Introduced: chgloor Monday, December 29, 2003 11:10:37
-// ----------------------------------------------------
-Tagent::Tagent() {
+
+/// Default Constructor 
+/// \date    2003-12-29
+Ped::Tagent::Tagent() {
   static int staticid = 0;
   id = staticid++;
-  x = 0;
-  y = 0;
-  z = 0;
-  vx = 0;
-  vy = 0;
-  vz = 0;
+  p.x = 0;
+  p.y = 0;
+  p.z = 0;
+  v.x = 0;
+  v.y = 0;
+  v.z = 0;
   hasreacheddestination = true;
   destination.settype(1); // point
   destination.setr(1);
   follow = -1;
   vmax = 2.0 + 1.0*(double)rand()/(double)RAND_MAX; // in m/s between 2.0 and 4.0
   mlLookAhead = false;
-  simh = 0.2;
+  mlTendency = false;
 };
 
 
-/// 
+/// Adds a TWaypoint to an agent's list of waypoints. Twaypoints are stored in a 
+/// cyclic queue, the one just visited is pushed to the back again. There will be a 
+/// flag to change this behavior soon.
+/// \todo Add a flag to change the waypoint queue behavior of the Tagents.
 /// \author  chgloor
+/// \date    2012-01-19
+void Ped::Tagent::addWaypoint(Twaypoint wp) {
+	destinations.push(wp);
+}
+
+
+/// Assigns a Tscene to the agent. Tagent uses this to iterate over all obstacles and other agents in a scene.
+/// The scene will invoke this function when Tscene::addAgent() is called.  
 /// \date    2012-01-17
-/// \return  
-/// \warning 
-/// \param   
-void Tagent::assignScene(Tscene *s) {
+/// \warning Bad things will happen if the agent is not assigned to a scene. But usually, Tscene takes care of that.
+/// \param   *s A valid Tscene initialized earlier.
+void Ped::Tagent::assignScene(Ped::Tscene *s) {
 	scene = s;
 }
 
 
-/// 
-/// \author  chgloor
+/// Sets the agent ID this agent has to follow. If set, the agent will ignore 
+/// its assigned waypoints and just follow the other agent.
 /// \date    2012-01-08
-void Tagent::setFollow(int id) {
+/// \param   id is the agent to follow (must exist, obviously)
+/// \todo    Add a method that takes a Tagent* as argument
+void Ped::Tagent::setFollow(int id) {
 	follow = id;
 }
-int Tagent::getFollow() {
+
+
+/// Gets the ID of the agent this agent is following.
+/// \date    2012-01-18
+/// \return  int, the agent id of the agent
+/// \todo    Add a method that returns a Tagent* 
+int Ped::Tagent::getFollow() {
 	return follow;
 }
 
 
-/// 
-/// \author  chgloor
+/// Sets the maximum velocity of an agent (vmax). Even if pushed by other agents, it will not move faster than this.
 /// \date    2012-01-08
-void Tagent::setVmax(double pvmax) {
+/// \param   pvmax The maximum velocity. In scene units per timestep, multiplied by the simulation's precision h.
+void Ped::Tagent::setVmax(double pvmax) {
 	vmax = pvmax;
 }
 
 
-// ----------------------------------------------------
-// Name: setPosition
-//!Description: sets the position
-//!Introduced: chgloor Tuesday, February 10, 2004 10:48:39
-//!Return value: void
-// ----------------------------------------------------
-void Tagent::setPosition(double px, double py, double pz) {
-	x = px, y = py; z = pz; 
+/// Sets the agent's position. This, and other getters returning coordinates, will eventually changed to returning a Tvector.
+/// \date    2004-02-10
+/// \param   px Position x
+/// \param   py Position y
+/// \param   pz Position z
+void Ped::Tagent::setPosition(double px, double py, double pz) {
+	p.x = px; p.y = py; p.z = pz; 
 };
 
 
-// ----------------------------------------------------
-// Name: move
-//!Description: does the agent dynamics stuff 
-//!Introduced: chgloor Monday, December 29, 2003 11:10:58
-//!Return value: void
-// ----------------------------------------------------
-void Tagent::move() {
-	  	
-	//
-	//  ' S O C I A L '   A C C E L E R A T I O N 
-	//
-	double sax = 0; 
-	double say = 0;
-	double saz = 0;
-
-
-	for (AgentIterator iter = scene->agent.begin(); iter!=scene->agent.end(); ++iter) {  // iterate over all agents == O(N^2) :(
-
-		double fx = 0;
-		double fy = 0;
-		double fz = 0;
+/// Calculates the social force between this agent and all the other agents belonging to the same scene.
+/// It iterates over all agents inside the scene, has therefore the complexity O(N^2). A better
+/// agent storing structure in Tscene would fix this. But for small (less than 10000 agents) scenarios, this is just fine. 
+/// \date    2012-01-17
+/// \return  Tvector: the calculated force
+Ped::Tvector Ped::Tagent::socialForce() {
+	Ped::Tvector s;
+	for (AgentIterator iter = scene->agent.begin(); iter!=scene->agent.end(); ++iter) { 
+		Ped::Tvector f;
 		if (((*iter)->id != id)) {
-			if ((abs(x-(*iter)->x) < 10) && (abs(y-(*iter)->y) < 10)) { // quick dist check
-				double distancex = (*iter)->x - x;
-				double distancey = (*iter)->y - y;
-				double distancez = (*iter)->z - z;
-				double dist2 = (distancex * distancex + distancey * distancey + distancez * distancez);  
+			if ((abs(p.x-(*iter)->p.x) < 10) && (abs(p.y-(*iter)->p.y) < 10)) { // quick dist check
+				Ped::Tvector d;
+				d.x = (*iter)->p.x - p.x;
+				d.y = (*iter)->p.y - p.y;
+				d.z = (*iter)->p.z - p.z;
+				double dist2 = (d.x * d.x + d.y * d.y + d.z * d.z);  
 				double expdist = exp(sqrt(dist2)-1);
 				if ((dist2 > 0.000004) && (dist2 < 400)) { // 2cm- 20m distance
-					fx = -distancex/expdist;
-					fy = -distancey/expdist;
+					f.x = -d.x/expdist;
+					f.y = -d.y/expdist;
 				}						
-				sax += fx; 
-				say += fy;
-				saz += fz;
+				s.x += f.x; 
+				s.y += f.y;
+				s.z += f.z;
 			}
 		}
 	}
+	return s;
+}
 
 
-	//
-	//  D E S I R E   A C C E L E R A T I O N
-	//
-	double eax = 0;
-	double eay = 0;
-	double eaz = 0;
-		
+/// Calculates the force between this agent and the nearest obstacle in this scene.
+/// Iterates over all obstacles == O(N). 
+/// \date    2012-01-17
+/// \return  Tvector: the calculated force
+Ped::Tvector Ped::Tagent::obstacleForce() {
+	Ped::Tvector o;
+	double mindisto2 = 99999; // obstacle with is closest only  --chgloor 2012-01-12
+	double mindox = 0;
+	double mindoy = 0;
+
+	for (ObstacleIterator iter = scene->obstacle.begin(); iter!=scene->obstacle.end(); ++iter) {
+		Ped::Tvector ov = (*iter)->obstacleforce(p.x, p.y);
+		double dox = p.x - ov.x;
+		double doy = p.y - ov.y;
+		double disto2 = (dox * dox + doy * doy);  // dist2 = distanz im quadrat
+		if ((disto2 < mindisto2) && (disto2 > 0.000004)) { // 2cm - inf distance
+			mindisto2 = disto2;
+			mindox = dox;
+			mindoy = doy;
+		}	
+	}
+	double oaxyf = exp(sqrt(mindisto2)-1);
+	o.x = mindox/oaxyf;
+	o.y = mindoy/oaxyf;
+	return o;
+}
+
+
+/// Calculates the force between this agent and the next assigned waypoint. 
+/// If the waypoint has been reached, the next waypoint in the list will be selected.
+/// At the moment, a visited waypoint is pushed back to the end of the list, which
+/// means that the agents will visit all the waypoints over and over again. In a later
+/// release, this behavior can be controlled by a flag.
+/// \date    2012-01-17
+/// \return  Tvector: the calculated force
+Ped::Tvector Ped::Tagent::desiredForce() {
+	Ped::Tvector e;
+
 	if ((hasreacheddestination == true) && (destinations.size() > 0)) {
 		lastdestination.setx(destination.getx());
 		lastdestination.sety(destination.gety());
@@ -143,9 +180,9 @@ void Tagent::move() {
 	}
 	
 	bool reached;
-	Tvector ef = destination.getForce(x, y, lastdestination.getx(), lastdestination.gety(), &reached);
-	eax = ef.x * vmax; // walk with full speed if nothing else affects me
-	eay = ef.y * vmax;
+	Ped::Tvector ef = destination.getForce(p.x, p.y, lastdestination.getx(), lastdestination.gety(), &reached);
+	e.x = ef.x * vmax; // walk with full speed if nothing else affects me
+	e.y = ef.y * vmax;
 
 	if (hasreacheddestination == false) {
 		if (reached == true) {
@@ -154,120 +191,94 @@ void Tagent::move() {
 		}
 	} 
 	
-	/*
-	if (config.mlTendency == true) {
-		eax = eax + 0.1*eay;
-		eay = eay + -0.1*eax;
-	}
-	*/
+	return e;
+}
 
 
-	//
-	//  L O O K I N G   F O R W A R D
-	//
-	double lfax = 0;
-	double lfay = 0;
-	double lfaz = 0;
+/// Calculates the mental layer force of the strategy "look ahead". It is implemented here in the physical layer
+/// because of performance reasons. It iterates over all Tagents in the Tscene, complexity O(N^2).
+/// \date    2012-01-17
+/// \return  Tvector: the calculated force
+/// \param   e is a vector defining the direction in which the agent should look ahead to. Usually, this is the direction he wants to walk to.
+Ped::Tvector Ped::Tagent::lookaheadForce(Ped::Tvector e) {
+	Ped::Tvector lf;
 
-	if (mlLookAhead) {
-		int lookforwardcount = 0;
-		
-		for (AgentIterator iter = scene->agent.begin(); iter!=scene->agent.end(); iter++) {  // iterate over all agents == O(N^2) :(
-			if (((*iter)->id != id)) {
-				double distancex = (*iter)->x - x;
-				double distancey = (*iter)->y - y;
-				double dist2 = (distancex * distancex + distancey * distancey); // 2D  
-				if (dist2 < 400) { // look ahead feature
-					double at2v  = atan2(-eax, -eay); // was vx, vy  --chgloor 2012-01-15 
-					double at2d  = atan2(-distancex, -distancey);
-					double at2v2 = atan2(-(*iter)->vx, -(*iter)->vy);
-					double pi = 3.14159265;
-					double s = at2d - at2v;   if (s > pi) s -= 2*pi;   if (s < -pi) s += 2*pi; 
-					double vv = at2v - at2v2; if (vv > pi) vv -= 2*pi; if (vv < -pi) vv += 2*pi;
-					if ((vv < -2.5) || (vv > 2.5)) { // entgegengesetzte richtung
-						if ((s < 0) && (s > -0.3)) { // position vor mir, in meine richtung
-							lookforwardcount--;
-						} 
-						if ((s > 0) && (s < 0.3)) {
-							lookforwardcount++;
-						}
+	int lookforwardcount = 0;		
+	for (AgentIterator iter = scene->agent.begin(); iter!=scene->agent.end(); iter++) {  // iterate over all agents == O(N^2) :(
+		if (((*iter)->id != id)) {
+			double distancex = (*iter)->p.x - p.x;
+			double distancey = (*iter)->p.y - p.y;
+			double dist2 = (distancex * distancex + distancey * distancey); // 2D  
+			if (dist2 < 400) { // look ahead feature
+				double at2v  = atan2(-e.x, -e.y); // was vx, vy  --chgloor 2012-01-15 
+				double at2d  = atan2(-distancex, -distancey);
+				double at2v2 = atan2(-(*iter)->v.x, -(*iter)->v.y);
+				double pi = 3.14159265;
+				double s = at2d - at2v;   if (s > pi) s -= 2*pi;   if (s < -pi) s += 2*pi; 
+				double vv = at2v - at2v2; if (vv > pi) vv -= 2*pi; if (vv < -pi) vv += 2*pi;
+				if ((vv < -2.5) || (vv > 2.5)) { // entgegengesetzte richtung
+					if ((s < 0) && (s > -0.3)) { // position vor mir, in meine richtung
+						lookforwardcount--;
+					} 
+					if ((s > 0) && (s < 0.3)) {
+						lookforwardcount++;
 					}
 				}
 			}
 		}
-		lfaz = 0; // 2d  --chgloor 2012-01-15
-		if (lookforwardcount < 0) {
-			lfax = 0.5f *  eay; // was vx, vy  --chgloor 2012-01-15  
-			lfay = 0.5f * -eax;
-		}
-		if (lookforwardcount >  0) {
-			lfax = 0.5f * -eay;
-			lfay = 0.5f *  eax;
-		}
 	}
 
-
-
-	// 
-	//  O B S T A C L E   A C C E L E R A T I O N
-	//
-	double oax = 0;
-	double oay = 0;
-	double oaz = 0;
-
-	Tobstacle o;
-	double mindisto2 = 99999; // obstacle with is closest only  --chgloor 2012-01-12
-	double mindox = 0;
-	double mindoy = 0;
-	//	foreach (o, obstacle) {
-	for (ObstacleIterator iter = scene->obstacle.begin(); iter!=scene->obstacle.end(); ++iter) {  // iterate over all obstacles == O(N) :)
-		Tvector ov = (*iter)->obstacleforce(x, y);
-		double dox = x - ov.x;
-		double doy = y - ov.y;
-		double disto2 = (dox * dox + doy * doy);  // dist2 = distanz im quadrat
-		if ((disto2 < mindisto2) && (disto2 > 0.000004)) { // 2cm - inf distance
-			mindisto2 = disto2;
-			mindox = dox;
-			mindoy = doy;
-		}	
+	lf.z = 0; // 2d  --chgloor 2012-01-15
+	if (lookforwardcount < 0) {
+		lf.x = 0.5f *  e.y; // was vx, vy  --chgloor 2012-01-15  
+		lf.y = 0.5f * -e.x;
 	}
-	double oaxyf = exp(sqrt(mindisto2)-1);
-	oax = mindox/oaxyf;
-	oay = mindoy/oaxyf;
+	if (lookforwardcount >  0) {
+		lf.x = 0.5f * -e.y;
+		lf.y = 0.5f *  e.x;
+	}
+	return lf;
+}
 
 
-	//
-	//  T O T A L   A C C E L E R A T I O N
-	//
+/// Does the agent dynamics stuff. Calls the methods to calculate the individual forces, adds them
+/// to get the total force aggecting the agent. This will then be translated into a velocity difference,
+/// which is applied to the agents velocity, and then to its position. 
+/// \date    2003-12-29
+/// \param   h This tells the simulation how far the agent should proceed (also known as Tau in literature). 1 = 1 unit.
+void Ped::Tagent::move(double h) {
+	Ped::Tvector socialforce = socialForce();
+	Ped::Tvector desiredforce = desiredForce();
+	Ped::Tvector lookaheadforce = lookaheadForce(desiredforce);
+	Ped::Tvector obstacleforce = obstacleForce();
+	Ped::Tvector tendencyforce;
+	if (mlTendency) {
+		tendencyforce.x =  0.1f * desiredforce.y;;
+		tendencyforce.y = -0.1f * desiredforce.x;
+	}
 
-
-
-	// ax = config.simh*sax + config.simh*eax + config.simh*oax;
-	// ay = config.simh*say + config.simh*eay + config.simh*oay;
-	// az = config.simh*saz + config.simh*eaz + config.simh*oaz;
-	ax = 10.0f*sax + 1.0f*eax + 10.0f*oax + lfax; // h also in calc of forces? arent they indep of the constant h?  --chgloor 2012-01-14
-	ay = 10.0f*say + 1.0f*eay + 10.0f*oay + lfay;
-	az = 10.0f*saz + 1.0f*eaz + 10.0f*oaz +    0;
-
-	//	cerr << "agent " << ax << "/" << ay  << endl;
+	//  sum of all forces --> acceleration
+	Ped::Tvector a; 
+	a.x = 1.0f * socialforce.x + 1.0f * desiredforce.x + 10.0f * obstacleforce.x + lookaheadforce.x + tendencyforce.x;
+	a.y = 1.0f * socialforce.y + 1.0f * desiredforce.y + 10.0f * obstacleforce.y + lookaheadforce.y + tendencyforce.y;
+	a.z = 1.0f * socialforce.z + 1.0f * desiredforce.z + 10.0f * obstacleforce.z + lookaheadforce.z + tendencyforce.z;
 	
 	// calculate the new velocity based on v0 and the acceleration
-	vx = 0.75*vx + ax; 
-	vy = 0.75*vy + ay; // <<<<<<<<<<<-----------  is this 0.85 dependent of h?? think so   --chgloor 2012-01-15
-	vz = 0; //0.75*vz + az;
+	v.x = 0.75 * v.x + a.x; 
+	v.y = 0.75 * v.y + a.y; // <<<<<<<<<<<-----------  is this 0.75 dependent of h?? think so   --chgloor 2012-01-15
+	v.z = 0.75 * v.z + a.z;
 	
-	//	double speed = ( sqrt(vx*vx + vy*vy + vz*vz) / vmax );
-	double speed = (sqrt(vx*vx + vy*vy + vz*vz));
+	double speed = (sqrt(v.x*v.x + v.y*v.y + v.z*v.z));
 	if (speed > vmax) {
-		vx = (vx / speed) * vmax;
-		vy = (vy / speed) * vmax;
-		//vz = (vz / speed) * vmax;
+		v.x = (v.x / speed) * vmax;
+		v.y = (v.y / speed) * vmax;
+		v.z = (v.z / speed) * vmax;
 	}
 
 	// position update == actual move 
-	x = x + simh * vx; // x = x0 + v*t
-	y = y + simh * vy;
-	z = 0; // z + h * vz; // 2D  --chgloor 2012-01-04
+	p.x = p.x + h * v.x; // x = x0 + v*t
+	p.y = p.y + h * v.y;
+	p.z = 0; // p.z + h * v.z; // 2D  --chgloor 2012-01-04
 
 }
 

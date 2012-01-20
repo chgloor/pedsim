@@ -1,0 +1,119 @@
+\hypertarget{classTvector}{
+\subsection{Tvector Class Reference}
+\label{classTvector}\index{Tvector@{Tvector}}
+}
+\subsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classTvector_ad28d70106cf93a1f2301b9943583d6a9}{Tvector} ()
+\item 
+void \hyperlink{classTvector_af5ddca6d4f32529b671a667ac8bae279}{cross} (\hyperlink{classTvector}{Tvector} $\ast$a, \hyperlink{classTvector}{Tvector} $\ast$b)
+\item 
+double \hyperlink{classTvector_a2ec2ddf6f25749373d94231b7a8248c5}{scalar} (\hyperlink{classTvector}{Tvector} $\ast$a, \hyperlink{classTvector}{Tvector} $\ast$b)
+\item 
+void \hyperlink{classTvector_a23992512deb94af52744eee2571043ff}{normalize} ()
+\end{DoxyCompactItemize}
+\subsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classTvector_a9abceac7b2ea8127bc777ee91e9d2535}{
+double {\bfseries x}}
+\label{classTvector_a9abceac7b2ea8127bc777ee91e9d2535}
+
+\item 
+\hypertarget{classTvector_ad0c8af68c2c70e71d1ef89faa44683ad}{
+double {\bfseries y}}
+\label{classTvector_ad0c8af68c2c70e71d1ef89faa44683ad}
+
+\item 
+\hypertarget{classTvector_aef8b8c236f68c853845b54d5e797b45f}{
+double {\bfseries z}}
+\label{classTvector_aef8b8c236f68c853845b54d5e797b45f}
+
+\end{DoxyCompactItemize}
+
+
+\subsubsection{Constructor \& Destructor Documentation}
+\hypertarget{classTvector_ad28d70106cf93a1f2301b9943583d6a9}{
+\index{Tvector@{Tvector}!Tvector@{Tvector}}
+\index{Tvector@{Tvector}!Tvector@{Tvector}}
+\paragraph[{Tvector}]{\setlength{\rightskip}{0pt plus 5cm}Tvector::Tvector (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hfill}
+\label{classTvector_ad28d70106cf93a1f2301b9943583d6a9}
+Default constructor, which makes sure that all the values are set to 0. \begin{DoxyDate}{Date}
+2012-\/01-\/16 
+\end{DoxyDate}
+
+
+\subsubsection{Member Function Documentation}
+\hypertarget{classTvector_af5ddca6d4f32529b671a667ac8bae279}{
+\index{Tvector@{Tvector}!cross@{cross}}
+\index{cross@{cross}!Tvector@{Tvector}}
+\paragraph[{cross}]{\setlength{\rightskip}{0pt plus 5cm}void Tvector::cross (
+\begin{DoxyParamCaption}
+\item[{{\bf Tvector} $\ast$}]{a, }
+\item[{{\bf Tvector} $\ast$}]{b}
+\end{DoxyParamCaption}
+)}\hfill}
+\label{classTvector_af5ddca6d4f32529b671a667ac8bae279}
+Vector cross product helper: calculates the cross product of two vectors. \begin{DoxyDate}{Date}
+2010-\/02-\/12 
+\end{DoxyDate}
+\begin{Desc}
+\item[\hyperlink{todo__todo000001}{Todo}]This syntax is a bit weird. Will change in future. \end{Desc}
+\begin{DoxyWarning}{Warning}
+The result is assigned to the vector calling the method. 
+\end{DoxyWarning}
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$a} & The first vector \\
+\hline
+{\em $\ast$b} & The second vector \\
+\hline
+\end{DoxyParams}
+\hypertarget{classTvector_a23992512deb94af52744eee2571043ff}{
+\index{Tvector@{Tvector}!normalize@{normalize}}
+\index{normalize@{normalize}!Tvector@{Tvector}}
+\paragraph[{normalize}]{\setlength{\rightskip}{0pt plus 5cm}void Tvector::normalize (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hfill}
+\label{classTvector_a23992512deb94af52744eee2571043ff}
+Normalizes the vector to a length of 1. \begin{DoxyDate}{Date}
+2010-\/02-\/12 
+\end{DoxyDate}
+\hypertarget{classTvector_a2ec2ddf6f25749373d94231b7a8248c5}{
+\index{Tvector@{Tvector}!scalar@{scalar}}
+\index{scalar@{scalar}!Tvector@{Tvector}}
+\paragraph[{scalar}]{\setlength{\rightskip}{0pt plus 5cm}double Tvector::scalar (
+\begin{DoxyParamCaption}
+\item[{{\bf Tvector} $\ast$}]{a, }
+\item[{{\bf Tvector} $\ast$}]{b}
+\end{DoxyParamCaption}
+)}\hfill}
+\label{classTvector_a2ec2ddf6f25749373d94231b7a8248c5}
+Vector scalar product helper: calculates the scalar product of two vectors. \begin{DoxyDate}{Date}
+2012-\/01-\/14 
+\end{DoxyDate}
+\begin{Desc}
+\item[\hyperlink{todo__todo000002}{Todo}]This syntax is a bit weird. Will change in future. \end{Desc}
+\begin{DoxyReturn}{Returns}
+double The scalar product. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$a} & The first vector \\
+\hline
+{\em $\ast$b} & The second vector \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+ped\_\-vector.h\item 
+ped\_\-vector.cpp\end{DoxyCompactItemize}

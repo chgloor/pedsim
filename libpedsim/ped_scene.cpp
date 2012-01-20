@@ -1,6 +1,6 @@
 //
 // pedsim - A microscopic pedestrian simulation system. 
-// Copyright (c) 2003 - 2004 by Christian Gloor
+// Copyright (c) 2003 - 2012 by Christian Gloor
 //                              
 
 #include "ped_scene.h"
@@ -9,35 +9,24 @@
 using namespace std;
 
 
-/// 
-/// \author  chgloor
+/// Default constructor.
 /// \date    2012-01-17
-/// \return  
-/// \warning 
-/// \param   
-Tscene::Tscene() {
+Ped::Tscene::Tscene() {}
 
-}
-
-/// 
-/// \author  chgloor
+/// Used to add a Tagent to the Tscene. 
 /// \date    2012-01-17
-/// \return  
-/// \warning 
-/// \param   
-void Tscene::addAgent(Tagent *a) {
+/// \warning addAgent() does call Tagent::assignScene() to assign itself to the agent.
+/// \param   *a A pointer to the Tagent to add. 
+void Ped::Tscene::addAgent(Ped::Tagent *a) {
 	agent.push_back(a);
 	a->assignScene(this);
 }
 
 
-/// 
-/// \author  chgloor
+/// Used to add a Tobstacle to the Tscene.
 /// \date    2012-01-17
-/// \return  
-/// \warning 
-/// \param   
-void Tscene::addObstacle(Tobstacle *o) {
+/// \param   *o A pointer to the Tobstacle to add.
+void Ped::Tscene::addObstacle(Ped::Tobstacle *o) {
 	obstacle.push_back(o);
 }
 

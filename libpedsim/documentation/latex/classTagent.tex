@@ -1,0 +1,352 @@
+\hypertarget{classTagent}{
+\subsection{Tagent Class Reference}
+\label{classTagent}\index{Tagent@{Tagent}}
+}
+
+
+{\ttfamily \#include $<$ped\_\-agent.h$>$}
+
+\subsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classTagent_aa6dd5a70a8d0b1935cbbbf03570be054}{Tagent} ()
+\item 
+virtual void \hyperlink{classTagent_a28fa59a3b56ab4257086d95c538316e9}{move} (double h)
+\item 
+virtual \hyperlink{classTvector}{Tvector} \hyperlink{classTagent_a7d0b940a371329b51e7864e9dee460b5}{socialForce} ()
+\item 
+virtual \hyperlink{classTvector}{Tvector} \hyperlink{classTagent_af6d483df56bd9e208a3a070f0a690151}{obstacleForce} ()
+\item 
+virtual \hyperlink{classTvector}{Tvector} \hyperlink{classTagent_aa74d94d0d8c9054dae3316ac12c4ed8e}{desiredForce} ()
+\item 
+virtual \hyperlink{classTvector}{Tvector} \hyperlink{classTagent_ad85f5af13f909f90c49952fa053180e0}{lookaheadForce} (\hyperlink{classTvector}{Tvector} desired)
+\item 
+void \hyperlink{classTagent_a5e6afaa247611931e81289bb4145972c}{setPosition} (double px, double py, double pz)
+\item 
+\hypertarget{classTagent_a1988ca8e14a0331bc910514b5a28503a}{
+void {\bfseries setType} (int t)}
+\label{classTagent_a1988ca8e14a0331bc910514b5a28503a}
+
+\item 
+void \hyperlink{classTagent_aa87476255c97102d37ac24da4ec72bf1}{setFollow} (int id)
+\item 
+int \hyperlink{classTagent_a036e9c5f7fd6e77cd6e701fd7844496b}{getFollow} ()
+\item 
+void \hyperlink{classTagent_aafdb71b4e2eee551cd6c9bf8887d588c}{setVmax} (double vmax)
+\item 
+\hypertarget{classTagent_a19e09efc516a01cd286e3aedbc4293a6}{
+int {\bfseries getid} ()}
+\label{classTagent_a19e09efc516a01cd286e3aedbc4293a6}
+
+\item 
+\hypertarget{classTagent_a8c732702bc5f0fc5baff16da894693c0}{
+int {\bfseries gettype} ()}
+\label{classTagent_a8c732702bc5f0fc5baff16da894693c0}
+
+\item 
+\hypertarget{classTagent_ab7600d4518cf0f6baa25daa061cc15dd}{
+double {\bfseries getx} ()}
+\label{classTagent_ab7600d4518cf0f6baa25daa061cc15dd}
+
+\item 
+\hypertarget{classTagent_a1e7a8ad04b7667ec0cd8ceb3cc6f790f}{
+double {\bfseries gety} ()}
+\label{classTagent_a1e7a8ad04b7667ec0cd8ceb3cc6f790f}
+
+\item 
+\hypertarget{classTagent_a6467cacbb99a1654a3c152715ba00e5c}{
+double {\bfseries getz} ()}
+\label{classTagent_a6467cacbb99a1654a3c152715ba00e5c}
+
+\item 
+\hypertarget{classTagent_ad09039b346392aadab722ed173ede4ca}{
+double {\bfseries getax} ()}
+\label{classTagent_ad09039b346392aadab722ed173ede4ca}
+
+\item 
+\hypertarget{classTagent_acdbc7f67c1fd898983e12b80d528f61e}{
+double {\bfseries getay} ()}
+\label{classTagent_acdbc7f67c1fd898983e12b80d528f61e}
+
+\item 
+\hypertarget{classTagent_a4bfd353de86e8b8a9c4d3ff172683fb2}{
+double {\bfseries getaz} ()}
+\label{classTagent_a4bfd353de86e8b8a9c4d3ff172683fb2}
+
+\item 
+\hypertarget{classTagent_a21be406319dd79e04d19c7b0bf4acd5c}{
+double {\bfseries getvx} ()}
+\label{classTagent_a21be406319dd79e04d19c7b0bf4acd5c}
+
+\item 
+\hypertarget{classTagent_a67274e1e5fa4c5201e84ad66fce5db86}{
+double {\bfseries getvy} ()}
+\label{classTagent_a67274e1e5fa4c5201e84ad66fce5db86}
+
+\item 
+\hypertarget{classTagent_a8122d141e99eed69a1a1a4cae57f6877}{
+double {\bfseries getvz} ()}
+\label{classTagent_a8122d141e99eed69a1a1a4cae57f6877}
+
+\item 
+void \hyperlink{classTagent_a1e30535a17db1273b94e5fa2f300009f}{assignScene} (\hyperlink{classTscene}{Tscene} $\ast$s)
+\item 
+\hypertarget{classTagent_a6a79a04266070ba3565c3a9e49da0b3e}{
+void {\bfseries print} ()}
+\label{classTagent_a6a79a04266070ba3565c3a9e49da0b3e}
+
+\end{DoxyCompactItemize}
+\subsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classTagent_a032e3d280ef715343cbc856583055e4d}{
+\hyperlink{classTscene}{Tscene} $\ast$ {\bfseries scene}}
+\label{classTagent_a032e3d280ef715343cbc856583055e4d}
+
+\item 
+\hypertarget{classTagent_a3348134426752862e48c4a2fe172a9f6}{
+queue$<$ \hyperlink{classTwaypoint}{Twaypoint} $>$ \hyperlink{classTagent_a3348134426752862e48c4a2fe172a9f6}{destinations}}
+\label{classTagent_a3348134426752862e48c4a2fe172a9f6}
+
+\begin{DoxyCompactList}\small\item\em coordinates of the next destinations \item\end{DoxyCompactList}\item 
+\hypertarget{classTagent_a2b41f8130b8bb00e6a3c8c79c79edd6e}{
+\hyperlink{classTwaypoint}{Twaypoint} \hyperlink{classTagent_a2b41f8130b8bb00e6a3c8c79c79edd6e}{destination}}
+\label{classTagent_a2b41f8130b8bb00e6a3c8c79c79edd6e}
+
+\begin{DoxyCompactList}\small\item\em coordinates of the next destination \item\end{DoxyCompactList}\item 
+\hypertarget{classTagent_a4c2a1032967c1ee77d6653bed3add11c}{
+\hyperlink{classTwaypoint}{Twaypoint} \hyperlink{classTagent_a4c2a1032967c1ee77d6653bed3add11c}{lastdestination}}
+\label{classTagent_a4c2a1032967c1ee77d6653bed3add11c}
+
+\begin{DoxyCompactList}\small\item\em coordinates of the last destination \item\end{DoxyCompactList}\item 
+\hypertarget{classTagent_a8fadd71e1d04b1c761562f210ce5e3d8}{
+bool \hyperlink{classTagent_a8fadd71e1d04b1c761562f210ce5e3d8}{hasreacheddestination}}
+\label{classTagent_a8fadd71e1d04b1c761562f210ce5e3d8}
+
+\begin{DoxyCompactList}\small\item\em true if it ahs reached its destination \item\end{DoxyCompactList}\item 
+\hypertarget{classTagent_a805a86c70d6af6432a54ab213698206c}{
+bool {\bfseries mlLookAhead}}
+\label{classTagent_a805a86c70d6af6432a54ab213698206c}
+
+\item 
+\hypertarget{classTagent_a8ca98aeca4681f7fd9693dbee80ec271}{
+bool {\bfseries mlTendency}}
+\label{classTagent_a8ca98aeca4681f7fd9693dbee80ec271}
+
+\item 
+\hypertarget{classTagent_ab04bf8a1c86024a057ec884920524c76}{
+double {\bfseries simh}}
+\label{classTagent_ab04bf8a1c86024a057ec884920524c76}
+
+\end{DoxyCompactItemize}
+
+
+\subsubsection{Detailed Description}
+This is the main class of the library. It contains the \hyperlink{classTagent}{Tagent}, which eventually will move through the \hyperlink{classTscene}{Tscene} and interact with \hyperlink{classTobstacle}{Tobstacle} and other \hyperlink{classTagent}{Tagent}. You can use it as it is, and access the agent's coordinates using the getx() etc methods. Or, if you want to change the way the agent behaves, you can derive a new class from it, and overwrite the methods you want to change. This is also a convenient way to get access to internal variables not available though public methods, like the individual forces that affect the agent. \begin{DoxyAuthor}{Author}
+chgloor 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2003-\/12-\/26 
+\end{DoxyDate}
+
+
+\subsubsection{Constructor \& Destructor Documentation}
+\hypertarget{classTagent_aa6dd5a70a8d0b1935cbbbf03570be054}{
+\index{Tagent@{Tagent}!Tagent@{Tagent}}
+\index{Tagent@{Tagent}!Tagent@{Tagent}}
+\paragraph[{Tagent}]{\setlength{\rightskip}{0pt plus 5cm}Tagent::Tagent (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hfill}
+\label{classTagent_aa6dd5a70a8d0b1935cbbbf03570be054}
+Default Constructor \begin{DoxyDate}{Date}
+2003-\/12-\/29 
+\end{DoxyDate}
+
+
+\subsubsection{Member Function Documentation}
+\hypertarget{classTagent_a1e30535a17db1273b94e5fa2f300009f}{
+\index{Tagent@{Tagent}!assignScene@{assignScene}}
+\index{assignScene@{assignScene}!Tagent@{Tagent}}
+\paragraph[{assignScene}]{\setlength{\rightskip}{0pt plus 5cm}void Tagent::assignScene (
+\begin{DoxyParamCaption}
+\item[{{\bf Tscene} $\ast$}]{s}
+\end{DoxyParamCaption}
+)}\hfill}
+\label{classTagent_a1e30535a17db1273b94e5fa2f300009f}
+Assigns a \hyperlink{classTscene}{Tscene} to the agent. \hyperlink{classTagent}{Tagent} uses this to iterate over all obstacles and other agents in a scene. The scene will invoke this function when \hyperlink{classTscene_a36fff50a82ded29ab55fd3db24fce497}{Tscene::addAgent()} is called. \begin{DoxyDate}{Date}
+2012-\/01-\/17 
+\end{DoxyDate}
+\begin{DoxyWarning}{Warning}
+Bad things will happen if the agent is not assigned to a scene. But usually, \hyperlink{classTscene}{Tscene} takes care of that. 
+\end{DoxyWarning}
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$s} & A valid \hyperlink{classTscene}{Tscene} initialized earlier. \\
+\hline
+\end{DoxyParams}
+
+
+Referenced by \hyperlink{classTscene_a36fff50a82ded29ab55fd3db24fce497}{Tscene::addAgent()}.
+
+\hypertarget{classTagent_aa74d94d0d8c9054dae3316ac12c4ed8e}{
+\index{Tagent@{Tagent}!desiredForce@{desiredForce}}
+\index{desiredForce@{desiredForce}!Tagent@{Tagent}}
+\paragraph[{desiredForce}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Tvector} Tagent::desiredForce (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}\hfill}
+\label{classTagent_aa74d94d0d8c9054dae3316ac12c4ed8e}
+Calculates the force between this agent and the next assigned waypoint. If the waypoint has been reached, the next waypoint in the list will be selected. At the moment, a visited waypoint is pushed back to the end of the list, which means that the agents will visit all the waypoints over and over again. In a later release, this behavior can be controlled by a flag. \begin{DoxyDate}{Date}
+2012-\/01-\/17 
+\end{DoxyDate}
+\begin{DoxyReturn}{Returns}
+\hyperlink{classTvector}{Tvector}: the calculated force 
+\end{DoxyReturn}
+\hypertarget{classTagent_a036e9c5f7fd6e77cd6e701fd7844496b}{
+\index{Tagent@{Tagent}!getFollow@{getFollow}}
+\index{getFollow@{getFollow}!Tagent@{Tagent}}
+\paragraph[{getFollow}]{\setlength{\rightskip}{0pt plus 5cm}int Tagent::getFollow (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hfill}
+\label{classTagent_a036e9c5f7fd6e77cd6e701fd7844496b}
+Gets the if of the agent this agent is following. \begin{DoxyDate}{Date}
+2012-\/01-\/18 
+\end{DoxyDate}
+\begin{DoxyReturn}{Returns}
+int, the agent id of the agent 
+\end{DoxyReturn}
+\hypertarget{classTagent_ad85f5af13f909f90c49952fa053180e0}{
+\index{Tagent@{Tagent}!lookaheadForce@{lookaheadForce}}
+\index{lookaheadForce@{lookaheadForce}!Tagent@{Tagent}}
+\paragraph[{lookaheadForce}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Tvector} Tagent::lookaheadForce (
+\begin{DoxyParamCaption}
+\item[{{\bf Tvector}}]{e}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}\hfill}
+\label{classTagent_ad85f5af13f909f90c49952fa053180e0}
+Calculates the mental layer force of the strategy \char`\"{}look ahead\char`\"{}. \begin{DoxyDate}{Date}
+2012-\/01-\/17 
+\end{DoxyDate}
+\begin{DoxyReturn}{Returns}
+\hyperlink{classTvector}{Tvector}: the calculated force 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em e} & is a vector defining the direction in which the agent should look ahead to. Usually, this is the direction he wants to walk to. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classTagent_a28fa59a3b56ab4257086d95c538316e9}{
+\index{Tagent@{Tagent}!move@{move}}
+\index{move@{move}!Tagent@{Tagent}}
+\paragraph[{move}]{\setlength{\rightskip}{0pt plus 5cm}void Tagent::move (
+\begin{DoxyParamCaption}
+\item[{double}]{h}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}\hfill}
+\label{classTagent_a28fa59a3b56ab4257086d95c538316e9}
+Does the agent dynamics stuff. Calls the methods to calculate the individual forces, adds them to get the total force aggecting the agent. This will then be translated into a velocity difference, which is applied to the agents velocity, and then to its position. \begin{DoxyDate}{Date}
+2003-\/12-\/29 
+\end{DoxyDate}
+
+\begin{DoxyParams}{Parameters}
+{\em h} & This tells the simulation how far the agent should proceed (also known as Tau in literature). 1 = 1 unit. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classTagent_af6d483df56bd9e208a3a070f0a690151}{
+\index{Tagent@{Tagent}!obstacleForce@{obstacleForce}}
+\index{obstacleForce@{obstacleForce}!Tagent@{Tagent}}
+\paragraph[{obstacleForce}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Tvector} Tagent::obstacleForce (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}\hfill}
+\label{classTagent_af6d483df56bd9e208a3a070f0a690151}
+Calculates the force between this agent and the nearest obstacle in this scene. \begin{DoxyDate}{Date}
+2012-\/01-\/17 
+\end{DoxyDate}
+\begin{DoxyReturn}{Returns}
+\hyperlink{classTvector}{Tvector}: the calculated force 
+\end{DoxyReturn}
+\hypertarget{classTagent_aa87476255c97102d37ac24da4ec72bf1}{
+\index{Tagent@{Tagent}!setFollow@{setFollow}}
+\index{setFollow@{setFollow}!Tagent@{Tagent}}
+\paragraph[{setFollow}]{\setlength{\rightskip}{0pt plus 5cm}void Tagent::setFollow (
+\begin{DoxyParamCaption}
+\item[{int}]{id}
+\end{DoxyParamCaption}
+)}\hfill}
+\label{classTagent_aa87476255c97102d37ac24da4ec72bf1}
+Sets the agent it this agent has to follow. If set, the agent will ignore its assigned waypoints and just follow the other agent. \begin{DoxyDate}{Date}
+2012-\/01-\/08 
+\end{DoxyDate}
+
+\begin{DoxyParams}{Parameters}
+{\em id} & is the agent to follow (must exist, obviously) \\
+\hline
+\end{DoxyParams}
+\hypertarget{classTagent_a5e6afaa247611931e81289bb4145972c}{
+\index{Tagent@{Tagent}!setPosition@{setPosition}}
+\index{setPosition@{setPosition}!Tagent@{Tagent}}
+\paragraph[{setPosition}]{\setlength{\rightskip}{0pt plus 5cm}void Tagent::setPosition (
+\begin{DoxyParamCaption}
+\item[{double}]{px, }
+\item[{double}]{py, }
+\item[{double}]{pz}
+\end{DoxyParamCaption}
+)}\hfill}
+\label{classTagent_a5e6afaa247611931e81289bb4145972c}
+Sets the agent's position. This, and other getters returning coordinates, will eventually changed to returning a \hyperlink{classTvector}{Tvector}. \begin{DoxyDate}{Date}
+2004-\/02-\/10 
+\end{DoxyDate}
+
+\begin{DoxyParams}{Parameters}
+{\em px} & Position x \\
+\hline
+{\em py} & Position y \\
+\hline
+{\em pz} & Position z \\
+\hline
+\end{DoxyParams}
+\hypertarget{classTagent_aafdb71b4e2eee551cd6c9bf8887d588c}{
+\index{Tagent@{Tagent}!setVmax@{setVmax}}
+\index{setVmax@{setVmax}!Tagent@{Tagent}}
+\paragraph[{setVmax}]{\setlength{\rightskip}{0pt plus 5cm}void Tagent::setVmax (
+\begin{DoxyParamCaption}
+\item[{double}]{pvmax}
+\end{DoxyParamCaption}
+)}\hfill}
+\label{classTagent_aafdb71b4e2eee551cd6c9bf8887d588c}
+Sets the maximum velocity of an agent (vmax). Even if pushed by other agents, it will not move faster than this. \begin{DoxyDate}{Date}
+2012-\/01-\/08 
+\end{DoxyDate}
+
+\begin{DoxyParams}{Parameters}
+{\em pvmax} & The maximum velocity. In scene units per timestep, multiplied by the simulation's precision h. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classTagent_a7d0b940a371329b51e7864e9dee460b5}{
+\index{Tagent@{Tagent}!socialForce@{socialForce}}
+\index{socialForce@{socialForce}!Tagent@{Tagent}}
+\paragraph[{socialForce}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Tvector} Tagent::socialForce (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}\hfill}
+\label{classTagent_a7d0b940a371329b51e7864e9dee460b5}
+Calculates the social force between this agent and all the other agents belonging to the same scene. \begin{DoxyDate}{Date}
+2012-\/01-\/17 
+\end{DoxyDate}
+\begin{DoxyReturn}{Returns}
+\hyperlink{classTvector}{Tvector}: the calculated force 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+ped\_\-agent.h\item 
+ped\_\-agent.cpp\end{DoxyCompactItemize}

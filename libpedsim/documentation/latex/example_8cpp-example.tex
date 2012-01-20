@@ -1,0 +1,50 @@
+\hypertarget{example_8cpp-example}{
+\subsection{example.cpp}
+}
+
+\begin{DoxyCodeInclude}
+\textcolor{preprocessor}{#include "pedsim.h"}
+
+\textcolor{preprocessor}{#include <iostream>}
+\textcolor{preprocessor}{#include <stdlib.h>}
+
+\textcolor{keyword}{using namespace }std;
+
+\textcolor{keywordtype}{int} main(\textcolor{keywordtype}{int} argc, \textcolor{keywordtype}{char} *argv[]) \{
+
+        cout << \textcolor{stringliteral}{"PedSim Example using libpedsim version "} << Ped::LIBPEDSIM\_VERSI
+      ON << endl;
+
+        vector<Ped::Tagent*> myagents;
+        \hyperlink{classPed_1_1Tscene}{Ped::Tscene} *pedscene = \textcolor{keyword}{new} \hyperlink{classPed_1_1Tscene}{Ped::Tscene}();
+
+        \hyperlink{classPed_1_1Twaypoint}{Ped::Twaypoint} w1(-100, 0, 24);
+        \hyperlink{classPed_1_1Twaypoint}{Ped::Twaypoint} w2(+100, 0, 12);
+
+        pedscene->\hyperlink{classPed_1_1Tscene_ae1287b2e020e05735ef468c62e70056c}{addObstacle}(\textcolor{keyword}{new} \hyperlink{classPed_1_1Tobstacle}{Ped::Tobstacle}(0, -50,  0, +50));
+        
+        \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i<100; i++) \{ 
+          \hyperlink{classPed_1_1Tagent}{Ped::Tagent} *a = \textcolor{keyword}{new} \hyperlink{classPed_1_1Tagent}{Ped::Tagent}();
+          
+          a->\hyperlink{classPed_1_1Tagent_a63210c597e9db74bdf095dd17502d575}{addWaypoint}(w1);
+          a->\hyperlink{classPed_1_1Tagent_a63210c597e9db74bdf095dd17502d575}{addWaypoint}(w2);
+          
+          a->\hyperlink{classPed_1_1Tagent_a9f4c084da2e45ffcbc21c1c5194518a5}{setPosition}(-50 + rand()/(RAND\_MAX/80)-40, 0 + rand()/(RAND\_MAX/20) 
+      -10, 0);
+          
+          pedscene->\hyperlink{classPed_1_1Tscene_a15d4cce45654cdcba965e85d0430835f}{addAgent}(a);
+          myagents.push\_back(a);
+        \}
+        
+        \textcolor{keywordflow}{while} (\textcolor{keyword}{true}) \{
+                \textcolor{keywordflow}{for} (vector<Ped::Tagent*>::iterator iter = myagents.begin(); iter
+       != myagents.end(); ++iter) \{
+                        \hyperlink{classPed_1_1Tagent}{Ped::Tagent} *a = (*iter);
+                        a->\hyperlink{classPed_1_1Tagent_ae3495a0300a6b21e4b8a617882cb3c7e}{move}(0.2);
+                        a->print();
+                \}
+        \}
+\}
+
+\end{DoxyCodeInclude}
+ 

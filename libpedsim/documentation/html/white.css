@@ -1,0 +1,32 @@
+body { 
+    margin-top:20px;  
+      margin-left:30px;  
+      margin-right:30px;  
+      margin-bottom:20px;  
+      background-color:#eeeeee;  
+      font-family: gill, helvetica, sans-serif;  
+    } 
+ 
+a:link {color: #000060; text-decoration:none;} 
+a:active {color: red; text-decoration:none;} 
+a:hover {color: red; text-decoration:none;}  
+a:visited {color: #000060; text-decoration:none;} 
+ 
+p,h1,h2,h3,h4,ul,ol,li,div,td,th,address,blockquote,nobr,b,i { 
+      font-family:tahoma,verdana,arial,sans-serif; 
+      color:#645444; 
+    } 
+ 
+i {color:#447744;} 
+b {color:#645444;} 
+ 
+h1 { font-size:18pt; color:#ff8844; } 
+h2 { font-size:16pt; color:#447744; } 
+h3 { font-size:14pt; color:#447744; } 
+h4 { font-size:12pt; color:#645444; } 
+ 
+ 
+.code { background-color:#FFFFFF; } 
+.citation { font-size:12pt; } 
+ 
+ 

@@ -6,6 +6,12 @@
 #ifndef _ped_agent_h_
 #define _ped_agent_h_ 1
 
+#ifdef WIN32
+#define LIBEXPORT __declspec(dllexport)
+#else
+#define LIBEXPORT
+#endif
+
 #include <iostream>
 #include <vector>
 #include <queue>
@@ -15,60 +21,69 @@
 
 using namespace std;
 
-// ----------------------------------------------------
-// Name: Tagent
-//!Description: Class that descripts an agent object
-//!Introduced: chgloor Dec 26, 2003
-// ----------------------------------------------------
-class Tagent {
- private:
-  int id;                                           ///< agent number
-  double x;                                         ///< current position of the agent 
-  double y;                                         ///< current position of the agent 
-  double z;                                         ///< current position of the agent 
-  double ax;                                        ///< current acceleration of the agent
-  double ay;                                        ///< current acceleration of the agent
-  double az;                                        ///< current acceleration of the agent
-  double vx;                                        ///< velocity of the agent
-  double vy;                                        ///< velocity of the agent
-  double vz;                                        ///< velocity of the agent
-  int type;                                         
-  double vmax;                                      ///< individual max velocity per agent
-  int follow;
- public:
-  Tagent(); 
-  void move();                                      ///< This is the main function of the agent, here, all the dynamics takes place
-  void setPosition(double px, double py, double pz);///< set the agents position (to beam the agent)
-  void setType(int t) {type = t; };                 ///< sets the agent type
-  int getid() { return id; };                       ///< returns the agents id
-  int gettype() { return type; };                   ///< returns the agents type
-  double getx() { return x; };                      ///< returns the agents x position
-  double gety() { return y; };                      ///< returns the agents y position
-  double getz() { return z; };                      ///< returns the agents z position
-  double getax() { return ax; };                    ///< returns the agents x acceleration
-  double getay() { return ay; };                    ///< returns the agents y acceleration
-  double getaz() { return az; };                    ///< returns the agents z acceleration
-  double getvx() { return vx; };                    ///< returns the agents vx velocity
-  double getvy() { return vy; };                    ///< returns the agents vy velocity
-  double getvz() { return vz; };                    ///< returns the agents vz velocity
-  
-  void setFollow(int id);
-  int getFollow();
-  void setVmax(double vmax);
+namespace Ped {
 
-  void print() {cout << "agent " << id << ": " << x << "/" << y << "/" << z << endl; }; ///< prints the agents state (simple) to stdout
-  
-  void assignScene(Tscene *s);
-  Tscene *scene;
+/// This is the main class of the library. It contains the Tagent, which eventually will move through the
+/// Tscene and interact with Tobstacle and other Tagent.  You can use it as it is, and access the agent's 
+/// coordinates using the getx() etc methods. Or, if you want to change the way the agent behaves, you can
+/// derive a new class from it, and overwrite the methods you want to change. This is also a convenient way
+/// to get access to internal variables not available though public methods, like the individual forces that 
+/// affect the agent. 
+/// \author  chgloor
+/// \date    2003-12-26
+	class LIBEXPORT Tagent {
+	private:
+		int id;                                           ///< agent number
+		Tvector p;                                        ///< current position of the agent 
+		Tvector v;                                        ///< velocity of the agent
+		Tvector a;                                        ///< current acceleration of the agent
+		int type;                                         
+		double vmax;                                      ///< individual max velocity per agent
+		int follow;
 
-  queue<Twaypoint> destinations;                      ///< coordinates of the next destinations
-  Twaypoint destination;                               ///< coordinates of the next destination
-  Twaypoint lastdestination;                               ///< coordinates of the last destination
-  bool hasreacheddestination;                        ///< true if it ahs reached its destination
-  
-  bool mlLookAhead;
-  double simh;
-  
-};
+		Tscene *scene;
+		
+		queue<Twaypoint> destinations;                    ///< coordinates of the next destinations
+		Twaypoint destination;                            ///< coordinates of the next destination
+		Twaypoint lastdestination;                        ///< coordinates of the last destination
+		bool hasreacheddestination;                       ///< true if it ahs reached its destination
 
+		bool mlLookAhead;
+		bool mlTendency;
+		
+	public:
+		Tagent(); 
+		virtual void move(double h);                      
+		virtual Tvector socialForce();
+		virtual Tvector obstacleForce();
+		virtual Tvector desiredForce();
+		virtual Tvector lookaheadForce(Tvector desired);
+
+		virtual void print() {cout << "agent " << id << ": " << p.x << "/" << p.y << "/" << p.z << endl; }; 
+		
+		void setPosition(double px, double py, double pz);
+		void setType(int t) {this->type = t; };           
+		void setFollow(int id);
+		int getFollow();
+		void setVmax(double vmax);
+		
+		void addWaypoint(Twaypoint wp);
+		
+		int getid() { return id; };                       
+		int gettype() { return type; };                   
+		double getx() { return p.x; };                    
+		double gety() { return p.y; };                    
+		double getz() { return p.z; };                    
+		double getax() { return a.x; };                   
+		double getay() { return a.y; };                   
+		double getaz() { return a.z; };                   
+		double getvx() { return v.x; };                   
+		double getvy() { return v.y; };                   
+		double getvz() { return v.z; };                   
+		
+		void assignScene(Tscene *s);
+		
+	};
+	
+}
 #endif

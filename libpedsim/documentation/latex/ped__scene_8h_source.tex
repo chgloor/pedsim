@@ -1,0 +1,59 @@
+\hypertarget{ped__scene_8h_source}{
+\subsection{ped\_\-scene.h}
+}
+
+\begin{DoxyCode}
+00001 \textcolor{comment}{//}
+00002 \textcolor{comment}{// pedsim - A microscopic pedestrian simulation system. }
+00003 \textcolor{comment}{// Copyright (c) 2003 - 2012 by Christian Gloor}
+00004 \textcolor{comment}{//                              }
+00005 
+00006 \textcolor{preprocessor}{#ifndef \_ped\_scene\_h\_}
+00007 \textcolor{preprocessor}{}\textcolor{preprocessor}{#define \_ped\_scene\_h\_ 1}
+00008 \textcolor{preprocessor}{}
+00009 \textcolor{preprocessor}{#ifdef WIN32}
+00010 \textcolor{preprocessor}{}\textcolor{preprocessor}{#define LIBEXPORT \_\_declspec(dllexport)}
+00011 \textcolor{preprocessor}{}\textcolor{preprocessor}{#else}
+00012 \textcolor{preprocessor}{}\textcolor{preprocessor}{#define LIBEXPORT}
+00013 \textcolor{preprocessor}{}\textcolor{preprocessor}{#endif}
+00014 \textcolor{preprocessor}{}
+00015 \textcolor{preprocessor}{#include "ped\_vector.h"}
+00016 \textcolor{preprocessor}{#include "ped\_waypoint.h"}
+00017 
+00018 \textcolor{preprocessor}{#include <vector>}
+00019 
+00020 \textcolor{keyword}{namespace }Ped \{
+00021 
+00022         \textcolor{keyword}{class }Tagent;
+00023         \textcolor{keyword}{class }Tobstacle;
+00024         
+00026 \textcolor{preprocessor}{#define AgentContainer vector<Tagent*>}
+00027 \textcolor{preprocessor}{}
+00028 \textcolor{preprocessor}{#define AgentIterator vector<Tagent*>::iterator}
+00029 \textcolor{preprocessor}{}        
+00031 \textcolor{preprocessor}{#define ObstacleContainer vector<Tobstacle*>}
+00032 \textcolor{preprocessor}{}
+00033 \textcolor{preprocessor}{#define ObstacleIterator vector<Tobstacle*>::iterator}
+00034 \textcolor{preprocessor}{}        
+00035         \textcolor{keyword}{using namespace }std;
+00036         
+00037         
+\hypertarget{ped__scene_8h_source_l00041}{}\hyperlink{classPed_1_1Tscene}{00041}         \textcolor{keyword}{class }LIBEXPORT \hyperlink{classPed_1_1Tscene}{Tscene} \{
+00042         \textcolor{keyword}{private}:
+00043 
+00044                 \textcolor{keyword}{friend} \textcolor{keyword}{class }\hyperlink{classPed_1_1Tagent}{Ped::Tagent};
+00045                 AgentContainer agent;                             
+00046                 ObstacleContainer obstacle;
+00047 
+00048         \textcolor{keyword}{public}:
+00049                 \hyperlink{classPed_1_1Tscene}{Tscene}();
+00050                 
+00051                 \textcolor{keywordtype}{void} addAgent(\hyperlink{classPed_1_1Tagent}{Tagent} *a);
+00052                 \textcolor{keywordtype}{void} addObstacle(\hyperlink{classPed_1_1Tobstacle}{Tobstacle} *o);
+00053 
+00054                 
+00055         \};
+00056 
+00057 \}
+00058 \textcolor{preprocessor}{#endif}
+\end{DoxyCode}

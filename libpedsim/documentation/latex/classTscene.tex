@@ -1,0 +1,100 @@
+\hypertarget{classTscene}{
+\subsection{Tscene Class Reference}
+\label{classTscene}\index{Tscene@{Tscene}}
+}
+
+
+{\ttfamily \#include $<$ped\_\-scene.h$>$}
+
+\subsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classTscene_adb1256bd6b9d7f9b0c8de01f83c2e575}{Tscene} ()
+\item 
+void \hyperlink{classTscene_a36fff50a82ded29ab55fd3db24fce497}{addAgent} (\hyperlink{classTagent}{Tagent} $\ast$a)
+\item 
+void \hyperlink{classTscene_a2f297cb181f6f2dc91fb6f92b7b7e0f7}{addObstacle} (\hyperlink{classTobstacle}{Tobstacle} $\ast$o)
+\end{DoxyCompactItemize}
+\subsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classTscene_a0113d395aa605226d1cc108dbb56670a}{
+AgentContainer {\bfseries agent}}
+\label{classTscene_a0113d395aa605226d1cc108dbb56670a}
+
+\item 
+\hypertarget{classTscene_a0cc090f027c28d96262a64bb29047a49}{
+ObstacleContainer {\bfseries obstacle}}
+\label{classTscene_a0cc090f027c28d96262a64bb29047a49}
+
+\end{DoxyCompactItemize}
+
+
+\subsubsection{Detailed Description}
+Class that defines a \hyperlink{classTscene}{Tscene} object \begin{DoxyAuthor}{Author}
+chgloor 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2012-\/01-\/17 
+\end{DoxyDate}
+
+
+\subsubsection{Constructor \& Destructor Documentation}
+\hypertarget{classTscene_adb1256bd6b9d7f9b0c8de01f83c2e575}{
+\index{Tscene@{Tscene}!Tscene@{Tscene}}
+\index{Tscene@{Tscene}!Tscene@{Tscene}}
+\paragraph[{Tscene}]{\setlength{\rightskip}{0pt plus 5cm}Tscene::Tscene (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hfill}
+\label{classTscene_adb1256bd6b9d7f9b0c8de01f83c2e575}
+Default constructor. \begin{DoxyDate}{Date}
+2012-\/01-\/17 
+\end{DoxyDate}
+
+
+\subsubsection{Member Function Documentation}
+\hypertarget{classTscene_a36fff50a82ded29ab55fd3db24fce497}{
+\index{Tscene@{Tscene}!addAgent@{addAgent}}
+\index{addAgent@{addAgent}!Tscene@{Tscene}}
+\paragraph[{addAgent}]{\setlength{\rightskip}{0pt plus 5cm}void Tscene::addAgent (
+\begin{DoxyParamCaption}
+\item[{{\bf Tagent} $\ast$}]{a}
+\end{DoxyParamCaption}
+)}\hfill}
+\label{classTscene_a36fff50a82ded29ab55fd3db24fce497}
+Used to add a \hyperlink{classTagent}{Tagent} to the \hyperlink{classTscene}{Tscene}. \begin{DoxyDate}{Date}
+2012-\/01-\/17 
+\end{DoxyDate}
+\begin{DoxyWarning}{Warning}
+\hyperlink{classTscene_a36fff50a82ded29ab55fd3db24fce497}{addAgent()} does call \hyperlink{classTagent_a1e30535a17db1273b94e5fa2f300009f}{Tagent::assignScene()} to assign itself to the agent. 
+\end{DoxyWarning}
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$a} & A pointer to the \hyperlink{classTagent}{Tagent} to add. \\
+\hline
+\end{DoxyParams}
+\hypertarget{classTscene_a2f297cb181f6f2dc91fb6f92b7b7e0f7}{
+\index{Tscene@{Tscene}!addObstacle@{addObstacle}}
+\index{addObstacle@{addObstacle}!Tscene@{Tscene}}
+\paragraph[{addObstacle}]{\setlength{\rightskip}{0pt plus 5cm}void Tscene::addObstacle (
+\begin{DoxyParamCaption}
+\item[{{\bf Tobstacle} $\ast$}]{o}
+\end{DoxyParamCaption}
+)}\hfill}
+\label{classTscene_a2f297cb181f6f2dc91fb6f92b7b7e0f7}
+Used to add a \hyperlink{classTobstacle}{Tobstacle} to the \hyperlink{classTscene}{Tscene}. \begin{DoxyDate}{Date}
+2012-\/01-\/17 
+\end{DoxyDate}
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$o} & A pointer to the \hyperlink{classTobstacle}{Tobstacle} to add. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+ped\_\-scene.h\item 
+ped\_\-scene.cpp\end{DoxyCompactItemize}

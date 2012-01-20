@@ -1,0 +1,192 @@
+\hypertarget{classTwaypoint}{
+\subsection{Twaypoint Class Reference}
+\label{classTwaypoint}\index{Twaypoint@{Twaypoint}}
+}
+
+
+{\ttfamily \#include $<$ped\_\-waypoint.h$>$}
+
+\subsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classTwaypoint_a7f7a62e48c656efe9b60d259486f081d}{Twaypoint} ()
+\item 
+\hyperlink{classTwaypoint_a5ab459e31fcc93716e0c889a6f416f29}{Twaypoint} (double x, double y, double r)
+\item 
+\hypertarget{classTwaypoint_aa7e06aeb48f6dd468c2f9dd7e2fb51d8}{
+void {\bfseries setType} (int t)}
+\label{classTwaypoint_aa7e06aeb48f6dd468c2f9dd7e2fb51d8}
+
+\item 
+\hypertarget{classTwaypoint_a1485a8a52ee193e3fa75f497182ec551}{
+int {\bfseries getid} ()}
+\label{classTwaypoint_a1485a8a52ee193e3fa75f497182ec551}
+
+\item 
+\hypertarget{classTwaypoint_ad6d9d25f57fb9f75c82ccaf2463ba916}{
+int {\bfseries gettype} ()}
+\label{classTwaypoint_ad6d9d25f57fb9f75c82ccaf2463ba916}
+
+\item 
+\hypertarget{classTwaypoint_a18e7eb097db09733efeb7ca2516ae582}{
+double {\bfseries getx} ()}
+\label{classTwaypoint_a18e7eb097db09733efeb7ca2516ae582}
+
+\item 
+\hypertarget{classTwaypoint_a831686557f770d7ce0e4aa083b53a687}{
+double {\bfseries gety} ()}
+\label{classTwaypoint_a831686557f770d7ce0e4aa083b53a687}
+
+\item 
+\hypertarget{classTwaypoint_a170b6a04c1d30e1ccfcf9afbd628a233}{
+double {\bfseries getr} ()}
+\label{classTwaypoint_a170b6a04c1d30e1ccfcf9afbd628a233}
+
+\item 
+\hypertarget{classTwaypoint_aae57d2602edf4cf23e359c77f100d682}{
+void {\bfseries setx} (double px)}
+\label{classTwaypoint_aae57d2602edf4cf23e359c77f100d682}
+
+\item 
+\hypertarget{classTwaypoint_a9c49f8f1da158fbf17b656c1b8385263}{
+void {\bfseries sety} (double py)}
+\label{classTwaypoint_a9c49f8f1da158fbf17b656c1b8385263}
+
+\item 
+\hypertarget{classTwaypoint_ad5eecfd9913b2030319ee470a2898884}{
+void {\bfseries setr} (double pr)}
+\label{classTwaypoint_ad5eecfd9913b2030319ee470a2898884}
+
+\item 
+\hypertarget{classTwaypoint_acea63294ff4af835b91681730b288fc3}{
+void {\bfseries settype} (int t)}
+\label{classTwaypoint_acea63294ff4af835b91681730b288fc3}
+
+\item 
+\hyperlink{classTvector}{Tvector} \hyperlink{classTwaypoint_a1b3cac0878a201645f45c10d870d9172}{getForce} (double myx, double myy, double fromx, double fromy, bool $\ast$reached)
+\item 
+\hyperlink{classTvector}{Tvector} \hyperlink{classTwaypoint_ac88c7cfc458d15797fac5707964e3c96}{normalpoint} (double p1, double p2, double oc11, double oc12, double oc21, double oc22)
+\end{DoxyCompactItemize}
+
+
+\subsubsection{Detailed Description}
+The waypoint classs \begin{DoxyAuthor}{Author}
+chgloor 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2012-\/01-\/07 
+\end{DoxyDate}
+
+
+\subsubsection{Constructor \& Destructor Documentation}
+\hypertarget{classTwaypoint_a7f7a62e48c656efe9b60d259486f081d}{
+\index{Twaypoint@{Twaypoint}!Twaypoint@{Twaypoint}}
+\index{Twaypoint@{Twaypoint}!Twaypoint@{Twaypoint}}
+\paragraph[{Twaypoint}]{\setlength{\rightskip}{0pt plus 5cm}Twaypoint::Twaypoint (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hfill}
+\label{classTwaypoint_a7f7a62e48c656efe9b60d259486f081d}
+Default Constructor -\/ sets the most basic parameters. \begin{DoxyDate}{Date}
+2012-\/01-\/07 
+\end{DoxyDate}
+\hypertarget{classTwaypoint_a5ab459e31fcc93716e0c889a6f416f29}{
+\index{Twaypoint@{Twaypoint}!Twaypoint@{Twaypoint}}
+\index{Twaypoint@{Twaypoint}!Twaypoint@{Twaypoint}}
+\paragraph[{Twaypoint}]{\setlength{\rightskip}{0pt plus 5cm}Twaypoint::Twaypoint (
+\begin{DoxyParamCaption}
+\item[{double}]{px, }
+\item[{double}]{py, }
+\item[{double}]{pr}
+\end{DoxyParamCaption}
+)}\hfill}
+\label{classTwaypoint_a5ab459e31fcc93716e0c889a6f416f29}
+Constructor: Sets some intial values. The agent has to pass within the give radius. \begin{DoxyDate}{Date}
+2012-\/01-\/07 
+\end{DoxyDate}
+
+\begin{DoxyParams}{Parameters}
+{\em px} & The x coordinate of the waypoint \\
+\hline
+{\em py} & The y coordinate of the waypoint \\
+\hline
+{\em pr} & The radius of the waypoint \\
+\hline
+\end{DoxyParams}
+
+
+\subsubsection{Member Function Documentation}
+\hypertarget{classTwaypoint_a1b3cac0878a201645f45c10d870d9172}{
+\index{Twaypoint@{Twaypoint}!getForce@{getForce}}
+\index{getForce@{getForce}!Twaypoint@{Twaypoint}}
+\paragraph[{getForce}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Tvector} Twaypoint::getForce (
+\begin{DoxyParamCaption}
+\item[{double}]{myx, }
+\item[{double}]{myy, }
+\item[{double}]{fromx, }
+\item[{double}]{fromy, }
+\item[{bool $\ast$}]{reached}
+\end{DoxyParamCaption}
+)}\hfill}
+\label{classTwaypoint_a1b3cac0878a201645f45c10d870d9172}
+Returns the force into the direction of the waypoint \begin{DoxyDate}{Date}
+2012-\/01-\/10 
+\end{DoxyDate}
+
+\begin{DoxyParams}{Parameters}
+{\em myx} & The x coordinate of the current position of the agent \\
+\hline
+{\em myy} & The y coordinate of the current position of the agent \\
+\hline
+{\em fromx} & The x coordinate of the last assigned waypoint, i.e. where the agent is coming from \\
+\hline
+{\em fromy} & The y coordinate of the last assigned waypoint, i.e. where the agent is coming from \\
+\hline
+{\em $\ast$reached} & Set to true if the agent has reached the waypoint in this call. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{classTvector}{Tvector} The calculated force 
+\end{DoxyReturn}
+\hypertarget{classTwaypoint_ac88c7cfc458d15797fac5707964e3c96}{
+\index{Twaypoint@{Twaypoint}!normalpoint@{normalpoint}}
+\index{normalpoint@{normalpoint}!Twaypoint@{Twaypoint}}
+\paragraph[{normalpoint}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Tvector} Twaypoint::normalpoint (
+\begin{DoxyParamCaption}
+\item[{double}]{p1, }
+\item[{double}]{p2, }
+\item[{double}]{oc11, }
+\item[{double}]{oc12, }
+\item[{double}]{oc21, }
+\item[{double}]{oc22}
+\end{DoxyParamCaption}
+)}\hfill}
+\label{classTwaypoint_ac88c7cfc458d15797fac5707964e3c96}
+Calculates the point that is on the given line and normal to the give position. If it is not inside the line, the start or end point of the line is returned. \begin{DoxyDate}{Date}
+2012-\/01-\/10 
+\end{DoxyDate}
+
+\begin{DoxyParams}{Parameters}
+{\em p1} & The x coordinate of the point outside the obstacle \\
+\hline
+{\em p2} & The y coordinate of the point outside the obstacle \\
+\hline
+{\em oc11} & The x coordinate of the first corner of the obstacle \\
+\hline
+{\em oc12} & The y coordinate of the first corner of the obstacle \\
+\hline
+{\em oc21} & The x coordinate of the second corner of the obstacle \\
+\hline
+{\em oc22} & The y coordinate of the second corner of the obstacle \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{classTvector}{Tvector} The calculated point 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+ped\_\-waypoint.h\item 
+ped\_\-waypoint.cpp\end{DoxyCompactItemize}
