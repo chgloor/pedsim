@@ -15,14 +15,14 @@ using namespace std;
 
 Config::Config() { // make sure this reflects what is set as default in the suer interface!  --chgloor 2012-01-13
 	guiShowWaypoints = false;
-	simWallForce = 10;
-	simPedForce = 10;
-	simSpeed = 1000/20;
+	simWallForce = 20;
+	simPedForce = 5;
+	simSpeed = 1000/30;
 	mlTendency = false;
-	mlLookAhead = false;
+	mlLookAhead = true;
 	showForces = false;
 	showDirection = false;
-	simh = 0.4;
+	simh = 0.2;
 }
 
 /// \author  chgloor

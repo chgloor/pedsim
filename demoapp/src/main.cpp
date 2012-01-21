@@ -168,10 +168,14 @@ int main(int argc, char *argv[]) {
 	pedscene->addObstacle(new Obstacle( 150,-135,  20,-135, graphicsscene->addLine(1,1,0,0,QPen(Qt::gray, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin))));
 
 	// gate
-	doorobstacle1 = new Obstacle( -100, 15, -100, -15, graphicsscene->addLine(1,1,0,0,QPen(Qt::darkGray, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)));
+	doorobstacle1 = new Obstacle( 80, 10, 80, -10, graphicsscene->addLine(1,1,0,0,QPen(Qt::darkRed, 0.5, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)));
 	pedscene->addObstacle(doorobstacle1);
-	doorobstacle2 = new Obstacle( -115, 0, -85, 00, graphicsscene->addLine(1,1,0,0,QPen(Qt::darkGray, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)));
+	doorobstacle2 = new Obstacle( 80-10, 0, 80+10, 00, graphicsscene->addLine(1,1,0,0,QPen(Qt::darkRed, 0.5, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)));
 	pedscene->addObstacle(doorobstacle2);
+	pedscene->addObstacle(new Obstacle( 77, -15,  80, -10, graphicsscene->addLine(1,1,0,0,QPen(Qt::darkGray, 0.5, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin))));
+	pedscene->addObstacle(new Obstacle( 83, -15,  80, -10, graphicsscene->addLine(1,1,0,0,QPen(Qt::darkGray, 0.5, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin))));
+	pedscene->addObstacle(new Obstacle( 77,  15,  80, 10, graphicsscene->addLine(1,1,0,0,QPen(Qt::darkGray, 0.5, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin))));
+	pedscene->addObstacle(new Obstacle( 83,  15,  80, 10, graphicsscene->addLine(1,1,0,0,QPen(Qt::darkGray, 0.5, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin))));
 
 
 	for (int i = 0; i<nagents; i++) { 

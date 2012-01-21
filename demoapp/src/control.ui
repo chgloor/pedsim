@@ -172,7 +172,7 @@
           <number>50</number>
          </property>
          <property name="value">
-          <number>20</number>
+          <number>30</number>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -232,6 +232,9 @@
          <property name="text">
           <string>Look Ahead</string>
          </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
        <item>
@@ -289,7 +292,7 @@
           <number>100</number>
          </property>
          <property name="value">
-          <number>40</number>
+          <number>20</number>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -318,7 +321,7 @@
           <number>500</number>
          </property>
          <property name="value">
-          <number>100</number>
+          <number>200</number>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -338,10 +341,13 @@
           <number>10</number>
          </property>
          <property name="maximum">
-          <number>500</number>
+          <number>100</number>
          </property>
          <property name="value">
-          <number>100</number>
+          <number>50</number>
+         </property>
+         <property name="sliderPosition">
+          <number>50</number>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>

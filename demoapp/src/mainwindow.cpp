@@ -135,8 +135,8 @@ void MainWindow::timestep() {
 		//		a->print();
 	}
 
-	doorobstacle1->rotate(-100, 0, config.simh * 0.1);
-	doorobstacle2->rotate(-100, 0, config.simh * 0.1);
+	doorobstacle1->rotate(80, 0, config.simh * 0.1);
+	doorobstacle2->rotate(80, 0, config.simh * 0.1);
 
 	statusBar()->showMessage(QString("Systemtime: %1").arg(systemtime));
 	timer->start(config.simSpeed);
