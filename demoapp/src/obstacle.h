@@ -24,7 +24,6 @@ class Obstacle: public Ped::Tobstacle {
 
   void setPosition(double ax, double ay, double bx, double by);
 
-  void rotate(double x, double y, double phi); 
 
 };
 

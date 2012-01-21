@@ -74,3 +74,21 @@ Ped::Tvector Ped::Tobstacle::obstacleforce(double x, double y) {
 	v.y = a2 + lambda*b2;
 	return v;
 }
+
+/// rot phi around x/y
+/// \author  chgloor
+/// \date    2012-01-20
+/// \warning Due to rounding errors, this will fail after a while. 
+/// \todo    Use the original points (saved) and cache the total phi or something.
+/// \param   x The x coordinate of the point the obstacle will be rotated around.
+/// \param   y The y coordinate of the point the obstacle will be rotated around.
+/// \param   r The angle the obstacle will be rotated, where phi is given in radians
+void Ped::Tobstacle::rotate(double x, double y, double phi) {
+	double anx = getax()*cos(phi) - x*cos(phi) - getay()*sin(phi) + y*sin(phi) + x;
+	double any = getax()*sin(phi) - x*sin(phi) + getay()*cos(phi) - y*cos(phi) + y;
+
+	double bnx = getbx()*cos(phi) - x*cos(phi) - getby()*sin(phi) + y*sin(phi) + x;
+	double bny = getbx()*sin(phi) - x*sin(phi) + getby()*cos(phi) - y*cos(phi) + y;
+
+	setPosition(anx, any, bnx, bny);
+}
