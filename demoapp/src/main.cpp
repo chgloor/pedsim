@@ -191,29 +191,29 @@ int main(int argc, char *argv[]) {
 		if (i%2 == 0) a->setPosition( XXX +  qrand()/(RAND_MAX/80) -100, YYY + qrand()/(RAND_MAX/20) -10, ZZZ);
 		if (i%2 == 1) a->setPosition( XXX +  qrand()/(RAND_MAX/80) +20, YYY + qrand()/(RAND_MAX/20) -10, ZZZ);
 
-		a->addWaypoint(w11);
-		a->addWaypoint(w1);
-		a->addWaypoint(w11);
-		if (i%2 == 0) { a->addWaypoint(wsb); } else {a->addWaypoint(wst); }
-		a->addWaypoint(w22);
-		a->addWaypoint(w2);
-		a->addWaypoint(w23);
-		a->addWaypoint(wr2);
-		a->addWaypoint(wr1);
-		a->addWaypoint(w3);
-		if (i%2 == 0) { a->addWaypoint(wstr); } else {a->addWaypoint(wstl); }
-		if (i%2 == 0) { a->addWaypoint(wsr); } else {a->addWaypoint(wsl); }
-		a->addWaypoint(w4);
-		if (i%2 == 0) { a->addWaypoint(wsr); } else {a->addWaypoint(wsl); }
-		if (i%2 == 0) { a->addWaypoint(wstr); } else {a->addWaypoint(wstl); }
-		a->addWaypoint(w3);
-		a->addWaypoint(wr1);
-		a->addWaypoint(wr2);
-		a->addWaypoint(w23);
-		a->addWaypoint(w2);
-		a->addWaypoint(w22);
+		a->addWaypoint(&w11);
+		a->addWaypoint(&w1);
+		a->addWaypoint(&w11);
+		if (i%2 == 0) { a->addWaypoint(&wsb); } else {a->addWaypoint(&wst); }
+		a->addWaypoint(&w22);
+		a->addWaypoint(&w2);
+		a->addWaypoint(&w23);
+		a->addWaypoint(&wr2);
+		a->addWaypoint(&wr1);
+		a->addWaypoint(&w3);
+		if (i%2 == 0) { a->addWaypoint(&wstr); } else {a->addWaypoint(&wstl); }
+		if (i%2 == 0) { a->addWaypoint(&wsr); } else {a->addWaypoint(&wsl); }
+		a->addWaypoint(&w4);
+		if (i%2 == 0) { a->addWaypoint(&wsr); } else {a->addWaypoint(&wsl); }
+		if (i%2 == 0) { a->addWaypoint(&wstr); } else {a->addWaypoint(&wstl); }
+		a->addWaypoint(&w3);
+		a->addWaypoint(&wr1);
+		a->addWaypoint(&wr2);
+		a->addWaypoint(&w23);
+		a->addWaypoint(&w2);
+		a->addWaypoint(&w22);
 
-		if (i%2 == 0) { a->addWaypoint(wsb); } else {a->addWaypoint(wst); }
+		if (i%2 == 0) { a->addWaypoint(&wsb); } else {a->addWaypoint(&wst); }
 		
 		pedscene->addAgent(a);
 		myagents.push_back(a);

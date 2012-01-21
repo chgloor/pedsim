@@ -28,8 +28,10 @@ Ped::Tagent::Tagent() {
   v.y = 0;
   v.z = 0;
   hasreacheddestination = true;
-  destination.settype(1); // point
-  destination.setr(1);
+  destination = new Twaypoint();
+  lastdestination = new Twaypoint();
+  destination->settype(1); // point
+  destination->setr(1);
   follow = -1;
   vmax = 2.0 + 1.0*(double)rand()/(double)RAND_MAX; // in m/s between 2.0 and 4.0
   mlLookAhead = false;
@@ -50,7 +52,7 @@ Ped::Tagent::Tagent() {
 /// \todo Add a flag to change the waypoint queue behavior of the Tagents.
 /// \author  chgloor
 /// \date    2012-01-19
-void Ped::Tagent::addWaypoint(Twaypoint wp) {
+void Ped::Tagent::addWaypoint(Twaypoint *wp) {
 	destinations.push(wp);
 }
 
@@ -192,23 +194,23 @@ Ped::Tvector Ped::Tagent::obstacleForce() {
 Ped::Tvector Ped::Tagent::desiredForce() {
 	Ped::Tvector e;
 
-	if ((hasreacheddestination == true) && (destinations.size() > 0)) {
-		lastdestination.setx(destination.getx());
-		lastdestination.sety(destination.gety());
+	if (follow >= 0) {
+		destination->setx(scene->agent.at(follow)->getx());
+		destination->sety(scene->agent.at(follow)->gety());
+		destination->settype(1); // point
+		destination->setr(0); // point
+	} else if ((hasreacheddestination == true) && (destinations.size() > 0)) {
+		// lastdestination->setx(destination->getx());
+		// lastdestination->sety(destination->gety());
+		lastdestination = destination;
 		destination = destinations.front();
 		destinations.pop();
 		hasreacheddestination = false;
 	}
 
-	if (follow > 0) {
-		destination.setx(scene->agent.at(follow)->getx());
-		destination.sety(scene->agent.at(follow)->gety());
-		destination.settype(1); // point
-		destination.setr(0); // point
-	}
 	
 	bool reached;
-	Ped::Tvector ef = destination.getForce(p.x, p.y, lastdestination.getx(), lastdestination.gety(), &reached);
+	Ped::Tvector ef = destination->getForce(p.x, p.y, lastdestination->getx(), lastdestination->gety(), &reached);
 	e.x = ef.x * vmax; // walk with full speed if nothing else affects me
 	e.y = ef.y * vmax;
 

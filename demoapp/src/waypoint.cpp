@@ -9,6 +9,8 @@
 #include <QPen>
 #include <QGraphicsScene>
 
+#include <iostream>
+
 using namespace std;
 
 extern Config config;
@@ -20,7 +22,7 @@ extern Config config;
 Waypoint::Waypoint(double px, double py, double pr, QGraphicsScene *pscene) : Twaypoint(px, py, pr) {
   scene = pscene;
   ellipse = scene->addEllipse(getx()-getr(), gety()-getr(), getr()*2, getr()*2, QPen(QColor(44,0,0), 0.5, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin), QBrush(QColor(44, 0, 0)));
-  //  norm = scene->addLine(getx()-getr(), gety()-getr(), getx()+getr(), gety()+getr(), QPen(Qt::darkRed, 0.5, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+  //norm = scene->addLine(getx()-getr(), gety()-getr(), getx()+getr(), gety()+getr(), QPen(Qt::darkRed, 0.5, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
   norm = NULL;
   ellipse->setVisible(config.guiShowWaypoints);
   //  norm->setVisible(config.guiShowWaypoints);
@@ -39,7 +41,7 @@ Waypoint::Waypoint() : Twaypoint() {
 /// \date    2012-01-10
 Ped::Tvector Waypoint::getForce(double myx, double myy, double fromx, double fromy, bool *reached) {
 	Ped::Tvector f;
-		
+
 	ellipse->setVisible(config.guiShowWaypoints);
 	//	norm->setVisible(config.guiShowWaypoints);
 	

@@ -46,9 +46,9 @@ namespace Ped {
 
 		Tscene *scene;
 		
-		queue<Twaypoint> destinations;                    ///< coordinates of the next destinations
-		Twaypoint destination;                            ///< coordinates of the next destination
-		Twaypoint lastdestination;                        ///< coordinates of the last destination
+		queue<Twaypoint*> destinations;                    ///< coordinates of the next destinations
+		Twaypoint *destination;                            ///< coordinates of the next destination
+		Twaypoint *lastdestination;                        ///< coordinates of the last destination
 		bool hasreacheddestination;                       ///< true if it ahs reached its destination
 
 		bool mlLookAhead;
@@ -75,7 +75,7 @@ namespace Ped {
 		int getFollow();
 		void setVmax(double vmax);
 		
-		void addWaypoint(Twaypoint wp);
+		void addWaypoint(Twaypoint *wp);
 		
 		int getid() { return id; };                       
 		int gettype() { return type; };                   
