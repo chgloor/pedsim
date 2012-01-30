@@ -38,16 +38,23 @@ Control::Control(QWidget *parent, bool admin) : QDockWidget(parent) {
 	connect(ui.zoomoutButton, SIGNAL(clicked()), this, SIGNAL(zoomout()));
 }
 
+void Control::setfps(double fps) {
+	ui.fpsLabel->setText(QString("FPS (req %0 curr %1)").arg(ui.simspeedSlider->value()).arg(fps, 0, 'f', 1));
+}
+
+
 void Control::showWaypoints(bool show) {
 	config.setGuiShowWaypoints(show);
 }
 
 void Control::simWallForce(int value) {
 	config.setSimWallForce(0.1f*value); // div value by 10
+	ui.wallforceLabel->setText(QString("Wall Force (%1)").arg(config.simWallForce));
 }
 
 void Control::simPedForce(int value) {
 	config.setSimPedForce(0.1f*value); // div value by 10
+	ui.pedforceLabel->setText(QString("Pedestrian Force (%1)").arg(config.simPedForce));
 }
 
 void Control::simSpeed(int value) {
@@ -72,4 +79,5 @@ void Control::showDirection(bool show) {
 
 void Control::simh(int value) {
 	config.simh = 0.01f*value;
+	ui.simhLabel->setText(QString("Precision (h=%1)").arg(config.simh));
 }

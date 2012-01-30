@@ -48,7 +48,7 @@ namespace Ped {
 	public:
 		Tscene();
 		
-		void addAgent(Tagent *a);
+		void virtual addAgent(Tagent *a);
 		void addObstacle(Tobstacle *o);
 
 		

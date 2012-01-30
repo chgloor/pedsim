@@ -157,7 +157,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_5">
+        <widget class="QLabel" name="fpsLabel">
          <property name="text">
           <string>Framerate</string>
          </property>
@@ -197,7 +197,7 @@
       <zorder>verticalSpacer_2</zorder>
       <zorder>waypointsCheckBox</zorder>
       <zorder>frame_2</zorder>
-      <zorder>label_5</zorder>
+      <zorder>fpsLabel</zorder>
       <zorder>simspeedSlider</zorder>
       <zorder>showForcesCheckBox</zorder>
      </widget>
@@ -280,7 +280,7 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
-        <widget class="QLabel" name="label_9">
+        <widget class="QLabel" name="simhLabel">
          <property name="text">
           <string>Precision (h)</string>
          </property>
@@ -306,7 +306,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="wallforceLabel">
          <property name="text">
           <string>Wall Force</string>
          </property>
@@ -315,7 +315,7 @@
        <item>
         <widget class="QSlider" name="wallforceSlider">
          <property name="minimum">
-          <number>10</number>
+          <number>0</number>
          </property>
          <property name="maximum">
           <number>500</number>
@@ -329,7 +329,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_4">
+        <widget class="QLabel" name="pedforceLabel">
          <property name="text">
           <string>Pedestrian Force</string>
          </property>
@@ -338,7 +338,7 @@
        <item>
         <widget class="QSlider" name="pedforceSlider">
          <property name="minimum">
-          <number>10</number>
+          <number>0</number>
          </property>
          <property name="maximum">
           <number>100</number>

@@ -29,6 +29,8 @@ class Control : public QDockWidget {
 	void showForces(bool show);
 	void showDirection(bool show);
 
+	void setfps(double fps);
+
  private:
 	  Ui_Control ui;
 

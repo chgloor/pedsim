@@ -22,21 +22,20 @@
 #include <iostream>                       // cout
 #include <stdlib.h>                       // random
 
-#include "ped_obstacle.h"
-#include "ped_vector.h"
-#include "ped_waypoint.h"
-#include "ped_scene.h"
+#include "pedsim.h"
 
 #include "mainwindow.h"
 #include "agent.h"
 #include "obstacle.h"
 #include "style.h"
 #include "waypoint.h"
+#include "scene.h"
 #include "config.h"
 
 using namespace std;
 
 vector<Agent*> myagents;
+Scene *pedscene;
 
 Config config;
 
@@ -59,8 +58,6 @@ Obstacle *doorobstacle2;
 // ----------------------------------------------------
 int main(int argc, char *argv[]) {
 
-	Ped::Tscene *pedscene = new Ped::Tscene();
-
 	int nagents = 100;
 	QString s = argv[1];
 	if (s != "") {
@@ -79,6 +76,8 @@ int main(int argc, char *argv[]) {
 
 	graphicsscene->setBackgroundBrush(Qt::black);
 	graphicsscene->setItemIndexMethod(QGraphicsScene::NoIndex);
+
+	pedscene = new Scene(graphicsscene);
 
 
 	Waypoint w1(-160, -51, 17, graphicsscene);

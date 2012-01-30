@@ -31,6 +31,7 @@ public slots:
 	/* void resetTime(); */
 
 	void timestep();
+	void fps();
 	
  private:
 	void createActions();
@@ -60,6 +61,8 @@ public slots:
 	//	QAction *startTimeAct;
 
 	QTimer *timer;
+
+	int fpscount;
 };
 
 #endif

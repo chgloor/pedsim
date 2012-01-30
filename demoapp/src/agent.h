@@ -34,7 +34,7 @@ class Agent : public Ped::Tagent {
   Ped::Tvector desiredForce();
   Ped::Tvector lookaheadForce(Ped::Tvector desired);
 
-  QGraphicsScene *scene;
+  QGraphicsScene *graphicsscene;
   QGraphicsRectItem *rect;  
   QGraphicsLineItem *linev;  
   QGraphicsLineItem *lineea;  

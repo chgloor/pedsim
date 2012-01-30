@@ -33,10 +33,9 @@ namespace Ped {
 	public:
 		Tobstacle();
 		Tobstacle(double ax, double ay, double bx, double by);
-		virtual void setPosition(double ax, double ay, double bx, double by); 
-		
-		virtual Tvector obstacleforce(double p1, double p2);
 
+		virtual void setPosition(double ax, double ay, double bx, double by); 
+		virtual Tvector obstacleforce(double p1, double p2);
 		virtual void rotate(double x, double y, double phi); 
 		
 		void setType(int t) {type = t; };

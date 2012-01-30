@@ -32,11 +32,6 @@ class Config : public QObject {
 	void setSimWallForce(double value);
 	void setSimPedForce(double value);
 	void setSimSpeed(int value);
-
- private:
-	//	  Ui_Config ui;
-	  //	  bool ison;
-
  };
 
 #endif

@@ -6,6 +6,8 @@
 #include <vector>
 
 #include "agent.h"
+#include "scene.h"
+
 #include "mainwindow.h"
 #include "control.h"
 #include "config.h"
@@ -16,6 +18,8 @@
 using namespace std;
 
 extern vector<Agent*> myagents;                             
+extern Scene *pedscene;
+
 extern long systemtime;
 extern Config config;
 
@@ -44,6 +48,11 @@ MainWindow::MainWindow() {
 	connect(timer, SIGNAL(timeout()), this, SLOT(timestep()));
 	timer->setSingleShot(true);
 	timer->start(1000/20);
+
+	QTimer *fpstimer = new QTimer(this);
+	connect(fpstimer, SIGNAL(timeout()), this, SLOT(fps()));
+	fpstimer->start(3000);
+	fpscount = 0;
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
@@ -128,16 +137,37 @@ void MainWindow::zoomout() {
 
 void MainWindow::timestep() {	
 	systemtime++;
-
+	fpscount++;
 	for (vector<Agent*>::iterator iter = myagents.begin(); iter != myagents.end(); ++iter) {
 		Agent *a = (*iter);
 		a->move(config.simh);
+		pedscene->moveAgent(a);
 		//		a->print();
 	}
+	
+	if (systemtime %100 == 0) pedscene->cleanup();
+	
+	set<Ped::Tagent*> a = pedscene->getNeighbors(0, 0, 15);
+	// for (set<Ped::Tagent*>::iterator it = a.begin(); it != a.end(); ++it) {
+	// 	cout << "n " << (*it)->getx() << "/" << (*it)->gety() << endl;
+	// }
+	//	cout << a.size() << endl;
+
 
 	doorobstacle1->rotate(80, 0, config.simh * 0.1);
 	doorobstacle2->rotate(80, 0, config.simh * 0.1);
 
 	statusBar()->showMessage(QString("Systemtime: %1").arg(systemtime));
 	timer->start(config.simSpeed);
+}
+
+/// 
+/// \author  chgloor
+/// \date    2012-01-30
+/// \return  
+/// \warning 
+/// \param   
+void MainWindow::fps() {	 
+	uicontrol->setfps(1.0f*fpscount/3);
+	fpscount = 0;
 }

@@ -26,13 +26,13 @@ using namespace std;
 /// \author  chgloor
 /// \date    2012-01-17
 Agent::Agent(QGraphicsScene *pscene) : Tagent() {
-  scene = pscene;
-  rect = scene->addRect(QRectF(0,0,1,1), QPen(Qt::darkGreen, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin), QBrush(QColor(Qt::darkGreen)));	
-  lineea = scene->addLine(QLineF(0, 0, 1, 1), QPen(Qt::red, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));	
-  lineoa = scene->addLine(QLineF(0, 0, 1, 1), QPen(Qt::blue, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));	
-  linesa = scene->addLine(QLineF(0, 0, 1, 1), QPen(Qt::green, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));	
-  linelfa = scene->addLine(QLineF(0, 0, 1, 1), QPen(Qt::magenta, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));	
-  linev  = scene->addLine(QLineF(0, 0, 1, 1), QPen(Qt::yellow, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));	
+  graphicsscene = pscene;
+  rect = graphicsscene->addRect(QRectF(0,0,1,1), QPen(Qt::darkGreen, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin), QBrush(QColor(Qt::darkGreen)));	
+  lineea = graphicsscene->addLine(QLineF(0, 0, 1, 1), QPen(Qt::red, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));	
+  lineoa = graphicsscene->addLine(QLineF(0, 0, 1, 1), QPen(Qt::blue, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));	
+  linesa = graphicsscene->addLine(QLineF(0, 0, 1, 1), QPen(Qt::green, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));	
+  linelfa = graphicsscene->addLine(QLineF(0, 0, 1, 1), QPen(Qt::magenta, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));	
+  linev  = graphicsscene->addLine(QLineF(0, 0, 1, 1), QPen(Qt::yellow, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));	
 };
 
 
@@ -107,9 +107,10 @@ void Agent::move(double h) {
 	Tagent::move(h);
 
 	rect->setPos(getx()-0.5, gety()-0.5); // upper left edge
-
+	
  	if (config.showDirection == true) {
 		linev->setLine(getx(), gety(), getx()+1.0*getvx(), gety()+1.0*getvy());
 		linev->setVisible(true);
 	} else { linev->setVisible(false); }
+
 }
