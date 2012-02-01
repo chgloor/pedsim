@@ -12,35 +12,42 @@
 #include <iostream>
 #include <set>
 
-#include "ped_agent.h"
+#include "ped_tree.h"
 
 class Scene;
 
 using namespace std;
 
 
-class Tree {
+class Tree : public Ped::Ttree {
  private:
-  QGraphicsScene *scene;
+  QGraphicsScene *graphicsscene;
+  QGraphicsRectItem *rect;
+  Scene *scene;
   
-
+  /*
   double x;
   double y;
   double w;
   double h;
 
   int depth;
-
-  QGraphicsRectItem *rect;
-
   int agentcount;
   set<Ped::Tagent*> agents;
 
+  */
+
+
   
  public:
-  Tree(QGraphicsScene *scene, int depth, double x, double y, double w, double h);
-  ~Tree();
+  
+  Tree(QGraphicsScene *graphicsscene, Scene *pedscene, int depth, double x, double y, double w, double h);  
+  /* Tree(int depth, double x, double y, double w, double h);  */
+  virtual ~Tree();
 
+  virtual void addChildren();
+
+  /*
   void addAgent(Ped::Tagent *a, Scene *pedscene);
   void moveAgent(Ped::Tagent *a, Scene *pedscene);
   set<Ped::Tagent*> getAgents();
@@ -55,7 +62,7 @@ class Tree {
   Tree *tree4;
 
   bool isleaf;
-  
+  */
 };
 
 #endif

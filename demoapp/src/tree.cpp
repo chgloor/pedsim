@@ -18,21 +18,20 @@
 using namespace std;
 
 extern Config config;
+extern QGraphicsScene *graphicsscene;
 
 
 /// Description: set intial values
 /// \author  chgloor
 /// \date    2012-01-28
-Tree::Tree(QGraphicsScene *pscene, int pdepth, double px, double py, double pw, double ph){
-	agentcount = 0;
-	isleaf = true;
-	scene = pscene;
-	x = px; y = py; w = pw; h = ph;
-	depth = pdepth;
-	QPen p = QPen(QColor(88,0,0), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
-	p.setCosmetic(true);
-	rect = scene->addRect(x, y, w, h, p,  QBrush(QColor(depth*11, 0, 0)));
-	rect->setZValue(-100+depth);
+Tree::Tree(QGraphicsScene *pgraphicsscene, Scene *pedscene, int pdepth, double px, double py, double pw, double ph) : Ped::Ttree(pedscene, pdepth, px, py, pw, ph) {
+// Tree::Tree(int pdepth, double px, double py, double pw, double ph) : Ped::Ttree(pdepth, px, py, pw, ph) {
+	 graphicsscene = pgraphicsscene;
+	 scene = pedscene;
+	 QPen p = QPen(QColor(88,0,0), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+	 p.setCosmetic(true);
+	 rect = graphicsscene->addRect(x, y, w, h, p,  QBrush(QColor(depth*11, 0, 0)));
+	 rect->setZValue(-100+depth);
 };
 
 /// 
@@ -42,15 +41,19 @@ Tree::Tree(QGraphicsScene *pscene, int pdepth, double px, double py, double pw, 
 /// \warning 
 /// \param   
 Tree::~Tree() {
-	if (!isleaf) {
-		delete(tree1);
-		delete(tree2);
-		delete(tree3);
-		delete(tree4);		
-	}
-	scene->removeItem(rect);	
+	graphicsscene->removeItem(rect);	
 	delete(rect);
 }
+
+void Tree::addChildren() {
+	tree1 = new Tree(graphicsscene, scene, depth+1, x, y, 0.5f*w, 0.5f*h);
+	tree2 = new Tree(graphicsscene, scene, depth+1, x+0.5f*w, y, 0.5f*w, 0.5f*h);
+	tree3 = new Tree(graphicsscene, scene, depth+1, x+0.5f*w, y+0.5f*h, 0.5f*w, 0.5f*h);
+	tree4 = new Tree(graphicsscene, scene, depth+1, x, y+0.5f*h, 0.5f*w, 0.5f*h);
+}
+
+
+/*
 
 /// 
 /// \author  chgloor
@@ -167,3 +170,6 @@ bool Tree::intersects(double px, double py, double pr) {
 	if (((px+pr) > x) && ((px-pr) < (x+w)) && ((py+pr) > y) && ((py-pr) < (y+h))) return true; // x+-r/y+-r is inside
 	return false;
 }
+
+
+*/

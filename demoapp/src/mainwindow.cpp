@@ -141,7 +141,7 @@ void MainWindow::timestep() {
 	for (vector<Agent*>::iterator iter = myagents.begin(); iter != myagents.end(); ++iter) {
 		Agent *a = (*iter);
 		a->move(config.simh);
-		pedscene->moveAgent(a);
+		//		pedscene->moveAgent(a);
 		//		a->print();
 	}
 	

@@ -25,24 +25,22 @@ using namespace std;
 /// Class that descripts an scene object
 /// \author  chgloor
 /// \date    2012-01-28
-class Scene : public Ped::Tscene{
+class Scene : public Ped::Tscene {
  private:
   QGraphicsScene *scene;
-  
-  Tree *tree;
-  
+    
  public:
   Scene();
   Scene(QGraphicsScene *scene);
 
-  void virtual addAgent(Ped::Tagent *a);
-  void placeAgent(Ped::Tagent *a);
-  void moveAgent(Ped::Tagent *a);
+  /* void virtual addAgent(Ped::Tagent *a); */
+  /* void placeAgent(Ped::Tagent *a); */
+  /* void moveAgent(Ped::Tagent *a); */
   
-  set<Ped::Tagent*> getNeighbors(double x, double y, double dist);
-  map<Ped::Tagent*, Tree*> treehash;
+  /* set<Ped::Tagent*> getNeighbors(double x, double y, double dist); */
+  /* map<Ped::Tagent*, Tree*> treehash; */
 
-  void cleanup();
+  /* void cleanup(); */
 
 };
 

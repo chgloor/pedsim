@@ -23,6 +23,8 @@ using namespace std;
 
 namespace Ped {
 
+	class Tscene;
+
 /// \example example.cpp
 
 
@@ -44,7 +46,7 @@ namespace Ped {
 		double vmax;                                      ///< individual max velocity per agent
 		int follow;
 
-		Tscene *scene;
+		Ped::Tscene *scene;
 		
 		queue<Twaypoint*> destinations;                    ///< coordinates of the next destinations
 		Twaypoint *destination;                            ///< coordinates of the next destination
@@ -58,6 +60,15 @@ namespace Ped {
 		double factorobstacleforce;
 		double factordesiredforce;
 		double factorlookaheadforce;
+		
+		Ped::Tvector socialforce;
+		Ped::Tvector obstacleforce;
+		Ped::Tvector desiredforce;
+		Ped::Tvector lookaheadforce;
+
+		set<Ped::Tagent*> neighbors;
+
+		long timestep;
 
 	public:
 		Tagent(); 

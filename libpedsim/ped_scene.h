@@ -15,12 +15,15 @@
 #include "ped_vector.h"
 #include "ped_waypoint.h"
 
+#include <set>
 #include <vector>
+#include <map>
 
 namespace Ped {
 
 	class Tagent;
 	class Tobstacle;
+	class Ttree;
 	
 	/// A container for the agents. Defined here because some methods inside the Ped::Tagent class iterate over this container
 #define AgentContainer vector<Tagent*>
@@ -45,13 +48,22 @@ namespace Ped {
 		AgentContainer agent;                             
 		ObstacleContainer obstacle;
 
+	protected:
+		Ttree *tree;
+
 	public:
 		Tscene();
+
+		void addObstacle(Tobstacle *o);
 		
 		void virtual addAgent(Tagent *a);
-		void addObstacle(Tobstacle *o);
-
+		void placeAgent(Ped::Tagent *a);
+		void moveAgent(Ped::Tagent *a);
 		
+		set<Ped::Tagent*> getNeighbors(double x, double y, double dist);
+		map<Ped::Tagent*, Ttree*> treehash;
+		
+		void cleanup();
 	};
 
 }

@@ -23,10 +23,11 @@ extern Config config;
 /// Description: set intial values
 /// \author  chgloor
 /// \date    2012-01-28
-Scene::Scene(QGraphicsScene *pscene) : Tscene() {
+Scene::Scene(QGraphicsScene *pscene)  {
   scene = pscene;
   //  ellipse = scene->addEllipse(getx()-getr(), gety()-getr(), getr()*2, getr()*2, QPen(QColor(44,0,0), 0.5, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin), QBrush(QColor(44, 0, 0)));
-  tree = new Tree(scene, 0, -200, -160, 400, 320);
+  //  tree = new Tree(scene, 0, -200, -160, 400, 320);
+  tree = new Tree(pscene, this, 0, -200, -160, 400, 320);
 };
 
 
@@ -37,6 +38,7 @@ Scene::Scene() : Tscene() {
 };
 
 
+/*
 /// 
 /// \author  chgloor
 /// \date    2012-01-28
@@ -105,3 +107,6 @@ set<Ped::Tagent*> Scene::getNeighbors(double x, double y, double dist) {
 	}
 	return neighbors;
 }
+
+
+*/

@@ -42,7 +42,7 @@ Ped::Tagent::Tagent() {
   factordesiredforce = 1.0f;
   factorlookaheadforce = 1.0f;
 
-
+  timestep = 0;
 };
 
 
@@ -132,7 +132,8 @@ void Ped::Tagent::setfactorlookaheadforce(double f) {factorlookaheadforce = f; }
 /// \return  Tvector: the calculated force
 Ped::Tvector Ped::Tagent::socialForce() {
 	Ped::Tvector s;
-	for (AgentIterator iter = scene->agent.begin(); iter!=scene->agent.end(); ++iter) { 
+	//	for (AgentIterator iter = scene->agent.begin(); iter!=scene->agent.end(); ++iter) { 
+	for (set<Ped::Tagent*>::iterator iter = neighbors.begin(); iter!=neighbors.end(); ++iter) { 
 		Ped::Tvector f;
 		if (((*iter)->id != id)) {
 			if ((abs(p.x-(*iter)->p.x) < 10) && (abs(p.y-(*iter)->p.y) < 10)) { // quick dist check
@@ -234,27 +235,28 @@ Ped::Tvector Ped::Tagent::lookaheadForce(Ped::Tvector e) {
 	Ped::Tvector lf;
 
 	int lookforwardcount = 0;		
-	for (AgentIterator iter = scene->agent.begin(); iter!=scene->agent.end(); iter++) {  // iterate over all agents == O(N^2) :(
+	//	for (AgentIterator iter = scene->agent.begin(); iter!=scene->agent.end(); iter++) {  // iterate over all agents == O(N^2) :(
+	for (set<Ped::Tagent*>::iterator iter = neighbors.begin(); iter!=neighbors.end(); ++iter) { 
 		if (((*iter)->id != id)) {
 			double distancex = (*iter)->p.x - p.x;
 			double distancey = (*iter)->p.y - p.y;
-			double dist2 = (distancex * distancex + distancey * distancey); // 2D  
-			if (dist2 < 400) { // look ahead feature
-				double at2v  = atan2(-e.x, -e.y); // was vx, vy  --chgloor 2012-01-15 
-				double at2d  = atan2(-distancex, -distancey);
-				double at2v2 = atan2(-(*iter)->v.x, -(*iter)->v.y);
-				double pi = 3.14159265;
-				double s = at2d - at2v;   if (s > pi) s -= 2*pi;   if (s < -pi) s += 2*pi; 
-				double vv = at2v - at2v2; if (vv > pi) vv -= 2*pi; if (vv < -pi) vv += 2*pi;
-				if ((vv < -2.5) || (vv > 2.5)) { // entgegengesetzte richtung
-					if ((s < 0) && (s > -0.3)) { // position vor mir, in meine richtung
-						lookforwardcount--;
-					} 
-					if ((s > 0) && (s < 0.3)) {
-						lookforwardcount++;
-					}
+			// double dist2 = (distancex * distancex + distancey * distancey); // 2D  
+			// if (dist2 < 400) { // look ahead feature
+			double at2v  = atan2(-e.x, -e.y); // was vx, vy  --chgloor 2012-01-15 
+			double at2d  = atan2(-distancex, -distancey);
+			double at2v2 = atan2(-(*iter)->v.x, -(*iter)->v.y);
+			double pi = 3.14159265;
+			double s = at2d - at2v;   if (s > pi) s -= 2*pi;   if (s < -pi) s += 2*pi; 
+			double vv = at2v - at2v2; if (vv > pi) vv -= 2*pi; if (vv < -pi) vv += 2*pi;
+			if ((vv < -2.5) || (vv > 2.5)) { // entgegengesetzte richtung
+				if ((s < 0) && (s > -0.3)) { // position vor mir, in meine richtung
+					lookforwardcount--;
+				} 
+				if ((s > 0) && (s < 0.3)) {
+					lookforwardcount++;
 				}
 			}
+			// }
 		}
 	}
 
@@ -277,40 +279,45 @@ Ped::Tvector Ped::Tagent::lookaheadForce(Ped::Tvector e) {
 /// \date    2003-12-29
 /// \param   h This tells the simulation how far the agent should proceed (also known as Tau in literature). 1 = 1 unit.
 void Ped::Tagent::move(double h) {
-	Ped::Tvector socialforce;
-	if (factorsocialforce > 0) socialforce = socialForce();
-	Ped::Tvector desiredforce = desiredForce();
-	Ped::Tvector lookaheadforce = lookaheadForce(desiredforce);
-	Ped::Tvector obstacleforce;
-	if (factorobstacleforce > 0) obstacleforce = obstacleForce();
-	Ped::Tvector tendencyforce;
-	if (mlTendency) {
-		tendencyforce.x =  0.1f * desiredforce.y;;
-		tendencyforce.y = -0.1f * desiredforce.x;
-	}
+
+	neighbors = scene->getNeighbors(p.x, p.y, 20);
+	
+	if (factorsocialforce > 0) if (timestep % 2 == 0) socialforce = socialForce();
+	if (timestep % 5 == 0) desiredforce = desiredForce();
+	if (timestep % 5 == 0) lookaheadforce = lookaheadForce(desiredforce);
+	if (factorobstacleforce > 0) if (timestep % 1 == 0) obstacleforce = obstacleForce();
 
 	//  sum of all forces --> acceleration
 	Ped::Tvector a; 
-	a.x = factorsocialforce * socialforce.x + factordesiredforce * desiredforce.x + factorobstacleforce * obstacleforce.x + factorlookaheadforce * lookaheadforce.x + tendencyforce.x;
-	a.y = factorsocialforce * socialforce.y + factordesiredforce * desiredforce.y + factorobstacleforce * obstacleforce.y + factorlookaheadforce * lookaheadforce.y + tendencyforce.y;
-	a.z = factorsocialforce * socialforce.z + factordesiredforce * desiredforce.z + factorobstacleforce * obstacleforce.z + factorlookaheadforce * lookaheadforce.z + tendencyforce.z;
+	a.x = factorsocialforce * socialforce.x + factordesiredforce * desiredforce.x + factorobstacleforce * obstacleforce.x + factorlookaheadforce * lookaheadforce.x;
+	a.y = factorsocialforce * socialforce.y + factordesiredforce * desiredforce.y + factorobstacleforce * obstacleforce.y + factorlookaheadforce * lookaheadforce.y;
+	a.z = factorsocialforce * socialforce.z + factordesiredforce * desiredforce.z + factorobstacleforce * obstacleforce.z + factorlookaheadforce * lookaheadforce.z;
 	
 	// calculate the new velocity based on v0 and the acceleration
 	v.x = 0.75 * v.x + a.x; 
 	v.y = 0.75 * v.y + a.y; // <<<<<<<<<<<-----------  is this 0.75 dependent of h?? think so   --chgloor 2012-01-15
 	v.z = 0.75 * v.z + a.z;
-	
+
+	double currvmax = vmax;
+	// double strength2socialforce = (socialforce.x * socialforce.x + socialforce.y + socialforce.y);
+	// if (strength2socialforce > 2*2) strength2socialforce = 2*2;
+	// if (strength2socialforce > (1*1)) currvmax /= (strength2socialforce*strength2socialforce);
+
 	double speed = (sqrt(v.x*v.x + v.y*v.y + v.z*v.z));
-	if (speed > vmax) {
-		v.x = (v.x / speed) * vmax;
-		v.y = (v.y / speed) * vmax;
-		v.z = (v.z / speed) * vmax;
+	if (speed > currvmax) {
+		v.x = (v.x / speed) * currvmax;
+		v.y = (v.y / speed) * currvmax;
+		v.z = (v.z / speed) * currvmax;
 	}
 
-	// position update == actual move 
+	// internal position update == actual move 
 	p.x = p.x + h * v.x; // x = x0 + v*t
 	p.y = p.y + h * v.y;
 	p.z = 0; // p.z + h * v.z; // 2D  --chgloor 2012-01-04
 
+	// notice scene of movement
+	scene->moveAgent(this);
+
+	timestep++; // local agent tiemstep since creation
 }
 
