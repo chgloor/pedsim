@@ -279,13 +279,16 @@ Ped::Tvector Ped::Tagent::lookaheadForce(Ped::Tvector e) {
 /// \date    2003-12-29
 /// \param   h This tells the simulation how far the agent should proceed (also known as Tau in literature). 1 = 1 unit.
 void Ped::Tagent::move(double h) {
+	int update = 1/h;
+	if (timestep % update == 0) { 
+		neighbors = scene->getNeighbors(p.x, p.y, 20);
+		lookaheadforce = lookaheadForce(desiredforce);
 
-	neighbors = scene->getNeighbors(p.x, p.y, 20);
-	
-	if (factorsocialforce > 0) if (timestep % 2 == 0) socialforce = socialForce();
-	if (timestep % 5 == 0) desiredforce = desiredForce();
-	if (timestep % 5 == 0) lookaheadforce = lookaheadForce(desiredforce);
-	if (factorobstacleforce > 0) if (timestep % 1 == 0) obstacleforce = obstacleForce();
+		desiredforce = desiredForce();
+	}
+	if (factorsocialforce > 0) socialforce = socialForce();
+	if (factorobstacleforce > 0) obstacleforce = obstacleForce();
+
 
 	//  sum of all forces --> acceleration
 	Ped::Tvector a; 

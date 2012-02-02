@@ -30,7 +30,8 @@ Tree::Tree(QGraphicsScene *pgraphicsscene, Scene *pedscene, int pdepth, double p
 	 scene = pedscene;
 	 QPen p = QPen(QColor(88,0,0), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
 	 p.setCosmetic(true);
-	 rect = graphicsscene->addRect(x, y, w, h, p,  QBrush(QColor(depth*11, 0, 0)));
+	 //	 rect = graphicsscene->addRect(x, y, w, h, p,  QBrush(QColor(depth*11, 0, 0)));
+	 rect = graphicsscene->addRect(x, y, w, h, p);
 	 rect->setZValue(-100+depth);
 };
 
