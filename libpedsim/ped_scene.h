@@ -64,6 +64,8 @@ namespace Ped {
 		map<Ped::Tagent*, Ttree*> treehash;
 		
 		void cleanup();
+
+		virtual void moveAgents(double h);
 	};
 
 }

@@ -29,6 +29,17 @@ void Ped::Tscene::addAgent(Ped::Tagent *a) {
 }
 
 
+/// 
+/// \date    2012-02-03
+/// \param   
+void Ped::Tscene::moveAgents(double h) {
+	for (vector<Tagent*>::iterator iter = agent.begin(); iter != agent.end(); ++iter) {
+		Tagent *a = (*iter);
+		a->move(h);
+	}
+}
+
+
 /// Used to add a Tobstacle to the Tscene.
 /// \date    2012-01-17
 /// \param   *o A pointer to the Tobstacle to add.

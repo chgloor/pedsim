@@ -138,24 +138,13 @@ void MainWindow::zoomout() {
 void MainWindow::timestep() {	
 	systemtime++;
 	fpscount++;
-	for (vector<Agent*>::iterator iter = myagents.begin(); iter != myagents.end(); ++iter) {
-		Agent *a = (*iter);
-		a->move(config.simh);
-		//		pedscene->moveAgent(a);
-		//		a->print();
-	}
+
+	pedscene->moveAgents(config.simh);
 	
 	if (systemtime %100 == 0) pedscene->cleanup();
-	
-	set<Ped::Tagent*> a = pedscene->getNeighbors(0, 0, 15);
-	// for (set<Ped::Tagent*>::iterator it = a.begin(); it != a.end(); ++it) {
-	// 	cout << "n " << (*it)->getx() << "/" << (*it)->gety() << endl;
-	// }
-	//	cout << a.size() << endl;
 
-
-	doorobstacle1->rotate(80, 0, config.simh * 0.1);
-	doorobstacle2->rotate(80, 0, config.simh * 0.1);
+	// doorobstacle1->rotate(80, 0, config.simh * 0.1);
+	// doorobstacle2->rotate(80, 0, config.simh * 0.1);
 
 	statusBar()->showMessage(QString("Systemtime: %1").arg(systemtime));
 	timer->start(config.simSpeed);
