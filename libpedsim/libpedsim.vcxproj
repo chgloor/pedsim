@@ -80,6 +80,7 @@
     <ClInclude Include="ped_scene.h" />
     <ClInclude Include="ped_vector.h" />
     <ClInclude Include="ped_waypoint.h" />
+    <ClInclude Include="ped_tree.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ped_agent.cpp" />
@@ -87,6 +88,7 @@
     <ClCompile Include="ped_scene.cpp" />
     <ClCompile Include="ped_vector.cpp" />
     <ClCompile Include="ped_waypoint.cpp" />
+    <ClCompile Include="ped_tree.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

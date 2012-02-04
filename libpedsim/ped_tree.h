@@ -6,6 +6,13 @@
 #ifndef _ped_tree_h_
 #define _ped_tree_h_ 1
 
+#ifdef WIN32
+#define LIBEXPORT __declspec(dllexport)
+#else
+#define LIBEXPORT
+#endif
+
+
 #include <set>
 
 using namespace std;
@@ -15,7 +22,7 @@ namespace Ped {
 	class Tscene;
 	class Tagent;
 	
-	class Ttree {
+	class LIBEXPORT Ttree {
 		friend class Tscene;
 	private:
 		int agentcount;
@@ -29,15 +36,15 @@ namespace Ped {
 		int depth;
 
 		Ped::Tscene *scene;
-		virtual void addChildren();
-		virtual int cut();
 
 	protected:
 		Ttree *tree1;
 		Ttree *tree2;
 		Ttree *tree3;
 		Ttree *tree4;
-		
+
+		virtual int cut();		
+		virtual void addChildren();
 
 	public:
 		Ttree(Ped::Tscene *scene, int depth, double x, double y, double w, double h);

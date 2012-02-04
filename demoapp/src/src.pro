@@ -11,7 +11,7 @@ QMAKE_LIBS += -lpedsim
 
 QT += opengl
 
-CONFIG += debug
+CONFIG += release
 # CONFIG += console
 
 FORMS = control.ui
