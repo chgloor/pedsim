@@ -39,7 +39,9 @@ void MainWindow::about() {
 	QMessageBox::about(this, tr("About PedSim Demo"),
 							 tr("<b>PedSim Demo</b> is a small pedestrian simulation system"
 								 "with an interactive GUI, "
-								 "suitable for small experiments. <br>(c) 2012 by Christian Gloor"));
+								 "suitable for small experiments. <br>"
+								 "It is based on <b>libpedsim</b>, http://pedsim.silmaril.org/<br>"
+								 " (c) 2003-2012 by Christian Gloor"));
 }
 
 void MainWindow::createActions() {

@@ -36,6 +36,11 @@ Ped::Twaypoint::Twaypoint() {
   r = 1;
 };
 
+/// Default Destructor
+/// \author  chgloor
+/// \date    2012-02-04
+Ped::Twaypoint::~Twaypoint() {
+}
 
 /// Calculates the point that is on the given line and normal to the give position.
 /// If it is not inside the line, the start or end point of the line is returned.

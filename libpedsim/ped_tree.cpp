@@ -146,7 +146,7 @@ int Ped::Ttree::cut() {
 /// \return  
 /// \warning 
 /// \param   
-set<Ped::Tagent*> Ped::Ttree::getAgents() {
+set<Ped::Tagent*> Ped::Ttree::getAgents() const {
 	set<Ped::Tagent*> ta;
 	if (isleaf) {
 		return agents;
@@ -170,7 +170,7 @@ set<Ped::Tagent*> Ped::Ttree::getAgents() {
 /// \return  
 /// \warning 
 /// \param   
-bool Ped::Ttree::intersects(double px, double py, double pr) {
+bool Ped::Ttree::intersects(double px, double py, double pr) const {
 	if (((px+pr) > x) && ((px-pr) < (x+w)) && ((py+pr) > y) && ((py-pr) < (y+h))) return true; // x+-r/y+-r is inside
 	return false;
 }

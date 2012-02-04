@@ -3,24 +3,23 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QtGui/QGraphicsView>
 
 class QAction;
 class QMenu;
 class Control;
+class QGraphicsView;
 
 class MainWindow : public QMainWindow {
 	Q_OBJECT
 		
-		public:
-	
+ public:	
 	MainWindow();
 	QGraphicsView *graphicsView;
 	
  protected:
 	void closeEvent(QCloseEvent *event);
 	
-	private slots:
+ private slots:
 	void about();
 
  public slots:
@@ -40,23 +39,16 @@ class MainWindow : public QMainWindow {
 	QMenu *fileMenu;
 	QMenu *viewMenu;
 	QMenu *helpMenu;
-	//	QToolBar *fileToolBar;
 	QToolBar *editToolBar;
 	QAction *exitAct;
 	QAction *aboutAct;
-	//	QAction *aboutQtAct;
 
 	QAction *zoominAct;
 	QAction *zoomoutAct;
 
 	Control *uicontrol;
 
-	//	QAction *resetTimeAct;
-	//	QAction *startTimeAct;
-
 	QTimer *timer;
-
-	int fpscount;
 };
 
 #endif

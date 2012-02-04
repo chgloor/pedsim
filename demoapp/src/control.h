@@ -19,11 +19,11 @@ class Control : public QDockWidget {
 
  public slots:
 	void showWaypoints(bool show);
+	void showTree(bool show);
 	void simWallForce(int value);
 	void simPedForce(int value);
 	void simSpeed(int value);
 	void simh(int value);
-	void mlTendency(bool value);
 	void mlLookAhead(bool value);
 
 	void showForces(bool show);

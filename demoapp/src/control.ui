@@ -65,7 +65,11 @@
           </font>
          </property>
          <property name="text">
-          <string>&lt;font color=&quot;white&quot;&gt;PedSim v2.1 Demo&lt;/font&gt;</string>
+          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Droid Sans'; font-size:12pt; font-weight:600; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; color:#ffffff;&quot;&gt;PedSim v2.2 Demo&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -140,6 +144,13 @@
         </widget>
        </item>
        <item>
+        <widget class="QCheckBox" name="treeCheckBox">
+         <property name="text">
+          <string>Show Quadtree</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QCheckBox" name="showDirectionCheckBox">
          <property name="enabled">
           <bool>true</bool>
@@ -193,13 +204,6 @@
         </spacer>
        </item>
       </layout>
-      <zorder>showDirectionCheckBox</zorder>
-      <zorder>verticalSpacer_2</zorder>
-      <zorder>waypointsCheckBox</zorder>
-      <zorder>frame_2</zorder>
-      <zorder>fpsLabel</zorder>
-      <zorder>simspeedSlider</zorder>
-      <zorder>showForcesCheckBox</zorder>
      </widget>
     </item>
     <item>
@@ -214,16 +218,6 @@
        <string>Mental Layer Options</string>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_6">
-       <item>
-        <widget class="QCheckBox" name="mlTendencyCheckBox">
-         <property name="text">
-          <string>Tendency Strategy</string>
-         </property>
-         <property name="checked">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
        <item>
         <widget class="QCheckBox" name="mlLookAheadCheckBox">
          <property name="enabled">

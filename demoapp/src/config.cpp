@@ -22,6 +22,7 @@ Config::Config() { // make sure this reflects what is set as default in the suer
 	mlLookAhead = true;
 	showForces = false;
 	showDirection = false;
+	showTree = false;
 	simh = 0.2;
 }
 

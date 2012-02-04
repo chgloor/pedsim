@@ -12,9 +12,6 @@
 #define LIBEXPORT
 #endif
 
-#include "ped_vector.h"
-#include "ped_waypoint.h"
-
 #include <set>
 #include <vector>
 #include <map>
@@ -25,18 +22,7 @@ namespace Ped {
 	class Tobstacle;
 	class Ttree;
 	
-	/// A container for the agents. Defined here because some methods inside the Ped::Tagent class iterate over this container
-#define AgentContainer vector<Tagent*>
-	/// A container iterator for the agents. Defined here because some methods inside the Ped::Tagent class iterate over this container
-#define AgentIterator vector<Tagent*>::iterator
-	
-	/// A container for the obstacles. Defined here because some methods inside the Tobstacle class iterate over this container
-#define ObstacleContainer vector<Tobstacle*>
-	/// A container iterator for the obstacles. Defined here because some methods inside the Tobstacle class iterate over this container
-#define ObstacleIterator vector<Tobstacle*>::iterator
-	
-	using namespace std;
-	
+	using namespace std;	
 	
 	/// Class that defines a Tscene object
 	/// \author  chgloor
@@ -46,8 +32,8 @@ namespace Ped {
 		friend class Ped::Ttree;
 
 	private:
-		AgentContainer agent;                             
-		ObstacleContainer obstacle;
+		vector<Tagent*> agent;                            
+		vector<Tobstacle*> obstacle;
 
 	protected:
 		Ttree *tree;
@@ -64,12 +50,9 @@ namespace Ped {
 
 		virtual void cleanup();
 		virtual void moveAgents(double h);
-
 		
 		set<Ped::Tagent*> getNeighbors(double x, double y, double dist);
-		map<Ped::Tagent*, Ttree*> treehash;
-		
+		map<Ped::Tagent*, Ttree*> treehash;		
 	};
-
-}
+};
 #endif

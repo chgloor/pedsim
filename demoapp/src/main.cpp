@@ -2,7 +2,7 @@
 /// pedsim - A microscopic pedestrian simulation system. 
 /// Copyright (c) 2003 - 2012 by Christian Gloor
 ///                              
-///
+/// http://pedsim.silmaril.org/
 ///       _
 ///   _  (__/   _ _ _   /    _ / _ ' __/'_    _ /    _ 
 /// _) ()/ /((/(// (-  ()(/ ( /)/ /_) //(//) (/(()()/  
@@ -17,13 +17,9 @@
 #include <QtOpenGL>
 #include <QGLWidget>
 #include <QGLFormat>
-#include <QPen>
 #include <QTimer>
 
 #include <iostream>                       // cout
-#include <stdlib.h>                       // random
-
-#include "pedsim.h"
 
 #include "mainwindow.h"
 #include "agent.h"
@@ -38,13 +34,9 @@ using namespace std;
 
 Config config;
 
-
-// ----------------------------------------------------
-// Name: main
-// Description: - 
-// Introduced: chgloor Monday, December 29, 2003 10:31:59
-// Return value: 0
-// ----------------------------------------------------
+/// The programm entry point. Sets up everything, and calls QT exec to start the event loop.
+/// \date    2003-12-29
+/// \return  whatever app.exec() returns. 
 int main(int argc, char *argv[]) {
 	
 	QString scenefile = argv[1];
@@ -56,19 +48,19 @@ int main(int argc, char *argv[]) {
 	
 	QApplication app(argc, argv);
 	QApplication::setStyle(new Style());
-
+	
 	MainWindow mainwindow;
 	mainwindow.show();
-
-QGraphicsScene *graphicsscene = new QGraphicsScene(0);
-
+	
+	QGraphicsScene *graphicsscene = new QGraphicsScene();
+	
 	graphicsscene->setBackgroundBrush(Qt::black);
 	graphicsscene->setItemIndexMethod(QGraphicsScene::NoIndex);
-
+	
 	Scene *pedscene = new Scene(graphicsscene);
-
+	
 	Loadscene l(scenefile, pedscene, graphicsscene);
-
+	
 	mainwindow.graphicsView->setScene(graphicsscene);
 	mainwindow.graphicsView->setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
 	mainwindow.graphicsView->setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);

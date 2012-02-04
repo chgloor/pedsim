@@ -25,44 +25,15 @@ class Tree : public Ped::Ttree {
   QGraphicsRectItem *rect;
   Scene *scene;
   
-  /*
-  double x;
-  double y;
-  double w;
-  double h;
-
-  int depth;
-  int agentcount;
-  set<Ped::Tagent*> agents;
-
-  */
-
-
-  
  public:
   
   Tree(QGraphicsScene *graphicsscene, Scene *pedscene, int depth, double x, double y, double w, double h);  
-  /* Tree(int depth, double x, double y, double w, double h);  */
   virtual ~Tree();
 
   virtual void addChildren();
 
-  /*
-  void addAgent(Ped::Tagent *a, Scene *pedscene);
-  void moveAgent(Ped::Tagent *a, Scene *pedscene);
-  set<Ped::Tagent*> getAgents();
+  int cut();
 
-  bool intersects(double px, double py, double pr);
-  
-  int cut(Scene *pedscene);
-
-  Tree *tree1;
-  Tree *tree2;
-  Tree *tree3;
-  Tree *tree4;
-
-  bool isleaf;
-  */
 };
 
 #endif

@@ -79,7 +79,7 @@ namespace Ped {
 		virtual Tvector desiredForce();
 		virtual Tvector lookaheadForce(Tvector desired);
 
-		virtual void print() {cout << "agent " << id << ": " << p.x << "/" << p.y << "/" << p.z << endl; }; 
+		virtual void print() const {cout << "agent " << id << ": " << p.x << "/" << p.y << "/" << p.z << endl; }; 
 		
 		void setPosition(double px, double py, double pz);
 		void setType(int t) {this->type = t; };           

@@ -1,4 +1,5 @@
-#include "pedsim.h"
+
+#include "ped_includes.h"
 
 #include <iostream>
 #include <stdlib.h>
@@ -20,8 +21,8 @@ int main(int argc, char *argv[]) {
 	for (int i = 0; i<100; i++) { 
 	  Ped::Tagent *a = new Ped::Tagent();
 	  
-	  a->addWaypoint(w1);
-	  a->addWaypoint(w2);
+	  a->addWaypoint(&w1);
+	  a->addWaypoint(&w2);
 	  
 	  a->setPosition(-50 + rand()/(RAND_MAX/80)-40, 0 + rand()/(RAND_MAX/20) -10, 0);
 	  

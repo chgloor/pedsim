@@ -172,7 +172,7 @@ Ped::Tvector Ped::Tagent::obstacleForce() {
 	double mindox = 0;
 	double mindoy = 0;
 
-	for (ObstacleIterator iter = scene->obstacle.begin(); iter!=scene->obstacle.end(); ++iter) {
+	for (vector<Tobstacle*>::iterator iter = scene->obstacle.begin(); iter!=scene->obstacle.end(); ++iter) {
 		Ped::Tvector ov = (*iter)->obstacleforce(p.x, p.y);
 		double dox = p.x - ov.x;
 		double doy = p.y - ov.y;

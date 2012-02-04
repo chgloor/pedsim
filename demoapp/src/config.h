@@ -23,6 +23,7 @@ class Config : public QObject {
 	bool showForces;
 	bool showDirection;
 	double simh;
+	bool showTree;
 
  signals: 
 	//	void showWaypoints(bool show);

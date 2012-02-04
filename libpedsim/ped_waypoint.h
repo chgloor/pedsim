@@ -14,9 +14,6 @@
 
 #include "ped_vector.h"
 
-#include <iostream>
-
-
 using namespace std;
 
 namespace Ped {
@@ -35,29 +32,24 @@ namespace Ped {
 	public:
 		Twaypoint();
 		Twaypoint(double x, double y, double r);
+		virtual ~Twaypoint();
 
 		virtual Tvector getForce(double myx, double myy, double fromx, double fromy, bool *reached);
 		virtual Tvector normalpoint(double p1, double p2, double oc11, double oc12, double oc21, double oc22);
 
 		void setType(int t) {type = t; };      
-		int getid() { return id; };            
-		int gettype() { return type; };        
-		double getx() { return x; };           
-		double gety() { return y; };           
-		double getr() { return r; };           
 		void setx(double px) { x = px; };      
 		void sety(double py) { y = py; };      
 		void setr(double pr) { r = pr; };      
 		void settype(int t) { type = t; };                       		
+
+		int getid() const { return id; };            
+		int gettype() const { return type; };        
+		double getx() const { return x; };           
+		double gety() const { return y; };           
+		double getr() const { return r; };           
 	};
-	
-	/// A container for the waypoints. Defined here because some methods inside the Twaypoint class iterate over this container
-#define WaypointContainer vector<Twaypoint*>
-	
-	/// A container iterator for the waypoints. Defined here because some methods inside the Twaypoint class iterate over this container
-#define WaypointIterator vector<Twaypoint*>::iterator
-	
-	
-}
+		
+};
 
 #endif

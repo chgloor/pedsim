@@ -6,7 +6,6 @@
 #ifndef _ped_tree_h_
 #define _ped_tree_h_ 1
 
-#include <iostream>
 #include <set>
 
 using namespace std;
@@ -17,43 +16,47 @@ namespace Ped {
 	class Tagent;
 	
 	class Ttree {
+		friend class Tscene;
 	private:
 		int agentcount;
-		set<Ped::Tagent*> agents; // set and not vector, since we need to delete elements from the middle very often
+		set<Ped::Tagent*> agents;  // set and not vector, since we need to delete elements from the middle very often
 		
-
-	protected:
-		Ped::Tscene *scene;
+		bool isleaf;		
 		double x;
 		double y;
 		double w;
 		double h;
 		int depth;
-		
 
-	public:
-		//		Ttree(int depth, double x, double y, double w, double h);
-		Ttree(Ped::Tscene *scene, int depth, double x, double y, double w, double h);
-		virtual ~Ttree();
-		
-		/* virtual void addAgent(Ped::Tagent *a, Ped::Tscene *pedscene); */
-		/* virtual void moveAgent(Ped::Tagent *a, Ped::Tscene *pedscene); */
-		virtual void addAgent(Ped::Tagent *a);
-		virtual void moveAgent(Ped::Tagent *a);
-		virtual set<Ped::Tagent*> getAgents(); // vector, b/c it is used only for transfer
-		
-		virtual bool intersects(double px, double py, double pr);
-		
-		/* virtual int cut(Ped::Tscene *pedscene); */
-		virtual int cut();
+		Ped::Tscene *scene;
 		virtual void addChildren();
+		virtual int cut();
 
+	protected:
 		Ttree *tree1;
 		Ttree *tree2;
 		Ttree *tree3;
 		Ttree *tree4;
 		
-		bool isleaf;		
+
+	public:
+		Ttree(Ped::Tscene *scene, int depth, double x, double y, double w, double h);
+		virtual ~Ttree();
+
+		virtual void addAgent(Ped::Tagent *a);
+		virtual void moveAgent(Ped::Tagent *a);
+
+		virtual set<Ped::Tagent*> getAgents() const; 
+		
+		virtual bool intersects(double px, double py, double pr) const;		
+
+		double getx() const { return x; };                    
+		double gety() const { return y; };                    
+		double getw() const { return w; };                    
+		double geth() const { return h; };                    
+
+		double getdepth() const { return depth; };                    
+
 	};
 };
 
