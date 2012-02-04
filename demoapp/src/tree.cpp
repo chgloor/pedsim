@@ -23,12 +23,13 @@ extern QGraphicsScene *graphicsscene;
 /// Description: set intial values
 /// \date    2012-01-28
 Tree::Tree(QGraphicsScene *pgraphicsscene, Scene *pedscene, int pdepth, double px, double py, double pw, double ph) : Ped::Ttree(pedscene, pdepth, px, py, pw, ph) {
-	 graphicsscene = pgraphicsscene;
-	 scene = pedscene;
-	 QPen p = QPen(QColor(88,0,0), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
-	 p.setCosmetic(true);
-	 rect = graphicsscene->addRect(getx(), gety(), getw(), geth(), p);
-	 rect->setZValue(-100+getdepth());
+	graphicsscene = pgraphicsscene;
+	scene = pedscene;
+	QPen p = QPen(QColor(88,0,0), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+	p.setCosmetic(true);
+	rect = graphicsscene->addRect(getx(), gety(), getw(), geth(), p);
+	rect->setVisible(config.showTree);
+	rect->setZValue(-100+getdepth());
 };
 
 /// Destructor: removes the graphics from the screen, too.
@@ -39,6 +40,7 @@ Tree::~Tree() {
 }
 
 int Tree::cut() {
+	rect->setVisible(config.showTree);
 	return Ttree::cut();	
 }
 
