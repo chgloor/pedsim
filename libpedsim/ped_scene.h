@@ -42,30 +42,33 @@ namespace Ped {
 	/// \author  chgloor
 	/// \date    2010-02-12
 	class LIBEXPORT Tscene {
-	private:
-
 		friend class Ped::Tagent;
+		friend class Ped::Ttree;
+
+	private:
 		AgentContainer agent;                             
 		ObstacleContainer obstacle;
 
 	protected:
 		Ttree *tree;
+		void placeAgent(Ped::Tagent *a);
 
 	public:
 		Tscene();
+		virtual ~Tscene();
 
-		void addObstacle(Tobstacle *o);
+		virtual void addObstacle(Tobstacle *o);
 		
-		void virtual addAgent(Tagent *a);
-		void placeAgent(Ped::Tagent *a);
-		void moveAgent(Ped::Tagent *a);
+		virtual void addAgent(Tagent *a);
+		virtual void moveAgent(Ped::Tagent *a);
+
+		virtual void cleanup();
+		virtual void moveAgents(double h);
+
 		
 		set<Ped::Tagent*> getNeighbors(double x, double y, double dist);
 		map<Ped::Tagent*, Ttree*> treehash;
 		
-		void cleanup();
-
-		virtual void moveAgents(double h);
 	};
 
 }

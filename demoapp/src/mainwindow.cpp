@@ -1,31 +1,17 @@
 // Copyright (C) by Christian Gloor. All rights reserved.
 // See main.cpp for details.
 
-#include <QtGui>
-
-#include <vector>
-
-#include "agent.h"
-#include "scene.h"
-
 #include "mainwindow.h"
 #include "control.h"
 #include "config.h"
-#include "obstacle.h"
+
+#include <QtGui>
 
 #define ZOOMFACTOR 1.2
 
 using namespace std;
 
-extern vector<Agent*> myagents;                             
-extern Scene *pedscene;
-
-extern long systemtime;
 extern Config config;
-
-extern Obstacle *doorobstacle1;
-extern Obstacle *doorobstacle2;
-
 
 MainWindow::MainWindow() {
 	graphicsView = new QGraphicsView();
@@ -43,16 +29,6 @@ MainWindow::MainWindow() {
 
 	connect(uicontrol, SIGNAL(zoomin()), this, SLOT(zoomin()));
 	connect(uicontrol, SIGNAL(zoomout()), this, SLOT(zoomout()));
-	
-	timer = new QTimer(this);
-	connect(timer, SIGNAL(timeout()), this, SLOT(timestep()));
-	timer->setSingleShot(true);
-	timer->start(1000/20);
-
-	QTimer *fpstimer = new QTimer(this);
-	connect(fpstimer, SIGNAL(timeout()), this, SLOT(fps()));
-	fpstimer->start(3000);
-	fpscount = 0;
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
@@ -135,28 +111,3 @@ void MainWindow::zoomout() {
 		graphicsView->scale(1/ZOOMFACTOR, 1/ZOOMFACTOR);
 }
 
-void MainWindow::timestep() {	
-	systemtime++;
-	fpscount++;
-
-	pedscene->moveAgents(config.simh);
-	
-	if (systemtime %100 == 0) pedscene->cleanup();
-
-	// doorobstacle1->rotate(80, 0, config.simh * 0.1);
-	// doorobstacle2->rotate(80, 0, config.simh * 0.1);
-
-	statusBar()->showMessage(QString("Systemtime: %1").arg(systemtime));
-	timer->start(config.simSpeed);
-}
-
-/// 
-/// \author  chgloor
-/// \date    2012-01-30
-/// \return  
-/// \warning 
-/// \param   
-void MainWindow::fps() {	 
-	uicontrol->setfps(1.0f*fpscount/3);
-	fpscount = 0;
-}

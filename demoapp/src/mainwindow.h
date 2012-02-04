@@ -23,15 +23,9 @@ class MainWindow : public QMainWindow {
 	private slots:
 	void about();
 
-public slots:
+ public slots:
 	void zoomin();
 	void zoomout();
-
-	/* void startTime(); */
-	/* void resetTime(); */
-
-	void timestep();
-	void fps();
 	
  private:
 	void createActions();

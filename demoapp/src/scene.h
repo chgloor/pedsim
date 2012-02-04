@@ -6,13 +6,6 @@
 #ifndef _scene_h_
 #define _scene_h_ 1
 
-#include <QGraphicsItem>
-#include <QQueue>
-#include <map>
-#include <set>
-
-#include <iostream>
-
 #include "ped_scene.h"
 #include "ped_agent.h"
 
@@ -20,28 +13,29 @@
 
 class Tagent;
 
+class QGraphicsScene;
+class QTimer;
+
 using namespace std;
 
 /// Class that descripts an scene object
 /// \author  chgloor
 /// \date    2012-01-28
-class Scene : public Ped::Tscene {
+class Scene : public QObject, public Ped::Tscene {
+	Q_OBJECT
+
  private:
   QGraphicsScene *scene;
-    
+  QTimer *movetimer;
+  QTimer *cleanuptimer;
+
+ public slots:
+  void moveAllAgents();
+  void cleanupSlot();
+  
  public:
   Scene();
   Scene(QGraphicsScene *scene);
-
-  /* void virtual addAgent(Ped::Tagent *a); */
-  /* void placeAgent(Ped::Tagent *a); */
-  /* void moveAgent(Ped::Tagent *a); */
-  
-  /* set<Ped::Tagent*> getNeighbors(double x, double y, double dist); */
-  /* map<Ped::Tagent*, Tree*> treehash; */
-
-  /* void cleanup(); */
-
 };
 
 #endif

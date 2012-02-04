@@ -18,6 +18,13 @@ Ped::Tscene::Tscene() {
 	tree = new Ped::Ttree(this, 0, -200, -160, 400, 320);
 }
 
+/// Defaul destructor
+/// \date    2012-02-04
+Ped::Tscene::~Tscene() {
+}
+
+
+
 /// Used to add a Tagent to the Tscene. 
 /// \date    2012-01-17
 /// \warning addAgent() does call Tagent::assignScene() to assign itself to the agent.

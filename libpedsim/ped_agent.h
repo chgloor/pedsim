@@ -54,7 +54,6 @@ namespace Ped {
 		bool hasreacheddestination;                       ///< true if it ahs reached its destination
 
 		bool mlLookAhead;
-		bool mlTendency;
 		
 		double factorsocialforce;
 		double factorobstacleforce;
@@ -72,6 +71,8 @@ namespace Ped {
 
 	public:
 		Tagent(); 
+		virtual ~Tagent();
+
 		virtual void move(double h);                      
 		virtual Tvector socialForce();
 		virtual Tvector obstacleForce();
@@ -83,32 +84,29 @@ namespace Ped {
 		void setPosition(double px, double py, double pz);
 		void setType(int t) {this->type = t; };           
 		void setFollow(int id);
-		int getFollow();
 		void setVmax(double vmax);
-		
-		void addWaypoint(Twaypoint *wp);
-		
-		int getid() { return id; };                       
-		int gettype() { return type; };                   
-		double getx() { return p.x; };                    
-		double gety() { return p.y; };                    
-		double getz() { return p.z; };                    
-		double getax() { return a.x; };                   
-		double getay() { return a.y; };                   
-		double getaz() { return a.z; };                   
-		double getvx() { return v.x; };                   
-		double getvy() { return v.y; };                   
-		double getvz() { return v.z; };                   
+
+		int getFollow() const;
+				
+		int getid() const { return id; };
+		int gettype() const { return type; };                   
+		double getx() const { return p.x; };                    
+		double gety() const { return p.y; };                    
+		double getz() const { return p.z; };                    
+		double getax() const { return a.x; };                   
+		double getay() const { return a.y; };                   
+		double getaz() const { return a.z; };                   
+		double getvx() const { return v.x; };                   
+		double getvy() const { return v.y; };                   
+		double getvz() const { return v.z; };                   
 
 		void setfactorsocialforce(double f);
 		void setfactorobstacleforce(double f);
 		void setfactordesiredforce(double f);
 		void setfactorlookaheadforce(double f);
-
 		
-		void assignScene(Tscene *s);
-		
+		void addWaypoint(Twaypoint *wp);
+		void assignScene(Tscene *s);		
 	};
-	
 }
 #endif

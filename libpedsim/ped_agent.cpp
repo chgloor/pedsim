@@ -35,7 +35,6 @@ Ped::Tagent::Tagent() {
   follow = -1;
   vmax = 2.0 + 1.0*(double)rand()/(double)RAND_MAX; // in m/s between 2.0 and 4.0
   mlLookAhead = false;
-  mlTendency = false;
 
   factorsocialforce = 5.0f;
   factorobstacleforce = 10.0f;
@@ -44,6 +43,12 @@ Ped::Tagent::Tagent() {
 
   timestep = 0;
 };
+
+
+/// Default destructor
+/// \date    2012-02-04
+Ped::Tagent::~Tagent() {
+}
 
 
 /// Adds a TWaypoint to an agent's list of waypoints. Twaypoints are stored in a 
@@ -81,7 +86,7 @@ void Ped::Tagent::setFollow(int id) {
 /// \date    2012-01-18
 /// \return  int, the agent id of the agent
 /// \todo    Add a method that returns a Tagent* 
-int Ped::Tagent::getFollow() {
+int Ped::Tagent::getFollow() const {
 	return follow;
 }
 
