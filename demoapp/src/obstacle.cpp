@@ -5,15 +5,12 @@
 
 #include "obstacle.h"
 
-#include "math.h"
-
 #include <iostream>
 
 using namespace std;
 
 
 /// Description: set intial values
-/// \author  chgloor
 /// \date    2012-01-07
 Obstacle::Obstacle(double pax, double pay, double pbx, double pby, QGraphicsLineItem *pl) : Tobstacle(pax, pay, pbx, pby) {
   line = pl;
@@ -22,10 +19,9 @@ Obstacle::Obstacle(double pax, double pay, double pbx, double pby, QGraphicsLine
 
 
 /// moves the obstacle ot a new position
-/// \author  chgloor
 /// \date    2012-01-07
 void Obstacle::setPosition(double pax, double pay, double pbx, double pby) {
 	line->setLine(pax, pay, pbx, pby);
-	Tobstacle::setPosition(pax, pay, pbx, pby); // ??????????????  --chgloor 2012-01-17
+	Tobstacle::setPosition(pax, pay, pbx, pby); 
 };
 

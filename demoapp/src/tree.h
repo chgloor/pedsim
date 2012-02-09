@@ -33,7 +33,6 @@ class Tree : public Ped::Ttree {
   virtual void addChildren();
 
   int cut();
-
 };
 
 #endif

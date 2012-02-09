@@ -1,27 +1,28 @@
+///
+/// pedsim - A microscopic pedestrian simulation system. 
+/// Copyright (c) 2003 - 2012 by Christian Gloor
+///                              
 
 
 #include "loadscene.h"
-
 #include "scene.h"
 #include "obstacle.h"
 #include "waypoint.h"
 #include "agent.h"
 
-#include <iostream>
-#include <sstream>
-
 #include <QObject>
 #include <QGraphicsScene>
+
+#include <iostream>
+#include <sstream>
 
 using namespace std;
 
 /// object constructor
-/// \author  chgloor
 /// \date    2011-01-03
 /// \param   please set the parent, if available.
 //Loadscene::Loadscene(QObject* parent = 0) : QObject(parent) {
 Loadscene::Loadscene(QString filename, Scene *ppedscene, QGraphicsScene *pgraphicsscene) : QObject(0) {
-
 	pedscene = ppedscene;
 	graphicsscene = pgraphicsscene;
 
@@ -33,28 +34,19 @@ Loadscene::Loadscene(QString filename, Scene *ppedscene, QGraphicsScene *pgraphi
          QByteArray line = file.readLine();
          processData(line);
      }
-
 }
 
 
-
-/// 
-/// \author  chgloor
+/// Called for each line in the file
 /// \date    2012-02-03
-/// \return  
-/// \warning 
-/// \param   
 void Loadscene::processData(QByteArray data) {
-
 	m_xmlReader.addData(data);
 
 	while (!m_xmlReader.atEnd()) {
-
 		m_xmlReader.readNext();
 		if (m_xmlReader.isStartElement()) {
-
 			if (m_xmlReader.name() == "welcome") {
-
+				// nop
 			} else if (m_xmlReader.name() == "obstacle") {
 				double x1 = m_xmlReader.attributes().value("x1").toString().toDouble();
 				double y1 = m_xmlReader.attributes().value("y1").toString().toDouble();

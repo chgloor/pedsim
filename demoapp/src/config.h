@@ -1,10 +1,8 @@
-// (c) 2011 by Gloor Consulting
+// (c) 2011 by Christian Gloor
 // See main.cpp for more information
 
 #ifndef _config_h_
 #define _config_h_
-
-//#include "ui_config.h" 
 
 #include <QObject>
 
@@ -24,9 +22,6 @@ class Config : public QObject {
 	bool showDirection;
 	double simh;
 	bool showTree;
-
- signals: 
-	//	void showWaypoints(bool show);
 
  public slots:
 	void setGuiShowWaypoints(bool value);

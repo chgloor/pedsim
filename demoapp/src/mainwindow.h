@@ -1,6 +1,11 @@
+///
+/// pedsim - A microscopic pedestrian simulation system. 
+/// Copyright (c) 2003 - 2012 by Christian Gloor
+///                              
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+
+#ifndef _mainwindow_h_
+#define _mainwindow_h_
 
 #include <QMainWindow>
 
@@ -42,7 +47,6 @@ class MainWindow : public QMainWindow {
 	QToolBar *editToolBar;
 	QAction *exitAct;
 	QAction *aboutAct;
-
 	QAction *zoominAct;
 	QAction *zoomoutAct;
 

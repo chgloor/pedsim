@@ -9,23 +9,17 @@
 ///                      /                  _/         
 ///
 
+// Linux: 
 // ---> export LD_LIBRARY_PATH=libpedsim
 
-#include <QApplication>
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QtOpenGL>
-#include <QGLWidget>
-#include <QGLFormat>
-#include <QTimer>
 
-#include <iostream>                       // cout
+#include <iostream>   
 
 #include "mainwindow.h"
-#include "agent.h"
-#include "obstacle.h"
 #include "style.h"
-#include "waypoint.h"
 #include "scene.h"
 #include "config.h"
 #include "loadscene.h"

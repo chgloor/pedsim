@@ -26,7 +26,7 @@ namespace Ped {
 		friend class Tscene;
 	private:
 		int agentcount;
-		set<Ped::Tagent*> agents;  // set and not vector, since we need to delete elements from the middle very often
+		set<const Ped::Tagent*> agents;  // set and not vector, since we need to delete elements from the middle very often
 		
 		bool isleaf;		
 		double x;
@@ -50,10 +50,10 @@ namespace Ped {
 		Ttree(Ped::Tscene *scene, int depth, double x, double y, double w, double h);
 		virtual ~Ttree();
 
-		virtual void addAgent(Ped::Tagent *a);
-		virtual void moveAgent(Ped::Tagent *a);
+		virtual void addAgent(const Ped::Tagent *a);
+		virtual void moveAgent(const Ped::Tagent *a);
 
-		virtual set<Ped::Tagent*> getAgents() const; 
+		virtual set<const Ped::Tagent*> getAgents() const; 
 		
 		virtual bool intersects(double px, double py, double pr) const;		
 

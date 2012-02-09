@@ -45,7 +45,7 @@ Ped::Ttree::~Ttree() {
 /// \warning 
 /// \param   
 //void Ped::Ttree::addAgent(Ped::Tagent *a, Ped::Tscene *pedscene) {
-void Ped::Ttree::addAgent(Ped::Tagent *a) {
+void Ped::Ttree::addAgent(const Ped::Tagent *a) {
 	if (isleaf) {
 		agents.insert(a);
 		scene->treehash[a] = this;
@@ -59,7 +59,7 @@ void Ped::Ttree::addAgent(Ped::Tagent *a) {
 		isleaf = false;
 		addChildren();
 		while (!agents.empty()) {
-			Ped::Tagent *a = (*agents.begin());
+			const Ped::Tagent *a = (*agents.begin());
 			if ((a->getx() >= x+0.5f*w) && (a->gety() >= y+0.5f*h)) tree3->addAgent(a); // 3
 			if ((a->getx() <= x+0.5f*w) && (a->gety() <= y+0.5f*h)) tree1->addAgent(a); // 1
 			if ((a->getx() >= x+0.5f*w) && (a->gety() <= y+0.5f*h)) tree2->addAgent(a); // 2
@@ -83,7 +83,7 @@ void Ped::Ttree::addChildren() {
 /// \warning 
 /// \param   
 // void Ped::Ttree::moveAgent(Ped::Tagent *a, Ped::Tscene *pedscene) {
-void Ped::Ttree::moveAgent(Ped::Tagent *a) {
+void Ped::Ttree::moveAgent(const Ped::Tagent *a) {
 	if ((a->getx() < x) || (a->getx() > (x+w)) || (a->gety() < y) || (a->gety() > (y+h))) {
 		scene->placeAgent(a);		
 		agents.erase(a);
@@ -126,8 +126,8 @@ int Ped::Ttree::cut() {
 			//			cout << agents.size() << endl;
 			// agentcount stays the same  --chgloor 2012-01-28
 			isleaf = true;
-			for (set<Ped::Tagent*>::iterator it = agents.begin(); it != agents.end(); ++it) {
-				Tagent *a = (*it);
+			for (set<const Ped::Tagent*>::iterator it = agents.begin(); it != agents.end(); ++it) {
+				const Tagent *a = (*it);
 				scene->treehash[a] = this;
 			}
 			delete(tree1);
@@ -146,15 +146,15 @@ int Ped::Ttree::cut() {
 /// \return  
 /// \warning 
 /// \param   
-set<Ped::Tagent*> Ped::Ttree::getAgents() const {
-	set<Ped::Tagent*> ta;
+set<const Ped::Tagent*> Ped::Ttree::getAgents() const {
+	set<const Ped::Tagent*> ta;
 	if (isleaf) {
 		return agents;
 	} else {
-		set<Ped::Tagent*> t1 = tree1->getAgents();		
-		set<Ped::Tagent*> t2 = tree2->getAgents();		
-		set<Ped::Tagent*> t3 = tree3->getAgents();		
-		set<Ped::Tagent*> t4 = tree4->getAgents();		
+		set<const Ped::Tagent*> t1 = tree1->getAgents();		
+		set<const Ped::Tagent*> t2 = tree2->getAgents();		
+		set<const Ped::Tagent*> t3 = tree3->getAgents();		
+		set<const Ped::Tagent*> t4 = tree4->getAgents();		
 		ta.insert(t1.begin(), t1.end());
 		ta.insert(t2.begin(), t2.end());
 		ta.insert(t3.begin(), t3.end());

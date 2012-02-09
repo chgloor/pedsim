@@ -1,18 +1,11 @@
+//
+// pedsim - A microscopic pedestrian simulation system. 
+// Copyright (c) 2003 - 2012 by Christian Gloor
+//                              
 
 #include "style.h"
 
-#include <QPlastiqueStyle>
-#include <QWindowsStyle>
-#include <QStyleOption>
-#include <QStyleOptionHeader>
-#include <QPainter>
-#include <QPalette>
-#include <QDebug>
-
-#include <iostream>
-
 using namespace std;
-
 
 Style::Style() {}
 
@@ -22,11 +15,9 @@ void Style::drawPrimitive(PrimitiveElement element, const QStyleOption *option, 
 
 
 void Style::polish (QPalette &palette) {
-	// Custom colors
 
 	// A general background color.
-	//	palette.setColor( QPalette::Background, QColor( 27, 27, 27 ) ); // mil
-	palette.setColor( QPalette::Background, QColor( 44, 44, 44 ) ); ///orange
+	palette.setColor( QPalette::Background, QColor( 44, 44, 44 ) ); // orange
 
 	// A general foreground color.
 	palette.setColor( QPalette::Foreground, QColor( 255, 255, 255 ) );
@@ -38,17 +29,12 @@ void Style::polish (QPalette &palette) {
 	palette.setColor( QPalette::AlternateBase, QColor( 138, 138, 138 ) );
 
 	// The foreground color used with Base. This is usually the same as the Foreground, in which case it must provide good contrast with Background and Base.
-	//	palette.setColor( QPalette::Text, QColor( 255, 170, 0 ) );
-	//	palette.setColor( QPalette::Text, QColor( 100, 170, 0 ) ); // mil
 	palette.setColor( QPalette::Text, QColor( 255, 130, 0 ) ); // orange
 
 	// The general button background color. This background can be different from Background as some styles require a different background color for buttons.
 	palette.setColor( QPalette::Button, QColor( 66, 66, 66 ) );
 
 	// A foreground color used with the Button color.
-	//	palette.setColor( QPalette::ButtonText, QColor( 255, 200, 0 ) );
-	//	palette.setColor( QPalette::ButtonText, QColor( 130, 200, 50 ) ); // mil
-	//	palette.setColor( QPalette::ButtonText, QColor( 200, 130, 50 ) ); // orange
 	palette.setColor( QPalette::ButtonText, QColor( 255, 255, 255 ) ); // orange
 
 	// Lighter than Button color. --> used for the dock window resize bars *AND* for inacive text shadows

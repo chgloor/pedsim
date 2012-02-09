@@ -1,18 +1,15 @@
 //
 // pedsim - A microscopic pedestrian simulation system. 
-// Copyright (c) 2003 - 2004 by Christian Gloor
+// Copyright (c) 2003 - 2012 by Christian Gloor
 //                              
 
 #include "scene.h"
 #include "config.h"
 #include "tree.h"
 
-#include "ped_agent.h"
-
 #include <QTimer>
 
 #include <iostream>
-#include <stack>
 
 using namespace std;
 
@@ -36,28 +33,19 @@ Scene::Scene(QGraphicsScene *pscene)  {
 };
 
 
-/// 
 /// \date    2012-01-28
 Scene::Scene() : Tscene() {
 };
 
 
-/// 
 /// \date    2012-02-04
-/// \return  
-/// \warning 
-/// \param   
 void Scene::moveAllAgents() {
 	moveAgents(config.simh);
 	movetimer->setInterval(config.simSpeed);
 }
 
-/// 
-/// \author  chgloor
+
 /// \date    2012-02-04
-/// \return  
-/// \warning 
-/// \param   
 void Scene::cleanupSlot() {
 	cleanup();
 }

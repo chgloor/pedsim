@@ -1,5 +1,10 @@
-#ifndef STYLE_H
-#define STYLE_H
+//
+// pedsim - A microscopic pedestrian simulation system. 
+// Copyright (c) 2003 - 2012 by Christian Gloor
+//                              
+
+#ifndef _style_h_
+#define _style_h_
 
 #include <QPlastiqueStyle>
 #include <QPalette>
@@ -15,4 +20,5 @@ class Style : public QPlastiqueStyle {
 		void drawPrimitive(PrimitiveElement element, const QStyleOption *option,
 		QPainter *painter, const QWidget *widget) const;
 };
+
 #endif

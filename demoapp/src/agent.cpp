@@ -1,29 +1,23 @@
 //
 // pedsim - A microscopic pedestrian simulation system. 
-// Copyright (c) 2003 - 2004 by Christian Gloor
+// Copyright (c) 2003 - 2012 by Christian Gloor
 //                              
 
 
-#include "math.h"
-
-#include "ped_vector.h"
-
 #include "agent.h"
-
 #include "obstacle.h"
 #include "config.h"
 
-#include <iostream>
-
 #include <QPen>
 #include <QGraphicsScene>
+
+#include <iostream>
 
 extern Config config;
 
 using namespace std;
 
-/// 
-/// \author  chgloor
+/// Agent Constructor
 /// \date    2012-01-17
 Agent::Agent(QGraphicsScene *pscene) : Tagent() {
   graphicsscene = pscene;
@@ -36,8 +30,7 @@ Agent::Agent(QGraphicsScene *pscene) : Tagent() {
 };
 
 
-/// 
-/// \author  chgloor
+/// Calculates the social force. Same as in lib, but adds graphical representation
 /// \date    2012-01-17
 Ped::Tvector Agent::socialForce() {
 	Ped::Tvector t = Tagent::socialForce();
@@ -50,8 +43,8 @@ Ped::Tvector Agent::socialForce() {
 	return t;
 }
 
-/// 
-/// \author  chgloor
+
+/// Calculates the obstacle force. Same as in lib, but adds graphical representation
 /// \date    2012-01-17
 Ped::Tvector Agent::obstacleForce() {
 	Ped::Tvector t = Tagent::obstacleForce();
@@ -64,9 +57,8 @@ Ped::Tvector Agent::obstacleForce() {
 	return t;
 }
 
-/// 
+/// Calculates the desired force. Same as in lib, but adds graphical representation
 /// \author  chgloor
-/// \date    2012-01-17
 Ped::Tvector Agent::desiredForce() {
 	Ped::Tvector t = Tagent::desiredForce();
 	if (config.showForces == true) {
@@ -78,8 +70,7 @@ Ped::Tvector Agent::desiredForce() {
 	return t;
 }
 
-/// 
-/// \author  chgloor
+/// Calculates the look ahead force. Same as in lib, but adds graphical representation
 /// \date    2012-01-17
 Ped::Tvector Agent::lookaheadForce(Ped::Tvector desired) {
 	Ped::Tvector t;
@@ -96,21 +87,19 @@ Ped::Tvector Agent::lookaheadForce(Ped::Tvector desired) {
 }
 
 
-/// 
-/// \author  chgloor
+/// move - calls the lib move and updates the graphics then
 /// \date    2012-01-17
 void Agent::move(double h) {
-
 	setfactorsocialforce(config.simPedForce);
 	setfactorobstacleforce(config.simWallForce);
 
 	Tagent::move(h);
 
 	rect->setPos(getx()-0.5, gety()-0.5); // upper left edge
-	
  	if (config.showDirection == true) {
 		linev->setLine(getx(), gety(), getx()+1.0*getvx(), gety()+1.0*getvy());
 		linev->setVisible(true);
-	} else { linev->setVisible(false); }
-
+	} else { 
+		linev->setVisible(false); 
+	}
 }

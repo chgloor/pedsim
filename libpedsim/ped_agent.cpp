@@ -138,7 +138,7 @@ void Ped::Tagent::setfactorlookaheadforce(double f) {factorlookaheadforce = f; }
 Ped::Tvector Ped::Tagent::socialForce() {
 	Ped::Tvector s;
 	//	for (AgentIterator iter = scene->agent.begin(); iter!=scene->agent.end(); ++iter) { 
-	for (set<Ped::Tagent*>::iterator iter = neighbors.begin(); iter!=neighbors.end(); ++iter) { 
+	for (set<const Ped::Tagent*>::iterator iter = neighbors.begin(); iter!=neighbors.end(); ++iter) { 
 		Ped::Tvector f;
 		if (((*iter)->id != id)) {
 			if ((abs(p.x-(*iter)->p.x) < 10) && (abs(p.y-(*iter)->p.y) < 10)) { // quick dist check
@@ -241,7 +241,7 @@ Ped::Tvector Ped::Tagent::lookaheadForce(Ped::Tvector e) {
 
 	int lookforwardcount = 0;		
 	//	for (AgentIterator iter = scene->agent.begin(); iter!=scene->agent.end(); iter++) {  // iterate over all agents == O(N^2) :(
-	for (set<Ped::Tagent*>::iterator iter = neighbors.begin(); iter!=neighbors.end(); ++iter) { 
+	for (set<const Ped::Tagent*>::iterator iter = neighbors.begin(); iter!=neighbors.end(); ++iter) { 
 		if (((*iter)->id != id)) {
 			double distancex = (*iter)->p.x - p.x;
 			double distancey = (*iter)->p.y - p.y;
@@ -324,7 +324,7 @@ void Ped::Tagent::move(double h) {
 	p.z = 0; // p.z + h * v.z; // 2D  --chgloor 2012-01-04
 
 	// notice scene of movement
-	scene->moveAgent(this);
+		scene->moveAgent(this);
 
 	timestep++; // local agent tiemstep since creation
 }

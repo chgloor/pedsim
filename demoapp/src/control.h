@@ -1,11 +1,10 @@
-// (c) 2011 by Gloor Consulting
+// (c) 2011 by Christian Gloor
 // See main.cpp for more information
 
 #ifndef _control_h_
 #define _control_h_
 
 #include "ui_control.h" 
-
 
 class Control : public QDockWidget {
 	Q_OBJECT
@@ -25,10 +24,8 @@ class Control : public QDockWidget {
 	void simSpeed(int value);
 	void simh(int value);
 	void mlLookAhead(bool value);
-
 	void showForces(bool show);
 	void showDirection(bool show);
-
 	void setfps(double fps);
 
  private:

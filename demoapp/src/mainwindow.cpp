@@ -1,5 +1,7 @@
-// Copyright (C) by Christian Gloor. All rights reserved.
-// See main.cpp for details.
+///
+/// pedsim - A microscopic pedestrian simulation system. 
+/// Copyright (c) 2003 - 2012 by Christian Gloor
+///                              
 
 #include "mainwindow.h"
 #include "control.h"
@@ -31,9 +33,11 @@ MainWindow::MainWindow() {
 	connect(uicontrol, SIGNAL(zoomout()), this, SLOT(zoomout()));
 }
 
+
 void MainWindow::closeEvent(QCloseEvent *event) {
 	event->accept();
 }
+
 
 void MainWindow::about() {
 	QMessageBox::about(this, tr("About PedSim Demo"),
@@ -43,6 +47,7 @@ void MainWindow::about() {
 								 "It is based on <b>libpedsim</b>, http://pedsim.silmaril.org/<br>"
 								 " (c) 2003-2012 by Christian Gloor"));
 }
+
 
 void MainWindow::createActions() {
      exitAct = new QAction(tr("E&xit"), this);
@@ -61,7 +66,8 @@ void MainWindow::createActions() {
      zoomoutAct = new QAction(QIcon(":/images/zoomout.png"), tr("Zoom Out"), this);
      zoomoutAct->setStatusTip(tr("Zoom Out"));
      connect(zoomoutAct, SIGNAL(triggered()), this, SLOT(zoomout()));
- }
+}
+
 
 void MainWindow::createMenus() {
 	fileMenu = menuBar()->addMenu(tr("&File"));
@@ -77,37 +83,44 @@ void MainWindow::createMenus() {
 	helpMenu->addAction(aboutAct);
 }
 
+
 void MainWindow::createToolBars() {
 	editToolBar = addToolBar(tr("Zoom"));
 	editToolBar->addAction(zoominAct);
 	editToolBar->addAction(zoomoutAct);
 }
 
+
 void MainWindow::createStatusBar() {
 	statusBar()->showMessage(tr("Ready"));
 }
 
+
 void MainWindow::readSettings() {
-	QSettings settings("Christian Gloor", "SpaceSim");
+	QSettings settings("Christian Gloor", "PedSim");
 	QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
 	QSize size = settings.value("size", QSize(1280, 800)).toSize();
 	resize(size);
 	move(pos);
 }
 
+
 void MainWindow::writeSettings() {
-	QSettings settings("Christian Gloor", "SpaceSim");
+	QSettings settings("Christian Gloor", "PedSim");
 	settings.setValue("pos", pos());
 	settings.setValue("size", size());
 }
+
 
 QString MainWindow::strippedName(const QString &fullFileName) {
 	return QFileInfo(fullFileName).fileName();
 }
 
+
 void MainWindow::zoomin() {
 	graphicsView->scale(ZOOMFACTOR, ZOOMFACTOR);
 }
+
 
 void MainWindow::zoomout() {
 		graphicsView->scale(1/ZOOMFACTOR, 1/ZOOMFACTOR);

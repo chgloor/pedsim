@@ -1,3 +1,10 @@
+//
+// pedsim - A microscopic pedestrian simulation system. 
+// Copyright (c) 2003 - 2012 by Christian Gloor
+//                              
+// Use somethin like this to compile:
+// g++ examples/example.cpp -o example -I. -lpedsim -L.
+
 
 #include "ped_includes.h"
 
@@ -11,7 +18,7 @@ int main(int argc, char *argv[]) {
 	cout << "PedSim Example using libpedsim version " << Ped::LIBPEDSIM_VERSION << endl;
 
 	vector<Ped::Tagent*> myagents;
-	Ped::Tscene *pedscene = new Ped::Tscene();
+	Ped::Tscene *pedscene = new Ped::Tscene(-200, -200, 400, 400);
 
 	Ped::Twaypoint w1(-100, 0, 24);
 	Ped::Twaypoint w2(+100, 0, 12);

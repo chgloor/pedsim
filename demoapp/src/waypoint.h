@@ -16,11 +16,9 @@
 
 using namespace std;
 
-// ----------------------------------------------------
-// Name: Twaypoint
-//!Description: Class that descripts an waypoint object
-//!Introduced: chgloor Jan 07, 2012
-// ----------------------------------------------------
+/// Class that descripts an waypoint object
+/// \author  chgloor
+/// \date    2012-01-07
 class Waypoint : public Ped::Twaypoint{
  private:
   QGraphicsScene *scene;

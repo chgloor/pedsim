@@ -12,7 +12,6 @@
 
 using namespace std;
 
-/// 
 /// \author  chgloor
 /// \date    2012-01-17
 class Obstacle: public Ped::Tobstacle {
@@ -23,9 +22,6 @@ class Obstacle: public Ped::Tobstacle {
   QGraphicsLineItem *line;
 
   void setPosition(double ax, double ay, double bx, double by);
-
-
 };
-
 
 #endif

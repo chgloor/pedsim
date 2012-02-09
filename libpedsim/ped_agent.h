@@ -65,7 +65,7 @@ namespace Ped {
 		Ped::Tvector desiredforce;
 		Ped::Tvector lookaheadforce;
 
-		set<Ped::Tagent*> neighbors;
+		set<const Ped::Tagent*> neighbors;
 
 		long timestep;
 

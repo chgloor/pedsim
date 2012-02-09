@@ -7,11 +7,8 @@
 #define _scene_h_ 1
 
 #include "ped_scene.h"
-#include "ped_agent.h"
 
 #include "tree.h"
-
-class Tagent;
 
 class QGraphicsScene;
 class QTimer;

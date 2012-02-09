@@ -1,6 +1,6 @@
 //
 // pedsim - A microscopic pedestrian simulation system. 
-// Copyright (c) 2003 - 2004 by Christian Gloor
+// Copyright (c) 2003 - 2012 by Christian Gloor
 //     
 
 #include "ped_agent.h"                         
@@ -32,6 +32,7 @@ Tree::Tree(QGraphicsScene *pgraphicsscene, Scene *pedscene, int pdepth, double p
 	rect->setZValue(-100+getdepth());
 };
 
+
 /// Destructor: removes the graphics from the screen, too.
 /// \date    2012-01-28
 Tree::~Tree() {
@@ -39,6 +40,7 @@ Tree::~Tree() {
 	delete(rect);
 }
 
+/// \date    2012-02-05
 int Tree::cut() {
 	rect->setVisible(config.showTree);
 	return Ttree::cut();	
