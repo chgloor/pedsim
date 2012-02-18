@@ -13,7 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{016AF47E-251A-4A72-BB2C-55C81F3E1043}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>libpedsim</RootNamespace>
+    <RootNamespace>pedsim</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -74,7 +74,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="pedsim.h" />
+    <ClInclude Include="ped_includes.h" />
     <ClInclude Include="ped_agent.h" />
     <ClInclude Include="ped_obstacle.h" />
     <ClInclude Include="ped_scene.h" />
