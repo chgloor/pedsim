@@ -46,12 +46,12 @@ Grid::Grid(double x, double y, double w, double h, QGraphicsScene *gs) {
 
 
 
-/// 
+/// Gets a value out of a cell in the grid, based on the coordinates
 /// \author  chgloor
 /// \date    2012-02-18
-/// \return  
-/// \warning 
-/// \param   
+/// \return  One of the values stored in the specified cell
+/// \param   x/y The coordinates
+/// \param   value The requested value
 double Grid::getValue(double x, double y, int value) {
 	if ((x-minx) < 0) return 0;
 	if ((y-min)) < 0) return 0;
