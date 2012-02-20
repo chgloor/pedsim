@@ -28,6 +28,8 @@ using namespace std;
 
 Config config;
 
+Scene *gblscene;
+
 /// The programm entry point. Sets up everything, and calls QT exec to start the event loop.
 /// \date    2003-12-29
 /// \return  whatever app.exec() returns. 
@@ -52,7 +54,8 @@ int main(int argc, char *argv[]) {
 	graphicsscene->setItemIndexMethod(QGraphicsScene::NoIndex);
 	
 	Scene *pedscene = new Scene(graphicsscene);
-	
+	gblscene = pedscene;
+
 	Loadscene l(scenefile, pedscene, graphicsscene);
 	
 	mainwindow.graphicsView->setScene(graphicsscene);

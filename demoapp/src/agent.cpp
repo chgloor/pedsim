@@ -7,6 +7,7 @@
 #include "agent.h"
 #include "obstacle.h"
 #include "config.h"
+#include "scene.h"
 
 #include <QPen>
 #include <QGraphicsScene>
@@ -14,6 +15,7 @@
 #include <iostream>
 
 extern Config config;
+extern Scene *gblscene;
 
 using namespace std;
 
@@ -86,12 +88,21 @@ Ped::Tvector Agent::lookaheadForce(Ped::Tvector desired) {
 	return t;
 }
 
+/// Calculates the custom force
+/// \date    2012-02-17
+Ped::Tvector Agent::myForce(Ped::Tvector desired) {
+	Ped::Tvector t;
+	return t;
+}
+
 
 /// move - calls the lib move and updates the graphics then
 /// \date    2012-01-17
 void Agent::move(double h) {
 	setfactorsocialforce(config.simPedForce);
 	setfactorobstacleforce(config.simWallForce);
+
+	setVmax(gblscene->getGridValue(getx(), gety(), 0));
 
 	Tagent::move(h);
 

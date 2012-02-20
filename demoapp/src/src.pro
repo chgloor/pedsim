@@ -14,12 +14,12 @@ LIBS += -L../../libpedsim -llibpedsim
 QT += opengl
 
 CONFIG += release
-# CONFIG += console
+CONFIG += console
 
 FORMS = control.ui
 
 # Input
-HEADERS += agent.h mainwindow.h style.h obstacle.h control.h waypoint.h config.h scene.h tree.h loadscene.h
-SOURCES += agent.cpp main.cpp mainwindow.cpp style.cpp obstacle.cpp control.cpp waypoint.cpp config.cpp scene.cpp tree.cpp loadscene.cpp
+HEADERS += agent.h mainwindow.h style.h obstacle.h control.h waypoint.h config.h scene.h tree.h loadscene.h grid.h cell.h
+SOURCES += agent.cpp main.cpp mainwindow.cpp style.cpp obstacle.cpp control.cpp waypoint.cpp config.cpp scene.cpp tree.cpp loadscene.cpp grid.cpp cell.cpp
 
 RESOURCES += application.qrc

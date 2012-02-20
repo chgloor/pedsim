@@ -277,6 +277,17 @@ Ped::Tvector Ped::Tagent::lookaheadForce(Ped::Tvector e) {
 	return lf;
 }
 
+/// 
+/// \author  chgloor
+/// \date    2012-02-18
+/// \return  
+/// \warning 
+/// \param   
+Ped::Tvector Ped::Tagent::myForce(Ped::Tvector e) {
+	Ped::Tvector f;
+	return f;
+}
+
 
 /// Does the agent dynamics stuff. Calls the methods to calculate the individual forces, adds them
 /// to get the total force aggecting the agent. This will then be translated into a velocity difference,
@@ -286,10 +297,10 @@ Ped::Tvector Ped::Tagent::lookaheadForce(Ped::Tvector e) {
 void Ped::Tagent::move(double h) {
 	int update = 1/h;
 	if (timestep % update == 0) { 
-		neighbors = scene->getNeighbors(p.x, p.y, 20);
-		lookaheadforce = lookaheadForce(desiredforce);
-
 		desiredforce = desiredForce();
+		neighbors = scene->getNeighbors(p.x, p.y, 20);
+		lookaheadforce = lookaheadForce(desiredforce);		
+		myforce = myForce(desiredforce);		
 	}
 	if (factorsocialforce > 0) socialforce = socialForce();
 	if (factorobstacleforce > 0) obstacleforce = obstacleForce();
@@ -297,13 +308,14 @@ void Ped::Tagent::move(double h) {
 
 	//  sum of all forces --> acceleration
 	Ped::Tvector a; 
-	a.x = factorsocialforce * socialforce.x + factordesiredforce * desiredforce.x + factorobstacleforce * obstacleforce.x + factorlookaheadforce * lookaheadforce.x;
-	a.y = factorsocialforce * socialforce.y + factordesiredforce * desiredforce.y + factorobstacleforce * obstacleforce.y + factorlookaheadforce * lookaheadforce.y;
-	a.z = factorsocialforce * socialforce.z + factordesiredforce * desiredforce.z + factorobstacleforce * obstacleforce.z + factorlookaheadforce * lookaheadforce.z;
+	a.x = factorsocialforce * socialforce.x + factordesiredforce * desiredforce.x + factorobstacleforce * obstacleforce.x + factorlookaheadforce * lookaheadforce.x + myforce.x;
+	a.y = factorsocialforce * socialforce.y + factordesiredforce * desiredforce.y + factorobstacleforce * obstacleforce.y + factorlookaheadforce * lookaheadforce.y + myforce.y;
+	a.z = factorsocialforce * socialforce.z + factordesiredforce * desiredforce.z + factorobstacleforce * obstacleforce.z + factorlookaheadforce * lookaheadforce.z + myforce.z;
 	
 	// calculate the new velocity based on v0 and the acceleration
+	/// \todo Make momentum factor (0.75) settable by the user
 	v.x = 0.75 * v.x + a.x; 
-	v.y = 0.75 * v.y + a.y; // <<<<<<<<<<<-----------  is this 0.75 dependent of h?? think so   --chgloor 2012-01-15
+	v.y = 0.75 * v.y + a.y; /// \note Is the momentum factor (0.75) dependent of h?? think so   --chgloor 2012-01-15
 	v.z = 0.75 * v.z + a.z;
 
 	double currvmax = vmax;
