@@ -232,6 +232,13 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item>
+        <widget class="QCheckBox" name="mlTendencyCheckBox">
+         <property name="text">
+          <string>Tendency</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QCheckBox" name="checkBox_4">
          <property name="enabled">
           <bool>false</bool>

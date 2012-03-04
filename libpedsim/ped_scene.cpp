@@ -46,6 +46,7 @@ Ped::Tscene::~Tscene() {
 /// \date    2012-01-17
 /// \warning addAgent() does call Tagent::assignScene() to assign itself to the agent.
 /// \param   *a A pointer to the Tagent to add. 
+/// \note    The Tagents* given to addAgent() are not const (i.e. not const Tagent*) because of moveAgents(double h). It obviously modifies the agents. 
 void Ped::Tscene::addAgent(Ped::Tagent *a) {
 	agent.push_back(a);
 	a->assignScene(this);

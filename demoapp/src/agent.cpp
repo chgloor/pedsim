@@ -86,6 +86,17 @@ Ped::Tvector Agent::lookaheadForce(Ped::Tvector desired) {
 	return t;
 }
 
+/// Calculates the custom force
+/// \date    2012-02-12
+Ped::Tvector Agent::myForce(Ped::Tvector desired) {
+	Ped::Tvector t;
+	if (config.mlTendency) {
+		t.x = 0.5*desired.y;
+		t.y = -0.5*desired.x;
+	}
+	return t;
+}
+
 
 /// move - calls the lib move and updates the graphics then
 /// \date    2012-01-17

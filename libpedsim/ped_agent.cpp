@@ -278,6 +278,18 @@ Ped::Tvector Ped::Tagent::lookaheadForce(Ped::Tvector e) {
 }
 
 
+/// myForce() is a method that returns an "empty" force (all components set to 0). 
+/// This method can be overridden in order to define own forces. 
+/// It is called in move() in addition to the other default forces.
+/// \date    2012-02-12
+/// \return  Tvector: the calculated force
+/// \param   e is a vector defining the direction in which the agent wants to walk to. 
+Ped::Tvector Ped::Tagent::myForce(Ped::Tvector e) {
+	Ped::Tvector lf;
+	return lf;
+}
+
+
 /// Does the agent dynamics stuff. Calls the methods to calculate the individual forces, adds them
 /// to get the total force aggecting the agent. This will then be translated into a velocity difference,
 /// which is applied to the agents velocity, and then to its position. 
@@ -286,10 +298,10 @@ Ped::Tvector Ped::Tagent::lookaheadForce(Ped::Tvector e) {
 void Ped::Tagent::move(double h) {
 	int update = 1/h;
 	if (timestep % update == 0) { 
+		desiredforce = desiredForce();
 		neighbors = scene->getNeighbors(p.x, p.y, 20);
 		lookaheadforce = lookaheadForce(desiredforce);
-
-		desiredforce = desiredForce();
+		myforce = myForce(desiredforce);
 	}
 	if (factorsocialforce > 0) socialforce = socialForce();
 	if (factorobstacleforce > 0) obstacleforce = obstacleForce();
@@ -297,9 +309,9 @@ void Ped::Tagent::move(double h) {
 
 	//  sum of all forces --> acceleration
 	Ped::Tvector a; 
-	a.x = factorsocialforce * socialforce.x + factordesiredforce * desiredforce.x + factorobstacleforce * obstacleforce.x + factorlookaheadforce * lookaheadforce.x;
-	a.y = factorsocialforce * socialforce.y + factordesiredforce * desiredforce.y + factorobstacleforce * obstacleforce.y + factorlookaheadforce * lookaheadforce.y;
-	a.z = factorsocialforce * socialforce.z + factordesiredforce * desiredforce.z + factorobstacleforce * obstacleforce.z + factorlookaheadforce * lookaheadforce.z;
+	a.x = factorsocialforce * socialforce.x + factordesiredforce * desiredforce.x + factorobstacleforce * obstacleforce.x + factorlookaheadforce * lookaheadforce.x + myforce.x;
+	a.y = factorsocialforce * socialforce.y + factordesiredforce * desiredforce.y + factorobstacleforce * obstacleforce.y + factorlookaheadforce * lookaheadforce.y + myforce.y;
+	a.z = factorsocialforce * socialforce.z + factordesiredforce * desiredforce.z + factorobstacleforce * obstacleforce.z + factorlookaheadforce * lookaheadforce.z + myforce.z;
 	
 	// calculate the new velocity based on v0 and the acceleration
 	v.x = 0.75 * v.x + a.x; 

@@ -26,6 +26,7 @@ class Agent : public Ped::Tagent {
   Ped::Tvector obstacleForce();
   Ped::Tvector desiredForce();
   Ped::Tvector lookaheadForce(Ped::Tvector desired);
+  Ped::Tvector myForce(Ped::Tvector desired);
 
   QGraphicsScene *graphicsscene;
   QGraphicsRectItem *rect;  

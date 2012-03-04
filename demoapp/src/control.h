@@ -24,6 +24,7 @@ class Control : public QDockWidget {
 	void simSpeed(int value);
 	void simh(int value);
 	void mlLookAhead(bool value);
+	void mlTendency(bool value);
 	void showForces(bool show);
 	void showDirection(bool show);
 	void setfps(double fps);

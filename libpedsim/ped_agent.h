@@ -64,6 +64,7 @@ namespace Ped {
 		Ped::Tvector obstacleforce;
 		Ped::Tvector desiredforce;
 		Ped::Tvector lookaheadforce;
+		Ped::Tvector myforce;
 
 		set<const Ped::Tagent*> neighbors;
 
@@ -78,6 +79,7 @@ namespace Ped {
 		virtual Tvector obstacleForce();
 		virtual Tvector desiredForce();
 		virtual Tvector lookaheadForce(Tvector desired);
+		virtual Tvector myForce(Tvector desired);
 
 		virtual void print() const {cout << "agent " << id << ": " << p.x << "/" << p.y << "/" << p.z << endl; }; 
 		
