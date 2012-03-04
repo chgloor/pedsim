@@ -277,6 +277,17 @@ Ped::Tvector Ped::Tagent::lookaheadForce(Ped::Tvector e) {
 	return lf;
 }
 
+/// 
+/// \author  chgloor
+/// \date    2012-02-18
+/// \return  
+/// \warning 
+/// \param   
+Ped::Tvector Ped::Tagent::myForce(Ped::Tvector e) {
+	Ped::Tvector f;
+	return f;
+}
+
 
 /// myForce() is a method that returns an "empty" force (all components set to 0). 
 /// This method can be overridden in order to define own forces. 
@@ -301,7 +312,7 @@ void Ped::Tagent::move(double h) {
 		desiredforce = desiredForce();
 		neighbors = scene->getNeighbors(p.x, p.y, 20);
 		lookaheadforce = lookaheadForce(desiredforce);
-		myforce = myForce(desiredforce);
+		myforce = myForce(desiredforce);		
 	}
 	if (factorsocialforce > 0) socialforce = socialForce();
 	if (factorobstacleforce > 0) obstacleforce = obstacleForce();
@@ -314,8 +325,9 @@ void Ped::Tagent::move(double h) {
 	a.z = factorsocialforce * socialforce.z + factordesiredforce * desiredforce.z + factorobstacleforce * obstacleforce.z + factorlookaheadforce * lookaheadforce.z + myforce.z;
 	
 	// calculate the new velocity based on v0 and the acceleration
+	/// \todo Make momentum factor (0.75) settable by the user
 	v.x = 0.75 * v.x + a.x; 
-	v.y = 0.75 * v.y + a.y; // <<<<<<<<<<<-----------  is this 0.75 dependent of h?? think so   --chgloor 2012-01-15
+	v.y = 0.75 * v.y + a.y; /// \note Is the momentum factor (0.75) dependent of h?? think so   --chgloor 2012-01-15
 	v.z = 0.75 * v.z + a.z;
 
 	double currvmax = vmax;

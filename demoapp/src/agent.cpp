@@ -7,6 +7,7 @@
 #include "agent.h"
 #include "obstacle.h"
 #include "config.h"
+#include "scene.h"
 
 #include <QPen>
 #include <QGraphicsScene>
@@ -14,6 +15,7 @@
 #include <iostream>
 
 extern Config config;
+extern Scene *gblscene;
 
 using namespace std;
 
@@ -103,6 +105,8 @@ Ped::Tvector Agent::myForce(Ped::Tvector desired) {
 void Agent::move(double h) {
 	setfactorsocialforce(config.simPedForce);
 	setfactorobstacleforce(config.simWallForce);
+
+	setVmax(gblscene->getGridValue(getx(), gety(), 0));
 
 	Tagent::move(h);
 

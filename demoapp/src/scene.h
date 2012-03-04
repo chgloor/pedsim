@@ -12,6 +12,7 @@
 
 class QGraphicsScene;
 class QTimer;
+class Grid;
 
 using namespace std;
 
@@ -25,6 +26,7 @@ class Scene : public QObject, public Ped::Tscene {
   QGraphicsScene *scene;
   QTimer *movetimer;
   QTimer *cleanuptimer;
+  Grid *grid;
 
  public slots:
   void moveAllAgents();
@@ -33,6 +35,9 @@ class Scene : public QObject, public Ped::Tscene {
  public:
   Scene();
   Scene(QGraphicsScene *scene);
+
+  double getGridValue(double x, double y, int value);
+
 };
 
 #endif
