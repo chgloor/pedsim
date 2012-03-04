@@ -9,7 +9,7 @@ DESTDIR = ../
 #QMAKE_LIBDIR += ../../libpedsim
 #QMAKE_LIBS += -llibpedsim
 
-LIBS += -L../../libpedsim -llibpedsim
+LIBS += -L../../libpedsim -lpedsim
 
 QT += opengl
 
