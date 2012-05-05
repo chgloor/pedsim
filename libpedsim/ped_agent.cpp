@@ -277,16 +277,6 @@ Ped::Tvector Ped::Tagent::lookaheadForce(Ped::Tvector e) {
 	return lf;
 }
 
-/// 
-/// \author  chgloor
-/// \date    2012-02-18
-/// \return  
-/// \warning 
-/// \param   
-Ped::Tvector Ped::Tagent::myForce(Ped::Tvector e) {
-	Ped::Tvector f;
-	return f;
-}
 
 
 /// myForce() is a method that returns an "empty" force (all components set to 0). 

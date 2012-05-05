@@ -17,16 +17,22 @@ Ped::Tvector::Tvector() {
 	z = 0;
 }
 
+
+/// Default destructor
+/// \date    2012-05-05
+Ped::Tvector::~Tvector() {
+}
+
+
 /// Vector cross product helper: calculates the cross product of two vectors.
 /// \date    2010-02-12
-/// \todo    This syntax is a bit weird. Will change in future.
 /// \warning The result is assigned to the vector calling the method. 
-/// \param   *a The first vector
-/// \param   *b The second vector
-void Ped::Tvector::cross(Ped::Tvector *a, Ped::Tvector *b) {
-	this->x = a->y*b->z - a->z*b->y;
-	this->y = a->z*b->x - a->x*b->z;
-	this->z = a->x*b->y - a->y*b->x;
+/// \param   &a The first vector
+/// \param   &b The second vector
+void Ped::Tvector::cross(const Ped::Tvector &a, const Ped::Tvector &b) {
+	x = a.y*b.z - a.z*b.y;
+	y = a.z*b.x - a.x*b.z;
+	z = a.x*b.y - a.y*b.x;
 }
 
 
@@ -39,12 +45,13 @@ void Ped::Tvector::normalize() {
 	z = z / length;
 }
 
+
 /// Vector scalar product helper: calculates the scalar product of two vectors.
 /// \date    2012-01-14
-/// \todo    This syntax is a bit weird. Will change in future.
-/// \return  double The scalar product.
-/// \param   *a The first vector
-/// \param   *b The second vector
-double Ped::Tvector::scalar(Ped::Tvector *a, Ped::Tvector *b) {
-	return acos( (a->x*b->x + a->y*b->y + a->z*b->z) / ( sqrt(a->x*a->x + a->y*a->y + a->z*a->z) * sqrt(b->x*b->x + b->y*b->y + b->z*b->z) ) );
+/// \return  The scalar product.
+/// \param   &a The first vector
+/// \param   &b The second vector
+//static double Ped::Tvector::scalar(const Ped::Tvector &a, const Ped::Tvector &b) {
+double scalar(const Ped::Tvector &a, const Ped::Tvector &b) {
+	return acos( (a.x*b.x + a.y*b.y + a.z*b.z) / ( sqrt(a.x*a.x + a.y*a.y + a.z*a.z) * sqrt(b.x*b.x + b.y*b.y + b.z*b.z) ) );
 }

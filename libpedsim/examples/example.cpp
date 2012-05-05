@@ -20,16 +20,16 @@ int main(int argc, char *argv[]) {
 	vector<Ped::Tagent*> myagents;
 	Ped::Tscene *pedscene = new Ped::Tscene(-200, -200, 400, 400);
 
-	Ped::Twaypoint w1(-100, 0, 24);
-	Ped::Twaypoint w2(+100, 0, 12);
+	Ped::Twaypoint *w1 = new Ped::Twaypoint(-100, 0, 24);
+	Ped::Twaypoint *w2 = new Ped::Twaypoint(+100, 0, 12);
 
 	pedscene->addObstacle(new Ped::Tobstacle(0, -50,  0, +50));
 	
 	for (int i = 0; i<100; i++) { 
 	  Ped::Tagent *a = new Ped::Tagent();
 	  
-	  a->addWaypoint(&w1);
-	  a->addWaypoint(&w2);
+	  a->addWaypoint(w1);
+	  a->addWaypoint(w2);
 	  
 	  a->setPosition(-50 + rand()/(RAND_MAX/80)-40, 0 + rand()/(RAND_MAX/20) -10, 0);
 	  
@@ -44,5 +44,8 @@ int main(int argc, char *argv[]) {
 			a->print();
 		}
 	}
+
 }
+
+
 

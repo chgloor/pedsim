@@ -20,14 +20,16 @@ namespace Ped {
 	class LIBEXPORT Tvector {
 	public:
 		Tvector();
-		
+		~Tvector();
+
 		double x;
 		double y;
 		double z;
-		void cross(Tvector *a, Tvector *b);
-		double scalar(Tvector *a, Tvector *b);
+		void cross(const Tvector &a, const Tvector &b);
+		friend double scalar(const Tvector &a, const Tvector &b);
 		void normalize();
 	};
+
 
 }
 

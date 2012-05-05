@@ -46,7 +46,7 @@ Ped::Tscene::~Tscene() {
 /// \date    2012-01-17
 /// \warning addAgent() does call Tagent::assignScene() to assign itself to the agent.
 /// \param   *a A pointer to the Tagent to add. 
-/// \note    The Tagents* given to addAgent() are not const (i.e. not const Tagent*) because of moveAgents(double h). It obviously modifies the agents. 
+/// \note    The Tagents* given to addAgent() are not const (i.e. not const Tagent*) because of moveAgents(double h). It obviously modifies the agents. Agents added to the Scene are not deleted if the Scene is destroyed. The reason for this is because they could be member of another Scene theoretically. 
 void Ped::Tscene::addAgent(Ped::Tagent *a) {
 	agent.push_back(a);
 	a->assignScene(this);
@@ -69,6 +69,7 @@ void Ped::Tscene::moveAgents(double h) {
 /// Used to add a Tobstacle to the Tscene.
 /// \date    2012-01-17
 /// \param   *o A pointer to the Tobstacle to add.
+/// \note    Obstacles added to the Scene are not deleted if the Scene is destroyed. The reason for this is because they could be member of another Scene theoretically. 
 void Ped::Tscene::addObstacle(Ped::Tobstacle *o) {
 	obstacle.push_back(o);
 }
