@@ -22,20 +22,14 @@ namespace Ped {
 	/// \author  chgloor
 	/// \date    2012-01-07
 	class LIBEXPORT Twaypoint {
-	private:
-		int id;                                           ///< waypoint number
-		double x;                                         ///< position of the waypoint 
-		double y;                                         ///< position of the waypoint 
-		double r;                                         ///< position of the waypoint 
-		int type;                                         
 		
 	public:
 		Twaypoint();
 		Twaypoint(double x, double y, double r);
 		virtual ~Twaypoint();
 
-		virtual Tvector getForce(double myx, double myy, double fromx, double fromy, bool *reached);
-		virtual Tvector normalpoint(double p1, double p2, double oc11, double oc12, double oc21, double oc22);
+		virtual Tvector getForce(double myx, double myy, double fromx, double fromy, bool *reached) const;
+		virtual Tvector normalpoint(double p1, double p2, double oc11, double oc12, double oc21, double oc22) const;
 
 		void setType(int t) {type = t; };      
 		void setx(double px) { x = px; };      
@@ -48,6 +42,17 @@ namespace Ped {
 		double getx() const { return x; };           
 		double gety() const { return y; };           
 		double getr() const { return r; };           
+
+		static const int TYPE_NORMAL;
+		static const int TYPE_POINT;
+
+	private:
+		int id;                                           ///< waypoint number
+		double x;                                         ///< position of the waypoint 
+		double y;                                         ///< position of the waypoint 
+		double r;                                         ///< position of the waypoint 
+		int type;                                         ///< type of the waypoint (Ped::Twaypoint::TYPE_xxx)
+
 	};
 		
 };

@@ -46,17 +46,6 @@ namespace Ped {
 		friend class Ped::Tagent;
 		friend class Ped::Ttree;
 
-	private:
-		vector<Tagent*> agent;                            
-		vector<Tobstacle*> obstacle;
-		map<const Ped::Tagent*, Ttree*> treehash;		
-
-		void placeAgent(const Ped::Tagent *a);
-		void moveAgent(const Ped::Tagent *a);
-
-	protected:
-		Ttree *tree;
-
 	public:
 		Tscene();
 		Tscene(double left, double up, double width, double height);
@@ -69,6 +58,32 @@ namespace Ped {
 		virtual void moveAgents(double h);
 		
 		set<const Ped::Tagent*> getNeighbors(double x, double y, double dist) const;
+		const vector<Tagent*>& getAllAgents() const { return agent; };
+		
+	private:
+		vector<Tagent*> agent;                            
+		vector<Tobstacle*> obstacle;
+		map<const Ped::Tagent*, Ttree*> treehash;		
+
+		void placeAgent(const Ped::Tagent *a);
+		void moveAgent(const Ped::Tagent *a);
+
+		// Copy constructor (PRIVATE)
+	   Tscene(const Tscene& source) {
+			// if used: copy the *tree here
+		};
+		
+		// Assignment operator (PRIVATE)
+		Tscene& operator= (const Tscene& source) {
+			if (this == &source) return *this;
+			// if used: copy the *tree here
+			return *this;
+      }
+
+
+	protected:
+		Ttree *tree;
+
 	};
 };
 #endif

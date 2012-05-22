@@ -37,6 +37,53 @@ namespace Ped {
 /// \author  chgloor
 /// \date    2003-12-26
 	class LIBEXPORT Tagent {
+
+	public:
+		Tagent(); 
+		virtual ~Tagent();
+
+		virtual void move(double h);                      
+		virtual Tvector socialForce() const;
+		virtual Tvector obstacleForce() const;
+		virtual Tvector desiredForce();
+		virtual Tvector lookaheadForce(Tvector desired) const;
+		virtual Tvector myForce(Tvector desired) const;
+
+		virtual void print() const { cout << "agent " << id << ": " << p.x << "/" << p.y << "/" << p.z << endl; }; 
+		
+		void setPosition(double px, double py, double pz);
+		void setType(int t) { this->type = t; };           
+		void setFollow(int id);
+		void setVmax(double vmax);
+
+		int getFollow() const;
+				
+		int getid() const { return id; };
+		int gettype() const { return type; };                   
+
+		// these getter should replace the ones later (returning the individual vector values)
+		const Tvector& getPosition() const { return p; }
+		const Tvector& getVelocity() const { return v; }
+		const Tvector& getAcceleration() const { return a; }
+
+		double getx() const { return p.x; };                    
+		double gety() const { return p.y; };                    
+		double getz() const { return p.z; };                    
+		double getax() const { return a.x; };                   
+		double getay() const { return a.y; };                   
+		double getaz() const { return a.z; };                   
+		double getvx() const { return v.x; };                   
+		double getvy() const { return v.y; };                   
+		double getvz() const { return v.z; };                   
+
+		void setfactorsocialforce(double f);
+		void setfactorobstacleforce(double f);
+		void setfactordesiredforce(double f);
+		void setfactorlookaheadforce(double f);
+		
+		void addWaypoint(Twaypoint *wp);
+		void assignScene(Tscene *s);		
+
 	private:
 		int id;                                           ///< agent number
 		Tvector p;                                        ///< current position of the agent 
@@ -46,7 +93,7 @@ namespace Ped {
 		double vmax;                                      ///< individual max velocity per agent
 		int follow;
 
-		Ped::Tscene *scene;
+		Ped::Tscene *scene; // not const. scene is modified e.g. in agent::move()
 		
 		queue<Twaypoint*> destinations;                    ///< coordinates of the next destinations
 		Twaypoint *destination;                            ///< coordinates of the next destination
@@ -70,45 +117,6 @@ namespace Ped {
 
 		long timestep;
 
-	public:
-		Tagent(); 
-		virtual ~Tagent();
-
-		virtual void move(double h);                      
-		virtual Tvector socialForce();
-		virtual Tvector obstacleForce();
-		virtual Tvector desiredForce();
-		virtual Tvector lookaheadForce(Tvector desired);
-		virtual Tvector myForce(Tvector desired);
-
-		virtual void print() const {cout << "agent " << id << ": " << p.x << "/" << p.y << "/" << p.z << endl; }; 
-		
-		void setPosition(double px, double py, double pz);
-		void setType(int t) {this->type = t; };           
-		void setFollow(int id);
-		void setVmax(double vmax);
-
-		int getFollow() const;
-				
-		int getid() const { return id; };
-		int gettype() const { return type; };                   
-		double getx() const { return p.x; };                    
-		double gety() const { return p.y; };                    
-		double getz() const { return p.z; };                    
-		double getax() const { return a.x; };                   
-		double getay() const { return a.y; };                   
-		double getaz() const { return a.z; };                   
-		double getvx() const { return v.x; };                   
-		double getvy() const { return v.y; };                   
-		double getvz() const { return v.z; };                   
-
-		void setfactorsocialforce(double f);
-		void setfactorobstacleforce(double f);
-		void setfactordesiredforce(double f);
-		void setfactorlookaheadforce(double f);
-		
-		void addWaypoint(Twaypoint *wp);
-		void assignScene(Tscene *s);		
 	};
 }
 #endif

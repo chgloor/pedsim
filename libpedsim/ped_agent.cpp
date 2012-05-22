@@ -28,10 +28,8 @@ Ped::Tagent::Tagent() {
   v.y = 0;
   v.z = 0;
   hasreacheddestination = true;
-  destination = new Twaypoint();
-  lastdestination = new Twaypoint();
-  destination->settype(1); // point
-  destination->setr(1);
+  destination = NULL; 
+  lastdestination = NULL; 
   follow = -1;
   vmax = 2.0 + 1.0*(double)rand()/(double)RAND_MAX; // in m/s between 2.0 and 4.0
   mlLookAhead = false;
@@ -42,7 +40,7 @@ Ped::Tagent::Tagent() {
   factorlookaheadforce = 1.0f;
 
   timestep = 0;
-};
+}
 
 
 /// Default destructor
@@ -135,7 +133,7 @@ void Ped::Tagent::setfactorlookaheadforce(double f) {factorlookaheadforce = f; }
 /// agent storing structure in Tscene would fix this. But for small (less than 10000 agents) scenarios, this is just fine. 
 /// \date    2012-01-17
 /// \return  Tvector: the calculated force
-Ped::Tvector Ped::Tagent::socialForce() {
+Ped::Tvector Ped::Tagent::socialForce() const {
 	Ped::Tvector s;
 	//	for (AgentIterator iter = scene->agent.begin(); iter!=scene->agent.end(); ++iter) { 
 	for (set<const Ped::Tagent*>::iterator iter = neighbors.begin(); iter!=neighbors.end(); ++iter) { 
@@ -166,7 +164,7 @@ Ped::Tvector Ped::Tagent::socialForce() {
 /// Iterates over all obstacles == O(N). 
 /// \date    2012-01-17
 /// \return  Tvector: the calculated force
-Ped::Tvector Ped::Tagent::obstacleForce() {
+Ped::Tvector Ped::Tagent::obstacleForce() const {
 	Ped::Tvector o;
 	double mindisto2 = 99999; // obstacle with is closest only  --chgloor 2012-01-12
 	double mindox = 0;
@@ -196,36 +194,53 @@ Ped::Tvector Ped::Tagent::obstacleForce() {
 /// means that the agents will visit all the waypoints over and over again. In a later
 /// release, this behavior can be controlled by a flag.
 /// \date    2012-01-17
+/// \todo    move this destination handling into a separate method called by move(). then mark this method as const
 /// \return  Tvector: the calculated force
 Ped::Tvector Ped::Tagent::desiredForce() {
 	Ped::Tvector e;
 
 	if (follow >= 0) {
-		destination->setx(scene->agent.at(follow)->getx());
-		destination->sety(scene->agent.at(follow)->gety());
-		destination->settype(1); // point
-		destination->setr(0); // point
-	} else if ((hasreacheddestination == true) && (destinations.size() > 0)) {
-		// lastdestination->setx(destination->getx());
-		// lastdestination->sety(destination->gety());
+		bool reached;	  
+		Twaypoint d(scene->agent.at(follow)->getx(), scene->agent.at(follow)->gety(), 0);
+		d.setType(Ped::Twaypoint::TYPE_POINT);
+		Ped::Tvector ef = d.getForce(p.x, p.y, 0, 0, &reached);
+		e.x = ef.x * vmax; // walk with full speed if nothing else affects me
+		e.y = ef.y * vmax;			
+		return e;
+	} 
+
+	// waypoint management (fetch new destination if available)
+	// consider: replace hasreacheddestination with destination==NULL
+	if ((hasreacheddestination == true) && (destinations.size() > 0)) {
 		lastdestination = destination;
 		destination = destinations.front();
 		destinations.pop();
 		hasreacheddestination = false;
 	}
 
-	
-	bool reached;
-	Ped::Tvector ef = destination->getForce(p.x, p.y, lastdestination->getx(), lastdestination->gety(), &reached);
-	e.x = ef.x * vmax; // walk with full speed if nothing else affects me
-	e.y = ef.y * vmax;
 
-	if (hasreacheddestination == false) {
-		if (reached == true) {
-			hasreacheddestination = true;
-			destinations.push(destination); // round queue
+	if (destination != NULL) {	
+		bool reached;
+		Ped::Tvector ef;
+		if (lastdestination == NULL) { // create a temporary destination of type point, since no normal from last dest is available
+			Twaypoint d(destination->getx(), destination->gety(), destination->getr());
+			d.setType(Ped::Twaypoint::TYPE_POINT);
+			ef = d.getForce(p.x, p.y, 0, 0, &reached);
+		} else {
+			ef = destination->getForce(p.x, p.y, lastdestination->getx(), lastdestination->gety(), &reached);
 		}
-	} 
+
+		e.x = ef.x * vmax; // walk with full speed if nothing else affects me
+		e.y = ef.y * vmax;			
+		
+		if (hasreacheddestination == false) {
+			if (reached == true) {
+				hasreacheddestination = true;
+				destinations.push(destination); // round queue
+				destination == NULL;
+			}
+		} 
+	}
 	
 	return e;
 }
@@ -236,7 +251,7 @@ Ped::Tvector Ped::Tagent::desiredForce() {
 /// \date    2012-01-17
 /// \return  Tvector: the calculated force
 /// \param   e is a vector defining the direction in which the agent should look ahead to. Usually, this is the direction he wants to walk to.
-Ped::Tvector Ped::Tagent::lookaheadForce(Ped::Tvector e) {
+Ped::Tvector Ped::Tagent::lookaheadForce(Ped::Tvector e) const {
 	Ped::Tvector lf;
 
 	int lookforwardcount = 0;		
@@ -285,7 +300,7 @@ Ped::Tvector Ped::Tagent::lookaheadForce(Ped::Tvector e) {
 /// \date    2012-02-12
 /// \return  Tvector: the calculated force
 /// \param   e is a vector defining the direction in which the agent wants to walk to. 
-Ped::Tvector Ped::Tagent::myForce(Ped::Tvector e) {
+Ped::Tvector Ped::Tagent::myForce(Ped::Tvector e) const {
 	Ped::Tvector lf;
 	return lf;
 }
@@ -338,7 +353,7 @@ void Ped::Tagent::move(double h) {
 	p.z = 0; // p.z + h * v.z; // 2D  --chgloor 2012-01-04
 
 	// notice scene of movement
-		scene->moveAgent(this);
+	scene->moveAgent(this);
 
 	timestep++; // local agent tiemstep since creation
 }

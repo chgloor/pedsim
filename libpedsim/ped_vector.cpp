@@ -11,17 +11,12 @@ using namespace std;
 
 /// Default constructor, which makes sure that all the values are set to 0.
 /// \date    2012-01-16
-Ped::Tvector::Tvector() {
-	x = 0;
-	y = 0;
-	z = 0;
-}
+Ped::Tvector::Tvector() : x(0), y(0), z(0) {};
 
 
 /// Default destructor
 /// \date    2012-05-05
-Ped::Tvector::~Tvector() {
-}
+Ped::Tvector::~Tvector() {}
 
 
 /// Vector cross product helper: calculates the cross product of two vectors.

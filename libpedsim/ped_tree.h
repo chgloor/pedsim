@@ -24,27 +24,6 @@ namespace Ped {
 	
 	class LIBEXPORT Ttree {
 		friend class Tscene;
-	private:
-		int agentcount;
-		set<const Ped::Tagent*> agents;  // set and not vector, since we need to delete elements from the middle very often
-		
-		bool isleaf;		
-		double x;
-		double y;
-		double w;
-		double h;
-		int depth;
-
-		Ped::Tscene *scene;
-
-	protected:
-		Ttree *tree1;
-		Ttree *tree2;
-		Ttree *tree3;
-		Ttree *tree4;
-
-		virtual int cut();		
-		virtual void addChildren();
 
 	public:
 		Ttree(Ped::Tscene *scene, int depth, double x, double y, double w, double h);
@@ -63,6 +42,30 @@ namespace Ped {
 		double geth() const { return h; };                    
 
 		double getdepth() const { return depth; };                    
+
+	protected:
+		Ttree *tree1;
+		Ttree *tree2;
+		Ttree *tree3;
+		Ttree *tree4;
+
+		virtual int cut();		
+		virtual void addChildren();
+
+	private:
+		int agentcount;
+		set<const Ped::Tagent*> agents;  // set and not vector, since we need to delete elements from the middle very often
+		                                 // set and not list, since deletion is based on pointer (search O(log n) instead of O(n)).
+		
+		bool isleaf;		
+		double x;
+		double y;
+		double w;
+		double h;
+		int depth;
+
+		Ped::Tscene *scene;
+
 
 	};
 };

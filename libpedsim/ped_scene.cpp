@@ -15,9 +15,7 @@ using namespace std;
 /// Default constructor. If this constructor is used, there will be no quadtree created. 
 /// This is faster for small scenarios or less than 1000 Tagents.
 /// \date    2012-01-17
-Ped::Tscene::Tscene() {
-	tree = NULL;
-}
+Ped::Tscene::Tscene() : tree(NULL) {};
 
 
 /// Constructor used to create a quadtree statial representation of the Tagents. Use this
@@ -38,7 +36,7 @@ Ped::Tscene::Tscene(double left, double up, double width, double height) {
 /// Destructor
 /// \date    2012-02-04
 Ped::Tscene::~Tscene() {
-	if (tree != NULL) delete(tree);
+	if (tree != NULL) delete(tree); // I know that delete(NULL) always succeeds. Still like this better. 
 }
 
 
