@@ -1,7 +1,7 @@
 //
 // pedsim - A microscopic pedestrian simulation system. 
 // Copyright (c) 2003 - 2012 by Christian Gloor
-//                              
+//
 
 #ifndef _ped_agent_h_
 #define _ped_agent_h_ 1
