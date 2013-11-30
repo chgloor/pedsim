@@ -15,6 +15,8 @@ Command Line:
 qmake
 make
 
+You might need to add the path to libpedsim before you can run this:
+export LD_LIBRARY_PATH=../libpedsim/
 
 
 

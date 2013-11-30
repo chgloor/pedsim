@@ -1,4 +1,4 @@
-CXX = gcc -g -O0 -fno-inline
+CXX = gcc -g -O0 -fno-inline -std=c++0x 
 
 libpedsim.so: ped_obstacle.cpp ped_vector.cpp ped_waypoint.cpp ped_agent.cpp ped_scene.cpp ped_tree.cpp
 	$(CXX) -fPIC -c ped_vector.cpp -o ped_vector.o

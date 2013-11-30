@@ -12,24 +12,23 @@
 #define LIBEXPORT
 #endif
 
-#include <iostream>
-#include <vector>
-#include <queue>
+#include "ped_vector.h"
 
-#include "ped_waypoint.h"
-#include "ped_scene.h"
+#include <deque>
+#include <set>
+#include <vector>
 
 using namespace std;
 
 namespace Ped {
-
 	class Tscene;
+	class Twaypoint;
 
 /// \example example.cpp
 
 
 /// This is the main class of the library. It contains the Tagent, which eventually will move through the
-/// Tscene and interact with Tobstacle and other Tagent.  You can use it as it is, and access the agent's 
+/// Tscene and interact with Tobstacle and other Tagent. You can use it as it is, and access the agent's 
 /// coordinates using the getx() etc methods. Or, if you want to change the way the agent behaves, you can
 /// derive a new class from it, and overwrite the methods you want to change. This is also a convenient way
 /// to get access to internal variables not available though public methods, like the individual forces that 
@@ -42,81 +41,91 @@ namespace Ped {
 		Tagent(); 
 		virtual ~Tagent();
 
-		virtual void move(double h);                      
+		virtual void computeForces();
+		virtual void move(double stepSizeIn);
+		virtual Tvector desiredForce();
 		virtual Tvector socialForce() const;
 		virtual Tvector obstacleForce() const;
-		virtual Tvector desiredForce();
 		virtual Tvector lookaheadForce(Tvector desired) const;
 		virtual Tvector myForce(Tvector desired) const;
 
-		virtual void print() const { cout << "agent " << id << ": " << p.x << "/" << p.y << "/" << p.z << endl; }; 
-		
 		void setPosition(double px, double py, double pz);
-		void setType(int t) { this->type = t; };           
+		void setType(int t) { this->type = t; };
 		void setFollow(int id);
 		void setVmax(double vmax);
 
 		int getFollow() const;
-				
+
 		int getid() const { return id; };
-		int gettype() const { return type; };                   
+		int gettype() const { return type; };
+		double getvmax() const { return vmax; };
 
 		// these getter should replace the ones later (returning the individual vector values)
 		const Tvector& getPosition() const { return p; }
 		const Tvector& getVelocity() const { return v; }
 		const Tvector& getAcceleration() const { return a; }
 
-		double getx() const { return p.x; };                    
-		double gety() const { return p.y; };                    
-		double getz() const { return p.z; };                    
-		double getax() const { return a.x; };                   
-		double getay() const { return a.y; };                   
-		double getaz() const { return a.z; };                   
-		double getvx() const { return v.x; };                   
-		double getvy() const { return v.y; };                   
-		double getvz() const { return v.z; };                   
+		double getx() const { return p.x; };
+		double gety() const { return p.y; };
+		double getz() const { return p.z; };
+		double getax() const { return a.x; };
+		double getay() const { return a.y; };
+		double getaz() const { return a.z; };
+		double getvx() const { return v.x; };
+		double getvy() const { return v.y; };
+		double getvz() const { return v.z; };
 
 		void setfactorsocialforce(double f);
 		void setfactorobstacleforce(double f);
 		void setfactordesiredforce(double f);
 		void setfactorlookaheadforce(double f);
 		
-		void addWaypoint(Twaypoint *wp);
-		void assignScene(Tscene *s);		
+		void assignScene(Tscene* s);
+		void addWaypoint(Twaypoint* wp);
+		bool removeWaypoint(const Twaypoint* wp);
+		void clearWaypoints();
+		void removeAgentFromNeighbors(const Tagent* agentIn);
 
-	private:
+	protected:
 		int id;                                           ///< agent number
 		Tvector p;                                        ///< current position of the agent 
 		Tvector v;                                        ///< velocity of the agent
 		Tvector a;                                        ///< current acceleration of the agent
-		int type;                                         
+		int type;
 		double vmax;                                      ///< individual max velocity per agent
 		int follow;
 
-		Ped::Tscene *scene; // not const. scene is modified e.g. in agent::move()
+		Ped::Tvector desiredDirection;
+
+		Ped::Tscene* scene;
 		
-		queue<Twaypoint*> destinations;                    ///< coordinates of the next destinations
-		Twaypoint *destination;                            ///< coordinates of the next destination
-		Twaypoint *lastdestination;                        ///< coordinates of the last destination
-		bool hasreacheddestination;                       ///< true if it ahs reached its destination
+		deque<Twaypoint*> waypoints;                      ///< coordinates of the next destinations
+		Twaypoint* destination;                           ///< coordinates of the next destination
+		Twaypoint* lastdestination;                       ///< coordinates of the last destination
+		bool hasreacheddestination;                       ///< true if it has reached its destination
 
 		bool mlLookAhead;
 		
+		double factordesiredforce;
 		double factorsocialforce;
 		double factorobstacleforce;
-		double factordesiredforce;
 		double factorlookaheadforce;
+
+		double obstacleForceSigma;
 		
+		Ped::Tvector desiredforce;
 		Ped::Tvector socialforce;
 		Ped::Tvector obstacleforce;
-		Ped::Tvector desiredforce;
 		Ped::Tvector lookaheadforce;
 		Ped::Tvector myforce;
+
+		double relaxationTime;
+		
+		double agentRadius;
 
 		set<const Ped::Tagent*> neighbors;
 
 		long timestep;
-
 	};
 }
 #endif
