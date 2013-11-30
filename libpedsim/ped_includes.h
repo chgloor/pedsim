@@ -1,4 +1,3 @@
-
 #ifndef _ped_includes_h_
 #define _ped_includes_h_ 1
 
@@ -8,7 +7,7 @@
 #include "ped_scene.h"
 
 namespace Ped {
-	const double LIBEXPORT LIBPEDSIM_VERSION = 2.2;
+    const double LIBEXPORT LIBPEDSIM_VERSION = 3.0;
 }
 
 #endif

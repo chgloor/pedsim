@@ -7,7 +7,7 @@
 #include "control.h"
 #include "config.h"
 
-#include <QtGui>
+#include <QtWidgets>
 
 #define ZOOMFACTOR 1.2
 
