@@ -12,7 +12,6 @@
 #include <algorithm>
 #include <random>
 
-
 using namespace std;
 
 
@@ -42,7 +41,6 @@ Ped::Tagent::Tagent() {
     // normal distribution (mean 1.2, std 0.2)
     normal_distribution<double> distribution(1.2, 0.2);
     vmax = distribution(generator);
-
     factorsocialforce = 2.1;
     factorobstacleforce = 10.0;
     factordesiredforce = 1.0;
@@ -251,7 +249,7 @@ Ped::Tvector Ped::Tagent::desiredForce() {
     }
 
     // compute force
-    Tvector force = (desiredDirection * vmax - v) / relaxationTime;
+    Tvector force = desiredDirection.normalized() * vmax;
 
     return force;
 }
@@ -442,12 +440,9 @@ void Ped::Tagent::computeForces() {
 
     desiredforce = desiredForce();
     neighbors = scene->getNeighbors(p.x, p.y, neighborhoodRange);
-    if(factorlookaheadforce > 0)
-        lookaheadforce = lookaheadForce(desiredDirection);
-    if(factorsocialforce > 0)
-        socialforce = socialForce();
-    if(factorobstacleforce > 0)
-        obstacleforce = obstacleForce();
+    if (factorlookaheadforce > 0) lookaheadforce = lookaheadForce(desiredDirection);
+    if (factorsocialforce > 0) socialforce = socialForce();
+    if (factorobstacleforce > 0) obstacleforce = obstacleForce();
     myforce = myForce(desiredDirection);
 }
 
@@ -470,8 +465,7 @@ void Ped::Tagent::move(double stepSizeIn) {
 
     // don't exceed maximal speed
     double speed = v.length();
-    if(speed > vmax)
-        v = v.normalized() * vmax;
+    if(speed > vmax) v = v.normalized() * vmax;
 
     // internal position update = actual move
     p += stepSizeIn * v;
