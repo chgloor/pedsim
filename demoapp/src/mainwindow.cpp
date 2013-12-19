@@ -1,7 +1,7 @@
 ///
-/// pedsim - A microscopic pedestrian simulation system. 
-/// Copyright (c) 2003 - 2012 by Christian Gloor
-///                              
+/// pedsim - A microscopic pedestrian simulation system.
+/// Copyright (c) 2003 - 2013 by Christian Gloor
+///
 
 #include "mainwindow.h"
 #include "control.h"
@@ -16,36 +16,36 @@ using namespace std;
 extern Config config;
 
 MainWindow::MainWindow() {
-	graphicsView = new QGraphicsView();
-	setCentralWidget(graphicsView);
-	graphicsView->scale(2, 2);
-	
-	uicontrol = new Control(this, false);
-	addDockWidget(Qt::LeftDockWidgetArea, uicontrol);
+    graphicsView = new QGraphicsView();
+    setCentralWidget(graphicsView);
+    graphicsView->scale(2, 2);
 
-	createActions();
-	createMenus();
-	createStatusBar();
-	
-	readSettings();
+    uicontrol = new Control(this, false);
+    addDockWidget(Qt::LeftDockWidgetArea, uicontrol);
 
-	connect(uicontrol, SIGNAL(zoomin()), this, SLOT(zoomin()));
-	connect(uicontrol, SIGNAL(zoomout()), this, SLOT(zoomout()));
+    createActions();
+    createMenus();
+    createStatusBar();
+
+    readSettings();
+
+    connect(uicontrol, SIGNAL(zoomin()), this, SLOT(zoomin()));
+    connect(uicontrol, SIGNAL(zoomout()), this, SLOT(zoomout()));
 }
 
 
 void MainWindow::closeEvent(QCloseEvent *event) {
-	event->accept();
+    event->accept();
 }
 
 
 void MainWindow::about() {
-	QMessageBox::about(this, tr("About PedSim Demo"),
-							 tr("<b>PedSim Demo</b> is a small pedestrian simulation system"
-								 "with an interactive GUI, "
-								 "suitable for small experiments. <br>"
-								 "It is based on <b>libpedsim</b>, http://pedsim.silmaril.org/<br>"
-								 " (c) 2003-2012 by Christian Gloor"));
+    QMessageBox::about(this, tr("About PedSim Demo"),
+                             tr("<b>PedSim Demo</b> is a small pedestrian simulation system"
+                                 "with an interactive GUI, "
+                                 "suitable for small experiments. <br>"
+                                 "It is based on <b>libpedsim</b>, http://pedsim.silmaril.org/<br>"
+                                 " (c) 2003-2013 by Christian Gloor"));
 }
 
 
@@ -70,59 +70,58 @@ void MainWindow::createActions() {
 
 
 void MainWindow::createMenus() {
-	fileMenu = menuBar()->addMenu(tr("&File"));
-	fileMenu->addSeparator();
-	fileMenu->addAction(exitAct);
-	
-	viewMenu = menuBar()->addMenu(tr("&View"));
-	viewMenu->addAction(uicontrol->toggleViewAction());
+    fileMenu = menuBar()->addMenu(tr("&File"));
+    fileMenu->addSeparator();
+    fileMenu->addAction(exitAct);
 
-	menuBar()->addSeparator();
+    viewMenu = menuBar()->addMenu(tr("&View"));
+    viewMenu->addAction(uicontrol->toggleViewAction());
 
-	helpMenu = menuBar()->addMenu(tr("&Help"));
-	helpMenu->addAction(aboutAct);
+    menuBar()->addSeparator();
+
+    helpMenu = menuBar()->addMenu(tr("&Help"));
+    helpMenu->addAction(aboutAct);
 }
 
 
 void MainWindow::createToolBars() {
-	editToolBar = addToolBar(tr("Zoom"));
-	editToolBar->addAction(zoominAct);
-	editToolBar->addAction(zoomoutAct);
+    editToolBar = addToolBar(tr("Zoom"));
+    editToolBar->addAction(zoominAct);
+    editToolBar->addAction(zoomoutAct);
 }
 
 
 void MainWindow::createStatusBar() {
-	statusBar()->showMessage(tr("Ready"));
+    statusBar()->showMessage(tr("Ready"));
 }
 
 
 void MainWindow::readSettings() {
-	QSettings settings("Christian Gloor", "PedSim");
-	QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
-	QSize size = settings.value("size", QSize(1280, 800)).toSize();
-	resize(size);
-	move(pos);
+    QSettings settings("Christian Gloor", "PedSim");
+    QPoint pos = settings.value("pos", QPoint(200, 200)).toPoint();
+    QSize size = settings.value("size", QSize(1280, 800)).toSize();
+    resize(size);
+    move(pos);
 }
 
 
 void MainWindow::writeSettings() {
-	QSettings settings("Christian Gloor", "PedSim");
-	settings.setValue("pos", pos());
-	settings.setValue("size", size());
+    QSettings settings("Christian Gloor", "PedSim");
+    settings.setValue("pos", pos());
+    settings.setValue("size", size());
 }
 
 
 QString MainWindow::strippedName(const QString &fullFileName) {
-	return QFileInfo(fullFileName).fileName();
+    return QFileInfo(fullFileName).fileName();
 }
 
 
 void MainWindow::zoomin() {
-	graphicsView->scale(ZOOMFACTOR, ZOOMFACTOR);
+    graphicsView->scale(ZOOMFACTOR, ZOOMFACTOR);
 }
 
 
 void MainWindow::zoomout() {
-		graphicsView->scale(1/ZOOMFACTOR, 1/ZOOMFACTOR);
+        graphicsView->scale(1/ZOOMFACTOR, 1/ZOOMFACTOR);
 }
-

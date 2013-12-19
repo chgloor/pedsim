@@ -168,6 +168,13 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item>
+        <widget class="QCheckBox" name="followAgentCheckBox">
+         <property name="text">
+          <string>Follow Agent</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QLabel" name="fpsLabel">
          <property name="text">
           <string>Framerate</string>

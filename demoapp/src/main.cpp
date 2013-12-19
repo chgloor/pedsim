@@ -1,6 +1,6 @@
 ///
 /// pedsim - A microscopic pedestrian simulation system.
-/// Copyright (c) 2003 - 2012 by Christian Gloor
+/// Copyright (c) 2003 - 2013 by Christian Gloor
 ///
 /// http://pedsim.silmaril.org/
 ///       _

@@ -22,6 +22,8 @@ Control::Control(QWidget *parent, bool admin) : QDockWidget(parent) {
     connect(ui.showForcesCheckBox, SIGNAL(toggled(bool)), this, SLOT(showForces(bool)));
     connect(ui.showDirectionCheckBox, SIGNAL(toggled(bool)), this, SLOT(showDirection(bool)));
 
+    connect(ui.followAgentCheckBox, SIGNAL(toggled(bool)), this, SLOT(followAgent(bool)));
+
     connect(ui.mlLookAheadCheckBox, SIGNAL(toggled(bool)), this, SLOT(mlLookAhead(bool)));
     connect(ui.mlTendencyCheckBox, SIGNAL(toggled(bool)), this, SLOT(mlTendency(bool)));
 
@@ -90,4 +92,9 @@ void Control::showDirection(bool show) {
 void Control::simh(int value) {
     config.simh = 0.01f*value;
     ui.simhLabel->setText(QString("Precision (h=%1)").arg(config.simh));
+}
+
+
+void Control::followAgent(bool follow) {
+    config.followAgent = follow;
 }
