@@ -13,8 +13,6 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 
-#include <iostream>
-
 extern Config config;
 extern Scene *gblscene;
 
@@ -25,10 +23,10 @@ using namespace std;
 Agent::Agent(QGraphicsScene *pscene) : Tagent() {
     graphicsscene = pscene;
     rect = graphicsscene->addRect(QRectF(0,0,1,1), QPen(Qt::white, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin), QBrush(QColor(Qt::white)));
-    lineea = graphicsscene->addLine(QLineF(0, 0, 1, 1), QPen(Qt::red, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-    lineoa = graphicsscene->addLine(QLineF(0, 0, 1, 1), QPen(Qt::blue, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-    linesa = graphicsscene->addLine(QLineF(0, 0, 1, 1), QPen(Qt::green, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-    linelfa = graphicsscene->addLine(QLineF(0, 0, 1, 1), QPen(Qt::magenta, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    lineea = graphicsscene->addLine(QLineF(0, 0, 1, 1), QPen(Qt::gray, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    lineoa = graphicsscene->addLine(QLineF(0, 0, -1, 1), QPen(Qt::blue, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    linesa = graphicsscene->addLine(QLineF(0, 0, 1, 1), QPen(Qt::red, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    linelfa = graphicsscene->addLine(QLineF(0, 0, 1, 1), QPen(Qt::green, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     linev  = graphicsscene->addLine(QLineF(0, 0, 1, 1), QPen(Qt::yellow, 0.1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 };
 
@@ -38,7 +36,7 @@ Agent::Agent(QGraphicsScene *pscene) : Tagent() {
 Ped::Tvector Agent::socialForce() {
     Ped::Tvector t = Tagent::socialForce();
     if (config.showForces == true) {
-        linesa->setLine(getx(), gety(), getx()+config.simPedForce*t.x, gety()+config.simPedForce*t.y);
+        linesa->setLine(getx(), gety(), getx()+3.0*t.x, gety()+3.0*t.y);
         linesa->setVisible(true);
     } else {
         linesa->setVisible(false);
@@ -52,7 +50,7 @@ Ped::Tvector Agent::socialForce() {
 Ped::Tvector Agent::obstacleForce() {
     Ped::Tvector t = Tagent::obstacleForce();
     if (config.showForces == true) {
-        lineoa->setLine(getx(), gety(), getx()+config.simWallForce*t.x, gety()+config.simWallForce*t.y);
+        lineoa->setLine(getx(), gety(), getx()+10.0*t.x, gety()+10.0*t.y);
         lineoa->setVisible(true);
     } else {
         lineoa->setVisible(false);
@@ -60,18 +58,20 @@ Ped::Tvector Agent::obstacleForce() {
     return t;
 }
 
+
 /// Calculates the desired force. Same as in lib, but adds graphical representation
 /// \author  chgloor
 Ped::Tvector Agent::desiredForce() {
     Ped::Tvector t = Tagent::desiredForce();
     if (config.showForces == true) {
-        lineea->setLine(getx(), gety(), getx()+1.0f*t.x, gety()+1.0*t.y);
+        lineea->setLine(getx(), gety(), getx()+1.0*t.x, gety()+1.0*t.y);
         lineea->setVisible(true);
     } else {
         lineea->setVisible(false);
     }
     return t;
 }
+
 
 /// Calculates the look ahead force. Same as in lib, but adds graphical representation
 /// \date    2012-01-17
@@ -81,13 +81,14 @@ Ped::Tvector Agent::lookaheadForce(Ped::Tvector desired) {
         t = Tagent::lookaheadForce(desired);
     }
     if (config.showForces == true) {
-        linelfa->setLine(getx(), gety(), getx()+1.0f*t.x, gety()+1.0*t.y);
+        linelfa->setLine(getx(), gety(), getx()+1.0*t.x, gety()+1.0*t.y);
         linelfa->setVisible(true);
     } else {
         linelfa->setVisible(false);
     }
     return t;
 }
+
 
 /// Calculates the custom force
 /// \date    2012-02-12
@@ -107,7 +108,7 @@ void Agent::move(double h) {
     setfactorsocialforce(config.simPedForce);
     setfactorobstacleforce(config.simWallForce);
 
-    setVmax(gblscene->getGridValue(getx(), gety(), 0));
+    //    setVmax(gblscene->getGridValue(getx(), gety(), 0));
 
     Tagent::move(h);
 
@@ -119,6 +120,7 @@ void Agent::move(double h) {
         linev->setVisible(false);
     }
 
+    // update graphic center if option selected
     if ((config.followAgent == true) && (id == 0)) {
         graphicsscene->views().first()->centerOn(getx(), gety());
     }

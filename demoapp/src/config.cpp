@@ -10,18 +10,18 @@
 using namespace std;
 
 /// \date    2012-01-11
-Config::Config() { // make sure this reflects what is set as default in the suer interface!  --chgloor 2012-01-13
+Config::Config() { // make sure this reflects what is set as default in the user interface!  --chgloor 2012-01-13
     guiShowWaypoints = false;
-    simWallForce = 20;
-    simPedForce = 5;
+    simWallForce = 50;
+    simPedForce = 30;
     simSpeed = 1000/30;
     mlTendency = false;
     mlLookAhead = true;
-    showForces = false;
-    showDirection = false;
+    showForces = true;
+    showDirection = true;
     showTree = false;
-    simh = 0.2;
-    followAgent = false;
+    simh = 0.4;
+    followAgent = true;
 }
 
 /// \date    2012-01-11

@@ -11,6 +11,7 @@
 #include <cmath>
 #include <algorithm>
 #include <random>
+#include <iostream>
 
 using namespace std;
 
@@ -41,6 +42,7 @@ Ped::Tagent::Tagent() {
     // normal distribution (mean 1.2, std 0.2)
     normal_distribution<double> distribution(1.2, 0.2);
     vmax = distribution(generator);
+
     factorsocialforce = 2.1;
     factorobstacleforce = 10.0;
     factordesiredforce = 1.0;
@@ -254,12 +256,14 @@ Ped::Tvector Ped::Tagent::desiredForce() {
     return force;
 }
 
-/// Calculates the social force between this agent and all the other agents belonging to the same scene.
-/// It iterates over all agents inside the scene, has therefore the complexity O(N^2). A better
-/// agent storing structure in Tscene would fix this. But for small (less than 10000 agents) scenarios, this is just fine.
+/// Calculates the social force between this agent and all the other agents
+/// belonging to the same scene.  It iterates over all agents inside the scene,
+/// has therefore the complexity O(N^2). A better agent storing structure in
+/// Tscene would fix this. But for small (less than 10000 agents) scenarios,
+/// this is just fine.
 /// \date    2012-01-17
 /// \return  Tvector: the calculated force
-Ped::Tvector Ped::Tagent::socialForce() const {
+Ped::Tvector Ped::Tagent::socialForce() {
     // define relative importance of position vs velocity vector
     // (set according to Moussaid-Helbing 2009)
     const double lambdaImportance = 2.0;
@@ -277,13 +281,17 @@ Ped::Tvector Ped::Tagent::socialForce() const {
     const double n_prime = 3;
 
     Tvector force;
-    for(const Ped::Tagent* other: neighbors) {
+    for (const Ped::Tagent* other: neighbors) {
         // don't compute social force to yourself
-        if(other->id == id)
-            continue;
+        if (other->id == id) continue;
 
         // compute difference between both agents' positions
         Tvector diff = other->p - p;
+
+        // skip futher computation if they are too far away from each
+        // other. Should speed up things.
+        if (diff.lengthSquared() > 4.0) continue;
+
         Tvector diffDirection = diff.normalized();
 
         // compute difference between both agents' velocity vectors
@@ -297,7 +305,7 @@ Ped::Tvector Ped::Tagent::socialForce() const {
 
         // compute angle theta (between interaction and position difference vector)
         double theta = interactionDirection.angleTo(diffDirection);
-        int thetaSign = (theta == 0)?(0):(theta/abs(theta));
+        int thetaSign = (theta == 0) ? (0) : (theta/abs(theta));
 
         // compute model parameter B = gamma * ||D||
         double B = gamma * interactionLength;
@@ -352,7 +360,7 @@ Ped::Tvector Ped::Tagent::socialForce() const {
 /// Iterates over all obstacles == O(N).
 /// \date    2012-01-17
 /// \return  Tvector: the calculated force
-Ped::Tvector Ped::Tagent::obstacleForce() const {
+Ped::Tvector Ped::Tagent::obstacleForce() {
     // obstacle which is closest only
     Ped::Tvector minDiff;
     double minDistanceSquared = INFINITY;
@@ -373,12 +381,14 @@ Ped::Tvector Ped::Tagent::obstacleForce() const {
 }
 
 
-/// Calculates the mental layer force of the strategy "look ahead". It is implemented here in the physical layer
-/// because of performance reasons. It iterates over all Tagents in the Tscene, complexity O(N^2).
+/// Calculates the mental layer force of the strategy "look ahead". It is
+/// implemented here in the physical layer because of performance reasons. It
+/// iterates over all Tagents in the Tscene, complexity O(N^2).
 /// \date    2012-01-17
 /// \return  Tvector: the calculated force
-/// \param   e is a vector defining the direction in which the agent should look ahead to. Usually, this is the direction he wants to walk to.
-Ped::Tvector Ped::Tagent::lookaheadForce(Ped::Tvector e) const {
+/// \param e is a vector defining the direction in which the agent should look
+///          ahead to. Usually, this is the direction he wants to walk to.
+Ped::Tvector Ped::Tagent::lookaheadForce(Ped::Tvector e) {
     const double pi = 3.14159265;
     int lookforwardcount = 0;
     for(set<const Ped::Tagent*>::iterator iter = neighbors.begin(); iter!=neighbors.end(); ++iter) {
@@ -429,7 +439,7 @@ Ped::Tvector Ped::Tagent::lookaheadForce(Ped::Tvector e) const {
 /// \date    2012-02-12
 /// \return  Tvector: the calculated force
 /// \param   e is a vector defining the direction in which the agent wants to walk to.
-Ped::Tvector Ped::Tagent::myForce(Ped::Tvector e) const {
+Ped::Tvector Ped::Tagent::myForce(Ped::Tvector e) {
     Ped::Tvector lf;
     return lf;
 }
@@ -455,20 +465,19 @@ void Ped::Tagent::computeForces() {
 void Ped::Tagent::move(double stepSizeIn) {
     // sum of all forces --> acceleration
     a = factordesiredforce * desiredforce
-        + factorsocialforce * socialforce
-        + factorobstacleforce * obstacleforce
-        + factorlookaheadforce * lookaheadforce
-        + myforce;
+            + factorsocialforce * socialforce
+            + factorobstacleforce * obstacleforce
+            + factorlookaheadforce * lookaheadforce
+            + myforce;
 
     // calculate the new velocity
-    v += stepSizeIn * a;
+    v = v + stepSizeIn * a;
 
     // don't exceed maximal speed
-    double speed = v.length();
-    if(speed > vmax) v = v.normalized() * vmax;
+    if (v.length() > vmax) v = v.normalized() * vmax;
 
     // internal position update = actual move
-    p += stepSizeIn * v;
+    p = p + stepSizeIn * v;
 
     // notice scene of movement
     scene->moveAgent(this);

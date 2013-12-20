@@ -18,7 +18,7 @@ extern Config config;
 MainWindow::MainWindow() {
     graphicsView = new QGraphicsView();
     setCentralWidget(graphicsView);
-    graphicsView->scale(2, 2);
+    graphicsView->scale(4, 4);
 
     uicontrol = new Control(this, false);
     addDockWidget(Qt::LeftDockWidgetArea, uicontrol);
@@ -123,5 +123,5 @@ void MainWindow::zoomin() {
 
 
 void MainWindow::zoomout() {
-        graphicsView->scale(1/ZOOMFACTOR, 1/ZOOMFACTOR);
+    graphicsView->scale(1/ZOOMFACTOR, 1/ZOOMFACTOR);
 }

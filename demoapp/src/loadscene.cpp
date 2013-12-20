@@ -52,7 +52,13 @@ void Loadscene::processData(QByteArray data) {
                 double y1 = m_xmlReader.attributes().value("y1").toString().toDouble();
                 double x2 = m_xmlReader.attributes().value("x2").toString().toDouble();
                 double y2 = m_xmlReader.attributes().value("y2").toString().toDouble();
-                pedscene->addObstacle(new Obstacle(x1, y1, x2, y2, graphicsscene->addLine(1,1,0,0,QPen(Qt::blue, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin))));
+                pedscene->addObstacle(
+                    new Obstacle(x1, y1, x2, y2,
+                                 graphicsscene->addLine(1, 1, 0, 0,
+                                                        QPen(QColor(150, 75, 0), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin)
+                                                        )
+                                 )
+                );
 
             } else if (m_xmlReader.name() == "waypoint") {
                 QString id = m_xmlReader.attributes().value("id").toString();
@@ -78,7 +84,6 @@ void Loadscene::processData(QByteArray data) {
             } else if (m_xmlReader.name() == "addwaypoint") {
                 QString id = m_xmlReader.attributes().value("id").toString();
                 Agent *a; foreach (a, agents) a->addWaypoint(waypoints[id]);
-                //				cout << id.toStdString() << " " << waypoints[id]->getx() << "/" << waypoints[id]->gety() << endl;
             }
 
         } else if (m_xmlReader.isEndElement()) {

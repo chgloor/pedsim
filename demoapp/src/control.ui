@@ -155,6 +155,9 @@ p, li { white-space: pre-wrap; }
          <property name="enabled">
           <bool>true</bool>
          </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
          <property name="text">
           <string>Show Direction</string>
          </property>
@@ -165,12 +168,18 @@ p, li { white-space: pre-wrap; }
          <property name="text">
           <string>Show Forces</string>
          </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QCheckBox" name="followAgentCheckBox">
          <property name="text">
           <string>Follow Agent</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -300,7 +309,7 @@ p, li { white-space: pre-wrap; }
           <number>100</number>
          </property>
          <property name="value">
-          <number>20</number>
+          <number>40</number>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -326,10 +335,10 @@ p, li { white-space: pre-wrap; }
           <number>0</number>
          </property>
          <property name="maximum">
-          <number>500</number>
+          <number>1000</number>
          </property>
          <property name="value">
-          <number>200</number>
+          <number>500</number>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -349,13 +358,13 @@ p, li { white-space: pre-wrap; }
           <number>0</number>
          </property>
          <property name="maximum">
-          <number>500</number>
+          <number>1000</number>
          </property>
          <property name="value">
-          <number>50</number>
+          <number>300</number>
          </property>
          <property name="sliderPosition">
-          <number>50</number>
+          <number>300</number>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
