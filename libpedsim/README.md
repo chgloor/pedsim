@@ -4,6 +4,7 @@ libpedsim
 ## Linux
 
 Command line:
+
 ```bash
 make
 ```
@@ -11,6 +12,7 @@ make
 ## Windows
 
 Command line, e.g. with Microsoft Windows SDK, or MS visual c++ express:
+
 ```
 msbuild libpedsim.sln /p:Configuration=Release
 ```
