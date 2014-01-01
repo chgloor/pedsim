@@ -1,17 +1,21 @@
+libpedsim
+=========
 
-Linux: 
+## Linux
 
 Command line:
 
+```bash
 make
+```
 
-
-
-Windows:
+## Windows
 
 Command line, e.g. with Microsoft Windows SDK, or MS visual c++ express:
 
+```
 msbuild libpedsim.sln /p:Configuration=Release
+```
 
 Click/GUI. e.g. MS Visual Studio 2010 or MS Visual C++ 2010:
 
