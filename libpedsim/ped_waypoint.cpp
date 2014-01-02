@@ -1,6 +1,6 @@
 //
-// pedsim - A microscopic pedestrian simulation system. 
-// Copyright (c) 2003 - 2012 by Christian Gloor
+// pedsim - A microscopic pedestrian simulation system.
+// Copyright (c) 2003 - 2014 by Christian Gloor
 //
 
 #include "ped_waypoint.h"
@@ -11,7 +11,7 @@
 int Ped::Twaypoint::staticid = 0;
 
 
-/// Constructor: Sets some intial values. The agent has to pass within the given radius. 
+/// Constructor: Sets some intial values. The agent has to pass within the given radius.
 /// \date    2012-01-07
 /// \param   px The x coordinate of the waypoint
 /// \param   py The y coordinate of the waypoint
@@ -38,17 +38,17 @@ Ped::Twaypoint::~Twaypoint() {};
 /// \param   normalLineEnd The second corner of the normal line
 /// \return  Tvector The calculated point
 Ped::Tvector Ped::Twaypoint::normalpoint(const Ped::Tvector& p, const Ped::Tvector& normalLineStart, const Ped::Tvector& normalLineEnd) const {
-	Ped::Tvector relativeEnd = normalLineEnd - normalLineStart;
+    Ped::Tvector relativeEnd = normalLineEnd - normalLineStart;
 
-	double lambda = (Tvector::dotProduct(p, relativeEnd) - Tvector::dotProduct(normalLineStart, relativeEnd)) / relativeEnd.lengthSquared();
+    double lambda = (Tvector::dotProduct(p, relativeEnd) - Tvector::dotProduct(normalLineStart, relativeEnd)) / relativeEnd.lengthSquared();
 
-	if (lambda <= 0)
-		return normalLineStart;
-	else if (lambda >= 1)
-		return normalLineEnd;
-	else
-		return normalLineStart + lambda*relativeEnd;
-} 
+    if (lambda <= 0)
+        return normalLineStart;
+    else if (lambda >= 1)
+        return normalLineEnd;
+    else
+        return normalLineStart + lambda*relativeEnd;
+}
 
 
 /// Calculates the point that is on the given line and normal to the given position.
@@ -62,8 +62,8 @@ Ped::Tvector Ped::Twaypoint::normalpoint(const Ped::Tvector& p, const Ped::Tvect
 /// \param   oc22 The y coordinate of the second corner of the obstacle
 /// \return  Tvector The calculated point
 Ped::Tvector Ped::Twaypoint::normalpoint(double p1, double p2, double oc11, double oc12, double oc21, double oc22) const {
-	return normalpoint(Tvector(p1, p2), Tvector(oc11, oc12), Tvector(oc21, oc22));
-} 
+    return normalpoint(Tvector(p1, p2), Tvector(oc11, oc12), Tvector(oc21, oc22));
+}
 
 
 /// Returns the force into the direction of the waypoint
@@ -75,57 +75,57 @@ Ped::Tvector Ped::Twaypoint::normalpoint(double p1, double p2, double oc11, doub
 /// \param   *reached Set to true if the agent has reached the waypoint in this call.
 /// \return  Tvector The calculated force
 Ped::Tvector Ped::Twaypoint::getForce(double agentX, double agentY, double fromx, double fromy, bool *reached) const {
-	if(type == Ped::Twaypoint::TYPE_NORMAL) {
-		Tvector diff(x - agentX, y - agentY);
+    if(type == Ped::Twaypoint::TYPE_NORMAL) {
+        Tvector diff(x - agentX, y - agentY);
 
-		if(reached != NULL) {
-			if(diff.length() < r)
-				*reached = true; 
-			else 
-				*reached = false;
-		}
-		return diff.normalized();
+        if(reached != NULL) {
+            if(diff.length() < r)
+                *reached = true;
+            else
+                *reached = false;
+        }
+        return diff.normalized();
 
 // Old code: (why is this so complicated?)
-// 		Tvector diff(x - fromx, y - fromy);
-// 		Tvector diffDirection = diff.normalized();
-// 		Tvector scaledDiffDirection = r * diffDirection;
-// 
-// 		double oc11 = x + scaledDiffDirection.x;
-// 		double oc12 = y - scaledDiffDirection.y;
-// 		double oc21 = x - scaledDiffDirection.x;
-// 		double oc22 = y + scaledDiffDirection.y;
-// 
-// 		Ped::Tvector pnormal = normalpoint(agentX, agentY, oc11, oc12, oc21, oc22);
-// 		//TODO: use normalpoint(Tvector(p1, p2), Tvector(oc11, oc12), Tvector(oc21, oc22));
-// 
-// 		Tvector pndistance(agentX - pnormal.x, agentY - pnormal.y);
-// 		double pndist = pndistance.length();
-// 
-// 		if(pndist == 0)
-// 			return Ped::Tvector();
-// 
-// 		if(reached != NULL) {
-// 			if(pndist < 3)
-// 				*reached = true;
-// 			else 
-// 				*reached = false;
-// 		}
-// 		return -pndistance.normalized();
-	}
-	else if(type == Ped::Twaypoint::TYPE_POINT) {
-		Tvector diff(x - agentX, y - agentY);
+//          Tvector diff(x - fromx, y - fromy);
+//          Tvector diffDirection = diff.normalized();
+//          Tvector scaledDiffDirection = r * diffDirection;
+//
+//          double oc11 = x + scaledDiffDirection.x;
+//          double oc12 = y - scaledDiffDirection.y;
+//          double oc21 = x - scaledDiffDirection.x;
+//          double oc22 = y + scaledDiffDirection.y;
+//
+//          Ped::Tvector pnormal = normalpoint(agentX, agentY, oc11, oc12, oc21, oc22);
+//          //TODO: use normalpoint(Tvector(p1, p2), Tvector(oc11, oc12), Tvector(oc21, oc22));
+//
+//          Tvector pndistance(agentX - pnormal.x, agentY - pnormal.y);
+//          double pndist = pndistance.length();
+//
+//          if(pndist == 0)
+//              return Ped::Tvector();
+//
+//          if(reached != NULL) {
+//              if(pndist < 3)
+//                  *reached = true;
+//              else
+//                  *reached = false;
+//          }
+//          return -pndistance.normalized();
+    }
+    else if(type == Ped::Twaypoint::TYPE_POINT) {
+        Tvector diff(x - agentX, y - agentY);
 
-		if(reached != NULL) {
-			if(diff.length() < r)
-				*reached = true; 
-			else 
-				*reached = false;
-		}
-		return diff.normalized();
-	}
-	else {
-		// unknown waypoint type
-		return Tvector();
-	}
+        if(reached != NULL) {
+            if(diff.length() < r)
+                *reached = true;
+            else
+                *reached = false;
+        }
+        return diff.normalized();
+    }
+    else {
+        // unknown waypoint type
+        return Tvector();
+    }
 }
