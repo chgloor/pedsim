@@ -62,8 +62,9 @@ Ped::Tagent::~Tagent() {
 }
 
 
-/// Assigns a Tscene to the agent. Tagent uses this to iterate over all obstacles and other agents in a scene.
-/// The scene will invoke this function when Tscene::addAgent() is called.
+/// Assigns a Tscene to the agent. Tagent uses this to iterate over all
+/// obstacles and other agents in a scene.  The scene will invoke this function
+/// when Tscene::addAgent() is called.
 /// \date    2012-01-17
 /// \warning Bad things will happen if the agent is not assigned to a scene. But usually, Tscene takes care of that.
 /// \param   *s A valid Tscene initialized earlier.
@@ -144,15 +145,17 @@ int Ped::Tagent::getFollow() const {
 }
 
 
-/// Sets the maximum velocity of an agent (vmax). Even if pushed by other agents, it will not move faster than this.
+/// Sets the maximum velocity of an agent (vmax). Even if pushed by other
+/// agents, it will not move faster than this.
 /// \date    2012-01-08
-/// \param   pvmax The maximum velocity. In scene units per timestep, multiplied by the simulation's precision h.
+/// \param pvmax The maximum velocity. In scene units per timestep, multiplied by the simulation's precision h.
 void Ped::Tagent::setVmax(double pvmax) {
     vmax = pvmax;
 }
 
 
-/// Sets the agent's position. This, and other getters returning coordinates, will eventually changed to returning a Tvector.
+/// Sets the agent's position. This, and other getters returning coordinates,
+/// will eventually changed to returning a Tvector.
 /// \date    2004-02-10
 /// \param   px Position x
 /// \param   py Position y
@@ -164,39 +167,43 @@ void Ped::Tagent::setPosition(double px, double py, double pz) {
 }
 
 
-/// Sets the factor by which the social force is multiplied. Values between 0 and about 10 do make sense.
+/// Sets the factor by which the social force is multiplied. Values between 0
+/// and about 10 do make sense.
 /// \date    2012-01-20
 /// \param   f The factor
 void Ped::Tagent::setfactorsocialforce(double f) {
     factorsocialforce = f;
 }
 
-/// Sets the factor by which the obstacle force is multiplied. Values between 0 and about 10 do make sense.
+/// Sets the factor by which the obstacle force is multiplied. Values between 0
+/// and about 10 do make sense.
 /// \date    2012-01-20
 /// \param   f The factor
 void Ped::Tagent::setfactorobstacleforce(double f) {
     factorobstacleforce = f;
 }
 
-/// Sets the factor by which the desired force is multiplied. Values between 0 and about 10 do make sense.
+/// Sets the factor by which the desired force is multiplied. Values between 0
+/// and about 10 do make sense.
 /// \date    2012-01-20
 /// \param   f The factor
 void Ped::Tagent::setfactordesiredforce(double f) {
     factordesiredforce = f;
 }
 
-/// Sets the factor by which the look ahead force is multiplied. Values between 0 and about 10 do make sense.
+/// Sets the factor by which the look ahead force is multiplied. Values between
+/// 0 and about 10 do make sense.
 /// \date    2012-01-20
 /// \param   f The factor
 void Ped::Tagent::setfactorlookaheadforce(double f) {
     factorlookaheadforce = f;
 }
 
-/// Calculates the force between this agent and the next assigned waypoint.
-/// If the waypoint has been reached, the next waypoint in the list will be selected.
-/// At the moment, a visited waypoint is pushed back to the end of the list, which
-/// means that the agents will visit all the waypoints over and over again.
-/// In a later release, this behavior can be controlled by a flag.
+/// Calculates the force between this agent and the next assigned waypoint.  If
+/// the waypoint has been reached, the next waypoint in the list will be
+/// selected.  At the moment, a visited waypoint is pushed back to the end of
+/// the list, which means that the agents will visit all the waypoints over and
+/// over again.  In a later release, this behavior can be controlled by a flag.
 /// \date    2012-01-17
 /// \todo    move this destination handling into a separate method called by move(). then mark this method as const
 /// \return  Tvector: the calculated force
