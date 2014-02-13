@@ -1,9 +1,9 @@
 //
 // pedsim - A microscopic pedestrian simulation system.
-// Copyright (c) 2003 - 2013 by Christian Gloor
+// Copyright (c) 2003 - 2014 by Christian Gloor
 //
 // Use somethin like this to compile:
-// g++ examples/example.cpp -o example -I. -lpedsim -L. -g
+// g++ examples/example02.cpp -o example02 -I. -lpedsim -L. -g
 //
 // Check for memory leaks e.g. like this:
 // valgrind --leak-check=yes ./example
@@ -17,6 +17,19 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 
+    /// New class that inherits from the library agent class.  It shows how the
+    /// myForce() method can be used to add an additional force component to an
+    /// agent to change its behaviour.
+    class Tagent2: public Ped::Tagent {
+    public:
+        Ped::Tvector myForce(Ped::Tvector e) {
+            Ped::Tvector lf;
+            lf = -100.0*e;
+            return lf;
+        }
+    };
+
+
     cout << "PedSim Example using libpedsim version " << Ped::LIBPEDSIM_VERSION << endl;
 
     // setup
@@ -25,12 +38,13 @@ int main(int argc, char *argv[]) {
     Ped::Twaypoint *w1 = new Ped::Twaypoint(-100, 0, 24);
     Ped::Twaypoint *w2 = new Ped::Twaypoint(+100, 0, 12);
 
-
     Ped::Tobstacle *o = new Ped::Tobstacle(0, -50,  0, +50);
     pedscene->addObstacle(o);
 
-    for (int i = 0; i<10; i++) {
-        Ped::Tagent *a = new Ped::Tagent();
+    int nagents = 1;
+
+    for (int i = 0; i<nagents; i++) {
+        Ped::Tagent *a = new Tagent2();
 
         a->addWaypoint(w1);
         a->addWaypoint(w2);
