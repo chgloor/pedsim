@@ -24,7 +24,8 @@ namespace Ped {
     class Tscene;
     class Twaypoint;
 
-/// \example example.cpp
+/// \example example01.cpp
+/// \example example02.cpp
 
 
 /// This is the main class of the library. It contains the Tagent, which eventually will move through the
