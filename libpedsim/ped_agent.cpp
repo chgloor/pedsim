@@ -76,11 +76,18 @@ void Ped::Tagent::assignScene(Ped::Tscene *s) {
 /// Adds a TWaypoint to an agent's list of waypoints. Twaypoints are stored in a
 /// cyclic queue, the one just visited is pushed to the back again. There will be a
 /// flag to change this behavior soon.
+/// Adding a waypoint will also selecting the first waypoint in the internal list
+/// as the active one, i.e. the first waypoint added will be the first point to
+/// headt to, no matter what is added later.
 /// \todo Add a flag to change the waypoint queue behavior of the Tagents.
+/// \todo Maybe the waypoint management interface has to be more open. Or at
+/// least provice a full interface to the internal implementation so that the
+/// user can play with the list of waypoints.
 /// \author  chgloor
 /// \date    2012-01-19
 void Ped::Tagent::addWaypoint(Twaypoint *wp) {
     waypoints.push_back(wp);
+    destination = waypoints.front();
 }
 
 
