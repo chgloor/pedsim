@@ -6,19 +6,32 @@
 #include "ped_vector.h"
 
 #include <cmath>
+#include <string>
 
 /// Default constructor, which makes sure that all the values are set to 0.
 /// \date    2012-01-16
 Ped::Tvector::Tvector() : x(0), y(0), z(0) {};
 
 
-double Ped::Tvector::length() const {
-    return sqrt(x*x + y*y + z*z);
+std::string Ped::Tvector::to_string() const {
+    return std::to_string(x) + "/" + std::to_string(y) + "/" + std::to_string(z);
 }
 
+
+/// Returns the length of the vector.
+/// \return the length
+double Ped::Tvector::length() const {
+    if ((x == 0) && (y == 0) && (z == 0)) return 0;
+    return sqrt(lengthSquared());
+}
+
+
+/// Returns the length of the vector squared. This is faster than the real length.
+/// \return the length squared
 double Ped::Tvector::lengthSquared() const {
     return x*x + y*y + z*z;
 }
+
 
 /// Normalizes the vector to a length of 1.
 /// \date    2010-02-12
@@ -26,7 +39,7 @@ void Ped::Tvector::normalize() {
     double len = length();
 
     // null vectors cannot be normalized
-    if(len == 0)
+    if (len == 0)
         return;
 
     x /= len;
@@ -34,17 +47,19 @@ void Ped::Tvector::normalize() {
     z /= len;
 }
 
+
 /// Normalizes the vector to a length of 1.
 /// \date    2013-08-02
 Ped::Tvector Ped::Tvector::normalized() const {
     double len = length();
 
     // null vectors cannot be normalized
-    if(len == 0)
-        return *this;
+    if (len == 0)
+        return Ped::Tvector();;
 
     return Ped::Tvector(x/len, y/len, z/len);
 }
+
 
 /// Vector scalar product helper: calculates the scalar product of two vectors.
 /// \date    2012-01-14
@@ -55,6 +70,7 @@ double Ped::Tvector::scalar(const Ped::Tvector &a, const Ped::Tvector &b) {
     return acos( Ped::Tvector::dotProduct(a, b) / ( a.length() * b.length() ) );
 }
 
+
 /// Vector scalar product helper: calculates the scalar product of two vectors.
 /// \date    2012-01-14
 /// \return  The scalar product.
@@ -63,6 +79,7 @@ double Ped::Tvector::scalar(const Ped::Tvector &a, const Ped::Tvector &b) {
 double Ped::Tvector::dotProduct(const Ped::Tvector &a, const Ped::Tvector &b) {
     return (a.x*b.x + a.y*b.y + a.z*b.z);
 }
+
 
 /// Calculates the cross product of two vectors.
 /// \date    2010-02-12

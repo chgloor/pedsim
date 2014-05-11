@@ -31,7 +31,7 @@ Ped::Tagent::Tagent() {
     v.y = 0;
     v.z = 0;
     type = 0;
-    hasreacheddestination = true;
+
     destination = NULL;
     lastdestination = NULL;
     follow = -1;
@@ -53,6 +53,8 @@ Ped::Tagent::Tagent() {
     agentRadius = 0.2;
 
     relaxationTime = 0.5;
+
+    waypointbehavior = 0; // round queue
 }
 
 
@@ -221,6 +223,7 @@ void Ped::Tagent::setfactorlookaheadforce(double f) {
 /// \todo    move this destination handling into a separate method called by move(). then mark this method as const
 /// \return  Tvector: the calculated force
 Ped::Tvector Ped::Tagent::desiredForce() {
+
     // following behavior
     if (follow >= 0) {
         Tagent* followedAgent = scene->agents.at(follow);
@@ -234,41 +237,60 @@ Ped::Tvector Ped::Tagent::desiredForce() {
     }
 
     // waypoint management (fetch new destination if available)
-    // consider: replace hasreacheddestination with destination==NULL
-    if ((hasreacheddestination == true) && (!waypoints.empty())) {
+    if ((destination == NULL) && (!waypoints.empty())) {
         destination = waypoints.front();
-        // round queue
         waypoints.pop_front();
-        waypoints.push_back(destination);
-        hasreacheddestination = false;
+
+        // round queue?
+        if (waypointbehavior == 0) {
+            waypoints.push_back(destination);
+        }
+    }
+
+    // Agent has reached last waypoint, or there never was one.
+    if ((destination != NULL) && (waypoints.empty())) {
+        destination = NULL;
     }
 
     // if there is no destination, don't move
     if (destination == NULL) {
-        desiredDirection = Ped::Tvector();
-        Tvector antiMove = -v / relaxationTime;
-        return antiMove;
+        //        desiredDirection = Ped::Tvector();
+        //        Tvector antiMove = -v / relaxationTime;
+        //        return antiMove;
+        // not shure about these lines above
+        desiredDirection = Ped::Tvector(0, 0, 0);
     }
 
-    bool reached;
-    if (lastdestination == NULL) {
-        // create a temporary destination of type point, since no normal from last dest is available
-        Twaypoint tempDestination(destination->getx(), destination->gety(), destination->getr());
-        tempDestination.settype(Ped::Twaypoint::TYPE_POINT);
-        desiredDirection = tempDestination.getForce(p.x, p.y, 0, 0, &reached);
-    } else {
-        desiredDirection = destination->getForce(p.x, p.y, lastdestination->getx(), lastdestination->gety(), &reached);
+    bool reached = false;
+    if  (destination != NULL) {
+        if (lastdestination == NULL) {
+            // create a temporary destination of type point, since no normal from last dest is available
+            Twaypoint tempDestination(destination->getx(), destination->gety(), destination->getr());
+            tempDestination.settype(Ped::Twaypoint::TYPE_POINT);
+            desiredDirection = tempDestination.getForce(p.x,
+                                                        p.y,
+                                                        0,
+                                                        0,
+                                                        &reached);
+        } else {
+            desiredDirection = destination->getForce(p.x,
+                                                     p.y,
+                                                     lastdestination->getx(),
+                                                     lastdestination->gety(),
+                                                     &reached);
+        }
     }
 
     // mark destination as reached for next time step
-    if ((hasreacheddestination == false) && (reached == true)) {
-        hasreacheddestination = true;
+    if ((destination != NULL) && (reached == true)) {
         lastdestination = destination;
         destination = NULL;
     }
 
     // compute force
     Tvector force = desiredDirection.normalized() * vmax;
+    //    cout << force.to_string() << endl;
+
     return force;
 }
 
@@ -484,8 +506,19 @@ void Ped::Tagent::move(double stepSizeIn) {
         + factorlookaheadforce * lookaheadforce
         + myforce;
 
+    /*
+    cout << "desired " << desiredforce.to_string()
+         << " social " << socialforce.to_string()
+         << " obstacle " << obstacleforce.to_string()
+         << " lookahead " << lookaheadforce.to_string()
+         << " my " << myforce.to_string()
+         << endl;
+    */
+
+    //    cout << "a " << a.to_string() << endl;
+
     // calculate the new velocity
-    v = v + stepSizeIn * a;
+    v = 0.9 * v + stepSizeIn * a; // <--- think about this 0.9. is it dep on h? --cgloor 20140511
 
     // don't exceed maximal speed
     if (v.length() > vmax) v = v.normalized() * vmax;

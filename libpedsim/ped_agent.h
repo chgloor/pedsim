@@ -17,6 +17,7 @@
 #include <deque>
 #include <set>
 #include <vector>
+#include <cstdio>
 
 using namespace std;
 
@@ -87,6 +88,15 @@ namespace Ped {
         void clearWaypoints();
         void removeAgentFromNeighbors(const Tagent* agentIn);
 
+        bool reachedDestination() { return (destination == NULL); };
+        void setWaypointBehavior(int mode) { waypointbehavior = mode; };
+
+        enum WaypointBehavior {
+            BEHAVIOR_CIRCULAR = 0,
+            BEHAVIOR_ONCE = 1
+        };
+
+
     protected:
         int id;                                           ///< agent number
         Tvector p;                                        ///< current position of the agent
@@ -103,7 +113,7 @@ namespace Ped {
         deque<Twaypoint*> waypoints;                      ///< coordinates of the next destinations
         Twaypoint* destination;                           ///< coordinates of the next destination
         Twaypoint* lastdestination;                       ///< coordinates of the last destination
-        bool hasreacheddestination;                       ///< true if it has reached its destination
+        int waypointbehavior;                             ///< waypoints are round queues or not.
 
         bool mlLookAhead;
 

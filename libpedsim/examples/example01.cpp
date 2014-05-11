@@ -1,6 +1,6 @@
 //
 // pedsim - A microscopic pedestrian simulation system.
-// Copyright (c) 2003 - 2013 by Christian Gloor
+// Copyright (c) by Christian Gloor
 //
 // Use somethin like this to compile:
 // g++ examples/example01.cpp -o example01 -I. -lpedsim -L. -g
@@ -25,7 +25,6 @@ int main(int argc, char *argv[]) {
     Ped::Twaypoint *w1 = new Ped::Twaypoint(-100, 0, 24);
     Ped::Twaypoint *w2 = new Ped::Twaypoint(+100, 0, 12);
 
-
     Ped::Tobstacle *o = new Ped::Tobstacle(0, -50,  0, +50);
     pedscene->addObstacle(o);
 
@@ -40,7 +39,7 @@ int main(int argc, char *argv[]) {
         pedscene->addAgent(a);
     }
 
-    // move all agents for 10 steps (and print their position)
+    // move all agents for all steps (and print their position)
     for (int i=0; i<10; ++i) {
         pedscene->moveAgents(0.2);
 
@@ -52,12 +51,13 @@ int main(int argc, char *argv[]) {
 
     // cleanup
     const vector<Ped::Tagent*>& myagents = pedscene->getAllAgents();
+
     for (vector<Ped::Tagent*>::const_iterator iter = myagents.begin(); iter != myagents.end(); ++iter) {
         delete *iter;
     }
+
     delete pedscene;
     delete w1;
     delete w2;
     delete o;
-
 }

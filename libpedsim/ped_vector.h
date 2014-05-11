@@ -12,6 +12,8 @@
 #define LIBEXPORT
 #endif
 
+#include <string>
+
 namespace Ped {
     /// Vector helper class. This is basically a struct with some related functions attached.
     /// x, y, and z are public, so that they can be accessed easily.
@@ -45,6 +47,8 @@ namespace Ped {
         static double scalar(const Tvector &a, const Tvector &b);
         static double dotProduct(const Tvector &a, const Tvector &b);
         static Tvector crossProduct(const Tvector &a, const Tvector &b);
+
+        std::string to_string() const;
 
 
         // Operators
