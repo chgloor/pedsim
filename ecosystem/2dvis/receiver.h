@@ -1,3 +1,8 @@
+//
+// pedsim - A microscopic pedestrian simulation system.
+// Copyright (c) by Christian Gloor
+//
+
 #ifndef RECEIVER_H
 #define RECEIVER_H
 

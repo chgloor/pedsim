@@ -1,6 +1,6 @@
 //
 // pedsim - A microscopic pedestrian simulation system.
-// Copyright (c) 2003 - 2013 by Christian Gloor
+// Copyright (c) by Christian Gloor
 //
 // Use something like this to compile:
 // g++ main.cpp -o main -I../libpedsim/ -lpedsim -L../libpedsim

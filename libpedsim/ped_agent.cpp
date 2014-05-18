@@ -241,8 +241,7 @@ Ped::Tvector Ped::Tagent::desiredForce() {
         destination = waypoints.front();
         waypoints.pop_front();
 
-        // round queue?
-        if (waypointbehavior == 0) {
+        if (waypointbehavior == Ped::Tagent::BEHAVIOR_CIRCULAR) {
             waypoints.push_back(destination);
         }
     }

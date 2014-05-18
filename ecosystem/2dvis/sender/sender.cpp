@@ -1,11 +1,14 @@
+//
+// pedsim - A microscopic pedestrian simulation system.
+// Copyright (c) by Christian Gloor
+//
+
 #include <QtWidgets>
 #include <QtNetwork>
 
 #include "sender.h"
 
-Sender::Sender(QWidget *parent)
-    : QWidget(parent)
-{
+Sender::Sender(QWidget *parent) : QWidget(parent) {
     statusLabel = new QLabel(tr("Ready to broadcast datagrams on port 45454"));
     statusLabel->setWordWrap(true);
 
@@ -32,8 +35,7 @@ Sender::Sender(QWidget *parent)
     setWindowTitle(tr("Broadcast Sender"));
 }
 
-void Sender::startBroadcasting()
-{
+void Sender::startBroadcasting() {
     startButton->setEnabled(false);
     timer->start(1000);
 }
@@ -41,7 +43,6 @@ void Sender::startBroadcasting()
 void Sender::broadcastDatagram() {
     statusLabel->setText(tr("Now broadcasting datagram %1").arg(messageNo));
     QByteArray datagram = "<message><position id=\"" + QByteArray::number(messageNo) + "\"/></message>";
-    udpSocket->writeDatagram(datagram.data(), datagram.size(),
-                             QHostAddress::Broadcast, 45454);
+    udpSocket->writeDatagram(datagram.data(), datagram.size(), QHostAddress::Broadcast, 45454);
     ++messageNo;
 }
