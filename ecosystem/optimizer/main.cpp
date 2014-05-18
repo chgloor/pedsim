@@ -3,7 +3,7 @@
 // Copyright (c) by Christian Gloor
 //
 // Use something like this to compile:
-// g++ main.cpp -o main -I../libpedsim/ -lpedsim -L../libpedsim
+// g++ main.cpp -o optimizer -I../../libpedsim -lpedsim -L../../libpedsim
 //
 // To collect the output in a file::
 // ./main > out.dat

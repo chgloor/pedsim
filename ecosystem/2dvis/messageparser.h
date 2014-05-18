@@ -6,7 +6,7 @@
 #ifndef MESSAGEPARSER_H
 #define MESSAGEPARSER_H
 
-#include <QWidget>
+#include <QObject>
 #include <QDomDocument>
 
 class MessageParser : public QWidget {

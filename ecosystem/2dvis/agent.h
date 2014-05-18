@@ -16,6 +16,8 @@ public:
     QRectF boundingRect() const;
     QPainterPath shape() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    double x;
+    double y;
 
 protected:
     void advance(int step);

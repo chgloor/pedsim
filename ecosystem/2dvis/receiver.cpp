@@ -29,4 +29,3 @@ void Receiver::processPendingDatagrams() {
         parser.parse();
     }
 }
-

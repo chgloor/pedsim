@@ -3,8 +3,6 @@
 // Copyright (c) by Christian Gloor
 //
 
-#include <QtWidgets>
-
 #include <iostream>
 
 #include "messageparser.h"

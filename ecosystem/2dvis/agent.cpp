@@ -119,5 +119,6 @@ void Agent::advance(int step) {
     agentEyeDirection = (qAbs(dx / 5) < 1) ? 0 : dx / 5;
 
     setRotation(rotation() + dx);
-    setPos(mapToParent(0, -(3 + sin(speed) * 3)));
+    //    setPos(mapToParent(0, -(3 + sin(speed) * 3)));
+    setPos(mapToParent(x, y));
 }

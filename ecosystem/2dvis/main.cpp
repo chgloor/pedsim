@@ -8,6 +8,7 @@
 #include <math.h>
 
 #include "agent.h"
+#include "agentcontainer.h"
 #include "receiver.h"
 
 static const int AgentCount = 50;
@@ -20,11 +21,14 @@ int main(int argc, char **argv) {
     scene.setSceneRect(-300, -300, 600, 600);
     scene.setItemIndexMethod(QGraphicsScene::NoIndex);
 
+    AgentContainer ac;
+
     for (int i = 0; i < AgentCount; ++i) {
         Agent *agent = new Agent;
         agent->setPos(::sin((i * 6.28) / AgentCount) * 200,
                       ::cos((i * 6.28) / AgentCount) * 200);
         scene.addItem(agent);
+        ac.addItem(agent);
     }
 
     QGraphicsView view(&scene);
@@ -37,14 +41,14 @@ int main(int argc, char **argv) {
     view.resize(900, 450);
     view.show();
 
-    Receiver receiver();
+    Receiver receiver;
 
     QTimer timer;
     QObject::connect(&timer, SIGNAL(timeout()), &scene, SLOT(advance()));
     timer.start(1000 / 33);
 
     //    updateAgentPosition();
-    //    QObject::connect(&receiver, updateAgentPosition(int, double, double);
+    QObject::connect(&receiver, SIGNAL(updateAgentPosition(int, double, double)), &ac, SLOT(updatePosition(int, double, double)));
 
     return app.exec();
 }
