@@ -23,9 +23,6 @@ protected:
     void advance(int step);
 
 private:
-    qreal angle;
-    qreal speed;
-    qreal agentEyeDirection;
     QColor color;
 };
 

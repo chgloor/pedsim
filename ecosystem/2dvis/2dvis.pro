@@ -4,14 +4,16 @@ HEADERS += \
         agent.h \
         agentcontainer.h \
         receiver.h \
-        messageparser.h
+        messageparser.h \
+        mygraphicsview.h
 
 SOURCES += \
         main.cpp \
         agent.cpp \
         agentcontainer.cpp \
         receiver.cpp \
-        messageparser.cpp
+        messageparser.cpp \
+        mygraphicsview.cpp
 
 RESOURCES += \
         2dvis.qrc

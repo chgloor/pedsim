@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
     pedscene->addObstacle(o2);
 
     // create agents
-    for (int i = 0; i<5; i++) {
+    for (int i = 0; i<50; i++) {
         Ped::Tagent *a = new Ped::Tagent();
         a->setWaypointBehavior(Ped::Tagent::BEHAVIOR_ONCE);  // only once
         pedscene->addAgent(a);
@@ -88,8 +88,8 @@ int main(int argc, char *argv[]) {
     for (int h=0; h<10; h=h+1) {
 
         // move obstacle
-        o1->setPosition(0,  9999, 0,  10-h);
-        o2->setPosition(0, -9999, 0, -10+h);
+        o1->setPosition(-100,  999, 0,  10-h);
+        o2->setPosition(-100, -999, 0, -10+h);
         cout << "# " << o1->getStartPoint().to_string() << " " << o1->getEndPoint().to_string() << endl;
         cout << "# " << o2->getStartPoint().to_string() << " " << o2->getEndPoint().to_string() << endl;
 

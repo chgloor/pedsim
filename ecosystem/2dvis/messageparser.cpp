@@ -6,6 +6,9 @@
 #include <iostream>
 
 #include "messageparser.h"
+#include "agentcontainer.h"
+
+extern AgentContainer agentcontainer;
 
 
 MessageParser::MessageParser(QByteArray datagram) {
@@ -14,6 +17,11 @@ MessageParser::MessageParser(QByteArray datagram) {
         std::cout << "Can't parse message" << std::endl;
         std::cout << QString(datagram).toUtf8().constData()  << std::endl;
     }
+
+    //    updateAgentPosition();
+    QObject::connect(this, SIGNAL(updateAgentPosition(int, double, double)), 
+                     &agentcontainer, SLOT(updatePosition(int, double, double)));
+
     return;
 }
 
@@ -25,14 +33,12 @@ void MessageParser::parse() {
     while (!n.isNull()) {
         QDomElement e = n.toElement(); // try to convert the node to an element.
         if (!e.isNull()) {
-            std::cout << qPrintable(e.tagName()) << std::endl;
+            //            std::cout << qPrintable(e.tagName()) << std::endl;
             if (e.tagName() == "position") {
                 int id = atoi(e.attribute("id", "0").toStdString().c_str());
                 double x = atof(e.attribute("x", "0.0").toStdString().c_str());
                 double y = atof(e.attribute("y", "0.0").toStdString().c_str());
-
-                std::cout << id << " " << x << "/" << y << std::endl;
-
+                //                std::cout << id << " " << x << "/" << y << std::endl;
                 emit updateAgentPosition(id, x, y);
 
             }

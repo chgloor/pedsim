@@ -9,7 +9,7 @@
 #include <QObject>
 #include <QDomDocument>
 
-class MessageParser : public QWidget {
+class MessageParser : public QObject {
     Q_OBJECT
 
 public:
