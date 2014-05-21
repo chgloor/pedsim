@@ -3,21 +3,23 @@
 // Copyright (c) by Christian Gloor
 //
 
-#ifndef AGENT_H
-#define AGENT_H
-
-#include "item.h"
+#ifndef ITEM_H
+#define ITEM_H
 
 #include <QGraphicsItem>
 
-class Agent : public Item {
+class Item : public QGraphicsItem {
 
 public:
-    Agent();
+    Item();
 
     QRectF boundingRect() const;
     QPainterPath shape() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    double x;
+    double y;
+    double dx;
+    double dy;
 
 protected:
     void advance(int step);

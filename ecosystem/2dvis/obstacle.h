@@ -3,17 +3,17 @@
 // Copyright (c) by Christian Gloor
 //
 
-#ifndef AGENT_H
-#define AGENT_H
+#ifndef OBSTACLE_H
+#define OBSTACLE_H
 
 #include "item.h"
 
 #include <QGraphicsItem>
 
-class Agent : public Item {
+class Obstacle : public Item {
 
 public:
-    Agent();
+    Obstacle();
 
     QRectF boundingRect() const;
     QPainterPath shape() const;

@@ -20,6 +20,7 @@ public:
 
 signals:
     void updateAgentPosition(int id, double x, double y);
+    void updateObstaclePosition(int id, double x, double y);
 
 private:
     QDomDocument doc;

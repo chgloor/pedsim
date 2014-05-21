@@ -1,16 +1,20 @@
 QT += network widgets xml
 
 HEADERS += \
+        item.h \
         agent.h \
-        agentcontainer.h \
+        obstacle.h \
+        itemcontainer.h \
         receiver.h \
         messageparser.h \
         mygraphicsview.h
 
 SOURCES += \
+        item.cpp \
         main.cpp \
         agent.cpp \
-        agentcontainer.cpp \
+        obstacle.cpp \
+        itemcontainer.cpp \
         receiver.cpp \
         messageparser.cpp \
         mygraphicsview.cpp

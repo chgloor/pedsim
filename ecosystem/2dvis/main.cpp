@@ -9,11 +9,15 @@
 
 #include "mygraphicsview.h"
 #include "agent.h"
-#include "agentcontainer.h"
+#include "obstacle.h"
+#include "itemcontainer.h"
 #include "receiver.h"
 
 static const int AgentCount = 50;
-AgentContainer agentcontainer;
+
+ItemContainer agentcontainer;
+ItemContainer obstaclecontainer;
+
 
 int main(int argc, char **argv) {
     QApplication app(argc, argv);
@@ -22,6 +26,13 @@ int main(int argc, char **argv) {
     QGraphicsScene scene;
     scene.setSceneRect(-100, -100, 200, 200);
     scene.setItemIndexMethod(QGraphicsScene::NoIndex);
+
+    for (int i = 0; i<2; i++) {
+        Obstacle *obstacle = new Obstacle;
+        obstacle->setPos(0, 0);
+        scene.addItem(obstacle);
+        obstaclecontainer.addItem(obstacle);
+    }
 
     for (int i = 0; i < AgentCount; ++i) {
         Agent *agent = new Agent;

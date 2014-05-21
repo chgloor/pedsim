@@ -67,6 +67,8 @@ namespace Ped {
 
         set<const Ped::Tagent*> getNeighbors(double x, double y, double dist) const;
         const vector<Tagent*>& getAllAgents() const { return agents; };
+        const vector<Tobstacle*>& getAllObstacles() const { return obstacles; };
+        const vector<Twaypoint*>& getAllWaypoints() const { return waypoints; };
 
     protected:
         vector<Tagent*> agents;

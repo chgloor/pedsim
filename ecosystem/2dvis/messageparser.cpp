@@ -3,12 +3,14 @@
 // Copyright (c) by Christian Gloor
 //
 
-#include <iostream>
-
 #include "messageparser.h"
-#include "agentcontainer.h"
+#include "itemcontainer.h"
 
-extern AgentContainer agentcontainer;
+#include <iostream>
+#include <string>
+
+extern ItemContainer agentcontainer;
+extern ItemContainer obstaclecontainer;
 
 
 MessageParser::MessageParser(QByteArray datagram) {
@@ -18,9 +20,11 @@ MessageParser::MessageParser(QByteArray datagram) {
         std::cout << QString(datagram).toUtf8().constData()  << std::endl;
     }
 
-    //    updateAgentPosition();
-    QObject::connect(this, SIGNAL(updateAgentPosition(int, double, double)), 
-                     &agentcontainer, SLOT(updatePosition(int, double, double)));
+    // No chance at this stage, connect is way too slow  --cgloor 2014-05-21
+    //    QObject::connect(this, SIGNAL(updateAgentPosition(int, double, double)),
+    //                     &agentcontainer, SLOT(updatePosition(int, double, double)));
+    //    QObject::connect(this, SIGNAL(updateObstaclePosition(int, double, double)),
+    //                     &obstaclecontainer, SLOT(updatePosition(int, double, double)));
 
     return;
 }
@@ -35,12 +39,19 @@ void MessageParser::parse() {
         if (!e.isNull()) {
             //            std::cout << qPrintable(e.tagName()) << std::endl;
             if (e.tagName() == "position") {
+                std::string type = e.attribute("type", "").toStdString().c_str();
                 int id = atoi(e.attribute("id", "0").toStdString().c_str());
                 double x = atof(e.attribute("x", "0.0").toStdString().c_str());
                 double y = atof(e.attribute("y", "0.0").toStdString().c_str());
-                //                std::cout << id << " " << x << "/" << y << std::endl;
-                emit updateAgentPosition(id, x, y);
-
+                //                std::cout << id << " " << type << std::endl;
+                if (type == "agent") {
+                    agentcontainer.updatePosition(id, x, y);
+                }
+                if (type == "obstacle") {
+                    double dx = atof(e.attribute("dx", "0.0").toStdString().c_str());
+                    double dy = atof(e.attribute("dy", "0.0").toStdString().c_str());
+                    obstaclecontainer.updatePosition(id, x, y, dx, dy);
+                }
             }
         }
         n = n.nextSibling();

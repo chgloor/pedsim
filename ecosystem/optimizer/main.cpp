@@ -82,6 +82,7 @@ int main(int argc, char *argv[]) {
 
     // convenience
     const vector<Ped::Tagent*>& myagents = pedscene->getAllAgents();
+    const vector<Ped::Tobstacle*>& myobstacles = pedscene->getAllObstacles();
 
     int s = opensocket();
 
@@ -93,12 +94,21 @@ int main(int argc, char *argv[]) {
         cout << "# " << o1->getStartPoint().to_string() << " " << o1->getEndPoint().to_string() << endl;
         cout << "# " << o2->getStartPoint().to_string() << " " << o2->getEndPoint().to_string() << endl;
 
+        for (vector<Ped::Tobstacle*>::const_iterator it = myobstacles.begin(); it != myobstacles.end(); ++it) {
+            std::ostringstream msg;
+            msg << "<message><position type=\"obstacle\" id=\"" << (*it)->getid()
+                << "\" x=\"" << (*it)->getax() << "\" y=\"" << (*it)->getay()
+                << "\" dx=\"" << (*it)->getbx()-(*it)->getax() << "\" dy=\"" << (*it)->getby()-(*it)->getay()
+                << "\"/></message>";
+            sender(s, msg.str());
+        }
+
         long int average_timestep = 0;
         for (int smooth=0; smooth < 10; smooth++) {
 
             // reset agents
             for (vector<Ped::Tagent*>::const_iterator it = myagents.begin(); it != myagents.end(); ++it) {
-                (*it)->setPosition(-100+smooth*3, 5 + (*it)->getid(), 0);
+                (*it)->setPosition(-100+smooth*3, -25 + (*it)->getid(), 0);
                 (*it)->addWaypoint(w1);
             }
 
@@ -113,7 +123,7 @@ int main(int argc, char *argv[]) {
                 for (vector<Ped::Tagent*>::const_iterator it = myagents.begin(); it != myagents.end(); ++it) {
                     // cout << timestep << " " << (*it)->getPosition().to_string() << " " << (*it)->reachedDestination() << endl;
                     std::ostringstream msg;
-                    msg << "<message><position id=\"" << (*it)->getid() << "\" x=\"" << (*it)->getx() << "\" y=\"" << (*it)->gety() <<    "\"/></message>";
+                    msg << "<message><position type=\"agent\" id=\"" << (*it)->getid() << "\" x=\"" << (*it)->getx() << "\" y=\"" << (*it)->gety() <<    "\"/></message>";
                     sender(s, msg.str());
 
                     if ((*it)->reachedDestination()) notreached--;
