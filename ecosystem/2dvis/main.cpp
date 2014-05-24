@@ -15,6 +15,10 @@
 
 static const int AgentCount = 50;
 
+static const double SCALE = 10.0;
+
+QGraphicsScene *scene;
+
 ItemContainer agentcontainer;
 ItemContainer obstaclecontainer;
 
@@ -23,26 +27,12 @@ int main(int argc, char **argv) {
     QApplication app(argc, argv);
     qsrand(QTime(0, 0, 0).secsTo(QTime::currentTime()));
 
-    QGraphicsScene scene;
-    scene.setSceneRect(-100, -100, 200, 200);
-    scene.setItemIndexMethod(QGraphicsScene::NoIndex);
+    scene = new QGraphicsScene();
 
-    for (int i = 0; i<2; i++) {
-        Obstacle *obstacle = new Obstacle;
-        obstacle->setPos(0, 0);
-        scene.addItem(obstacle);
-        obstaclecontainer.addItem(obstacle);
-    }
+    scene->setSceneRect(SCALE * -100, SCALE * -100, SCALE * 200, SCALE * 200);
+    scene->setItemIndexMethod(QGraphicsScene::NoIndex);
 
-    for (int i = 0; i < AgentCount; ++i) {
-        Agent *agent = new Agent;
-        agent->setPos(::sin((i * 6.28) / AgentCount) * 200,
-                      ::cos((i * 6.28) / AgentCount) * 200);
-        scene.addItem(agent);
-        agentcontainer.addItem(agent);
-    }
-
-    MyGraphicsView view(&scene);
+    MyGraphicsView view(scene);
     view.setRenderHint(QPainter::Antialiasing);
     view.setBackgroundBrush(QPixmap(":/images/street.jpg"));
     view.setCacheMode(QGraphicsView::CacheBackground);
@@ -56,9 +46,8 @@ int main(int argc, char **argv) {
     Receiver receiver;
 
     QTimer timer;
-    QObject::connect(&timer, SIGNAL(timeout()), &scene, SLOT(advance()));
+    QObject::connect(&timer, SIGNAL(timeout()), scene, SLOT(advance()));
     timer.start(1000 / 33);
-
 
     return app.exec();
 }

@@ -81,7 +81,6 @@ void Ped::Tagent::assignScene(Ped::Tscene *s) {
 /// Adding a waypoint will also selecting the first waypoint in the internal list
 /// as the active one, i.e. the first waypoint added will be the first point to
 /// headt to, no matter what is added later.
-/// \todo Add a flag to change the waypoint queue behavior of the Tagents.
 /// \todo Maybe the waypoint management interface has to be more open. Or at
 /// least provice a full interface to the internal implementation so that the
 /// user can play with the list of waypoints.
@@ -247,9 +246,9 @@ Ped::Tvector Ped::Tagent::desiredForce() {
     }
 
     // Agent has reached last waypoint, or there never was one.
-    if ((destination != NULL) && (waypoints.empty())) {
-        destination = NULL;
-    }
+    //    if ((destination != NULL) && (waypoints.empty())) {
+    //        destination = NULL;
+    //    }
 
     // if there is no destination, don't move
     if (destination == NULL) {
@@ -435,24 +434,24 @@ Ped::Tvector Ped::Tagent::lookaheadForce(Ped::Tvector e) {
 
         double distancex = other->p.x - p.x;
         double distancey = other->p.y - p.y;
-        // double dist2 = (distancex * distancex + distancey * distancey); // 2D
-        // if (dist2 < 400) { // look ahead feature
-        double at2v = atan2(-e.x, -e.y); // was vx, vy  --chgloor 2012-01-15
-        double at2d = atan2(-distancex, -distancey);
-        double at2v2 = atan2(-other->v.x, -other->v.y);
-        double s = at2d - at2v;
-        if (s > pi) s -= 2*pi;
-        if (s < -pi) s += 2*pi;
-        double vv = at2v - at2v2;
-        if (vv > pi) vv -= 2*pi;
-        if (vv < -pi) vv += 2*pi;
-        if (abs(vv) > 2.5) { // opposite direction
-            if ((s < 0) && (s > -0.3)) // position vor mir, in meine richtung
-                lookforwardcount--;
-            if ((s > 0) && (s < 0.3))
-                lookforwardcount++;
+        double dist2 = (distancex * distancex + distancey * distancey); // 2D
+        if (dist2 < 400) { // look ahead feature
+            double at2v = atan2(-e.x, -e.y); // was vx, vy  --chgloor 2012-01-15
+            double at2d = atan2(-distancex, -distancey);
+            double at2v2 = atan2(-other->v.x, -other->v.y);
+            double s = at2d - at2v;
+            if (s > pi) s -= 2*pi;
+            if (s < -pi) s += 2*pi;
+            double vv = at2v - at2v2;
+            if (vv > pi) vv -= 2*pi;
+            if (vv < -pi) vv += 2*pi;
+            if (abs(vv) > 2.5) { // opposite direction
+                if ((s < 0) && (s > -0.3)) // position vor mir, in meine richtung
+                    lookforwardcount--;
+                if ((s > 0) && (s < 0.3))
+                    lookforwardcount++;
+            }
         }
-        // }
     }
 
     Ped::Tvector lf;
@@ -517,7 +516,7 @@ void Ped::Tagent::move(double stepSizeIn) {
     //    cout << "a " << a.to_string() << endl;
 
     // calculate the new velocity
-    v = 0.9 * v + stepSizeIn * a; // <--- think about this 0.9. is it dep on h? --cgloor 20140511
+    v = 0.5 * v + stepSizeIn * a; // <--- think about this 0.9. is it dep on h? --cgloor 20140511
 
     // don't exceed maximal speed
     if (v.length() > vmax) v = v.normalized() * vmax;

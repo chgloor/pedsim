@@ -17,6 +17,7 @@ class ItemContainer : public QObject {
 public:
     ItemContainer();
     void addItem(Item *i) {container.append(i); };
+    bool contains(int id) { return (id < container.size()); };
 
 public slots:
     void updatePosition(int id, double x, double y);

@@ -65,11 +65,18 @@ int main(int argc, char *argv[]) {
     Ped::Tscene *pedscene = new Ped::Tscene(); // no quadtree
 
     // add one waypoint (=destination) with a small radius of 10 at the right end.
-    Ped::Twaypoint *w1 = new Ped::Twaypoint(100, 0, 10);
+    Ped::Twaypoint *w1 = new Ped::Twaypoint( 100, 0, 10);
+    Ped::Twaypoint *w2 = new Ped::Twaypoint(-100, 0, 10);
 
     // create and add obstacle
     Ped::Tobstacle *o1 = new Ped::Tobstacle(0, 0, 0, 0);  // set pos later
     Ped::Tobstacle *o2 = new Ped::Tobstacle(0, 0, 0, 0);  // set pos later
+
+    pedscene->addObstacle(new Ped::Tobstacle(-100, -30,  100, -30));
+    pedscene->addObstacle(new Ped::Tobstacle(-100,  30,  100,  30));
+    pedscene->addObstacle(new Ped::Tobstacle(-100, -30, -100,  30));
+    pedscene->addObstacle(new Ped::Tobstacle( 100, -30,  100,  30));
+
     pedscene->addObstacle(o1);
     pedscene->addObstacle(o2);
 
@@ -89,8 +96,8 @@ int main(int argc, char *argv[]) {
     for (int h=0; h<10; h=h+1) {
 
         // move obstacle
-        o1->setPosition(-100,  999, 0,  10-h);
-        o2->setPosition(-100, -999, 0, -10+h);
+        o1->setPosition(0,  30, 0,  10-h);
+        o2->setPosition(0, -30, 0, -10+h);
         cout << "# " << o1->getStartPoint().to_string() << " " << o1->getEndPoint().to_string() << endl;
         cout << "# " << o2->getStartPoint().to_string() << " " << o2->getEndPoint().to_string() << endl;
 
@@ -104,12 +111,17 @@ int main(int argc, char *argv[]) {
         }
 
         long int average_timestep = 0;
-        for (int smooth=0; smooth < 10; smooth++) {
+        for (int smooth=0; smooth < 1; smooth++) {
 
             // reset agents
             for (vector<Ped::Tagent*>::const_iterator it = myagents.begin(); it != myagents.end(); ++it) {
-                (*it)->setPosition(-100+smooth*3, -25 + (*it)->getid(), 0);
-                (*it)->addWaypoint(w1);
+                if ((*it)->getid() % 2 == 0) {
+                    (*it)->setPosition(-100+smooth*3, -25 + (*it)->getid(), 0);
+                    (*it)->addWaypoint(w1);
+                } else {
+                    (*it)->setPosition( 100+smooth*3, -25 + (*it)->getid(), 0);
+                    (*it)->addWaypoint(w2);
+                }
             }
 
             // move all agents for 10 steps (and print their position)
@@ -118,7 +130,7 @@ int main(int argc, char *argv[]) {
             while (notreached > 0) {
                 timestep++;
                 notreached = myagents.size();
-                pedscene->moveAgents(0.2);
+                pedscene->moveAgents(0.1);
 
                 for (vector<Ped::Tagent*>::const_iterator it = myagents.begin(); it != myagents.end(); ++it) {
                     // cout << timestep << " " << (*it)->getPosition().to_string() << " " << (*it)->reachedDestination() << endl;
@@ -128,7 +140,7 @@ int main(int argc, char *argv[]) {
 
                     if ((*it)->reachedDestination()) notreached--;
                 }
-                if (timestep >= 10000) notreached = 0; // seems to run forever. 
+                if (timestep >= 100000) notreached = 0; // seems to run forever. 
             }
             cout << "" << h << " " << timestep << endl;
             average_timestep += timestep;
@@ -143,6 +155,7 @@ int main(int argc, char *argv[]) {
     }
     delete pedscene;
     delete w1;
+    delete w2;
     delete o1;
     delete o2;
 

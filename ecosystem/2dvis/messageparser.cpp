@@ -5,10 +5,15 @@
 
 #include "messageparser.h"
 #include "itemcontainer.h"
+#include "agent.h"
+#include "obstacle.h"
+
+#include <QtWidgets>
 
 #include <iostream>
 #include <string>
 
+extern QGraphicsScene *scene;
 extern ItemContainer agentcontainer;
 extern ItemContainer obstaclecontainer;
 
@@ -44,14 +49,27 @@ void MessageParser::parse() {
                 double x = atof(e.attribute("x", "0.0").toStdString().c_str());
                 double y = atof(e.attribute("y", "0.0").toStdString().c_str());
                 //                std::cout << id << " " << type << std::endl;
+
                 if (type == "agent") {
+                    if (!agentcontainer.contains(id)) {
+                        Agent *agent = new Agent;
+                        scene->addItem(agent);
+                        agentcontainer.addItem(agent);
+                    }
                     agentcontainer.updatePosition(id, x, y);
                 }
+
                 if (type == "obstacle") {
+                    if (!obstaclecontainer.contains(id)) {
+                        Obstacle *obstacle = new Obstacle;
+                        scene->addItem(obstacle);
+                        obstaclecontainer.addItem(obstacle);
+                    }
                     double dx = atof(e.attribute("dx", "0.0").toStdString().c_str());
                     double dy = atof(e.attribute("dy", "0.0").toStdString().c_str());
                     obstaclecontainer.updatePosition(id, x, y, dx, dy);
                 }
+
             }
         }
         n = n.nextSibling();

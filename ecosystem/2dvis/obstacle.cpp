@@ -11,32 +11,38 @@
 
 #include <iostream>
 
+static const double SCALE = 10.0;
+
+
 Obstacle::Obstacle() : color(qrand() % 256, qrand() % 256, qrand() % 256) {
 }
 
 
 QRectF Obstacle::boundingRect() const {
     qreal adjust = 0.5;
-    return QRectF(-1800 - adjust, -2200 - adjust, 3006 + adjust, 6000 + adjust);
+    return QRectF(SCALE * (-1800 - adjust), SCALE * (-2200 - adjust), SCALE * (3600 + adjust), SCALE * (6000 + adjust));
 }
 
 
 QPainterPath Obstacle::shape() const {
     QPainterPath path;
-    path.addRect(-1000, -1000, 2000, 2000);
+    path.addRect(SCALE * -1000, SCALE * -1000, SCALE * 2000, SCALE * 2000);
     return path;
 }
 
 
 void Obstacle::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) {
     painter->setBrush(color);
-    painter->setPen(QPen(QBrush(Qt::white), 1));
-    painter->drawLine(0, 0, dx, dy);
+
+    painter->setPen(QPen(QBrush(QColor(255, 200, 0, 150)), SCALE * 0.8));
+    painter->drawLine(0, 0, SCALE * dx, SCALE * dy);
+    painter->setPen(QPen(QBrush(QColor(255, 255, 0, 50)), SCALE * 1));
+    painter->drawLine(0, 0, SCALE * dx, SCALE * dy);
 }
 
 
 void Obstacle::advance(int step) {
     if (!step) return;
-    setPos(x, y);
+    setPos(SCALE * x, SCALE * y);
     //    std::cout << x << "/" <<  y << " " << dx << "/" << dy << std::endl;
 }

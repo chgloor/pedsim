@@ -9,6 +9,8 @@
 #include <QPainter>
 #include <QStyleOption>
 
+static const double SCALE = 10.0;
+
 
 Agent::Agent() : color(qrand() % 256, qrand() % 256, qrand() % 256) {
 }
@@ -16,13 +18,13 @@ Agent::Agent() : color(qrand() % 256, qrand() % 256, qrand() % 256) {
 
 QRectF Agent::boundingRect() const {
     qreal adjust = 0.5;
-    return QRectF(-18 - adjust, -22 - adjust, 36 + adjust, 60 + adjust);
+    return QRectF(SCALE * (-18 - adjust), SCALE * (-22 - adjust), SCALE * (36 + adjust), SCALE * (60 + adjust));
 }
 
 
 QPainterPath Agent::shape() const {
     QPainterPath path;
-    path.addRect(-10, -20, 20, 20);
+    path.addRect(SCALE * -10, SCALE * -20, SCALE * 20, SCALE * 20);
     return path;
 }
 
@@ -30,11 +32,11 @@ QPainterPath Agent::shape() const {
 void Agent::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) {
     painter->setBrush(color);
     painter->setPen(QPen(QBrush(Qt::white), .1));
-    painter->drawEllipse(-0.5, -0.5, 1.0, 1.0);
+    painter->drawEllipse(SCALE * -0.5, SCALE * -0.5, SCALE * 1.0, SCALE * 1.0);
 }
 
 
 void Agent::advance(int step) {
     if (!step) return;
-    setPos(x, y);
+    setPos(SCALE * x, SCALE * y);
 }
