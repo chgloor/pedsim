@@ -12,21 +12,29 @@ ItemContainer::ItemContainer() {
 }
 
 
-void ItemContainer::updatePosition(int id, double x, double y) {
-    if (id < container.size()) {
-        container[id]->x = x;
-        container[id]->y = y;
-        //std::cout << id << " pos " << x << "/" << y << std::endl;
-    } else {
-        std::cout << "Item not in container: " << id << " < " << container.size() << std::endl;
-    }
+// Removes all items from the container
+void ItemContainer::clear() {
+    container.clear();
 }
 
-void ItemContainer::updatePosition(int id, double x, double y, double dx, double dy) {
-    updatePosition(id, x, y);
-    if (id < container.size()) {
-        container[id]->dx = dx;
-        container[id]->dy = dy;
-        //std::cout << id << " pos " << x << "/" << y << std::endl;
+
+void ItemContainer::for_each(void (*fn)(Item*)) {
+    QHash<QString, Item*>::iterator it;
+    for (it = container.begin(); it != container.end(); ++it) {
+        fn(*it);
     }
+
+}
+
+
+void ItemContainer::updatePosition(QString id, double x, double y) {
+    container[id]->x = x;
+    container[id]->y = y;
+}
+
+
+void ItemContainer::updatePosition(QString id, double x, double y, double dx, double dy) {
+    updatePosition(id, x, y);
+    container[id]->dx = dx;
+    container[id]->dy = dy;
 }

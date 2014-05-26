@@ -6,8 +6,10 @@
 #ifndef ITEMCONTAINER_H
 #define ITEMCONTAINER_H
 
-#include <QVector>
+#include <QHash>
 #include <QObject>
+
+#include <algorithm>
 
 class Item;
 
@@ -16,15 +18,17 @@ class ItemContainer : public QObject {
 
 public:
     ItemContainer();
-    void addItem(Item *i) {container.append(i); };
-    bool contains(int id) { return (id < container.size()); };
+    void addItem(QString id, Item *i) {container[id]=i; };
+    bool contains(QString id) { return (container.contains(id)); };
+    void for_each(void (*fn)(Item*));
 
 public slots:
-    void updatePosition(int id, double x, double y);
-    void updatePosition(int id, double x, double y, double dx, double dy);
+    void clear();
+    void updatePosition(QString id, double x, double y);
+    void updatePosition(QString id, double x, double y, double dx, double dy);
 
 private:
-    QVector<Item*> container;
+    QHash<QString, Item*> container;
 
 };
 

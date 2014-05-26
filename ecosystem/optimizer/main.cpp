@@ -101,6 +101,8 @@ int main(int argc, char *argv[]) {
         cout << "# " << o1->getStartPoint().to_string() << " " << o1->getEndPoint().to_string() << endl;
         cout << "# " << o2->getStartPoint().to_string() << " " << o2->getEndPoint().to_string() << endl;
 
+        sender(s, "<message><reset/></message>");
+
         for (vector<Ped::Tobstacle*>::const_iterator it = myobstacles.begin(); it != myobstacles.end(); ++it) {
             std::ostringstream msg;
             msg << "<message><position type=\"obstacle\" id=\"" << (*it)->getid()

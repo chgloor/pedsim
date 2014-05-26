@@ -7,6 +7,7 @@
 #include "itemcontainer.h"
 #include "agent.h"
 #include "obstacle.h"
+#include "item.h"
 
 #include <QtWidgets>
 
@@ -35,6 +36,14 @@ MessageParser::MessageParser(QByteArray datagram) {
 }
 
 
+void scene_remove_item(Item *item) {
+    scene->removeItem(item);
+}
+
+void delete_item(Item *item) {
+    delete item;
+}
+
 void MessageParser::parse() {
     QDomElement docElem = doc.documentElement();
 
@@ -43,9 +52,20 @@ void MessageParser::parse() {
         QDomElement e = n.toElement(); // try to convert the node to an element.
         if (!e.isNull()) {
             //            std::cout << qPrintable(e.tagName()) << std::endl;
+            if (e.tagName() == "reset") {
+
+                agentcontainer.for_each(scene_remove_item);
+                agentcontainer.for_each(delete_item);
+                agentcontainer.clear();
+
+                obstaclecontainer.for_each(scene_remove_item);
+                obstaclecontainer.for_each(delete_item);
+                obstaclecontainer.clear();
+
+           }
             if (e.tagName() == "position") {
                 std::string type = e.attribute("type", "").toStdString().c_str();
-                int id = atoi(e.attribute("id", "0").toStdString().c_str());
+                QString id = e.attribute("id", "0");
                 double x = atof(e.attribute("x", "0.0").toStdString().c_str());
                 double y = atof(e.attribute("y", "0.0").toStdString().c_str());
                 //                std::cout << id << " " << type << std::endl;
@@ -54,7 +74,7 @@ void MessageParser::parse() {
                     if (!agentcontainer.contains(id)) {
                         Agent *agent = new Agent;
                         scene->addItem(agent);
-                        agentcontainer.addItem(agent);
+                        agentcontainer.addItem(id, agent);
                     }
                     agentcontainer.updatePosition(id, x, y);
                 }
@@ -63,7 +83,7 @@ void MessageParser::parse() {
                     if (!obstaclecontainer.contains(id)) {
                         Obstacle *obstacle = new Obstacle;
                         scene->addItem(obstacle);
-                        obstaclecontainer.addItem(obstacle);
+                        obstaclecontainer.addItem(id, obstacle);
                     }
                     double dx = atof(e.attribute("dx", "0.0").toStdString().c_str());
                     double dy = atof(e.attribute("dy", "0.0").toStdString().c_str());
