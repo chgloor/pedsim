@@ -134,6 +134,12 @@ int main(int argc, char *argv[]) {
                 notreached = myagents.size();
                 pedscene->moveAgents(0.1);
 
+                if (timestep % 100 == 0) {
+                    std::ostringstream msg;
+                    msg << "<message><timestep value=\"" << timestep << "\"/></message>";
+                    sender(s, msg.str());
+                }
+
                 for (vector<Ped::Tagent*>::const_iterator it = myagents.begin(); it != myagents.end(); ++it) {
                     // cout << timestep << " " << (*it)->getPosition().to_string() << " " << (*it)->reachedDestination() << endl;
                     std::ostringstream msg;

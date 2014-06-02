@@ -49,9 +49,17 @@ void MessageParser::parse() {
 
     QDomNode n = docElem.firstChild();
     while (!n.isNull()) {
-        QDomElement e = n.toElement(); // try to convert the node to an element.
+        QDomElement e = n.toElement();
         if (!e.isNull()) {
-            //            std::cout << qPrintable(e.tagName()) << std::endl;
+            if (e.tagName() == "timestep") {
+                // not implemented
+                // QString timestep = e.attribute("value", "0");
+                // QImage img(1024,768,QImage::Format_ARGB32_Premultiplied);
+                // QPainter p(&img);
+                // scene->render(&p);
+                // p.end();
+                // img.save("output/" + timestep + ".png");
+            }
             if (e.tagName() == "reset") {
 
                 agentcontainer.for_each(scene_remove_item);
@@ -68,7 +76,6 @@ void MessageParser::parse() {
                 QString id = e.attribute("id", "0");
                 double x = atof(e.attribute("x", "0.0").toStdString().c_str());
                 double y = atof(e.attribute("y", "0.0").toStdString().c_str());
-                //                std::cout << id << " " << type << std::endl;
 
                 if (type == "agent") {
                     if (!agentcontainer.contains(id)) {

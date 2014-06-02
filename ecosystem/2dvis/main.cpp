@@ -35,6 +35,7 @@ int main(int argc, char **argv) {
     MyGraphicsView view(scene);
     view.setRenderHint(QPainter::Antialiasing);
     view.setBackgroundBrush(QPixmap(":/images/street.jpg"));
+    //view.setBackgroundBrush(Qt::black);
     view.setCacheMode(QGraphicsView::CacheBackground);
     view.setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
     view.setDragMode(QGraphicsView::ScrollHandDrag);
