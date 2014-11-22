@@ -72,10 +72,18 @@ int main(int argc, char *argv[]) {
     Ped::Tobstacle *o1 = new Ped::Tobstacle(0, 0, 0, 0);  // set pos later
     Ped::Tobstacle *o2 = new Ped::Tobstacle(0, 0, 0, 0);  // set pos later
 
-    pedscene->addObstacle(new Ped::Tobstacle(-100, -30,  100, -30));
-    pedscene->addObstacle(new Ped::Tobstacle(-100,  30,  100,  30));
-    pedscene->addObstacle(new Ped::Tobstacle(-100, -30, -100,  30));
-    pedscene->addObstacle(new Ped::Tobstacle( 100, -30,  100,  30));
+    pedscene->addObstacle(new Ped::Tobstacle(-100, -50,  100, -50));
+    pedscene->addObstacle(new Ped::Tobstacle(-100,  50,  100,  50));
+    pedscene->addObstacle(new Ped::Tobstacle(-100, -50, -100,  50));
+    pedscene->addObstacle(new Ped::Tobstacle( 100, -50,  100,  50));
+
+    pedscene->addObstacle(new Ped::Tobstacle(-40, -5,  40, -5));
+    pedscene->addObstacle(new Ped::Tobstacle(-40, -5, -100, -50));
+    pedscene->addObstacle(new Ped::Tobstacle( 40, -5,  100, -50));
+    pedscene->addObstacle(new Ped::Tobstacle(-40,  5, 40,  5));
+    pedscene->addObstacle(new Ped::Tobstacle(-40,  5, -100,  50));
+    pedscene->addObstacle(new Ped::Tobstacle( 40,  5,  100,  50));
+
 
     pedscene->addObstacle(o1);
     pedscene->addObstacle(o2);

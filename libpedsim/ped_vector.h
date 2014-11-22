@@ -1,6 +1,6 @@
 //
 // pedsim - A microscopic pedestrian simulation system.
-// Copyright (c) 2003 - 2014 by Christian Gloor
+// Copyright (c) by Christian Gloor
 //
 
 #ifndef _ped_vector_h_
@@ -17,8 +17,6 @@
 namespace Ped {
     /// Vector helper class. This is basically a struct with some related functions attached.
     /// x, y, and z are public, so that they can be accessed easily.
-    /// \author  chgloor
-    /// \date    2010-02-12
     class LIBEXPORT Tvector {
     public:
         // Default constructor
@@ -26,7 +24,6 @@ namespace Ped {
 
         // Initializing constructor
         Tvector(double px, double py, double pz = 0) : x(px), y(py), z(pz) {};
-
 
         // Methods
         double length() const;
@@ -50,7 +47,6 @@ namespace Ped {
 
         std::string to_string() const;
 
-
         // Operators
         Tvector operator+(const Tvector& other) const;
         Tvector operator-(const Tvector& other) const;
@@ -61,7 +57,6 @@ namespace Ped {
         Tvector& operator*=(double factor);
         Tvector& operator*=(const Tvector& vectorIn);
         Tvector& operator/=(double divisor);
-
 
         // Attributes
         double x;

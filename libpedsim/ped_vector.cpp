@@ -1,6 +1,6 @@
 //
 // pedsim - A microscopic pedestrian simulation system.
-// Copyright (c) 2003 - 2014 by Christian Gloor
+// Copyright (c) by Christian Gloor
 //
 
 #include "ped_vector.h"
@@ -39,8 +39,7 @@ void Ped::Tvector::normalize() {
     double len = length();
 
     // null vectors cannot be normalized
-    if (len == 0)
-        return;
+    if (len == 0) return;
 
     x /= len;
     y /= len;
@@ -54,8 +53,7 @@ Ped::Tvector Ped::Tvector::normalized() const {
     double len = length();
 
     // null vectors cannot be normalized
-    if (len == 0)
-        return Ped::Tvector();;
+    if (len == 0) return Ped::Tvector();;
 
     return Ped::Tvector(x/len, y/len, z/len);
 }
@@ -111,21 +109,26 @@ Ped::Tvector Ped::Tvector::scaled(double factor) const {
     return Ped::Tvector(factor*x, factor*y, factor*z);
 }
 
+
 Ped::Tvector Ped::Tvector::leftNormalVector() const {
     return Ped::Tvector(-y, x);
 }
+
 
 Ped::Tvector Ped::Tvector::rightNormalVector() const {
     return Ped::Tvector(y, -x);
 }
 
+
 double Ped::Tvector::polarRadius() const {
     return length();
 }
 
+
 double Ped::Tvector::polarAngle() const {
     return atan2(y, x);
 }
+
 
 double Ped::Tvector::angleTo(const Tvector &other) const {
     double angleThis = polarAngle();
@@ -134,13 +137,12 @@ double Ped::Tvector::angleTo(const Tvector &other) const {
     // compute angle
     double diffAngle = angleOther - angleThis;
     // → normalize angle
-    if(diffAngle > M_PI)
-        diffAngle -= 2*M_PI;
-    else if(diffAngle <= -M_PI)
-        diffAngle += 2*M_PI;
+    if (diffAngle > M_PI) diffAngle -= 2 * M_PI;
+    else if(diffAngle <= -M_PI) diffAngle += 2 * M_PI;
 
     return diffAngle;
 }
+
 
 Ped::Tvector Ped::Tvector::operator+(const Tvector& other) const {
     return Ped::Tvector(
@@ -149,6 +151,7 @@ Ped::Tvector Ped::Tvector::operator+(const Tvector& other) const {
         z + other.z);
 }
 
+
 Ped::Tvector Ped::Tvector::operator-(const Tvector& other) const {
     return Ped::Tvector(
         x - other.x,
@@ -156,13 +159,16 @@ Ped::Tvector Ped::Tvector::operator-(const Tvector& other) const {
         z - other.z);
 }
 
+
 Ped::Tvector Ped::Tvector::operator*(double factor) const {
     return scaled(factor);
 }
 
+
 Ped::Tvector Ped::Tvector::operator/(double divisor) const {
     return scaled(1/divisor);
 }
+
 
 Ped::Tvector& Ped::Tvector::operator+=(const Tvector& vectorIn) {
     x += vectorIn.x;
@@ -171,6 +177,7 @@ Ped::Tvector& Ped::Tvector::operator+=(const Tvector& vectorIn) {
     return *this;
 }
 
+
 Ped::Tvector& Ped::Tvector::operator-=(const Tvector& vectorIn) {
     x -= vectorIn.x;
     y -= vectorIn.y;
@@ -178,10 +185,12 @@ Ped::Tvector& Ped::Tvector::operator-=(const Tvector& vectorIn) {
     return *this;
 }
 
+
 Ped::Tvector& Ped::Tvector::operator*=(double factor) {
     scale(factor);
     return *this;
 }
+
 
 Ped::Tvector& Ped::Tvector::operator*=(const Tvector& vectorIn) {
     x *= vectorIn.x;
@@ -190,10 +199,12 @@ Ped::Tvector& Ped::Tvector::operator*=(const Tvector& vectorIn) {
     return *this;
 }
 
+
 Ped::Tvector& Ped::Tvector::operator/=(double divisor) {
     scale(1/divisor);
     return *this;
 }
+
 
 bool operator==(const Ped::Tvector& vector1In, const Ped::Tvector& vector2In) {
     return (vector1In.x == vector2In.x)
@@ -201,11 +212,13 @@ bool operator==(const Ped::Tvector& vector1In, const Ped::Tvector& vector2In) {
         && (vector1In.z == vector2In.z);
 }
 
+
 bool operator!=(const Ped::Tvector& vector1In, const Ped::Tvector& vector2In) {
     return (vector1In.x != vector2In.x)
         || (vector1In.y != vector2In.y)
         || (vector1In.z != vector2In.z);
 }
+
 
 Ped::Tvector operator+(const Ped::Tvector& vector1In, const Ped::Tvector& vector2In) {
     return Ped::Tvector(
@@ -214,6 +227,7 @@ Ped::Tvector operator+(const Ped::Tvector& vector1In, const Ped::Tvector& vector
         vector1In.z + vector2In.z);
 }
 
+
 Ped::Tvector operator-(const Ped::Tvector& vector1In, const Ped::Tvector& vector2In) {
     return Ped::Tvector(
         vector1In.x - vector2In.x,
@@ -221,12 +235,14 @@ Ped::Tvector operator-(const Ped::Tvector& vector1In, const Ped::Tvector& vector
         vector1In.z - vector2In.z);
 }
 
+
 Ped::Tvector operator-(const Ped::Tvector& vectorIn) {
     return Ped::Tvector(
         -vectorIn.x,
         -vectorIn.y,
         -vectorIn.z);
 }
+
 
 Ped::Tvector operator*(double factor, const Ped::Tvector& vector) {
     return vector.scaled(factor);
