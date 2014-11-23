@@ -155,10 +155,15 @@ int main(int argc, char *argv[]) {
                     sender(s, msg.str());
 
                     if ((*it)->reachedDestination()) notreached--;
+
+                    if ((*it)->reachedDestination()) {
+                        cout << "" << h << " " << timestep << endl;
+                    }
+
                 }
-                if (timestep >= 100000) notreached = 0; // seems to run forever. 
+                if (timestep >= 100000) notreached = 0; // seems to run forever.
             }
-            cout << "" << h << " " << timestep << endl;
+            //            cout << "" << h << " " << timestep << endl;
             average_timestep += timestep;
         }
         cout << "# " << h << " " << 1.0*average_timestep/10 << endl;
