@@ -71,7 +71,7 @@ namespace Ped {
         const vector<Tobstacle*>& getAllObstacles() const { return obstacles; };
         const vector<Twaypoint*>& getAllWaypoints() const { return waypoints; };
 
-        void setOutputWriter(OutputWriter *pow) { ow = pow; }
+        void setOutputWriter(OutputWriter *ow) { outputwriter = ow; }
 
     protected:
         vector<Tagent*> agents;
@@ -80,7 +80,7 @@ namespace Ped {
         map<const Ped::Tagent*, Ttree*> treehash;
         Ttree *tree;
 
-        OutputWriter *ow;
+        OutputWriter *outputwriter;
 
         void placeAgent(const Ped::Tagent *a);
         void moveAgent(const Ped::Tagent *a);

@@ -20,7 +20,7 @@ using namespace std;
 /// Default constructor. If this constructor is used, there will be no quadtree created.
 /// This is faster for small scenarios or less than 1000 Tagents.
 /// \date    2012-01-17
-Ped::Tscene::Tscene() : tree(NULL) {};
+Ped::Tscene::Tscene() : tree(NULL), outputwriter(NULL) {};
 
 
 /// Constructor used to create a quadtree statial representation of the Tagents. Use this
@@ -34,6 +34,7 @@ Ped::Tscene::Tscene() : tree(NULL) {};
 /// \param width is the total width of the boundary. Basically from left to right.
 /// \param height is the total height of the boundary. Basically from top to down.
 Ped::Tscene::Tscene(double left, double top, double width, double height) {
+    outputwriter = NULL;
     tree = new Ped::Ttree(this, 0, left, top, width, height);
 }
 
@@ -155,16 +156,13 @@ bool Ped::Tscene::removeWaypoint(Ped::Twaypoint* w) {
 /// \see     Ped::Tagent::move(double h)
 void Ped::Tscene::moveAgents(double h) {
     // first update forces
-    for (Tagent* agent : agents)
-        agent->computeForces();
+    for (Tagent* agent : agents) agent->computeForces();
 
     // then move agents according to their forces
-    for (Tagent* agent : agents)
-        agent->move(h);
+    for (Tagent* agent : agents) agent->move(h);
 
-    // then output their new position
-    for (Tagent* agent : agents)
-        ow->drawAgent(*agent);
+    // then output their new position if an OutputWriter is given.
+    if (outputwriter != NULL) for (Tagent* agent : agents) outputwriter->drawAgent(*agent);
 }
 
 /// Internally used to update the quadtree.
