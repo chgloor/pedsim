@@ -2,25 +2,31 @@
 // pedsim - A microscopic pedestrian simulation system.
 // Copyright (c) by Christian Gloor
 //
-// Use somethin like this to compile:
-// g++ examples/example01.cpp -o example01 -I. -lpedsim -L. -g
+// Use something like this to compile:
+// g++ examples/example01.cpp -o example01 -I. -lpedsim -L. -g -std=c++0x
 //
 // Check for memory leaks e.g. like this:
 // valgrind --leak-check=yes ./example
 
-#include "ped_includes.h"
-
 #include <iostream>
 #include <cstdlib> // rand
+
+#include "ped_includes.h"
+
+#include "ped_outputwriter.h"
 
 using namespace std;
 
 int main(int argc, char *argv[]) {
 
+    Ped::OutputWriter *ow = new Ped::CSV_OutputWriter();
+
     cout << "PedSim Example using libpedsim version " << Ped::LIBPEDSIM_VERSION << endl;
 
-    // setup
+    // Setup
     Ped::Tscene *pedscene = new Ped::Tscene(-200, -200, 400, 400);
+
+    pedscene->setOutputWriter(ow);
 
     Ped::Twaypoint *w1 = new Ped::Twaypoint(-100, 0, 24);
     Ped::Twaypoint *w2 = new Ped::Twaypoint(+100, 0, 12);
@@ -39,23 +45,13 @@ int main(int argc, char *argv[]) {
         pedscene->addAgent(a);
     }
 
-    // move all agents for all steps (and print their position)
+    // Move all agents for 10 steps (and print their position through the outputwriter)
     for (int i=0; i<10; ++i) {
         pedscene->moveAgents(0.2);
-
-        const vector<Ped::Tagent*>& myagents = pedscene->getAllAgents();
-        for (vector<Ped::Tagent*>::const_iterator iter = myagents.begin(); iter != myagents.end(); ++iter) {
-            cout << (*iter)->getx() << "/" << (*iter)->gety() << endl;
-        }
     }
 
-    // cleanup
-    const vector<Ped::Tagent*>& myagents = pedscene->getAllAgents();
-
-    for (vector<Ped::Tagent*>::const_iterator iter = myagents.begin(); iter != myagents.end(); ++iter) {
-        delete *iter;
-    }
-
+    // Cleanup
+    for (Ped::Tagent* agent : pedscene->getAllAgents()) delete agent;
     delete pedscene;
     delete w1;
     delete w2;

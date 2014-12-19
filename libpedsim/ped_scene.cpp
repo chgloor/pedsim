@@ -8,6 +8,7 @@
 #include "ped_obstacle.h"
 #include "ped_tree.h"
 #include "ped_waypoint.h"
+#include "ped_outputwriter.h"
 
 #include <cstddef>
 #include <algorithm>
@@ -154,12 +155,16 @@ bool Ped::Tscene::removeWaypoint(Ped::Twaypoint* w) {
 /// \see     Ped::Tagent::move(double h)
 void Ped::Tscene::moveAgents(double h) {
     // first update forces
-    for(Tagent* agent : agents)
+    for (Tagent* agent : agents)
         agent->computeForces();
 
     // then move agents according to their forces
-    for(Tagent* agent : agents)
+    for (Tagent* agent : agents)
         agent->move(h);
+
+    // then output their new position
+    for (Tagent* agent : agents)
+        ow->drawAgent(*agent);
 }
 
 /// Internally used to update the quadtree.
