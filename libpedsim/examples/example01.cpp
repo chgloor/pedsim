@@ -5,8 +5,11 @@
 // Use something like this to compile:
 // g++ examples/example01.cpp -o example01 -I. -lpedsim -L. -g -std=c++0x
 //
+// export LD_LIBRARY_PATH=.
+// ./example01
+//
 // Check for memory leaks e.g. like this:
-// valgrind --leak-check=yes ./example
+// valgrind --leak-check=yes ./example01
 
 #include <iostream>
 #include <cstdlib> // rand
@@ -56,4 +59,5 @@ int main(int argc, char *argv[]) {
     delete w1;
     delete w2;
     delete o;
+    delete ow;
 }
