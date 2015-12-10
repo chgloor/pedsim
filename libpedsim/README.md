@@ -9,7 +9,7 @@ Command line:
 make
 ```
 
-## Windows
+## Windows (not supported at the moment, since I do not have access to a Windows machine. Should still work though, just make sure the compiler supports C++11.)
 
 Command line, e.g. with Microsoft Windows SDK, or MS visual c++ express:
 
