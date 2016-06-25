@@ -1,10 +1,6 @@
-#
-# pedsim - A microscopic pedestrian simulation system.
-# Copyright (c) by Christian Gloor
-#
-
-<RCC>
-    <qresource prefix="/" >
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource>
         <file>images/street.jpg</file>
     </qresource>
 </RCC>
