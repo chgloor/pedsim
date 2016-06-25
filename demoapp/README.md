@@ -2,7 +2,7 @@ PEDSIM Demo Application
 =======================
 
 Qt is needed to compile and run the demo application!  
-Get Qt from [qt.digia.com](http://qt.digia.com/)
+Get Qt from [www.qt.io](https://www.qt.io/)
 
 
 ## Linux
