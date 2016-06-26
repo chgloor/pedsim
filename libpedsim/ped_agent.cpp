@@ -327,7 +327,7 @@ Ped::Tvector Ped::Tagent::socialForce() {
 
         // skip futher computation if they are too far away from each
         // other. Should speed up things.
-        if (diff.lengthSquared() > 4.0) continue;
+        if (diff.lengthSquared() > 64.0) continue;
 
         Tvector diffDirection = diff.normalized();
 
@@ -491,38 +491,30 @@ void Ped::Tagent::computeForces() {
 }
 
 
-/// Does the agent dynamics stuff. Calls the methods to calculate the individual forces, adds them
-/// to get the total force affecting the agent. This will then be translated into a velocity difference,
-/// which is applied to the agents velocity, and then to its position.
-/// \date    2003-12-29
-/// \param   stepSizeIn This tells the simulation how far the agent should proceed
-void Ped::Tagent::move(double stepSizeIn) {
-    // sum of all forces --> acceleration
+/// Does the agent dynamics stuff. In the current implementation a
+/// simple Euler integration is used. As the first step, the new
+/// position is calculated using t-1 velocity. Then, the new
+/// contributing individual forces are calculated. This will then be
+/// added to the existing velocity, which again is used during the
+/// next time step. See e.g. https://en.wikipedia.org/wiki/Euler_method
+/// \date 2003-12-29 
+/// \param h Integration time step delta t
+void Ped::Tagent::move(double h) {
+    // internal position update = actual move
+    p = p + v * h;
+
+    // weighted sum of all forces --> acceleration
     a = factordesiredforce * desiredforce
         + factorsocialforce * socialforce
         + factorobstacleforce * obstacleforce
         + factorlookaheadforce * lookaheadforce
         + myforce;
 
-    /*
-    cout << "desired " << desiredforce.to_string()
-         << " social " << socialforce.to_string()
-         << " obstacle " << obstacleforce.to_string()
-         << " lookahead " << lookaheadforce.to_string()
-         << " my " << myforce.to_string()
-         << endl;
-    */
-
-    //    cout << "a " << a.to_string() << endl;
-
     // calculate the new velocity
-    v = 0.5 * v + stepSizeIn * a; // <--- think about this 0.9. is it dep on h? --cgloor 20140511
+    v = v + a * h;
 
     // don't exceed maximal speed
     if (v.length() > vmax) v = v.normalized() * vmax;
-
-    // internal position update = actual move
-    p = p + stepSizeIn * v;
 
     // notice scene of movement
     scene->moveAgent(this);
