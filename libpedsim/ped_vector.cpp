@@ -69,9 +69,9 @@ double Ped::Tvector::scalar(const Ped::Tvector &a, const Ped::Tvector &b) {
 }
 
 
-/// Vector scalar product helper: calculates the scalar product of two vectors.
+/// Vector dot product helper: calculates the dot product of two vectors.
 /// \date    2012-01-14
-/// \return  The scalar product.
+/// \return  The dot product.
 /// \param   &a The first vector
 /// \param   &b The second vector
 double Ped::Tvector::dotProduct(const Ped::Tvector &a, const Ped::Tvector &b) {
@@ -109,12 +109,13 @@ Ped::Tvector Ped::Tvector::scaled(double factor) const {
     return Ped::Tvector(factor*x, factor*y, factor*z);
 }
 
-
+// \warning: This is in 2D only!
 Ped::Tvector Ped::Tvector::leftNormalVector() const {
     return Ped::Tvector(-y, x);
 }
 
 
+// \warning: This is in 2D only!
 Ped::Tvector Ped::Tvector::rightNormalVector() const {
     return Ped::Tvector(y, -x);
 }
@@ -125,11 +126,13 @@ double Ped::Tvector::polarRadius() const {
 }
 
 
+// \warning: This is in 2D only!
 double Ped::Tvector::polarAngle() const {
     return atan2(y, x);
 }
 
 
+// \warning: This is in 2D only!
 double Ped::Tvector::angleTo(const Tvector &other) const {
     double angleThis = polarAngle();
     double angleOther = other.polarAngle();

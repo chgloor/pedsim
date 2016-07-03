@@ -13,6 +13,7 @@
 #endif
 
 #include <iostream>
+#include <fstream>
 
 #include "ped_includes.h"
 
@@ -26,6 +27,9 @@ namespace Ped {
         virtual ~OutputWriter() {};
 
         // pure virtual functions providing the framework.
+
+	// general
+	virtual void writeTimeStep(long int timestep) = 0;
 
         // szene
         virtual void defineScene(Tscene &s) = 0;
@@ -46,6 +50,9 @@ namespace Ped {
     public:
         virtual ~CSV_OutputWriter() {};
 
+	// general
+	virtual void writeTimeStep(long int timestep) {};
+
         // szene
         virtual void defineScene(Tscene &s) {};
         virtual void addObstacle(Tobstacle &o) {};
@@ -55,6 +62,31 @@ namespace Ped {
         virtual void drawAgent(Tagent &a) { cout << a.getid() << ", " << a.getx() << ", " << a.gety() << endl; };
 
     protected:
+    };
+
+
+    /// Class that defines a frame-by-frame proprietary OutputWriter
+    /// \author  chgloor
+    /// \date    2016-07-02
+    class LIBEXPORT Frame_OutputWriter : public OutputWriter {
+    public:
+        Frame_OutputWriter();
+        Frame_OutputWriter(string name);
+        virtual ~Frame_OutputWriter();
+
+	// general
+	virtual void writeTimeStep(long int timestep);
+
+        // szene
+        virtual void defineScene(Tscene &s) {};
+        virtual void addObstacle(Tobstacle &o) {};
+        virtual void addAgent(Tagent &a) {};
+
+        // agent
+        virtual void drawAgent(Tagent &a);
+
+    protected:
+	ofstream outfile;
     };
 
 

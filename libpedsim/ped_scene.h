@@ -80,6 +80,7 @@ namespace Ped {
         map<const Ped::Tagent*, Ttree*> treehash;
         Ttree *tree;
 
+	long int timestep = 0;
         OutputWriter *outputwriter;
 
         void placeAgent(const Ped::Tagent *a);

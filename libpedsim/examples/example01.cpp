@@ -22,7 +22,7 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 
-    Ped::OutputWriter *ow = new Ped::CSV_OutputWriter();
+    Ped::OutputWriter *ow = new Ped::Frame_OutputWriter();
 
     cout << "PedSim Example using libpedsim version " << Ped::LIBPEDSIM_VERSION << endl;
 
@@ -49,8 +49,8 @@ int main(int argc, char *argv[]) {
     }
 
     // Move all agents for 10 steps (and print their position through the outputwriter)
-    for (int i=0; i<10; ++i) {
-        pedscene->moveAgents(0.2);
+    for (int i=0; i<1000; ++i) {
+        pedscene->moveAgents(0.7);
     }
 
     // Cleanup

@@ -7,7 +7,7 @@
 #include "ped_scene.h"
 
 namespace Ped {
-    const double LIBEXPORT LIBPEDSIM_VERSION = 2.31;
+    const double LIBEXPORT LIBPEDSIM_VERSION = 2.4;
 }
 
 #endif

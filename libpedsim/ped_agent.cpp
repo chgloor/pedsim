@@ -285,7 +285,8 @@ Ped::Tvector Ped::Tagent::desiredForce() {
         destination = NULL;
     }
 
-    // compute force
+    // Compute force. This translates to "I want to move into that
+    // direction at the maximum speed"
     Tvector force = desiredDirection.normalized() * vmax;
     //    cout << force.to_string() << endl;
 
@@ -327,7 +328,7 @@ Ped::Tvector Ped::Tagent::socialForce() {
 
         // skip futher computation if they are too far away from each
         // other. Should speed up things.
-        if (diff.lengthSquared() > 64.0) continue;
+        if (diff.lengthSquared() > 64.0) continue; // val to high --chgloor 20160630
 
         Tvector diffDirection = diff.normalized();
 
@@ -511,7 +512,7 @@ void Ped::Tagent::move(double h) {
         + myforce;
 
     // calculate the new velocity
-    v = v + a * h;
+    v = 0.5 * v + a * h; // prob rather (0.5 / h) * v
 
     // don't exceed maximal speed
     if (v.length() > vmax) v = v.normalized() * vmax;

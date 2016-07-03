@@ -155,6 +155,9 @@ bool Ped::Tscene::removeWaypoint(Ped::Twaypoint* w) {
 /// \param   h This tells the simulation how far the agents should proceed.
 /// \see     Ped::Tagent::move(double h)
 void Ped::Tscene::moveAgents(double h) {
+    // update timestep
+    timestep++;
+
     // first update forces
     for (Tagent* agent : agents) agent->computeForces();
 
@@ -162,7 +165,10 @@ void Ped::Tscene::moveAgents(double h) {
     for (Tagent* agent : agents) agent->move(h);
 
     // then output their new position if an OutputWriter is given.
-    if (outputwriter != NULL) for (Tagent* agent : agents) outputwriter->drawAgent(*agent);
+    if (outputwriter != NULL) {
+      outputwriter->writeTimeStep(timestep);
+      for (Tagent* agent : agents) outputwriter->drawAgent(*agent);
+    }
 }
 
 /// Internally used to update the quadtree.
