@@ -8,6 +8,7 @@
 #include "agent.h"
 #include "obstacle.h"
 #include "item.h"
+#include "globals.h"
 
 #include <QtWidgets>
 
@@ -52,13 +53,19 @@ void MessageParser::parse() {
         QDomElement e = n.toElement();
         if (!e.isNull()) {
             if (e.tagName() == "timestep") {
-                // not implemented
-                // QString timestep = e.attribute("value", "0");
-                // QImage img(1024,768,QImage::Format_ARGB32_Premultiplied);
-                // QPainter p(&img);
-                // scene->render(&p);
-                // p.end();
-                // img.save("output/" + timestep + ".png");
+                QString timestep = e.attribute("value", "0");
+		if (g_option_writefile) {
+		  qDebug() << "Writing frame " << timestep << " to directory " << g_option_writefile_directory;
+		  QImage img(640,480,QImage::Format_ARGB32_Premultiplied);
+		  //QImage img(scene->sceneRect().size().toSize(), QImage::Format_ARGB32);
+		  QPainter p(&img);
+		  scene->advance();
+		  scene->render(&p, QRectF(), QRectF(), Qt::KeepAspectRatioByExpanding);
+		  p.end();
+		  img.save(g_option_writefile_directory
+			   + "/" + timestep.rightJustified(8, '0') 
+			   + ".png");
+		}
             }
             if (e.tagName() == "reset") {
 

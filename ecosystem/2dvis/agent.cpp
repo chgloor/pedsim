@@ -12,7 +12,9 @@
 static const double SCALE = 10.0;
 
 
-Agent::Agent() : color(qrand() % 256, qrand() % 256, qrand() % 256) {
+//Agent::Agent() : color(qrand() % 256, qrand() % 256, qrand() % 256) {}
+
+Agent::Agent() : color(255, 255, 255) {
 }
 
 

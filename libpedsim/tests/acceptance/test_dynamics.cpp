@@ -15,7 +15,7 @@ public:
   
   virtual void SetUp() {
     const ::testing::TestInfo* const test_info = ::testing::UnitTest::GetInstance()->current_test_info();
-    printf("We are in test %s of test case %s.\n", test_info->name(), test_info->test_case_name());
+    //    printf("We are in test %s of test case %s.\n", test_info->name(), test_info->test_case_name());
 
     pedscene = new Ped::Tscene(-200, -200, 400, 400);
     w1 = new Ped::Twaypoint(0, 0, 2);

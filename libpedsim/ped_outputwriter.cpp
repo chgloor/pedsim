@@ -28,6 +28,7 @@ Ped::Frame_OutputWriter::Frame_OutputWriter (string name) {
   outfile.open("pedsim_" + name + ".txt");
   outfile << "# PedSim output generated using libpedsim version " << Ped::LIBPEDSIM_VERSION <<// endl;
   outfile << "" << endl;
+  outfile << "<scenario name=\"" << name << "\" />" << endl;
 }
 
 
