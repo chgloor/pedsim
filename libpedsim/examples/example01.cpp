@@ -60,4 +60,6 @@ int main(int argc, char *argv[]) {
     delete w2;
     delete o;
     delete ow;
+
+    return EXIT_SUCCESS;
 }

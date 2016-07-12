@@ -74,4 +74,5 @@ int main(int argc, char *argv[]) {
     delete w2;
     delete o;
 
+    return EXIT_SUCCESS;
 }
