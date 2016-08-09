@@ -20,7 +20,7 @@ href="/download/">download</a> page.
 
 There is a complete documentation of the classes in the library. It is
 automatically generated out of the source code. You can <a
-href="latest/annotated.html">access this documentation online here</a>.
+href="annotated.html">access this documentation online here</a>.
 This same documentation is delivered as PDF file with the library for
 offline use.
  
@@ -56,7 +56,7 @@ href="latest/classPed_1_1Tagent.html" class="code">a-&gt;getx()</a>
 and <a href="latest/classPed_1_1Tagent.html"
 class="code">a-&gt;gety()</a>.  Of course, you can inherit your own
 classes from Tagent, Tobctacle etc, if you want to have more control.
-See the <a href="/demo/">Demo App Source</a> for an example.
+See the <a href="/documentation/demoapp/index.html">Demo App Source</a> for an example.
 
 \include examples/example01.cpp
 
