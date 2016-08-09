@@ -65,14 +65,15 @@ namespace Ped {
     };
 
 
-    /// Class that defines a frame-by-frame proprietary OutputWriter
+    /// Class that defines a frame-by-frame proprietary XMLOutputWriter.
+    /// For supported tags, see @ref xml_specs.
     /// \author  chgloor
     /// \date    2016-07-02
-    class LIBEXPORT Frame_OutputWriter : public OutputWriter {
+    class LIBEXPORT XMLOutputWriter : public OutputWriter {
     public:
-        Frame_OutputWriter();
-        Frame_OutputWriter(string name);
-        virtual ~Frame_OutputWriter();
+        XMLOutputWriter();
+        XMLOutputWriter(string scenarioname);
+        virtual ~XMLOutputWriter();
 
 	// general
 	virtual void writeTimeStep(long int timestep);
@@ -87,6 +88,31 @@ namespace Ped {
 
     protected:
 	ofstream outfile;
+    };
+
+    /// Class that defines a frame-by-frame proprietary XMLOutputWriter.
+    /// For supported tags, see @ref xml_specs.
+    /// \author  chgloor
+    /// \date    2016-08-09
+    class LIBEXPORT FileOutputWriter : public XMLOutputWriter {
+    public:
+      FileOutputWriter();
+      //        FileOutputWriter(string scenarioname);
+	//        virtual ~Frame_OutputWriter();
+
+	// general
+	//	virtual void writeTimeStep(long int timestep);
+
+        // szene
+	//        virtual void defineScene(Tscene &s) {};
+	//        virtual void addObstacle(Tobstacle &o) {};
+	//        virtual void addAgent(Tagent &a) {};
+
+        // agent
+	//        virtual void drawAgent(Tagent &a);
+
+    protected:
+	//	ofstream outfile;
     };
 
 

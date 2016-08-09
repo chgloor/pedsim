@@ -74,7 +74,7 @@ TEST_F(DynamicsTest, moveTowardsWaypoint) {
 }
 
 
-/// If waypoint mode is set to BEAHVIOR_ONCE, the agent should stop
+/// If waypoint mode is set to BEHAVIOR_ONCE, the agent should stop
 /// once reached the last waypoint. This is only the case if the
 /// dynamics work in such a way that the agent's velocity reduced to 0
 /// after a while without any forces affecting it. Like drag, or
@@ -87,7 +87,7 @@ TEST_F(DynamicsTest, moveStopsAtLastWaypoint) {
   pedscene->addAgent(a);
   
   // Move all agents for lots of steps
-  for (int i=0; i<120; ++i) { // takes about 100 steps to reach waypoint
+  for (int i=0; i<120; ++i) { // takes about 100 steps to reach the waypoint
     pedscene->moveAgents(0.5); // low precision for this
   }
   
@@ -108,8 +108,6 @@ TEST_F(DynamicsTest, moveStopsAtLastWaypoint) {
 /// positions are identical for all agents. The force pushing them
 /// appart should only affect the x axis value of their positions.
 TEST_F(DynamicsTest, moveAxisStability) {
-
-
   for (int i = 0; i<10; i++) {
     Ped::Tagent *a = new Ped::Tagent();
     a->setfactorlookaheadforce(0.0); // disable that
