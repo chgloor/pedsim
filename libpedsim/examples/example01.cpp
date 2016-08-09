@@ -1,15 +1,10 @@
-//
 // pedsim - A microscopic pedestrian simulation system.
 // Copyright (c) by Christian Gloor
 //
 // Use something like this to compile:
-// g++ examples/example01.cpp -o example01 -I. -lpedsim -L. -g -std=c++0x
-//
-// export LD_LIBRARY_PATH=.
-// ./example01
-//
-// Check for memory leaks e.g. like this:
-// valgrind --leak-check=yes ./example01
+//   g++ examples/example01.cpp -o example01 -lpedsim -L. -I. -std=c++11
+//   export LD_LIBRARY_PATH=.
+//   ./example01
 
 #include <iostream>
 #include <cstdlib> // rand
@@ -22,7 +17,7 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 
-    Ped::OutputWriter *ow = new Ped::Frame_OutputWriter();
+    Ped::OutputWriter *ow = new Ped::FileOutputWriter();
 
     cout << "PedSim Example using libpedsim version " << Ped::LIBPEDSIM_VERSION << endl;
 
