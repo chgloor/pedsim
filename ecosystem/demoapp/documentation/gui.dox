@@ -1,0 +1,86 @@
+/**
+@page demoapp_gui GUI Documentation
+
+PedSim Demo App Documentation
+=============================
+
+GUI Functionality
+-----------------
+
+Using the GUI you can basically switch on and off certain predefined functionality, and set some parameters.
+
+<h3>Display Options</h3>
+
+<ul>
+<li><p><b>Show Waypoints</b> - If this is checked, the waypoints are
+displayed. Only currently to an agent assigned waypoints can change
+their visibility, so you might have to wait a bit before all waypoints
+appear/disappear. Since several agents share one waypoint, it is not
+possible to display the details of the waypoint for each agent (they
+can adapt to the agent's direction). So only the information of the
+last agent assigned will be displayed, resulting in the waypoints
+changing their look during the simulation.</p>
+<li><p><b>Show Quadtree</b> - Displays the quadtree used to store the
+agents internally. In order to find neighbors of agents quickly, they
+are grouped together in cells. These cells are generated and arranged
+dynamically.</p>
+<li><p><b>Show Direction</b> - Displays the agent's direction. The yellow
+line represents where they actually do walk at the moment. The length
+of this line represents the velocity of the agent. </p>
+<li><p><b>Show Forces</b> - Displays the forces that affect the individual
+agents. The forces are shown towards the direction the agents is
+accelerated. Red: direction they would like to walk to (desired
+direction). Blue: force that pulls them away from walls. Green: force
+that pulls them away from each other. Magenta: "Look Ahead" force.</p>
+<li><p><b>Framerate</b> - Specify how many updates per second shoud be
+made. If the requested value is higher than what your computer can
+deliver, it will have no effect.</p>
+</ul>
+
+<h3>Mental Layer Options</h3>
+
+<ul>
+<li><p><b>Look Ahead</b> - This mental layer strategy is a bit more
+sophisticated. Each agent looks ahead a certain distance and counts
+the other agents to his left, and to his right, respectively. It then
+walks slightly into the direction where less agents were counted. Only
+agents in front of the agent, and only those with a walking direction
+in the opposite direction are considdered. So walking in lines behind
+each other is not affected.</p>
+<li><p><b>Dijkstra Routing</b> - Not implemented in this demo (yet?), because the scenario is too small for this feature.</p>
+<li><p><b>Visual Avoidance</b> -Not implemented in this demo (yet?). </p>
+</ul>
+
+<h3>Physical Layer Options</h3>
+
+<ul>
+<li><p><b>Precision (h)</b> - In each timestep (frame) of the simulation,
+the agent is allowed to walf forward a tiny step. All the
+accelerations and velocoties are scaled to match this step length. The
+precision defines how long such a step is (High precision = small
+steps). Setting precision too low will allow the angents to walk
+through walls and each other, since they only detect an obstacle when
+they are already through it. If the precision is high, the simulation
+will run very slowly, but the results are not supposed to change
+dramatically (except for rounding errors in the calculations, which
+can cause a slightly different overall result). The value h is also
+known as tau in literature and the documentation of the social force
+model.</p>
+<li><p><b>Wall Force</b> - This slider defines how strong the force
+pushing away from the walls and other obstacles is (fiW). The higher
+it is, the bigger the distance an agent will keep from the wall will
+be. If the wall force is too low, agents will be able to walk through
+the walls. This will be more likely the larger the force between
+pedestrians becomes (see next slider), especially if the pedestrian
+density is very high (bottlenecks, or during an unevenly
+initialization).</p>
+<li><p><b>Pedestrian Force</b> - Defines the distance each agent tries to
+keep from the other agents (fij). Set this to a high value if no
+mental layer strategies are activated (i.e. the simulation is run as a
+pure social force model simulation). Some mental layer strategies try
+to steer agents around other agents in advance, to this force is only
+used as a last change to avoid a collision. (or to actually simulate a
+collision, if set to a very low value.)</p>
+</ul>
+
+*/

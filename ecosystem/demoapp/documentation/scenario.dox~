@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+ <head>
+ <title>PedSim - A Pedestrian Simulation System</title>
+ <link rel="stylesheet" href="http://pedsim.silmaril.org/doc.css" type="text/css">
+</head>
+
+<!--#include virtual="/header1.fhtml" -->
+PedSim Demo App Documentation
+<!--#include virtual="/header2.fhtml" -->
+
+<!-- M-x flyspell-mode  http://www.delorie.com/gnu/docs/emacs/emacs_109.html -->
+
+<div class="content">
+
+<h1>PedSim Demo App Documentation</h1>
+
+<h2>Scenario Definition</h2>
+
+<p>The scenario of the simulation is defined in a simple XML file. The default is <tt>scene.xml</tt>, placed in the same directory as the executable. However, it can also be specified on the command line:
+
+<pre class="fragment">
+./pedsim myscenario.xml
+</pre>
+</p>
+
+<p>There must be a top-level tag in each XML document. In the
+predefined scenario file <tt>scene.xml</tt> and in the examples, it is
+<tt>&lt;scenario&gt;</tt>. At this moment, it does not matter what you write in there - as long as you have exacly one top-level tag.</p>
+
+<h3>Waypoints</h3>
+
+<p>The first item you should define are the waypoints, because they
+are used later in the agent definitions.</p>
+
+<p>A waypoint has coordinates <tt>x</tt> and <tt>y</tt>, and a
+raduis <tt>r</tt>. A waypoint definition also contains the
+waypoint <tt>id</tt>, which is used to reference it later:
+<pre class="fragment">
+  &lt;waypoint id="w1" x="-160" y="-51" r=" 17" /&gt;
+</pre>
+<p>
+
+<h3>Agents</h3>
+
+<p>Agent definitions are a bit more complex. An agent has a start
+position with coordinates <tt>x</tt> and <tt>y</tt>.</p>
+
+<p>Since it would not be comfortable to define each of potentially
+many agents individually, there is a way to specify groups of
+agents. In the agent definition, a agent multiplier <tt>n</tt> can be
+added. <i>N</i> copies of that agent will be spawned into the
+simulation. It would not be wise to place them all at the same
+location, so there is a way to spread them out a bit by specifying
+the <tt>dx</tt> and <tt>dy</tt> modifiers. The agents will be placed
+evenly distributed between <i>x-dx</i> and <i>x+dx</i> (resp y and
+dy). </p>
+
+<p>Each agent has waypoints assigned. It will walk from the initial
+position to the first waypoint, then to the second and so on. The
+waypoints are added inside the <tt>&lt;agent&gt;&lt;/agent&gt;</tt>
+tag. Each added waypoint is a reference to a waypoint defined
+earlier. Please make sure that only waypoints really specified earlier
+are referenced.</p>
+
+<p>Example:
+<pre class="fragment">
+  &lt;agent x="60" y="0" n="100" dx="70" dy="10"&gt;
+	 &lt;addwaypoint id="w1" /&gt;
+	 &lt;addwaypoint id="w2" /&gt;
+  &lt;/agent&gt;
+</pre>
+</p>
+
+<h3>Obstacles</h3>
+
+<p>Defining obstacles is very simple. Each obstacle is a line from
+coordinates <tt>x1/y1</tt> to coordinates <tt>x2/y2</tt>. It is not
+relevant where they are added, or how they are grouped. </p>
+
+<pre class="fragment">
+  &lt;obstacle x1="-2" y1="-50" x2="2" y2="-50" /&gt;
+</pre>
+
+<h2>Example</h2>
+
+<p>A box of four walls is defined, a waypoint on each side. 200 agents walk from one side of the box to the other.</p>
+
+<pre class="fragment">
+&lt;scenario&gt;
+
+<span class="comment">  &lt;!-- waypoints - above the agents! --&gt;</span>
+  &lt;waypoint id="wu" x="0" y="-100" r="50" /&gt;
+  &lt;waypoint id="wd" x="0" y=" 100" r="50" /&gt;
+  &lt;waypoint id="wl" x="-100" y="0" r="50" /&gt;
+  &lt;waypoint id="wr" x=" 100" y="0" r="50" /&gt;
+
+<span class="comment">  &lt;!-- agents --&gt;</span>
+  &lt;agent x="0" y="0" n="100" dx="90" dy="90"&gt;
+	 &lt;addwaypoint id="wu" /&gt;
+	 &lt;addwaypoint id="wd" /&gt;
+  &lt;/agent&gt;
+
+  &lt;agent x="0" y="0" n="100" dx="90" dy="90"&gt;
+	 &lt;addwaypoint id="wl" /&gt;
+	 &lt;addwaypoint id="wr" /&gt;
+  &lt;/agent&gt;
+  
+<span class="comment">  &lt;!-- obstacles --&gt;</span>
+  &lt;obstacle x1="-110" y1="-110" x2=" 110" y2="-110" /&gt;
+  &lt;obstacle x1=" 110" y1="-110" x2=" 110" y2=" 110" /&gt;
+  &lt;obstacle x1=" 110" y1=" 110" x2="-110" y2=" 110" /&gt;
+  &lt;obstacle x1="-110" y1=" 110" x2="-110" y2="-110" /&gt;
+
+&lt;/scenario&gt;
+</pre>
+
+<p align="center"><a href="20120204-screenshot-v2-2.png"><img src="20120204-screenshot-v2-2.png" width="600" border="0"></a></p>
+
+<p><a href="../index.shtml">Back to the PedSim documentation main page</a>.</p>
+
+</div>
+
+<!--#include virtual="/footer.fhtml" -->
