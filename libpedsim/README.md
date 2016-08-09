@@ -28,14 +28,17 @@ offline use.
 
 This example shows the very basic usage of the library. No fancy
 graphics, of course, only text output to the console.  This is
-example01.cpp in the examples folder.  Additional code around it might
-be required in order to compile it. If you are using Windows and, for
-example, <i>MS Visual C++ 2010 Express</i>, you can create a new
-console application using the wizard. Create a file called
-<tt>example.cpp</tt> and copy-paste the code into it. In the project's
-<i>Properties</i>, under <i>Linker</i>/<i>Input</i>, add
-<tt>libpedsim.lib</tt> in front of the Additional Dependencies
-list. Click run. On a typical linux system, if you are in the
+example01.cpp in the examples folder.  
+
+<dl class="warning"><dt><b>Please note:</b></dt><dd> Additional steps
+around the example code might be required in order to compile it. If
+you are using _Windows_ and, for example, _MS Visual C++ 2010 Express_,
+you can create a new console application using the wizard. Create a
+file called `example01.cpp` and copy-paste the code into it. In the
+project's _Properties_, under _Linker/Input_, add `libpedsim.lib` in
+front of the _Additional Dependencies_ list. Click run.  </dd></dl>
+
+On a typical linux system, if you are in the
 _libpedsim_ folder, use this to compile, link and run:
 
 ~~~~ .sh
