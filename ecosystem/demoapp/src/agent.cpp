@@ -36,7 +36,7 @@ Agent::Agent(QGraphicsScene *pscene) : Tagent() {
 Ped::Tvector Agent::socialForce(const set<const Ped::Tagent*> &neighbors) {
     Ped::Tvector t = Tagent::socialForce(neighbors);
     if (config.showForces == true) {
-        linesa->setLine(getx(), gety(), getx()+3.0*t.x, gety()+3.0*t.y);
+        linesa->setLine(p.x, p.y, p.x + 3.0 * t.x, p.y + 3.0 * t.y);
         linesa->setVisible(true);
     } else {
         linesa->setVisible(false);
@@ -50,7 +50,7 @@ Ped::Tvector Agent::socialForce(const set<const Ped::Tagent*> &neighbors) {
 Ped::Tvector Agent::obstacleForce(const set<const Ped::Tagent*> &neighbors) {
     Ped::Tvector t = Tagent::obstacleForce(neighbors);
     if (config.showForces == true) {
-        lineoa->setLine(getx(), gety(), getx()+10.0*t.x, gety()+10.0*t.y);
+        lineoa->setLine(p.x, p.y, p.x + 10.0 * t.x, p.y + 10.0 * t.y);
         lineoa->setVisible(true);
     } else {
         lineoa->setVisible(false);
@@ -64,7 +64,7 @@ Ped::Tvector Agent::obstacleForce(const set<const Ped::Tagent*> &neighbors) {
 Ped::Tvector Agent::desiredForce() {
     Ped::Tvector t = Tagent::desiredForce();
     if (config.showForces == true) {
-        lineea->setLine(getx(), gety(), getx()+1.0*t.x, gety()+1.0*t.y);
+        lineea->setLine(p.x, p.y, p.x + 1.0 * t.x, p.y + 1.0 * t.y);
         lineea->setVisible(true);
     } else {
         lineea->setVisible(false);
@@ -81,7 +81,7 @@ Ped::Tvector Agent::lookaheadForce(Ped::Tvector desired, const set<const Ped::Ta
       t = Tagent::lookaheadForce(desired, neighbors);
     }
     if (config.showForces == true) {
-        linelfa->setLine(getx(), gety(), getx()+1.0*t.x, gety()+1.0*t.y);
+        linelfa->setLine(p.x, p.y, p.x + 1.0 * t.x, p.y + 1.0 * t.y);
         linelfa->setVisible(true);
     } else {
         linelfa->setVisible(false);
@@ -95,8 +95,8 @@ Ped::Tvector Agent::lookaheadForce(Ped::Tvector desired, const set<const Ped::Ta
 Ped::Tvector Agent::myForce(Ped::Tvector desired, const set<const Ped::Tagent*> &neighbors) {
     Ped::Tvector t;
     if (config.mlTendency) {
-        t.x = 0.5*desired.y;
-        t.y = -0.5*desired.x;
+        t.x = 0.5 * desired.y;
+        t.y = -0.5 * desired.x;
     }
     return t;
 }
@@ -112,9 +112,9 @@ void Agent::move(double h) {
 
     Tagent::move(h);
 
-    rect->setPos(getx()-0.5, gety()-0.5); // upper left edge
+    rect->setPos(p.x - 0.5, p.y - 0.5); // upper left edge
     if (config.showDirection == true) {
-        linev->setLine(getx(), gety(), getx()+1.0*getvx(), gety()+1.0*getvy());
+        linev->setLine(p.x, p.y, p.x + 1.0 * v.x, p.y + 1.0 * v.y);
         linev->setVisible(true);
     } else {
         linev->setVisible(false);
@@ -122,6 +122,6 @@ void Agent::move(double h) {
 
     // update graphic center if option selected
     if ((config.followAgent == true) && (id == 0)) {
-        graphicsscene->views().first()->centerOn(getx(), gety());
+        graphicsscene->views().first()->centerOn(p.x, p.y);
     }
 }
