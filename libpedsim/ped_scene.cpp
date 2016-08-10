@@ -1,6 +1,6 @@
 //
 // pedsim - A microscopic pedestrian simulation system.
-// Copyright (c) 2003 - 2014 by Christian Gloor
+// Copyright (c) by Christian Gloor
 //
 
 #include "ped_scene.h"
@@ -94,61 +94,55 @@ void Ped::Tscene::addWaypoint(Ped::Twaypoint* w) {
     waypoints.push_back(w);
 }
 
+
+/// Remove an agent from the scene.
+/// \warning Used to delete the agent. I don't think Tscene has ownership of the assigned objects. Will not delete from now on.
 bool Ped::Tscene::removeAgent(Ped::Tagent *a) {
-    // find position of agent in agent vector
-    vector<Tagent*>::iterator agentIter = find(agents.begin(), agents.end(), a);
-
-    // check whether the agent was found
-    if(agentIter == agents.end())
+    auto it = find(agents.begin(), agents.end(), a);
+    if (it == agents.end())
         return false;
-
-    // remove agent as potential neighbor
-    for(Tagent* currentAgent : agents)
-        currentAgent->removeAgentFromNeighbors(a);
 
     // remove agent from the tree
     if (tree != NULL)
         tree->removeAgent(a);
 
-    // remove agent from the scene and delete it, report succesful removal
-    agents.erase(agentIter);
-    delete a;
+    // remove agent from the scene, report succesful removal
+    agents.erase(it);
     return true;
 }
 
+/// Remove an obstacle from the scene.
+/// \warning Used to delete the obstacle. I don't think Tscene has ownership of the assigned objects. Will not delete from now on.
 bool Ped::Tscene::removeObstacle(Ped::Tobstacle *o) {
-    // find position of obstacle in obstacle vector
-    vector<Tobstacle*>::iterator obstacleIter = find(obstacles.begin(), obstacles.end(), o);
+    auto it = find(obstacles.begin(), obstacles.end(), o);
+    if (it == obstacles.end())
+      return false;
 
-    // check whether the obstacle was found
-    if(obstacleIter == obstacles.end())
-        return false;
-
-    // remove obstacle from the scene and delete it, report succesful removal
-    obstacles.erase(obstacleIter);
-    delete o;
+    // remove obstacle from the scene, report succesful removal
+    obstacles.erase(it);
     return true;
 }
 
+/// Remove a waypoint from the scene.
+/// \warning Used to delete the waypoint. I don't think Tscene has ownership of the assigned objects. Will not delete from now on.
 bool Ped::Tscene::removeWaypoint(Ped::Twaypoint* w) {
+  /* Not sure we want that! 
     // remove waypoint from all agents
     for(vector<Tagent*>::iterator iter = agents.begin(); iter != agents.end(); ++iter) {
         Tagent *a = (*iter);
         a->removeWaypoint(w);
     }
+  */
 
-    // find position of waypoint in waypoint vector
-    vector<Twaypoint*>::iterator waypointIter = find(waypoints.begin(), waypoints.end(), w);
-
-    // check whether the waypoint was found
-    if(waypointIter == waypoints.end())
+    auto it = find(waypoints.begin(), waypoints.end(), w);
+    if (it == waypoints.end())
         return false;
 
-    // remove waypoint from the scene and delete it, report succesful removal
-    waypoints.erase(waypointIter);
-    delete w;
+    // remove waypoint from the scene, report succesful removal
+    waypoints.erase(it);
     return true;
 }
+
 
 /// This is a convenience method. It calls Ped::Tagent::move(double h) for all agents in the Tscene.
 /// \date    2012-02-03
@@ -193,7 +187,7 @@ void Ped::Tscene::moveAgent(const Ped::Tagent *a) {
 /// save memory. Ideally cleanup() is called every second, or about every 20 timestep.
 /// \date    2012-01-28
 void Ped::Tscene::cleanup() {
-    if(tree != NULL)
+    if (tree != NULL)
         tree->cut();
 }
 
@@ -206,7 +200,7 @@ void Ped::Tscene::cleanup() {
 /// \param   dist the distance around x/y that will be searched for agents (search field is a square in the current implementation)
 set<const Ped::Tagent*> Ped::Tscene::getNeighbors(double x, double y, double dist) const {
     // if there is no tree, return all agents
-    if(tree == NULL)
+    if (tree == NULL)
         return set<const Ped::Tagent*>(agents.begin(), agents.end());
 
     // create the output list

@@ -83,16 +83,12 @@ Ped::Tscene* Ped::Tagent::getscene() {
 };
 
 
-
 /// Adds a TWaypoint to an agent's list of waypoints. Twaypoints are stored in a
 /// cyclic queue, the one just visited is pushed to the back again. There will be a
 /// flag to change this behavior soon.
 /// Adding a waypoint will also selecting the first waypoint in the internal list
 /// as the active one, i.e. the first waypoint added will be the first point to
 /// headt to, no matter what is added later.
-/// \todo Maybe the waypoint management interface has to be more open. Or at
-/// least provice a full interface to the internal implementation so that the
-/// user can play with the list of waypoints.
 /// \author  chgloor
 /// \date    2012-01-19
 void Ped::Tagent::addWaypoint(Twaypoint *wp) {
@@ -135,7 +131,7 @@ void Ped::Tagent::clearWaypoints() {
     }
 }
 
-
+/*
 void Ped::Tagent::removeAgentFromNeighbors(const Ped::Tagent* agentIn) {
     // search agent in neighbors, and remove him
     set<const Ped::Tagent*>::iterator foundNeighbor = neighbors.find(agentIn);
@@ -143,7 +139,7 @@ void Ped::Tagent::removeAgentFromNeighbors(const Ped::Tagent* agentIn) {
         neighbors.erase(foundNeighbor);
     }
 }
-
+*/ // no longer required
 
 /// Sets the agent ID this agent has to follow. If set, the agent will ignore
 /// its assigned waypoints and just follow the other agent.
@@ -310,7 +306,7 @@ Ped::Tvector Ped::Tagent::desiredForce() {
 /// this is just fine.
 /// \date    2012-01-17
 /// \return  Tvector: the calculated force
-Ped::Tvector Ped::Tagent::socialForce() {
+Ped::Tvector Ped::Tagent::socialForce(const set<const Ped::Tagent*> &neighbors) {
     // define relative importance of position vs velocity vector
     // (set according to Moussaid-Helbing 2009)
     const double lambdaImportance = 2.0;
@@ -405,7 +401,7 @@ Ped::Tvector Ped::Tagent::socialForce() {
 /// Iterates over all obstacles == O(N).
 /// \date    2012-01-17
 /// \return  Tvector: the calculated force
-Ped::Tvector Ped::Tagent::obstacleForce() {
+Ped::Tvector Ped::Tagent::obstacleForce(const set<const Ped::Tagent*> &neighbors) {
     // obstacle which is closest only
     Ped::Tvector minDiff;
     double minDistanceSquared = INFINITY;
@@ -433,7 +429,7 @@ Ped::Tvector Ped::Tagent::obstacleForce() {
 /// \return  Tvector: the calculated force
 /// \param e is a vector defining the direction in which the agent should look
 ///          ahead to. Usually, this is the direction he wants to walk to.
-Ped::Tvector Ped::Tagent::lookaheadForce(Ped::Tvector e) {
+Ped::Tvector Ped::Tagent::lookaheadForce(Ped::Tvector e, const set<const Ped::Tagent*> &neighbors) {
     const double pi = 3.14159265;
     int lookforwardcount = 0;
     for (set<const Ped::Tagent*>::iterator iter = neighbors.begin(); iter!=neighbors.end(); ++iter) {
@@ -483,7 +479,7 @@ Ped::Tvector Ped::Tagent::lookaheadForce(Ped::Tvector e) {
 /// \date    2012-02-12
 /// \return  Tvector: the calculated force
 /// \param   e is a vector defining the direction in which the agent wants to walk to.
-Ped::Tvector Ped::Tagent::myForce(Ped::Tvector e) {
+Ped::Tvector Ped::Tagent::myForce(Ped::Tvector e, const set<const Ped::Tagent*> &neighbors) {
     Ped::Tvector lf;
     return lf;
 }
@@ -491,13 +487,13 @@ Ped::Tvector Ped::Tagent::myForce(Ped::Tvector e) {
 
 void Ped::Tagent::computeForces() {
     const double neighborhoodRange = 20.0;
+    auto neighbors = scene->getNeighbors(p.x, p.y, neighborhoodRange);
 
     desiredforce = desiredForce();
-    neighbors = scene->getNeighbors(p.x, p.y, neighborhoodRange);
-    if (factorlookaheadforce > 0) lookaheadforce = lookaheadForce(desiredDirection);
-    if (factorsocialforce > 0) socialforce = socialForce();
-    if (factorobstacleforce > 0) obstacleforce = obstacleForce();
-    myforce = myForce(desiredDirection);
+    if (factorlookaheadforce > 0) lookaheadforce = lookaheadForce(desiredDirection, neighbors);
+    if (factorsocialforce > 0) socialforce = socialForce(neighbors);
+    if (factorobstacleforce > 0) obstacleforce = obstacleForce(neighbors);
+    myforce = myForce(desiredDirection, neighbors);
 }
 
 

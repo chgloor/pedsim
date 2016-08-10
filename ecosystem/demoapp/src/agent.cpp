@@ -33,8 +33,8 @@ Agent::Agent(QGraphicsScene *pscene) : Tagent() {
 
 /// Calculates the social force. Same as in lib, but adds graphical representation
 /// \date    2012-01-17
-Ped::Tvector Agent::socialForce() {
-    Ped::Tvector t = Tagent::socialForce();
+Ped::Tvector Agent::socialForce(const set<const Ped::Tagent*> &neighbors) {
+    Ped::Tvector t = Tagent::socialForce(neighbors);
     if (config.showForces == true) {
         linesa->setLine(getx(), gety(), getx()+3.0*t.x, gety()+3.0*t.y);
         linesa->setVisible(true);
@@ -47,8 +47,8 @@ Ped::Tvector Agent::socialForce() {
 
 /// Calculates the obstacle force. Same as in lib, but adds graphical representation
 /// \date    2012-01-17
-Ped::Tvector Agent::obstacleForce() {
-    Ped::Tvector t = Tagent::obstacleForce();
+Ped::Tvector Agent::obstacleForce(const set<const Ped::Tagent*> &neighbors) {
+    Ped::Tvector t = Tagent::obstacleForce(neighbors);
     if (config.showForces == true) {
         lineoa->setLine(getx(), gety(), getx()+10.0*t.x, gety()+10.0*t.y);
         lineoa->setVisible(true);
@@ -75,10 +75,10 @@ Ped::Tvector Agent::desiredForce() {
 
 /// Calculates the look ahead force. Same as in lib, but adds graphical representation
 /// \date    2012-01-17
-Ped::Tvector Agent::lookaheadForce(Ped::Tvector desired) {
+Ped::Tvector Agent::lookaheadForce(Ped::Tvector desired, const set<const Ped::Tagent*> &neighbors) {
     Ped::Tvector t;
     if (config.mlLookAhead == true) {
-        t = Tagent::lookaheadForce(desired);
+      t = Tagent::lookaheadForce(desired, neighbors);
     }
     if (config.showForces == true) {
         linelfa->setLine(getx(), gety(), getx()+1.0*t.x, gety()+1.0*t.y);
@@ -92,7 +92,7 @@ Ped::Tvector Agent::lookaheadForce(Ped::Tvector desired) {
 
 /// Calculates the custom force
 /// \date    2012-02-12
-Ped::Tvector Agent::myForce(Ped::Tvector desired) {
+Ped::Tvector Agent::myForce(Ped::Tvector desired, const set<const Ped::Tagent*> &neighbors) {
     Ped::Tvector t;
     if (config.mlTendency) {
         t.x = 0.5*desired.y;

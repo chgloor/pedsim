@@ -46,10 +46,10 @@ namespace Ped {
         virtual void computeForces();
         virtual void move(double stepSizeIn);
         virtual Tvector desiredForce();
-        virtual Tvector socialForce();
-        virtual Tvector obstacleForce();
-        virtual Tvector lookaheadForce(Tvector desired);
-        virtual Tvector myForce(Tvector desired);
+        virtual Tvector socialForce(const set<const Ped::Tagent*> &neighbors);
+        virtual Tvector obstacleForce(const set<const Ped::Tagent*> &neighbors);
+        virtual Tvector lookaheadForce(Tvector desired, const set<const Ped::Tagent*> &neighbors);
+        virtual Tvector myForce(Tvector desired, const set<const Ped::Tagent*> &neighbors);
 
         void setPosition(double px, double py, double pz);
         void setType(int t) { this->type = t; };
@@ -88,6 +88,8 @@ namespace Ped {
         void addWaypoint(Twaypoint* wp);
         bool removeWaypoint(const Twaypoint* wp);
         void clearWaypoints();
+	deque<Twaypoint*> getWaypoints() { return waypoints; };
+
         void removeAgentFromNeighbors(const Tagent* agentIn);
 
         bool reachedDestination() { return (destination == NULL); };
@@ -136,7 +138,7 @@ namespace Ped {
 
         double agentRadius;
 
-        set<const Ped::Tagent*> neighbors;
+	//        set<const Ped::Tagent*> neighbors;
 
         long timestep;
     };

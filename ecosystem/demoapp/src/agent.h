@@ -22,11 +22,11 @@ public:
     Agent(QGraphicsScene *scene);
 
     void move(double h);
-    virtual Ped::Tvector socialForce();
-    virtual Ped::Tvector obstacleForce();
+    virtual Ped::Tvector socialForce(const set<const Ped::Tagent*> &neighbors);
+    virtual Ped::Tvector obstacleForce(const set<const Ped::Tagent*> &neighbors);
     virtual Ped::Tvector desiredForce();
-    virtual Ped::Tvector lookaheadForce(Ped::Tvector desired);
-    virtual Ped::Tvector myForce(Ped::Tvector desired);
+    virtual Ped::Tvector lookaheadForce(Ped::Tvector desired, const set<const Ped::Tagent*> &neighbors);
+    virtual Ped::Tvector myForce(Ped::Tvector desired, const set<const Ped::Tagent*> &neighbors);
 
     QGraphicsScene *graphicsscene;
     QGraphicsRectItem *rect;

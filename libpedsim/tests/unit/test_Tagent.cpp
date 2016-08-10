@@ -1,7 +1,6 @@
 #include "gtest/gtest.h"
 
-#include "ped_agent.h"
-#include "ped_scene.h"
+#include "ped_includes.h"
 
 class TagentTest : public testing::Test {
 public:
@@ -28,5 +27,28 @@ TEST_F(TagentTest, setgetscene) {
   ASSERT_EQ(NULL, a.getscene());
   a.setscene(pedscene);
   ASSERT_EQ(a.getscene(), pedscene);
+}
+
+// Test waypoint handling functionality
+TEST_F(TagentTest, waypoints) {
+  ASSERT_TRUE(a.getWaypoints().empty());
+
+  Ped::Twaypoint *w1 = new Ped::Twaypoint(-100, 0, 24);
+  Ped::Twaypoint *w2 = new Ped::Twaypoint(+100, 0, 12);
+
+  a.addWaypoint(w1);
+  a.addWaypoint(w2);
+
+  ASSERT_FALSE(a.getWaypoints().empty());
+  ASSERT_EQ(2, a.getWaypoints().size());
+
+  a.removeWaypoint(w1);
+
+  ASSERT_FALSE(a.getWaypoints().empty());
+  ASSERT_EQ(1, a.getWaypoints().size());
+
+  a.clearWaypoints();
+
+  ASSERT_TRUE(a.getWaypoints().empty());
 }
 

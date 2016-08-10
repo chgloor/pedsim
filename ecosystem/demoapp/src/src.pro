@@ -3,13 +3,13 @@
 TEMPLATE = app
 TARGET = pedsim
 DEPENDPATH += . release
-INCLUDEPATH += . ../../libpedsim
+INCLUDEPATH += . ../../../libpedsim
 DESTDIR = ../
 
-#QMAKE_LIBDIR += ../../libpedsim
+#QMAKE_LIBDIR += ../../../libpedsim
 #QMAKE_LIBS += -llibpedsim
 
-LIBS += -L../../libpedsim -lpedsim
+LIBS += -L../../../libpedsim -lpedsim
 
 QT += opengl
 QT += widgets
