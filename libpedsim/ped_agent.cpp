@@ -70,9 +70,18 @@ Ped::Tagent::~Tagent() {
 /// \date    2012-01-17
 /// \warning Bad things will happen if the agent is not assigned to a scene. But usually, Tscene takes care of that.
 /// \param   *s A valid Tscene initialized earlier.
-void Ped::Tagent::assignScene(Ped::Tscene *s) {
+void Ped::Tagent::setscene(Ped::Tscene *s) {
     scene = s;
 }
+
+/// Returns the Tscene assigned to the agent.
+/// \date    2012-01-17
+/// \warning Bad things will happen if the agent is not assigned to a scene. But usually, Tscene takes care of that.
+/// \return   *s A Tscene initialized earlier, if one is assigned to the agent.
+Ped::Tscene* Ped::Tagent::getscene() {
+  return scene;
+};
+
 
 
 /// Adds a TWaypoint to an agent's list of waypoints. Twaypoints are stored in a

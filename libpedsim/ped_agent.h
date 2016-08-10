@@ -82,7 +82,9 @@ namespace Ped {
         void setfactordesiredforce(double f);
         void setfactorlookaheadforce(double f);
 
-        void assignScene(Tscene* s);
+        void setscene(Tscene* s);
+        Tscene* getscene();
+
         void addWaypoint(Twaypoint* wp);
         bool removeWaypoint(const Twaypoint* wp);
         void clearWaypoints();

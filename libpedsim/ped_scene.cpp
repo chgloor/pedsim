@@ -67,13 +67,13 @@ void Ped::Tscene::clear() {
 
 /// Used to add a Tagent to the Tscene.
 /// \date    2012-01-17
-/// \warning addAgent() does call Tagent::assignScene() to assign itself to the agent.
+/// \warning addAgent() does call Tagent::setscene() to assign itself to the agent.
 /// \param   *a A pointer to the Tagent to add.
 void Ped::Tscene::addAgent(Ped::Tagent *a) {
     // add agent to scene
     // (take responsibility for object deletion)
     agents.push_back(a);
-    a->assignScene(this);
+    a->setscene(this);
     if (tree != NULL)
         tree->addAgent(a);
 }
