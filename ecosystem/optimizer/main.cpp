@@ -151,7 +151,7 @@ int main(int argc, char *argv[]) {
                 for (vector<Ped::Tagent*>::const_iterator it = myagents.begin(); it != myagents.end(); ++it) {
                     // cout << timestep << " " << (*it)->getPosition().to_string() << " " << (*it)->reachedDestination() << endl;
                     std::ostringstream msg;
-                    msg << "<message><position type=\"agent\" id=\"" << (*it)->getid() << "\" x=\"" << (*it)->getx() << "\" y=\"" << (*it)->gety() <<    "\"/></message>";
+                    msg << "<message><position type=\"agent\" id=\"" << (*it)->getid() << "\" x=\"" << (*it)->getPosition().x << "\" y=\"" << (*it)->getPosition().y <<    "\"/></message>";
                     sender(s, msg.str());
 
                     if ((*it)->reachedDestination()) notreached--;
