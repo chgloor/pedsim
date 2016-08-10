@@ -51,31 +51,22 @@ namespace Ped {
         virtual Tvector lookaheadForce(Tvector desired, const set<const Ped::Tagent*> &neighbors);
         virtual Tvector myForce(Tvector desired, const set<const Ped::Tagent*> &neighbors);
 
-        void setPosition(double px, double py, double pz);
         void setType(int t) { this->type = t; };
-        void setFollow(int id);
-        void setVmax(double vmax);
+        int getType() const { return type; };
 
+        void setVmax(double vmax);
+	double getVmax();
+
+        void setFollow(int id);
         int getFollow() const;
 
         int getid() const { return id; };
-        int gettype() const { return type; };
-        double getvmax() const { return vmax; };
 
-        // these getter should replace the ones later (returning the individual vector values)
-        const Tvector& getPosition() const { return p; }
-        const Tvector& getVelocity() const { return v; }
-        const Tvector& getAcceleration() const { return a; }
-
-        double getx() const { return p.x; };
-        double gety() const { return p.y; };
-        double getz() const { return p.z; };
-        double getax() const { return a.x; };
-        double getay() const { return a.y; };
-        double getaz() const { return a.z; };
-        double getvx() const { return v.x; };
-        double getvy() const { return v.y; };
-        double getvz() const { return v.z; };
+        void setPosition(double px, double py, double pz);
+        void setPosition(const Tvector &pos) { p = pos; };
+        Tvector getPosition() const { return p; }
+        Tvector getVelocity() const { return v; }
+        Tvector getAcceleration() const { return a; }
 
         void setfactorsocialforce(double f);
         void setfactorobstacleforce(double f);
@@ -90,7 +81,7 @@ namespace Ped {
         void clearWaypoints();
 	deque<Twaypoint*> getWaypoints() { return waypoints; };
 
-        void removeAgentFromNeighbors(const Tagent* agentIn);
+	//        void removeAgentFromNeighbors(const Tagent* agentIn);
 
         bool reachedDestination() { return (destination == NULL); };
         void setWaypointBehavior(int mode) { waypointbehavior = mode; };

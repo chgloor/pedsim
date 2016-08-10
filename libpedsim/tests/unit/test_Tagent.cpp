@@ -52,3 +52,16 @@ TEST_F(TagentTest, waypoints) {
   ASSERT_TRUE(a.getWaypoints().empty());
 }
 
+// Test if we can assign an agent to follow to an agent.
+TEST_F(TagentTest, setgetfollow) {
+  ASSERT_EQ(-1, a.getFollow()); 
+  a.setFollow(100);
+  ASSERT_EQ(100, a.getFollow());
+}
+
+// Test VMax handling
+TEST_F(TagentTest, vmax) {
+  ASSERT_NEAR(1.2, a.getVmax(), 1.0); // say between 0.2 and 2.2 is OK? Probably. 
+  a.setVmax(10);
+  ASSERT_EQ(10, a.getVmax());
+}

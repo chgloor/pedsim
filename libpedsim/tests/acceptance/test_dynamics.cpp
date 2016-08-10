@@ -47,9 +47,9 @@ TEST_F(DynamicsTest, moveNotIfNotAffected) {
   
   vector<Ped::Tagent*> all = pedscene->getAllAgents();
   
-  ASSERT_EQ(50, all[0]->getx());
-  ASSERT_EQ(20, all[0]->gety());
-  ASSERT_EQ( 0, all[0]->getz());
+  ASSERT_EQ(50, all[0]->getPosition().x);
+  ASSERT_EQ(20, all[0]->getPosition().y);
+  ASSERT_EQ( 0, all[0]->getPosition().z);
   
   // Cleanup
   for (Ped::Tagent* agent : pedscene->getAllAgents()) delete agent;
@@ -68,7 +68,7 @@ TEST_F(DynamicsTest, moveTowardsWaypoint) {
   
   vector<Ped::Tagent*> all = pedscene->getAllAgents();
   
-  ASSERT_GT(50, all.front()->getx());
+  ASSERT_GT(50, all.front()->getPosition().x);
   
   // Cleanup
   for (Ped::Tagent* agent : pedscene->getAllAgents()) delete agent;
@@ -96,8 +96,8 @@ TEST_F(DynamicsTest, moveStopsAtLastWaypoint) {
 
   // agent should be near the inner corner of the waypoint's
   // radius. w1 is from -1 to +1 (radius 2)
-  EXPECT_NEAR(0.0, all.front()->getx(), 2.0);
-  EXPECT_NEAR(0.0, all.front()->gety(), 2.0);
+  EXPECT_NEAR(0.0, all.front()->getPosition().x, 2.0);
+  EXPECT_NEAR(0.0, all.front()->getPosition().y, 2.0);
   
   // Cleanup
   for (Ped::Tagent* agent : pedscene->getAllAgents()) delete agent;
@@ -125,7 +125,7 @@ TEST_F(DynamicsTest, moveAxisStability) {
 
   // all agents should stay on y = 1.0 and move only horizontally on the x-axis.
   for (Ped::Tagent* agent : pedscene->getAllAgents()) {
-    EXPECT_NEAR(1.0, agent->gety(), 0.1);
+    EXPECT_NEAR(1.0, agent->getPosition().y, 0.1);
   }
 
   // Cleanup

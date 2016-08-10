@@ -55,11 +55,11 @@ walk with that little code.
 
 If you want to display some graphics, write a file, or send data over
 the network, you will get the agent's positions with <a
-href="latest/classPed_1_1Tagent.html" class="code">a-&gt;getx()</a>
-and <a href="latest/classPed_1_1Tagent.html"
-class="code">a-&gt;gety()</a>.  Of course, you can inherit your own
-classes from Tagent, Tobctacle etc, if you want to have more control.
-See the <a href="/documentation/demoapp/index.html">Demo App Source</a> for an example.
+href="latest/classPed_1_1Tagent.html"
+class="code">a-&gt;getPosition()</a>.  Of course, you can inherit your
+own classes from Tagent, Tobctacle etc, if you want to have more
+control.  See the <a href="/documentation/demoapp/index.html">Demo App
+Source</a> for an example.
 
 \include examples/example01.cpp
 

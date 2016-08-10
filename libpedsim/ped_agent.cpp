@@ -168,6 +168,14 @@ void Ped::Tagent::setVmax(double pvmax) {
     vmax = pvmax;
 }
 
+/// Gets the maximum velocity of an agent (vmax). Even if pushed by other
+/// agents, it will not move faster than this.
+/// \date    2016-08-10
+/// \return The maximum velocity. In scene units per timestep, multiplied by the simulation's precision h.
+double Ped::Tagent::getVmax() {
+  return vmax;
+}
+
 
 /// Sets the agent's position. This, and other getters returning coordinates,
 /// will eventually changed to returning a Tvector.
@@ -231,10 +239,10 @@ Ped::Tvector Ped::Tagent::desiredForce() {
     // following behavior
     if (follow >= 0) {
         Tagent* followedAgent = scene->agents.at(follow);
-        Twaypoint newDestination(followedAgent->getx(), followedAgent->gety(), 0);
+        Twaypoint newDestination(followedAgent->getPosition().x, followedAgent->getPosition().y, 0);
         newDestination.settype(Ped::Twaypoint::TYPE_POINT);
         Ped::Tvector ef = newDestination.getForce(p.x, p.y, 0, 0);
-        desiredDirection = Ped::Tvector(followedAgent->getx(), followedAgent->gety());
+        desiredDirection = Ped::Tvector(followedAgent->getPosition().x, followedAgent->getPosition().y);
 
         // walk with full speed if nothing else affects me
         return vmax * ef;

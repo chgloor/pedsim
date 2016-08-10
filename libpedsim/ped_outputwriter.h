@@ -59,7 +59,7 @@ namespace Ped {
         virtual void addAgent(Tagent &a) {};
 
         // agent
-        virtual void drawAgent(Tagent &a) { cout << a.getid() << ", " << a.getx() << ", " << a.gety() << endl; };
+        virtual void drawAgent(Tagent &a) { cout << a.getid() << ", " << a.getPosition().x << ", " << a.getPosition().y << endl; };
 
     protected:
     };

@@ -118,7 +118,7 @@ void Ped::XMLOutputWriter::writeTimeStep (long int timestep) {
 void Ped::XMLOutputWriter::drawAgent (Tagent &a) {
   outfile << "<position type=\"agent\" ";
   outfile << "id=\"" << a.getid() << "\" ";
-  outfile << "x=\"" << a.getx() << "\" ";
-  outfile << "y=\"" << a.gety() << "\" ";
+  outfile << "x=\"" << a.getPosition().x << "\" ";
+  outfile << "y=\"" << a.getPosition().y << "\" ";
   outfile << "/>" << endl;
 }
