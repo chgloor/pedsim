@@ -18,10 +18,11 @@ public:
     //    printf("We are in test %s of test case %s.\n", test_info->name(), test_info->test_case_name());
 
     pedscene = new Ped::Tscene(-200, -200, 400, 400);
-    w1 = new Ped::Twaypoint(0, 0, 2);
+    w1 = new Ped::Twaypoint(0, 0, 1);
     w2 = new Ped::Twaypoint(50, 0, 10);
 
-    Ped::OutputWriter *ow = new Ped::Frame_OutputWriter(test_info->name());
+    //    Ped::OutputWriter *ow = new Ped::FileOutputWriter(test_info->name());
+    Ped::OutputWriter *ow = new Ped::FileOutputWriter();
     pedscene->setOutputWriter(ow);
   }
  
@@ -87,16 +88,16 @@ TEST_F(DynamicsTest, moveStopsAtLastWaypoint) {
   pedscene->addAgent(a);
   
   // Move all agents for lots of steps
-  for (int i=0; i<120; ++i) { // takes about 100 steps to reach the waypoint
+  for (int i=0; i<200; ++i) { // takes about 100 steps to reach the waypoint
     pedscene->moveAgents(0.5); // low precision for this
   }
   
   vector<Ped::Tagent*> all = pedscene->getAllAgents();
 
   // agent should be near the inner corner of the waypoint's
-  // radius. w1 is from -1 to +2 (radius 2)
-  EXPECT_NEAR(0.0, all.front()->getx(), 1.0);
-  EXPECT_NEAR(0.0, all.front()->gety(), 1.0);
+  // radius. w1 is from -1 to +1 (radius 2)
+  EXPECT_NEAR(0.0, all.front()->getx(), 2.0);
+  EXPECT_NEAR(0.0, all.front()->gety(), 2.0);
   
   // Cleanup
   for (Ped::Tagent* agent : pedscene->getAllAgents()) delete agent;
