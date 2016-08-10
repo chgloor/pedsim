@@ -54,7 +54,7 @@ Ped::Tagent::Tagent() {
 
     relaxationTime = 0.5;
 
-    waypointbehavior = 0; // round queue
+    waypointbehavior = BEHAVIOR_CIRCULAR;
 }
 
 

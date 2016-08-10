@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
 
         const vector<Ped::Tagent*>& myagents = pedscene->getAllAgents();
         for (vector<Ped::Tagent*>::const_iterator iter = myagents.begin(); iter != myagents.end(); ++iter) {
-            cout << (*iter)->getx() << "/" << (*iter)->gety() << endl;
+	  cout << (*iter)->getPosition().x << "/" << (*iter)->getPosition().y << endl;
         }
     }
 
