@@ -4,7 +4,7 @@
 // Use somethin like this to compile:
 // g++ examples/example02.cpp -o example02 -lpedsim -L. -I. -std=c++11
 //   export LD_LIBRARY_PATH=.
-//   ./example01
+//   ./example02
 
 #include "ped_includes.h"
 
@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
     /// agent to change its behaviour.
     class Tagent2: public Ped::Tagent {
     public:
-        Ped::Tvector myForce(Ped::Tvector e) {
+        Ped::Tvector myForce(Ped::Tvector e, const set<const Ped::Tagent*> &neighbors) {
             Ped::Tvector lf;
             lf = -100.0*e;
             return lf;

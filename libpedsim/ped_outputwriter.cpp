@@ -10,6 +10,19 @@
 
 using namespace std;
 
+// this is for the broadcast output writer. comment out if your system complains and you don't need it
+#include <sstream>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <string>
+#include <memory>
+#include <sys/types.h>
+#include <string.h>
+#include <stdio.h>
+#include <unistd.h>
+// until here
+
 
 ///
 /// @page xml_specs XML Messaging Format Specification
@@ -20,7 +33,6 @@ using namespace std;
 
 /// Constructor used to open the output mechanism.
 /// \date    2016-07-02
-/// \param scenarioname Used to generate file filename, or transmitted to the client
 Ped::XMLOutputWriter::XMLOutputWriter () {
   //  outfile.open("pedsim_out.txt");
   //  outfile << "# PedSim output generated using libpedsim version " << Ped::LIBPEDSIM_VERSION << endl;
@@ -29,11 +41,57 @@ Ped::XMLOutputWriter::XMLOutputWriter () {
 
 /// Constructor used to open the output file
 /// \date    2016-07-02
-/// \param scenarioname Used to generate file filename
 Ped::FileOutputWriter::FileOutputWriter () {
-  outfile.open("pedsim_out.txt");
-  outfile << "# PedSim output generated using libpedsim version " << Ped::LIBPEDSIM_VERSION << endl;
-  outfile << "" << endl;
+  outfile_.open("pedsim_out.txt");
+  outfile_ << "# PedSim output generated using libpedsim version " << Ped::LIBPEDSIM_VERSION << endl;
+  outfile_ << "" << endl;
+}
+
+/// Destructor used to close the output file
+/// \date    2016-10-09
+Ped::FileOutputWriter::~FileOutputWriter () {
+  outfile_.close();
+}
+
+/// Destructor used to close the network socket
+/// \date    2016-10-09
+Ped::UDPOutputWriter::~UDPOutputWriter () {
+  //  socket.close()???
+}
+
+/// Constructor used to open the network socket
+/// \date    2016-10-09
+Ped::UDPOutputWriter::UDPOutputWriter () {
+  cout << "# UDP Network PedSim output generated using libpedsim version " << Ped::LIBPEDSIM_VERSION << endl;
+
+  // open the network socket
+  socket_ = socket(AF_INET, SOCK_DGRAM, 0);
+  int optval = 1;
+  socklen_t optlen;
+  getsockopt(socket_, SOL_SOCKET, SO_REUSEADDR, &optval, &optlen);
+
+  write("<reset/>");
+  
+}
+
+void Ped::UDPOutputWriter::write(string message) {
+  struct sockaddr_in to;
+  int bytes_sent;
+  const char *msg;
+
+  memset(&to, 0, sizeof(to));
+  to.sin_family = AF_INET;
+  to.sin_addr.s_addr   = inet_addr("127.0.0.1");
+  to.sin_port   = htons(2222);
+
+  string ext_message = "<message>" + message + "</message>";
+  msg = ext_message.c_str();
+  bytes_sent = sendto(socket_, msg, strlen(msg), 0, (struct sockaddr*)&to, sizeof(to));
+  //  cout << ext_message << "(" << bytes_sent << " bytes sent)" << endl;
+}
+
+void Ped::FileOutputWriter::write(string message) {
+  outfile_ << message << endl;
 }
 
 
@@ -52,10 +110,11 @@ Ped::FileOutputWriter::FileOutputWriter () {
 /// \date    2016-07-02
 /// \param scenarioname Used to generate file filename
 Ped::XMLOutputWriter::XMLOutputWriter (string name) {
-  outfile.open("pedsim_" + name + ".txt");
-  outfile << "# PedSim output generated using libpedsim version " << Ped::LIBPEDSIM_VERSION <<// endl;
-  outfile << "" << endl;
-  outfile << "<scenario name=\"" << name << "\" />" << endl;
+  std::ostringstream msg;
+  msg << "# PedSim output generated using libpedsim version " << Ped::LIBPEDSIM_VERSION <<// endl;
+  msg << "" << endl;
+  msg << "<scenario name=\"" << name << "\" />" << endl;
+  write(msg.str());
 }
 
 
@@ -77,8 +136,9 @@ Ped::XMLOutputWriter::XMLOutputWriter (string name) {
 /// \date    2016-07-02
 /// \param scenarioname Used to generate file filename
 Ped::XMLOutputWriter::~XMLOutputWriter () {
-  outfile << "# End of PedSim output."<< endl;
-  outfile.close();
+  std::ostringstream msg;
+  msg << "# End of PedSim output."<< endl;
+  write(msg.str());
 }
 
 
@@ -96,7 +156,9 @@ Ped::XMLOutputWriter::~XMLOutputWriter () {
 /// Writes the value of a timestep, indicating start of a new frame
 /// \date    2016-07-02
 void Ped::XMLOutputWriter::writeTimeStep (long int timestep) {
-  outfile << "<timestep value=\"" << timestep << "\" />" << endl; 
+  std::ostringstream msg;
+  msg << "<timestep value=\"" << timestep << "\" />" << endl; 
+  write(msg.str());
 }
 
 /// @page xml_specs
@@ -116,9 +178,24 @@ void Ped::XMLOutputWriter::writeTimeStep (long int timestep) {
 /// Writes an agent's position
 /// \date    2016-07-02
 void Ped::XMLOutputWriter::drawAgent (Tagent &a) {
-  outfile << "<position type=\"agent\" ";
-  outfile << "id=\"" << a.getid() << "\" ";
-  outfile << "x=\"" << a.getPosition().x << "\" ";
-  outfile << "y=\"" << a.getPosition().y << "\" ";
-  outfile << "/>" << endl;
+  std::ostringstream msg;
+  msg << "<position type=\"agent\" ";
+  msg << "id=\"" << a.getid() << "\" ";
+  msg << "x=\"" << a.getPosition().x << "\" ";
+  msg << "y=\"" << a.getPosition().y << "\" ";
+  msg << "/>" << endl;
+  write(msg.str());
+}
+/// Writes an obstacle's position
+/// \date    2016-10-10
+void Ped::XMLOutputWriter::drawObstacle (Tobstacle &o) {
+  std::ostringstream msg;
+  msg << "<position type=\"obstacle\" ";
+  msg << "id=\"" << o.getid() << "\" ";
+  msg << "x=\"" << o.getStartPoint().x << "\" ";
+  msg << "y=\"" << o.getStartPoint().y << "\" ";
+  msg << "dx=\"" << o.getEndPoint().x - o.getStartPoint().x << "\" ";
+  msg << "dy=\"" << o.getEndPoint().y - o.getStartPoint().y << "\" ";
+  msg << "/>" << endl;
+  write(msg.str());
 }

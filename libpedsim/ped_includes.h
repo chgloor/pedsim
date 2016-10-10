@@ -5,6 +5,7 @@
 #include "ped_obstacle.h"
 #include "ped_waypoint.h"
 #include "ped_scene.h"
+#include "ped_outputwriter.h"
 
 namespace Ped {
     const double LIBEXPORT LIBPEDSIM_VERSION = 2.4;

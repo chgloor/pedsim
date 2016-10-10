@@ -86,6 +86,12 @@ void Ped::Tscene::addObstacle(Ped::Tobstacle *o) {
     // add obstacle to scene
     // (take responsibility for object deletion)
     obstacles.push_back(o);
+
+    // then output their new position if an OutputWriter is given.
+    if (outputwriter != NULL) {
+      outputwriter->drawObstacle(*o);
+    }
+
 }
 
 void Ped::Tscene::addWaypoint(Ped::Twaypoint* w) {
