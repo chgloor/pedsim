@@ -7,7 +7,9 @@
 //   ./example01
 
 #include <iostream>
-#include <cstdlib> // rand
+#include <cstdlib>
+#include <chrono>
+#include <thread>
 
 #include "ped_includes.h"
 
@@ -18,7 +20,9 @@ using namespace std;
 int main(int argc, char *argv[]) {
 
     // create an output writer which will send output to a file 
+  //    Ped::OutputWriter *ow = new Ped::FileOutputWriter();
     Ped::OutputWriter *ow = new Ped::FileOutputWriter();
+    ow->setScenarioName("Example 01");
 
     cout << "PedSim Example using libpedsim version " << Ped::LIBPEDSIM_VERSION << endl;
 
@@ -45,8 +49,9 @@ int main(int argc, char *argv[]) {
     }
 
     // Move all agents for 10 steps (and print their position through the outputwriter)
-    for (int i=0; i<1000; ++i) {
-        pedscene->moveAgents(0.7);
+    for (int i=0; i<700; ++i) {
+        pedscene->moveAgents(0.3);
+	std::this_thread::sleep_for(std::chrono::milliseconds(3));
     }
 
     // Cleanup

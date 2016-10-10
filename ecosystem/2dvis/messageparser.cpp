@@ -19,6 +19,7 @@ extern QGraphicsScene *scene;
 extern ItemContainer agentcontainer;
 extern ItemContainer obstaclecontainer;
 
+QString scenarioname = "";
 
 MessageParser::MessageParser(QByteArray datagram) {
   //    std::cout << QString(datagram).toUtf8().constData()  << std::endl;
@@ -56,18 +57,46 @@ void MessageParser::parse() {
             if (e.tagName() == "timestep") {
                 QString timestep = e.attribute("value", "0");
 		if (g_option_writefile) {
+		  int rx = 1280;
+		  int ry = 720;
 		  qDebug() << "Writing frame " << timestep << " to directory " << g_option_writefile_directory;
-		  QImage img(640,480,QImage::Format_ARGB32_Premultiplied);
+		  QImage img(rx, ry, QImage::Format_ARGB32_Premultiplied);
 		  //QImage img(scene->sceneRect().size().toSize(), QImage::Format_ARGB32);
 		  QPainter p(&img);
+		  //		  p.setRenderHint(QPainter::Antialiasing);
+
+		  scene->clearSelection();
+		  scene->setSceneRect(-rx, -ry, 2*rx, 2*ry);
+
 		  scene->advance();
+
 		  scene->render(&p, QRectF(), QRectF(), Qt::KeepAspectRatioByExpanding);
+
+		  QFont font = p.font() ;
+		  font.setPointSize ( 12 );
+		  //font.setWeight(QFont::DemiBold);
+		  p.setFont(font);
+
+		  p.setPen(QColor(255, 192, 0));
+		  p.drawText(0, ry-80, rx-40, 20, Qt::AlignRight, scenarioname);
+
+
+		  p.setPen(QColor(255, 192, 0));
+		  p.drawText(0, ry-60, rx-40, 20, Qt::AlignRight, timestep.rightJustified(8, '0'));
+
+		  //		  font.setWeight(QFont::DemiBold);
+		  font.setItalic(true);
+		  p.setFont(font);
+		  p.setPen(QColor(128, 128, 128));
+		  p.drawText(0, ry-100, rx-40, 20, Qt::AlignRight, "PEDSIM");
+
 		  p.end();
-		  img.save(g_option_writefile_directory
-			   + "/" + timestep.rightJustified(8, '0') 
-			   + ".png");
+		  img.save(g_option_writefile_directory + "/" + timestep.rightJustified(8, '0') + ".png");
 		}
             }
+            if (e.tagName() == "scenario") {
+                scenarioname = e.attribute("name", "");
+	    }
             if (e.tagName() == "reset") {
 
                 agentcontainer.for_each(scene_remove_item);

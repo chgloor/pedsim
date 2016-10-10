@@ -71,8 +71,8 @@ Ped::UDPOutputWriter::UDPOutputWriter () {
   getsockopt(socket_, SOL_SOCKET, SO_REUSEADDR, &optval, &optlen);
 
   write("<reset/>");
-  
 }
+
 
 void Ped::UDPOutputWriter::write(string message) {
   struct sockaddr_in to;
@@ -186,6 +186,8 @@ void Ped::XMLOutputWriter::drawAgent (Tagent &a) {
   msg << "/>" << endl;
   write(msg.str());
 }
+
+
 /// Writes an obstacle's position
 /// \date    2016-10-10
 void Ped::XMLOutputWriter::drawObstacle (Tobstacle &o) {
@@ -196,6 +198,17 @@ void Ped::XMLOutputWriter::drawObstacle (Tobstacle &o) {
   msg << "y=\"" << o.getStartPoint().y << "\" ";
   msg << "dx=\"" << o.getEndPoint().x - o.getStartPoint().x << "\" ";
   msg << "dy=\"" << o.getEndPoint().y - o.getStartPoint().y << "\" ";
+  msg << "/>" << endl;
+  write(msg.str());
+}
+
+
+/// Writes an scenario name
+/// \date    2016-10-10
+void Ped::XMLOutputWriter::setScenarioName (string name) {
+  std::ostringstream msg;
+  msg << "<scenario ";
+  msg << "name=\"" << name << "\" ";
   msg << "/>" << endl;
   write(msg.str());
 }

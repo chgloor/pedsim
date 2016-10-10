@@ -67,8 +67,8 @@ int main(int argc, char **argv) {
     view.setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
     view.setDragMode(QGraphicsView::ScrollHandDrag);
     view.setWindowTitle(QT_TRANSLATE_NOOP(QGraphicsView, "PEDSIM's 2D Visualizer"));
-    view.resize(900, 450);
-    view.scale(5, 5);
+    view.resize(1440, 810);
+    view.scale(0.5, 0.5);
     view.show();
 
     // use network stream as input
