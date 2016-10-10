@@ -19,6 +19,7 @@ static const int AgentCount = 50;
 static const double SCALE = 1.0;
 
 QGraphicsScene *scene;
+Receiver *receiver;
 
 ItemContainer agentcontainer;
 ItemContainer obstaclecontainer;
@@ -34,10 +35,13 @@ int main(int argc, char **argv) {
     QCommandLineOption quietOption(QStringList() << "q" << "quiet", "Do not show graphical output");
     cparser.addOption(quietOption);
 
-    QCommandLineOption fileOption(QStringList() << "f" << "file", "read input from <file>", "file");
+    QCommandLineOption networkOption(QStringList() << "n" << "network", "Read input from network on port <port>", "port");
+    cparser.addOption(networkOption);
+
+    QCommandLineOption fileOption(QStringList() << "f" << "file", "Read input from <file>", "file");
     cparser.addOption(fileOption);
 
-    QCommandLineOption outputOption(QStringList() << "o" << "outputdirectory", "write frame-by-frame image output to <directory>", "directory");
+    QCommandLineOption outputOption(QStringList() << "o" << "outputdirectory", "Write frame-by-frame image output to <directory>", "directory");
     cparser.addOption(outputOption);
 
     // Process the actual command line arguments given by the user
@@ -68,8 +72,9 @@ int main(int argc, char **argv) {
     view.show();
 
     // use network stream as input
-    if (!cparser.isSet(quietOption)) {
-	Receiver receiver;
+    QString port = cparser.value(networkOption);
+    if (cparser.isSet(networkOption)) {
+      receiver = new Receiver(port.toInt());
     }
 
     // use provided file as input
