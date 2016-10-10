@@ -49,7 +49,7 @@ void sender(int socket, string smsg) {
     memset(&to, 0, sizeof(to));
     to.sin_family = AF_INET;
     to.sin_addr.s_addr   = inet_addr("127.0.0.1");
-    to.sin_port   = htons(45454);
+    to.sin_port   = htons(2222);
 
     msg = smsg.c_str();
     bytes_sent = sendto(socket, msg, strlen(msg), 0, (struct sockaddr*)&to, sizeof(to));
