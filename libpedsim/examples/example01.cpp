@@ -20,7 +20,6 @@ using namespace std;
 int main(int argc, char *argv[]) {
 
     // create an output writer which will send output to a file 
-  //    Ped::OutputWriter *ow = new Ped::FileOutputWriter();
     Ped::OutputWriter *ow = new Ped::FileOutputWriter();
     ow->setScenarioName("Example 01");
 
@@ -48,7 +47,7 @@ int main(int argc, char *argv[]) {
         pedscene->addAgent(a);
     }
 
-    // Move all agents for 10 steps (and print their position through the outputwriter)
+    // Move all agents for 700 steps (and write their position through the outputwriter)
     for (int i=0; i<700; ++i) {
         pedscene->moveAgents(0.3);
 	std::this_thread::sleep_for(std::chrono::milliseconds(3));
