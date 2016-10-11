@@ -20,6 +20,9 @@ extern ItemContainer agentcontainer;
 extern ItemContainer obstaclecontainer;
 
 QString scenarioname = "";
+static const double SCALE = 10.0;
+QMultiHash<int, QGraphicsItem*> temporaryitems;
+long timestep; 
 
 MessageParser::MessageParser(QByteArray datagram) {
   //    std::cout << QString(datagram).toUtf8().constData()  << std::endl;
@@ -48,94 +51,119 @@ void delete_item(Item *item) {
 }
 
 void MessageParser::parse() {
-    QDomElement docElem = doc.documentElement();
+  QDomElement docElem = doc.documentElement();
 
-    QDomNode n = docElem.firstChild();
-    while (!n.isNull()) {
-        QDomElement e = n.toElement();
-        if (!e.isNull()) {
-            if (e.tagName() == "timestep") {
-                QString timestep = e.attribute("value", "0");
-		if (g_option_writefile) {
-		  int rx = 1280;
-		  int ry = 720;
-		  qDebug() << "Writing frame " << timestep << " to directory " << g_option_writefile_directory;
-		  QImage img(rx, ry, QImage::Format_ARGB32_Premultiplied);
-		  //QImage img(scene->sceneRect().size().toSize(), QImage::Format_ARGB32);
-		  QPainter p(&img);
-		  //		  p.setRenderHint(QPainter::Antialiasing);
+  QDomNode n = docElem.firstChild();
+  while (!n.isNull()) {
+    QDomElement e = n.toElement();
+    if (!e.isNull()) {
+      if (e.tagName() == "timestep") {
+	QString stimestep = e.attribute("value", "0");
+	timestep = stimestep.toLong();
 
-		  scene->clearSelection();
-		  scene->setSceneRect(-rx, -ry, 2*rx, 2*ry);
+	QList<QGraphicsItem*> values = temporaryitems.values(timestep);
+	while (!values.isEmpty()) scene->removeItem(values.takeFirst());
+	temporaryitems.remove(timestep);	
 
-		  scene->advance();
+	if (g_option_writefile) {
+	  int rx = 1280;
+	  int ry = 720;
+	  qDebug() << "Writing frame " << stimestep << " to directory " << g_option_writefile_directory;
+	  QImage img(rx, ry, QImage::Format_ARGB32_Premultiplied);
+	  //QImage img(scene->sceneRect().size().toSize(), QImage::Format_ARGB32);
+	  QPainter p(&img);
 
-		  scene->render(&p, QRectF(), QRectF(), Qt::KeepAspectRatioByExpanding);
+	  p.beginNativePainting();
+	  p.setRenderHint(QPainter::Antialiasing);
 
-		  QFont font = p.font() ;
-		  font.setPointSize ( 12 );
-		  //font.setWeight(QFont::DemiBold);
-		  p.setFont(font);
+	  scene->clearSelection();
+	  scene->setSceneRect(-rx, -ry, 2*rx, 2*ry);
 
-		  p.setPen(QColor(255, 192, 0));
-		  p.drawText(0, ry-80, rx-40, 20, Qt::AlignRight, scenarioname);
+	  scene->advance();
 
+	  scene->render(&p, QRectF(), QRectF(), Qt::KeepAspectRatioByExpanding);
 
-		  p.setPen(QColor(255, 192, 0));
-		  p.drawText(0, ry-60, rx-40, 20, Qt::AlignRight, timestep.rightJustified(8, '0'));
+	  QFont font = p.font() ;
+	  font.setPointSize ( 12 );
+	  //font.setWeight(QFont::DemiBold);
+	  p.setFont(font);
 
-		  //		  font.setWeight(QFont::DemiBold);
-		  font.setItalic(true);
-		  p.setFont(font);
-		  p.setPen(QColor(128, 128, 128));
-		  p.drawText(0, ry-100, rx-40, 20, Qt::AlignRight, "PEDSIM");
+	  p.setPen(QColor(255, 192, 0));
+	  p.drawText(0, ry-80, rx-40, 20, Qt::AlignRight, scenarioname);
 
-		  p.end();
-		  img.save(g_option_writefile_directory + "/" + timestep.rightJustified(8, '0') + ".png");
-		}
-            }
-            if (e.tagName() == "scenario") {
-                scenarioname = e.attribute("name", "");
-	    }
-            if (e.tagName() == "reset") {
+	  p.setPen(QColor(255, 192, 0));
+	  p.drawText(0, ry-60, rx-40, 20, Qt::AlignRight, stimestep.rightJustified(8, '0'));
 
-                agentcontainer.for_each(scene_remove_item);
-                agentcontainer.for_each(delete_item);
-                agentcontainer.clear();
+	  //		  font.setWeight(QFont::DemiBold);
+	  font.setItalic(true);
+	  p.setFont(font);
+	  p.setPen(QColor(128, 128, 128));
+	  p.drawText(0, ry-100, rx-40, 20, Qt::AlignRight, "PEDSIM");
 
-                obstaclecontainer.for_each(scene_remove_item);
-                obstaclecontainer.for_each(delete_item);
-                obstaclecontainer.clear();
+	  p.endNativePainting();
+	  img.save(g_option_writefile_directory + "/" + stimestep.rightJustified(8, '0') + ".png");
+	}
+      }
+      if (e.tagName() == "scenario") {
+	scenarioname = e.attribute("name", "");
+      }
+      if (e.tagName() == "reset") {
+	timestep = 0;
 
-           }
-            if (e.tagName() == "position") {
-                std::string type = e.attribute("type", "").toStdString().c_str();
-                QString id = e.attribute("id", "0");
-                double x = atof(e.attribute("x", "0.0").toStdString().c_str());
-                double y = atof(e.attribute("y", "0.0").toStdString().c_str());
+	QList<QGraphicsItem*> values = temporaryitems.values();
+	while (!values.isEmpty()) scene->removeItem(values.takeFirst());
+	temporaryitems.clear();
 
-                if (type == "agent") {
-                    if (!agentcontainer.contains(id)) {
-                        Agent *agent = new Agent;
-                        scene->addItem(agent);
-                        agentcontainer.addItem(id, agent);
-                    }
-                    agentcontainer.updatePosition(id, x, y);
-                }
+	agentcontainer.for_each(scene_remove_item);
+	agentcontainer.for_each(delete_item);
+	agentcontainer.clear();
 
-                if (type == "obstacle") {
-                    if (!obstaclecontainer.contains(id)) {
-                        Obstacle *obstacle = new Obstacle;
-                        scene->addItem(obstacle);
-                        obstaclecontainer.addItem(id, obstacle);
-                    }
-                    double dx = atof(e.attribute("dx", "0.0").toStdString().c_str());
-                    double dy = atof(e.attribute("dy", "0.0").toStdString().c_str());
-                    obstaclecontainer.updatePosition(id, x, y, dx, dy);
-                }
+	obstaclecontainer.for_each(scene_remove_item);
+	obstaclecontainer.for_each(delete_item);
+	obstaclecontainer.clear();
 
-            }
-        }
-        n = n.nextSibling();
+      }
+
+      if (e.tagName() == "draw") {
+	std::string type = e.attribute("type", "").toStdString().c_str();
+	
+	if (type == "line") {
+	  double sx = atof(e.attribute("sx", "0.0").toStdString().c_str());
+	  double sy = atof(e.attribute("sy", "0.0").toStdString().c_str());
+	  double ex = atof(e.attribute("ex", "0.0").toStdString().c_str());
+	  double ey = atof(e.attribute("ey", "0.0").toStdString().c_str());
+	  temporaryitems.insert(timestep+2, scene->addLine(SCALE * sx, SCALE * sy, SCALE * ex, SCALE * ey, QPen(QBrush(Qt::white), 1.0)));
+	}
+      }
+
+      if (e.tagName() == "position") {
+	std::string type = e.attribute("type", "").toStdString().c_str();
+	QString id = e.attribute("id", "0");
+	double x = atof(e.attribute("x", "0.0").toStdString().c_str());
+	double y = atof(e.attribute("y", "0.0").toStdString().c_str());
+
+	if (type == "agent") {
+	  if (!agentcontainer.contains(id)) {
+	    Agent *agent = new Agent;
+	    scene->addItem(agent);
+	    agentcontainer.addItem(id, agent);
+	  }
+	  agentcontainer.updatePosition(id, x, y);
+	}
+
+	if (type == "obstacle") {
+	  if (!obstaclecontainer.contains(id)) {
+	    Obstacle *obstacle = new Obstacle;
+	    scene->addItem(obstacle);
+	    obstaclecontainer.addItem(id, obstacle);
+	  }
+	  double dx = atof(e.attribute("dx", "0.0").toStdString().c_str());
+	  double dy = atof(e.attribute("dy", "0.0").toStdString().c_str());
+	  obstaclecontainer.updatePosition(id, x, y, dx, dy);
+	}
+
+      }
     }
+    n = n.nextSibling();
+  }
 }

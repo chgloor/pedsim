@@ -212,3 +212,19 @@ void Ped::XMLOutputWriter::setScenarioName (string name) {
   msg << "/>" << endl;
   write(msg.str());
 }
+
+
+/// Writes an scenario name
+/// \date    2016-10-11
+void Ped::XMLOutputWriter::drawLine(Tvector &s, Tvector &e) {
+  std::ostringstream msg;
+  msg << "<draw type=\"line\" ";
+  //  msg << "name=\"" << name << "\" ";
+  msg << "sx=\"" << s.x << "\" ";
+  msg << "sy=\"" << s.y << "\" ";
+  msg << "ex=\"" << e.x << "\" ";
+  msg << "ey=\"" << e.y << "\" ";
+  msg << "/>" << endl;
+  write(msg.str());  
+}
+
