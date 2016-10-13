@@ -274,14 +274,18 @@ bool Ped::Tvector::lineIntersection(const Ped::Tvector &p0, const Ped::Tvector &
   return false; // No intersection
 }
 
-/// Rotates a vector
-void Ped::Tvector::rotate(double theta) { // theta in rad
+/// Rotates a vector. 
+/// Rotates around 0,0 in 2 dimensions only (z unchanged)v
+/// \param theta in rad
+void Ped::Tvector::rotate(double theta) { // theta in rad. 
   double xt = x * cos(theta) - y * sin(theta);
   double yt = x * sin(theta) + y * cos(theta);
   x = xt; y = yt;
 }
 
-/// Rotates a vector
+/// Rotates a vector.
+/// Rotates around 0,0 in 2 dimensions only (z set to 0.0)
+/// \param theta in rad
 Ped::Tvector Ped::Tvector::rotated(double theta) const { // theta in rad
   return Ped::Tvector(x * cos(theta) - y * sin(theta), x * sin(theta) + y * cos(theta)); // let's hope the compiler reuses sin/cos
 }

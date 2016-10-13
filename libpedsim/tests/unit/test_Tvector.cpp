@@ -188,4 +188,41 @@ TEST_F(TvectorTest, operatorUnaryMinus) {
   ASSERT_EQ(-a.z, b.z);
 }
 
+TEST_F(TvectorTest, lineIntersection) {
+  Ped::Tvector p0;
+  p0.x = 0;
+  p0.y = 0;
+  p0.z = 0;
+  Ped::Tvector p1;
+  p1.x = 0;
+  p1.y = 2;
+  p1.z = 0;
+  Ped::Tvector p2;
+  p2.x = -1;
+  p2.y = 1;
+  p2.z = 0;
+  Ped::Tvector p3;
+  p3.x = 1;
+  p3.y = 1;
+  p3.z = 0;
 
+  Ped::Tvector i;
+  bool ret = Ped::Tvector::lineIntersection(p0, p1, p2, p3, &i);
+
+  ASSERT_EQ(0, i.x);
+  ASSERT_EQ(1, i.y);
+  ASSERT_EQ(0, i.z);
+  ASSERT_TRUE(ret);
+}
+
+TEST_F(TvectorTest, rotate) {
+  Ped::Tvector r = a.rotated(3.1415/2);  
+  ASSERT_NEAR(-2, r.x, 0.001);
+  ASSERT_NEAR(1, r.y, 0.001);
+  ASSERT_NEAR(0, r.z, 0.001); // z unused, set to 0 as per initializer
+
+  a.rotate(3.1415/2);
+  ASSERT_NEAR(-2, a.x, 0.001);
+  ASSERT_NEAR(1, a.y, 0.001);
+  ASSERT_NEAR(3, a.z, 0.001); // z unused, left as it was.
+}
