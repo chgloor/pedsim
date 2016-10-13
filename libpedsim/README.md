@@ -14,15 +14,15 @@ libpedsim {#mainpage}
 
 See the Code Example further down, and have a look
 at the full source code, available on the <a
-href="/download/">download</a> page.
+href="http://pedsim.silmaril.org/download/">download</a> page.
 
 ## Detailed Class Documentation
 
 There is a complete documentation of the classes in the library. It is
 automatically generated out of the source code. You can <a
-href="annotated.html">access this documentation online here</a>.
-This same documentation is delivered as PDF file with the library for
-offline use.
+href="http://pedsim.silmaril.org/documentation/libpedsim/latest/annotated.html">
+access this documentation online here</a>.  This same documentation is
+delivered as PDF file with the library for offline use.
  
 ## Code Example
 
@@ -54,12 +54,11 @@ around that obstacle. That's it, as simple as that: the agents will
 walk with that little code. 
 
 If you want to display some graphics, write a file, or send data over
-the network, you will get the agent's positions with <a
-href="latest/classPed_1_1Tagent.html"
-class="code">a-&gt;getPosition()</a>.  Of course, you can inherit your
-own classes from Tagent, Tobctacle etc, if you want to have more
-control.  See the <a href="/documentation/demoapp/index.html">Demo App
-Source</a> for an example.
+the network, you will get the agent's positions with
+a-&gt;getPosition().  Of course, you can inherit your own classes from
+Tagent, Tobctacle etc, if you want to have more control.  See the <a
+href="http://pedsim.silmaril.org/documentation/demoapp/index.html">Demo
+App Source</a> for an example.
 
 \include examples/example01.cpp
 
