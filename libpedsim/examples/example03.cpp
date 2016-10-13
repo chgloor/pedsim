@@ -15,31 +15,6 @@
 
 using namespace std;
 
-// Returns 1 if the lines intersect, otherwise 0. In addition, if the lines 
-// intersect the intersection point may be stored in the floats i_x and i_y.
-// Based on an algorithm in Andre LeMothe's "Tricks of the Windows Game Programming Gurus"
-int Intersection(Ped::Tvector p0, Ped::Tvector p1, Ped::Tvector p2, Ped::Tvector p3, Ped::Tvector *intersection) {
-  Ped::Tvector s1(p1.x - p0.x, p1.y - p0.y);
-  Ped::Tvector s2(p3.x - p2.x, p3.y - p2.y);
-
-  float s = (-s1.y * (p0.x - p2.x) + s1.x * (p0.y - p2.y)) / (-s2.x * s1.y + s1.x * s2.y);
-  float t = ( s2.x * (p0.y - p2.y) - s2.y * (p0.x - p2.x)) / (-s2.x * s1.y + s1.x * s2.y);
-
-  if (s >= 0 && s <= 1 && t >= 0 && t <= 1) { // intersection
-    if (intersection != NULL) {
-      intersection->x = p0.x + (t * s1.x);
-      intersection->y = p0.y + (t * s1.y);
-    }
-    return 1;
-  }
-
-  return 0; // No intersection
-}
-
-Ped::Tvector rotate(Ped::Tvector lf, double theta) { // theta in rad
-    return Ped::Tvector(lf.x * cos(theta) - lf.y * sin(theta), lf.x * sin(theta) + lf.y * cos(theta));
-}
-
 
 /// New class that inherits from the library agent class.  It shows how the
 /// myForce() method can be used to add an additional force component to an
@@ -65,7 +40,7 @@ private:
     for (auto obstacle : scene->getAllObstacles()) {
       Ped::Tvector ray = 1000.0 * direction.normalized(); // max sensor view distance
       Ped::Tvector possibleintersection;
-      if (Intersection(p, p + ray, obstacle->getStartPoint(), obstacle->getEndPoint(), &possibleintersection) == 1) {
+      if (Ped::Tvector::lineIntersection(p, p + ray, obstacle->getStartPoint(), obstacle->getEndPoint(), &possibleintersection) == 1) {
 	Ped::Tvector distvector = possibleintersection - p;
 	double d = distvector.length();
 	if (d < distance) { 
@@ -88,17 +63,17 @@ private:
     obstacleforce = obstacleForce(neighbors);
     lf = v.normalized();
 
-    Ped::Tvector r1 = rotate(lf, 0.2);
-    Ped::Tvector r2 = rotate(lf, -0.2);
+    Ped::Tvector r1 = lf.rotated(0.2);
+    Ped::Tvector r2 = lf.rotated(-0.2);
 
     double distance1 = distance_sensor(r1);
     double distance2 = distance_sensor(r2);
 
     if ((distance1 < 50) || (distance2 < 50)){
       if (distance1 < distance2) {
-	return rotate(lf, -0.01);      
+	return lf.rotated(-0.01);      
       } else {
-	return rotate(lf, 0.01);      
+	return lf.rotated(0.01);      
       }
     } else {
       return lf;
@@ -111,7 +86,7 @@ private:
 int main(int argc, char *argv[]) {
     cout << "PedSim Example using libpedsim version " << Ped::LIBPEDSIM_VERSION << endl;
 
-    Ped::OutputWriter *ow = new Ped::FileOutputWriter();
+    Ped::OutputWriter *ow = new Ped::UDPOutputWriter();
     ow->setScenarioName("Example 03");
 
     // setup
@@ -146,7 +121,7 @@ int main(int argc, char *argv[]) {
     //    while (true) {
     for (int i=0; i<10000; ++i) {
         pedscene->moveAgents(0.4);
-	//	std::this_thread::sleep_for(std::chrono::milliseconds(1000/25));
+	std::this_thread::sleep_for(std::chrono::milliseconds(1000/25));
 	cout << timestep++ << endl;
     }
 

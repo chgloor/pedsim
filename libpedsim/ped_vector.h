@@ -40,12 +40,16 @@ namespace Ped {
         double polarAngle() const;
 
         double angleTo(const Tvector &other) const;
+	void rotate(double theta);
+	Ped::Tvector rotated(double theta) const;
 
         static double scalar(const Tvector &a, const Tvector &b);
         static double dotProduct(const Tvector &a, const Tvector &b);
         static Tvector crossProduct(const Tvector &a, const Tvector &b);
 
         std::string to_string() const;
+
+	static bool lineIntersection(const Ped::Tvector &p0, const Ped::Tvector &p1, const Ped::Tvector &p2, const Ped::Tvector &p3, Ped::Tvector *intersection);
 
         // Operators
         Tvector operator+(const Tvector& other) const;
@@ -69,5 +73,6 @@ bool operator==(const Ped::Tvector& vector1In, const Ped::Tvector& vector2In);
 bool operator!=(const Ped::Tvector& vector1In, const Ped::Tvector& vector2In);
 Ped::Tvector operator-(const Ped::Tvector& vectorIn);
 Ped::Tvector operator*(double factor, const Ped::Tvector& vector);
+
 
 #endif

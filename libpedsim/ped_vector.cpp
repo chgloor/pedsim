@@ -250,3 +250,39 @@ Ped::Tvector operator-(const Ped::Tvector& vectorIn) {
 Ped::Tvector operator*(double factor, const Ped::Tvector& vector) {
     return vector.scaled(factor);
 }
+
+
+/// Calculates the itnersection point of two lines, defined by Ped::Tvectors p0, p1, and p2, p3 respectively.
+/// Based on an algorithm in Andre LeMothe's "Tricks of the Windows Game Programming Gurus"
+/// \return bool True if there is an intersection, false otherwise
+/// \return *intersection If the supplied pointer to a Ped::Tvector is not NULL, it will contain the intersection point, if there is an intersection.
+bool Ped::Tvector::lineIntersection(const Ped::Tvector &p0, const Ped::Tvector &p1, const Ped::Tvector &p2, const Ped::Tvector &p3, Ped::Tvector *intersection) {
+  Ped::Tvector s1(p1.x - p0.x, p1.y - p0.y);
+  Ped::Tvector s2(p3.x - p2.x, p3.y - p2.y);
+
+  float s = (-s1.y * (p0.x - p2.x) + s1.x * (p0.y - p2.y)) / (-s2.x * s1.y + s1.x * s2.y);
+  float t = ( s2.x * (p0.y - p2.y) - s2.y * (p0.x - p2.x)) / (-s2.x * s1.y + s1.x * s2.y);
+
+  if (s >= 0 && s <= 1 && t >= 0 && t <= 1) { // intersection
+    if (intersection != NULL) {
+      intersection->x = p0.x + (t * s1.x);
+      intersection->y = p0.y + (t * s1.y);
+    }
+    return true;
+  }
+
+  return false; // No intersection
+}
+
+/// Rotates a vector
+void Ped::Tvector::rotate(double theta) { // theta in rad
+  double xt = x * cos(theta) - y * sin(theta);
+  double yt = x * sin(theta) + y * cos(theta);
+  x = xt; y = yt;
+}
+
+/// Rotates a vector
+Ped::Tvector Ped::Tvector::rotated(double theta) const { // theta in rad
+  return Ped::Tvector(x * cos(theta) - y * sin(theta), x * sin(theta) + y * cos(theta)); // let's hope the compiler reuses sin/cos
+}
+
