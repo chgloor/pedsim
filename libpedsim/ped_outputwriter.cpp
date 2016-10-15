@@ -177,6 +177,7 @@ void Ped::XMLOutputWriter::writeTimeStep (long int timestep) {
 
 /// Writes an agent's position
 /// \date    2016-07-02
+/// \param a The agent to be rendered.
 void Ped::XMLOutputWriter::drawAgent (Tagent &a) {
   std::ostringstream msg;
   msg << "<position type=\"agent\" ";
@@ -190,6 +191,7 @@ void Ped::XMLOutputWriter::drawAgent (Tagent &a) {
 
 /// Writes an obstacle's position
 /// \date    2016-10-10
+/// \param o The obstacle to be rendered.
 void Ped::XMLOutputWriter::drawObstacle (Tobstacle &o) {
   std::ostringstream msg;
   msg << "<position type=\"obstacle\" ";
@@ -203,8 +205,20 @@ void Ped::XMLOutputWriter::drawObstacle (Tobstacle &o) {
 }
 
 
+/// @page xml_specs
+/// \<scenario\>
+/// ----------
+/// This tag is used to transmit the start of a new scenario
+/// Argument | Description
+/// ---------|------------
+/// name     | The name of the new scenarion. It may be printed on the putput device.
+///
+/// Example: 
+/// `<scenario name="Example 01" />`
+
 /// Writes an scenario name
 /// \date    2016-10-10
+/// \param name The name of the scenarion. It will be printed on the output device. E.g. rendered on screen on 2dvis' file output.
 void Ped::XMLOutputWriter::setScenarioName (string name) {
   std::ostringstream msg;
   msg << "<scenario ";
@@ -213,17 +227,45 @@ void Ped::XMLOutputWriter::setScenarioName (string name) {
   write(msg.str());
 }
 
+/// @page xml_specs
+/// \<draw\>
+/// ----------
+/// This tag is used to render a graphic item on the output device. 
+/// Argument | Description
+/// ---------|------------
+/// type     | The type of the graphical item to render. E.g. "line"
+/// sx       | The x co-ordinate of the start point (in case of a line)
+/// sy       | The y co-ordinate of the start point (in case of a line)
+/// ex       | (optional) The x co-ordinate of the end point (in case of a line)
+/// ey       | (optional) The y co-ordinate of the end point (in case of a line)
+/// duration | How many timesteps the item will be displayed on the output device
+/// red      | The red value of the item's color (0.0 .. 1.0)
+/// green    | The green value of the item's color (0.0 .. 1.0)
+/// blue     | The blue value of the item's color (0.0 .. 1.0)
+///
+/// Example: 
+/// `<scenario name="Example 01" />`
 
-/// Writes an scenario name
+
+
+/// Draws a user defined line. This can be used to draw any line
+/// primitive on the output device, e.g., but not limited to, forces,
+/// boundaries, directions.
 /// \date    2016-10-11
-void Ped::XMLOutputWriter::drawLine(Tvector &s, Tvector &e, int duration, double red, double green, double blue) {
+/// \param s Start point of the line
+/// \param e End point of the line
+/// \param duration The item will be visible for that many timesteps. Default is 1 timestep if omitted. 1 means it will disappear emmidiately when a new timestep starts. This can be used for animations of dynamic values.
+/// \param red The amount of red in the line color (between 0.0 and 1.0). Default is white.
+/// \param green The amount of green in the line color (between 0.0 and 1.0)
+/// \param blue The amount of blue in the line color (between 0.0 and 1.0)
+void Ped::XMLOutputWriter::drawLine(Tvector &start, Tvector &end, int duration, double red, double green, double blue) {
   std::ostringstream msg;
   msg << "<draw type=\"line\" ";
   //  msg << "name=\"" << name << "\" ";
-  msg << "sx=\"" << s.x << "\" ";
-  msg << "sy=\"" << s.y << "\" ";
-  msg << "ex=\"" << e.x << "\" ";
-  msg << "ey=\"" << e.y << "\" ";
+  msg << "sx=\"" << start.x << "\" ";
+  msg << "sy=\"" << start.y << "\" ";
+  msg << "ex=\"" << end.x << "\" ";
+  msg << "ey=\"" << end.y << "\" ";
   msg << "duration=\"" << duration << "\" ";
   msg << "red=\"" << red << "\" ";
   msg << "green=\"" << green << "\" ";
