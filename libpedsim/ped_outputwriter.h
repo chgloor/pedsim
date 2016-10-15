@@ -31,7 +31,7 @@ namespace Ped {
 	// general
 	virtual void writeTimeStep(long int timestep) = 0;
 	virtual void setScenarioName(string name) = 0;
-        virtual void drawLine(Tvector &s, Tvector &e) = 0;
+	virtual void drawLine(Tvector &s, Tvector &e, int duration = 1, double red = 1.0, double green = 1.0, double blue = 1.0) = 0;
 
         // szene
         virtual void defineScene(Tscene &s) = 0;
@@ -82,7 +82,7 @@ namespace Ped {
 	// general
 	virtual void writeTimeStep(long int timestep);
 	virtual void setScenarioName(string name);
-        virtual void drawLine(Tvector &s, Tvector &e);
+	virtual void drawLine(Tvector &s, Tvector &e, int duration = 1, double red = 1.0, double green = 0.0, double blue = 0.0);
 
         // szene
         virtual void defineScene(Tscene &s) {};

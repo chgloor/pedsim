@@ -25,7 +25,7 @@ QMultiHash<int, QGraphicsItem*> temporaryitems;
 long timestep; 
 
 MessageParser::MessageParser(QByteArray datagram) {
-  //    std::cout << QString(datagram).toUtf8().constData()  << std::endl;
+      std::cout << QString(datagram).toUtf8().constData()  << std::endl;
     doc = QDomDocument("mydocument");
     if (!doc.setContent(datagram)) {
         std::cout << "Can't parse message" << std::endl;
@@ -126,13 +126,20 @@ void MessageParser::parse() {
 
       if (e.tagName() == "draw") {
 	std::string type = e.attribute("type", "").toStdString().c_str();
+
+	double duration = atoi(e.attribute("duration", "1").toStdString().c_str());
+
+	double red = atof(e.attribute("red", "1.0").toStdString().c_str());
+	double green = atof(e.attribute("green", "1.0").toStdString().c_str());
+	double blue = atof(e.attribute("blue", "1.0").toStdString().c_str());
 	
 	if (type == "line") {
 	  double sx = atof(e.attribute("sx", "0.0").toStdString().c_str());
 	  double sy = atof(e.attribute("sy", "0.0").toStdString().c_str());
 	  double ex = atof(e.attribute("ex", "0.0").toStdString().c_str());
 	  double ey = atof(e.attribute("ey", "0.0").toStdString().c_str());
-	  temporaryitems.insert(timestep+2, scene->addLine(SCALE * sx, SCALE * sy, SCALE * ex, SCALE * ey, QPen(QBrush(Qt::white), 1.0)));
+	  QBrush brush = QBrush(QColor(red * 255.0, 255.0*green, 255.0*blue));
+	  temporaryitems.insert(timestep + 1 + duration, scene->addLine(SCALE * sx, SCALE * sy, SCALE * ex, SCALE * ey, QPen(brush, 1.0)));
 	}
       }
 
