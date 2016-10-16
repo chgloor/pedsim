@@ -25,6 +25,7 @@ public:
 public slots:
     void clear();
     void updatePosition(QString id, double x, double y);
+    void updatePosition(QString id, double x, double y, double radius);
     void updatePosition(QString id, double x, double y, double dx, double dy);
 
 private:

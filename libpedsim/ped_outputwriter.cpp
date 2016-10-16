@@ -204,6 +204,20 @@ void Ped::XMLOutputWriter::drawObstacle (Tobstacle &o) {
   write(msg.str());
 }
 
+/// Writes a waypoint's position
+/// \date    2016-10-16
+/// \param o The obstacle to be rendered.
+void Ped::XMLOutputWriter::drawWaypoint (Twaypoint &w) {
+  std::ostringstream msg;
+  msg << "<position type=\"waypoint\" ";
+  msg << "id=\"" << w.getid() << "\" ";
+  msg << "x=\"" << w.getx() << "\" ";
+  msg << "y=\"" << w.gety() << "\" ";
+  msg << "radius=\"" << w.getr() << "\" ";
+  msg << "/>" << endl;
+  write(msg.str());
+}
+
 
 /// @page xml_specs
 /// \<scenario\>

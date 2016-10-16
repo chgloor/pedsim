@@ -6,6 +6,7 @@
 #include "messageparser.h"
 #include "itemcontainer.h"
 #include "agent.h"
+#include "waypoint.h"
 #include "obstacle.h"
 #include "item.h"
 #include "globals.h"
@@ -17,6 +18,7 @@
 
 extern QGraphicsScene *scene;
 extern ItemContainer agentcontainer;
+extern ItemContainer waypointcontainer;
 extern ItemContainer obstaclecontainer;
 
 QString scenarioname = "";
@@ -156,6 +158,16 @@ void MessageParser::parse() {
 	    agentcontainer.addItem(id, agent);
 	  }
 	  agentcontainer.updatePosition(id, x, y);
+	}
+
+	if (type == "waypoint") {
+	  if (!waypointcontainer.contains(id)) {
+	    Waypoint *waypoint = new Waypoint;
+	    scene->addItem(waypoint);
+	    waypointcontainer.addItem(id, waypoint);
+	  }
+	  double radius = atof(e.attribute("radius", "0.0").toStdString().c_str());
+	  waypointcontainer.updatePosition(id, x, y, radius);
 	}
 
 	if (type == "obstacle") {

@@ -98,6 +98,11 @@ void Ped::Tscene::addWaypoint(Ped::Twaypoint* w) {
     // add waypoint to scene
     // (take responsibility for object deletion)
     waypoints.push_back(w);
+
+    // then output their new position if an OutputWriter is given.
+    if (outputwriter != NULL) {
+      outputwriter->drawWaypoint(*w);
+    }
 }
 
 

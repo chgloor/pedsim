@@ -9,6 +9,7 @@
 
 #include "mygraphicsview.h"
 #include "agent.h"
+#include "waypoint.h"
 #include "obstacle.h"
 #include "itemcontainer.h"
 #include "receiver.h"
@@ -22,6 +23,7 @@ QGraphicsScene *scene;
 Receiver *receiver;
 
 ItemContainer agentcontainer;
+ItemContainer waypointcontainer;
 ItemContainer obstaclecontainer;
 
 

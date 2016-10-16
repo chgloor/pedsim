@@ -32,6 +32,12 @@ void ItemContainer::updatePosition(QString id, double x, double y) {
     container[id]->y = y;
 }
 
+void ItemContainer::updatePosition(QString id, double x, double y, double radius) {
+    container[id]->x = x;
+    container[id]->y = y;
+    container[id]->radius = radius;
+}
+
 
 void ItemContainer::updatePosition(QString id, double x, double y, double dx, double dy) {
     updatePosition(id, x, y);

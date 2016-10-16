@@ -3,24 +3,21 @@
 // Copyright (c) by Christian Gloor
 //
 
-#ifndef ITEM_H
-#define ITEM_H
+#ifndef WAYPOINT_H
+#define WAYPOINT_H
+
+#include "item.h"
 
 #include <QGraphicsItem>
 
-class Item : public QGraphicsItem {
+class Waypoint : public Item {
 
 public:
-    Item();
+    Waypoint();
 
     QRectF boundingRect() const;
     QPainterPath shape() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    double x;
-    double y;
-    double dx;
-    double dy;
-    double radius; 
 
 protected:
     void advance(int step);

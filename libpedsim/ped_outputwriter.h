@@ -37,11 +37,14 @@ namespace Ped {
         virtual void defineScene(Tscene &s) = 0;
         virtual void addObstacle(Tobstacle &o) = 0;
         virtual void addAgent(Tagent &a) = 0;
+        virtual void addWaypoint(Twaypoint &w) = 0;
 
         // agent
         virtual void drawAgent(Tagent &a) = 0;
 	// obstacle
         virtual void drawObstacle(Tobstacle &o) = 0;
+	// waypoint
+        virtual void drawWaypoint(Twaypoint &w) = 0;
 
     protected:
     };
@@ -61,6 +64,7 @@ namespace Ped {
         virtual void defineScene(Tscene &s) {};
         virtual void addObstacle(Tobstacle &o) {};
         virtual void addAgent(Tagent &a) {};
+        virtual void addWaypoint(Twaypoint &w) {};
 
         // agent
         virtual void drawAgent(Tagent &a) { cout << a.getid() << ", " << a.getPosition().x << ", " << a.getPosition().y << endl; };
@@ -88,12 +92,16 @@ namespace Ped {
         virtual void defineScene(Tscene &s) {};
         virtual void addObstacle(Tobstacle &o) {};
         virtual void addAgent(Tagent &a) {};
+        virtual void addWaypoint(Twaypoint &w) {};
 
         // agent
         virtual void drawAgent(Tagent &a);
 
         // obstacle
         virtual void drawObstacle(Tobstacle &o);
+
+        // waypoint
+        virtual void drawWaypoint(Twaypoint &w);
 
     protected:
 	virtual void write(string message) {};

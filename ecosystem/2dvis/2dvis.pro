@@ -8,6 +8,7 @@ QT += network widgets xml
 HEADERS += \
         item.h \
         agent.h \
+        waypoint.h \
         obstacle.h \
         itemcontainer.h \
         receiver.h \
@@ -19,6 +20,7 @@ SOURCES += \
         item.cpp \
         main.cpp \
         agent.cpp \
+        waypoint.cpp \
         obstacle.cpp \
         itemcontainer.cpp \
         receiver.cpp \
