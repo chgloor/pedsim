@@ -28,7 +28,7 @@ For the graphical bits install Qt5:
 aptitude install qt5-default qt5-qmake qt5-style-plugins
 ~~~~
 
-PEDSIM uses Google's framework for writing C++ tests, gtest. Not strictly necessary unless you play with the source of libpedsim and want to make sure you're not breaking anything. 
+PEDSIM uses Google's framework for writing C++ tests, gtest. Not strictly necessary unless you play with the source of libpedsim and want to make sure you've not broken anything. 
 ~~~~ .sh
 aptitude install libgtest-dev cmake
 cd /usr/src/gtest/
@@ -43,6 +43,13 @@ make clean ; make
 export LD_LIBRARY_PATH=.
 make test
 ~~~~
+
+If you want to update the PEDSIM documentation, you need Doxygen and, if you want pdf output, LaTeX:
+~~~~ .sh
+aptitude install doxygen
+aptitude install texlive-full
+~~~~
+
 
 This export is needed since the library is not installed in a system wide known directory.
 
