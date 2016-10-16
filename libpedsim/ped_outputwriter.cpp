@@ -96,7 +96,7 @@ void Ped::FileOutputWriter::write(string message) {
 /// \param scenarioname Used to generate file filename
 Ped::XMLOutputWriter::XMLOutputWriter (string name) {
   std::ostringstream msg;
-  msg << "# PedSim output generated using libpedsim version " << Ped::LIBPEDSIM_VERSION <<// endl;
+  msg << "# PedSim output generated using libpedsim version " << Ped::LIBPEDSIM_VERSION << endl;
   msg << "" << endl;
   msg << "<scenario name=\"" << name << "\" />" << endl;
   write(msg.str());

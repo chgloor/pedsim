@@ -16,7 +16,7 @@
 #include "messageparser.h"
 #include "globals.h"
 
-static const int AgentCount = 50;
+//static const int AgentCount = 50;
 static const double SCALE = 1.0;
 
 QGraphicsScene *scene;
