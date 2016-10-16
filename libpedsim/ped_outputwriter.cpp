@@ -7,10 +7,6 @@
 
 #include <iostream>
 #include <fstream>
-
-using namespace std;
-
-// this is for the broadcast output writer. comment out if your system complains and you don't need it
 #include <sstream>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -21,8 +17,8 @@ using namespace std;
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
-// until here
 
+using namespace std;
 
 ///
 /// @page xml_specs XML Messaging Format Specification
@@ -94,17 +90,6 @@ void Ped::FileOutputWriter::write(string message) {
   outfile_ << message << endl;
 }
 
-
-/// @page xml_specs
-/// \<scenario\>
-/// ----------
-/// This tag indicates the start of a new simulation scenario.
-/// Argument | Description
-/// ---------|------------
-/// name     | The name of the scenario. It is not defined what this is used for at the receiving end. A possibility is to simply display it somewhere. Another way of using that information would be to use it as a filename for an output file.
-///
-/// Example: 
-/// `<scenario name="My Scenario"/>`
 
 /// Constructor used to open the output file
 /// \date    2016-07-02
@@ -241,6 +226,7 @@ void Ped::XMLOutputWriter::setScenarioName (string name) {
   write(msg.str());
 }
 
+
 /// @page xml_specs
 /// \<draw\>
 /// ----------
@@ -258,9 +244,7 @@ void Ped::XMLOutputWriter::setScenarioName (string name) {
 /// blue     | The blue value of the item's color (0.0 .. 1.0)
 ///
 /// Example: 
-/// `<scenario name="Example 01" />`
-
-
+/// `<draw type="line" sx="100" sy="100" ex="200" ey="200" duration="10" red="0.1" green="0.2" blue="1.0" />`
 
 /// Draws a user defined line. This can be used to draw any line
 /// primitive on the output device, e.g., but not limited to, forces,
