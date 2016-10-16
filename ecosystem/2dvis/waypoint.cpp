@@ -16,16 +16,15 @@ static const double SCALE = 10.0;
 
 Waypoint::Waypoint() : color(127, 0, 0, 20) {}
 
-
 QRectF Waypoint::boundingRect() const {
-    qreal adjust = 0.5;
-    return QRectF(SCALE * (-18 - adjust), SCALE * (-22 - adjust), SCALE * (36 + adjust), SCALE * (60 + adjust));
+  //    qreal adjust = 0.5;
+    return QRectF(SCALE * (-radius), SCALE * (-radius), SCALE * radius * 2, SCALE * radius *2);
 }
 
 
 QPainterPath Waypoint::shape() const {
     QPainterPath path;
-    path.addRect(SCALE * -10, SCALE * -20, SCALE * 20, SCALE * 20);
+    path.addRect(SCALE * (-radius), SCALE * (-radius), SCALE * radius * 2, SCALE * radius *2);
     return path;
 }
 
