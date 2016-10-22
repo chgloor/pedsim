@@ -14,7 +14,8 @@ HEADERS += \
         receiver.h \
         messageparser.h \
         mygraphicsview.h \
-        globals.h
+        globals.h \
+        mainwindow.h
 
 SOURCES += \
         item.cpp \
@@ -26,7 +27,8 @@ SOURCES += \
         receiver.cpp \
         messageparser.cpp \
         mygraphicsview.cpp \
-        globals.cpp
+        globals.cpp \
+        mainwindow.cpp
 
 RESOURCES += \
         2dvis.qrc

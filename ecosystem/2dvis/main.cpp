@@ -15,11 +15,11 @@
 #include "receiver.h"
 #include "messageparser.h"
 #include "globals.h"
+#include "mainwindow.h"
 
 //static const int AgentCount = 50;
 static const double SCALE = 1.0;
 
-QGraphicsScene *scene;
 Receiver *receiver;
 
 ItemContainer agentcontainer;
@@ -55,23 +55,7 @@ int main(int argc, char **argv) {
 
     qsrand(QTime(0, 0, 0).secsTo(QTime::currentTime()));
 
-    scene = new QGraphicsScene();
 
-    scene->setSceneRect(SCALE * -100, SCALE * -100, SCALE * 200, SCALE * 200);
-    scene->setItemIndexMethod(QGraphicsScene::NoIndex);
-    scene->setBackgroundBrush(Qt::black);
-
-    MyGraphicsView view(scene);
-    view.setRenderHint(QPainter::Antialiasing);
-    view.setBackgroundBrush(QPixmap(":/images/street.jpg"));
-    //view.setBackgroundBrush(Qt::black);
-    view.setCacheMode(QGraphicsView::CacheBackground);
-    view.setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
-    view.setDragMode(QGraphicsView::ScrollHandDrag);
-    view.setWindowTitle(QT_TRANSLATE_NOOP(QGraphicsView, "PEDSIM's 2D Visualizer"));
-    view.resize(1440, 810);
-    view.scale(0.5, 0.5);
-    view.show();
 
     // use network stream as input
     QString port = cparser.value(networkOption);
@@ -93,14 +77,13 @@ int main(int argc, char **argv) {
 	  inputFile.close();
 	}
     }
+
+    MainWindow mainWin;
     
     // show output if not disabled (quiet)
     if (!cparser.isSet(quietOption)) {
-	QTimer timer;
-	QObject::connect(&timer, SIGNAL(timeout()), scene, SLOT(advance()));
-	timer.start(1000 / 33);
-	
-	return app.exec();
+      mainWin.show();
+      return app.exec();
     }
     
 }

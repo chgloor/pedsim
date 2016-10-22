@@ -84,6 +84,9 @@ void MessageParser::parse() {
 	}
 	
 
+	scene->advance();
+
+	
 	if (g_option_writefile) {
 	  int rx = 1280;
 	  int ry = 720;
@@ -98,7 +101,7 @@ void MessageParser::parse() {
 	  scene->clearSelection();
 	  scene->setSceneRect(-rx, -ry, 2*rx, 2*ry);
 
-	  scene->advance();
+	  //	  scene->advance();
 
 	  scene->render(&p, QRectF(), QRectF(), Qt::KeepAspectRatioByExpanding);
 

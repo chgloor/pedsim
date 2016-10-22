@@ -47,7 +47,7 @@ void ItemContainer::updatePosition(QString id, double x, double y) {
     
   double newr = atan2(y-oldy, x-oldx) * 180 / 3.1415;
   double oldr = container[id]->rotation();
-  double r = oldr * 0.8 + newr * 0.2;
+  double r = oldr * 0.96 + newr * 0.04;
   container[id]->setRotation(r);
 }
 
