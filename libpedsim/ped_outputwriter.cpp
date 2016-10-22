@@ -17,6 +17,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <unordered_map>
 
 using namespace std;
 
@@ -173,6 +174,30 @@ void Ped::XMLOutputWriter::drawAgent (Tagent &a) {
   write(msg.str());
 }
 
+/// @page xml_specs
+/// \<remove\>
+/// ----------
+/// This tag is used to remove an object.
+/// Argument | Description
+/// ---------|------------
+/// type     | 'agent', 'obstacle' and so on
+/// id       | The id of the object
+///
+/// Example: 
+/// `<remove type="agent" id="000001" />`
+
+
+/// removes an agent from the scene
+/// \date    2016-10-16
+/// \param a The agent to be rendered.
+void Ped::XMLOutputWriter::removeAgent (Tagent &a) {
+  std::ostringstream msg;
+  msg << "<remove type=\"agent\" ";
+  msg << "id=\"" << a.getid() << "\" ";
+  msg << "/>" << endl;
+  write(msg.str());
+}
+
 
 /// Writes an obstacle's position
 /// \date    2016-10-10
@@ -272,3 +297,27 @@ void Ped::XMLOutputWriter::drawLine(Tvector &start, Tvector &end, int duration, 
   write(msg.str());  
 }
 
+
+///---------------------------------------- vvv ----------- fix ---------------------
+
+/// @page xml_specs
+/// \<metrics\>
+/// ----------
+/// This tag is used to transmit measured metrics
+/// Argument | Description
+/// ---------|------------
+/// hash     | A keyword-value hash
+///
+/// Example: 
+/// `<metrics name="Example 01" />` <------------------------------------------------------------- fix !!!
+
+/// Writes an list of metrics
+/// \date    2016-10-17
+/// \param name -------------------------------------------------------------------------------------- <------------------ fix
+void Ped::XMLOutputWriter::writeMetrics (std::unordered_map<std::string,std::string> hash) {
+  std::ostringstream msg;
+  msg << "<metrics> ";
+  for (auto it = hash.begin(); it != hash.end(); ++it) msg << "<metric key=\"" << it->first << "\" value=\"" << it->second << "\" />";
+  msg << "</metrics>" << endl;
+  write(msg.str());
+}

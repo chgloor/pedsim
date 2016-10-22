@@ -18,6 +18,7 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     double x;
     double y;
+    double r; // rotation
     double dx;
     double dy;
     double radius; 

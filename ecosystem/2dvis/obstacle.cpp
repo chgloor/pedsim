@@ -34,9 +34,9 @@ QPainterPath Obstacle::shape() const {
 void Obstacle::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *) {
     painter->setBrush(color);
 
-    painter->setPen(QPen(QBrush(QColor(255, 200, 0, 150)), SCALE * 0.8));
+    painter->setPen(QPen(QBrush(QColor(255, 255, 255, 255)), SCALE * 0.1));
     painter->drawLine(0, 0, SCALE * dx, SCALE * dy);
-    painter->setPen(QPen(QBrush(QColor(255, 255, 0, 50)), SCALE * 1));
+    painter->setPen(QPen(QBrush(QColor(0, 200, 255, 50)), SCALE * 1));
     painter->drawLine(0, 0, SCALE * dx, SCALE * dy);
 }
 

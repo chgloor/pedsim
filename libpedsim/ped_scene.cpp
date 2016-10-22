@@ -116,9 +116,16 @@ bool Ped::Tscene::removeAgent(Ped::Tagent *a) {
     // remove agent from the tree
     if (tree != NULL)
         tree->removeAgent(a);
-
+    
     // remove agent from the scene, report succesful removal
     agents.erase(it);
+
+    // notify the outputwriter
+    if (outputwriter != NULL) {
+      Tagent aa = *a;
+      outputwriter->removeAgent(aa);
+    }
+
     return true;
 }
 

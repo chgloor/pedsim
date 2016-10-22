@@ -14,6 +14,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <unordered_map>
 
 #include "ped_includes.h"
 
@@ -32,11 +33,13 @@ namespace Ped {
 	virtual void writeTimeStep(long int timestep) = 0;
 	virtual void setScenarioName(string name) = 0;
 	virtual void drawLine(Tvector &s, Tvector &e, int duration = 1, double red = 1.0, double green = 1.0, double blue = 1.0) = 0;
+	virtual void writeMetrics(std::unordered_map<std::string,std::string> hash) = 0;
 
         // szene
         virtual void defineScene(Tscene &s) = 0;
         virtual void addObstacle(Tobstacle &o) = 0;
         virtual void addAgent(Tagent &a) = 0;
+        virtual void removeAgent(Tagent &a) = 0;
         virtual void addWaypoint(Twaypoint &w) = 0;
 
         // agent
@@ -64,6 +67,7 @@ namespace Ped {
         virtual void defineScene(Tscene &s) {};
         virtual void addObstacle(Tobstacle &o) {};
         virtual void addAgent(Tagent &a) {};
+        virtual void removeAgent(Tagent &a) {};
         virtual void addWaypoint(Twaypoint &w) {};
 
         // agent
@@ -87,11 +91,13 @@ namespace Ped {
 	virtual void writeTimeStep(long int timestep);
 	virtual void setScenarioName(string name);
 	virtual void drawLine(Tvector &s, Tvector &e, int duration = 1, double red = 1.0, double green = 0.0, double blue = 0.0);
+	virtual void writeMetrics(std::unordered_map<std::string,std::string> hash);
 
         // szene
         virtual void defineScene(Tscene &s) {};
         virtual void addObstacle(Tobstacle &o) {};
         virtual void addAgent(Tagent &a) {};
+        virtual void removeAgent(Tagent &a);
         virtual void addWaypoint(Twaypoint &w) {};
 
         // agent

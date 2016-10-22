@@ -38,6 +38,6 @@ void Item::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 
 
 void Item::advance(int step) {
-    if (!step) return;
+    if (!step) return;    
     setPos(SCALE * x, SCALE * y);
 }

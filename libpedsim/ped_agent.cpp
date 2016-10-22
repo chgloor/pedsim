@@ -44,7 +44,7 @@ Ped::Tagent::Tagent() {
     vmax = distribution(generator);
 
     factorsocialforce = 2.1;
-    factorobstacleforce = 10.0;
+    factorobstacleforce = 5.0; // parameter based on plausible pedsim output, not real measurement!
     factordesiredforce = 1.0;
     factorlookaheadforce = 1.0;
 
@@ -230,9 +230,8 @@ void Ped::Tagent::setfactorlookaheadforce(double f) {
 /// the waypoint has been reached, the next waypoint in the list will be
 /// selected.  At the moment, a visited waypoint is pushed back to the end of
 /// the list, which means that the agents will visit all the waypoints over and
-/// over again.  In a later release, this behavior can be controlled by a flag.
+/// over again.  This behavior can be controlled by a flag using setWaypointBehavior().
 /// \date    2012-01-17
-/// \todo    move this destination handling into a separate method called by move(). then mark this method as const
 /// \return  Tvector: the calculated force
 Ped::Tvector Ped::Tagent::desiredForce() {
 
@@ -514,22 +513,55 @@ void Ped::Tagent::computeForces() {
 /// \date 2003-12-29 
 /// \param h Integration time step delta t
 void Ped::Tagent::move(double h) {
-    // internal position update = actual move
-    p = p + v * h;
+  // internal position update = actual move
+  //    p = p + v * h;
+  Tvector p_desired = p + v * h;
 
-    // weighted sum of all forces --> acceleration
-    a = factordesiredforce * desiredforce
-        + factorsocialforce * socialforce
-        + factorobstacleforce * obstacleforce
-        + factorlookaheadforce * lookaheadforce
-        + myforce;
 
-    // calculate the new velocity
-    v = 0.5 * v + a * h; // prob rather (0.5 / h) * v
+  Ped::Tvector intersection;
+  bool has_intersection = false;
+  for (auto obstacle : scene->getAllObstacles()) {
+    Ped::Tvector intersection;
+    // Ped::Tvector surface = obstacle->getEndPoint() - obstacle->getStartPoint();
+    // Ped::Tvector vd = surface.leftNormalVector().normalized() * 0.30; // min radius of agent
 
-    // don't exceed maximal speed
-    if (v.length() > vmax) v = v.normalized() * vmax;
+    // // walls left and right
+    // if (Ped::Tvector::lineIntersection(p, p_desired, obstacle->getStartPoint()-vd, obstacle->getEndPoint()-vd, &intersection) == 1) {
+    //   p_desired = intersection - (v*h).normalized()*0.1;
+    // }
+    // if (Ped::Tvector::lineIntersection(p, p_desired, obstacle->getStartPoint()+vd, obstacle->getEndPoint()+vd, &intersection) == 1) {
+    //   p_desired = intersection - (v*h).normalized()*0.1;
+    // }
 
-    // notice scene of movement
-    scene->moveAgent(this);
+    // // caps
+    // if (Ped::Tvector::lineIntersection(p, p_desired, obstacle->getStartPoint()-vd, obstacle->getStartPoint()+vd, &intersection) == 1) {
+    //   p_desired = intersection - (v*h).normalized()*0.1;
+    // }
+    // if (Ped::Tvector::lineIntersection(p, p_desired, obstacle->getEndPoint()-vd, obstacle->getEndPoint()+vd, &intersection) == 1) {
+    //   p_desired = intersection - (v*h).normalized()*0.1;
+    // }
+
+    if (Ped::Tvector::lineIntersection(p, p_desired, obstacle->getStartPoint(), obstacle->getEndPoint(), &intersection) == 1) {
+      p_desired = intersection - (v*h).normalized()*0.1;
+    }
+  }
+
+  p = p_desired;  // update my position
+
+  
+  // weighted sum of all forces --> acceleration
+  a = factordesiredforce * desiredforce
+    + factorsocialforce * socialforce
+    + factorobstacleforce * obstacleforce
+    + factorlookaheadforce * lookaheadforce
+    + myforce;
+
+  // calculate the new velocity
+  v = 0.5 * v + a * h; // prob rather (0.5 / h) * v
+
+  // don't exceed maximal speed
+  if (v.length() > vmax) v = v.normalized() * vmax;
+
+  // notice scene of movement
+  scene->moveAgent(this);
 }

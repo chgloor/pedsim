@@ -6,7 +6,14 @@
 #include "itemcontainer.h"
 #include "item.h"
 
+#include <cmath>
+
+#include <QtWidgets>
+
 #include <iostream>
+
+extern QGraphicsScene *scene;
+
 
 ItemContainer::ItemContainer() {
 }
@@ -23,19 +30,30 @@ void ItemContainer::for_each(void (*fn)(Item*)) {
     for (it = container.begin(); it != container.end(); ++it) {
         fn(*it);
     }
-
 }
+
+void ItemContainer::removeItem(QString id) {
+  scene->removeItem(container[id]);
+  container.remove(id);
+};
 
 
 void ItemContainer::updatePosition(QString id, double x, double y) {
-    container[id]->x = x;
-    container[id]->y = y;
+  double oldx = container[id]->x;
+  double oldy = container[id]->y;
+
+  container[id]->x = x;
+  container[id]->y = y;
+    
+  double newr = atan2(y-oldy, x-oldx) * 180 / 3.1415;
+  double oldr = container[id]->rotation();
+  double r = oldr * 0.8 + newr * 0.2;
+  container[id]->setRotation(r);
 }
 
 void ItemContainer::updatePosition(QString id, double x, double y, double radius) {
-    container[id]->x = x;
-    container[id]->y = y;
-    container[id]->radius = radius;
+  updatePosition(id, x, y);
+  container[id]->radius = radius;
 }
 
 

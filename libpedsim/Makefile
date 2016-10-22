@@ -20,9 +20,11 @@ test_mem: libpedsim.so examples
 test: test_gtest test_mem
 	LD_LIBRARY_PATH=. ./test_all
 
-examples: libpedsim.so
+examples: libpedsim.so examples/example*.cpp
 	g++ examples/example01.cpp -o example01 -I. -lpedsim -L. -g -std=c++0x
 	g++ examples/example02.cpp -o example02 -I. -lpedsim -L. -g -std=c++0x
+	g++ examples/example03.cpp -o example03 -I. -lpedsim -L. -g -std=c++0x
+	g++ examples/example04.cpp -o example04 -I. -lpedsim -L. -g -std=c++0x
 
 doc: documentation/doxygen.conf
 	doxygen documentation/doxygen.conf
