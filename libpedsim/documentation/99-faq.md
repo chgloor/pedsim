@@ -87,9 +87,10 @@ you add it to the model, but do not display it somewhere.
 > with obstcles, the force becomes so high that some of the agents are
 > pushed trough the obstacles.
 
-You can play with the obstacle forces. Usually, if this problem
-arises, it means that something is already wrong with the scenario. If
-pressure is that high, people would die in reality.
+Since version 2.4.1, this should no longer happen. You can play with
+the obstacle forces as well. Usually, if this problem arises, it means
+that something is already wrong with the scenario. If pressure is that
+high, people would die in reality.
 
 > Is it possible to consider further influencing factors?
 
