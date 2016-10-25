@@ -4,6 +4,7 @@ Using PEDSIM on Windows
 This document explains how to use _Microsoft Visual Studio Community 2015_ and _Qt 5.7_ to compile PEDSIM and the examples.
 
 https://www.visualstudio.com/vs/community/
+
 https://www.qt.io/download/
 
 libpedsim
@@ -33,7 +34,7 @@ Once you have generated the example03.exe file, you need to copy the libpedsim.d
 2-dimensional visualizer 2dvis
 ------------------------------
 
-2dvis is build on Qt. If you want to use all the features (especially charts), you need Qt 5.7 or above. It should be possible to compile it using an oder version. However, you don't see the charts options then.
+2dvis is built on Qt. If you want to use all the features (especially charts), you need Qt 5.7 or above. It should be possible to compile it using an oder version. However, you will not see the metrics charts in 2dvis then.
 
 Download the latest version of Qt, and install it. I think you only need the msvc15 files, about 3.0 Gb. I assume Visual Studio has been installed in the steps above. It is possible to use e.g. cygwin, but that is beyond the scope of that short introduction.
 
@@ -42,7 +43,7 @@ Once Qt is installed, simply double click the 2dvis.pro file. This will open Qt 
 
 Run 2dvis from the command line:
 ~~~~ .sh
-2dvis -n 2222
+2dvis.exe -n 2222
 ~~~~
 
 This starts a 2dvis that is listening on network port 2222 for incoming data.
