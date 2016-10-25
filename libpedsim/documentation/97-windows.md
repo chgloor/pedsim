@@ -10,7 +10,7 @@ https://www.qt.io/download/
 libpedsim
 ---------
 
-Basically, create a new project of type _Win32 Console Application_, and click "Dynamic .dll" in the wizard. Uncheck the "Precompiled Header" and "Security" boxes. This will open a new project containing a few empty documents. Add all .cpp Files to the "Source Files" filter, and all .h files to the "Header Files" filter. Then remove the files that Windows generated for you, they are not used.
+Basically, in Visual Studio, create a new project of type _Win32 Console Application_, and click "Dynamic .dll" in the wizard. Uncheck the "Precompiled Header" and "Security" boxes. This will open a new project containing a few empty documents. Add all .cpp Files to the "Source Files" filter, and all .h files to the "Header Files" filter. Then remove the files that Windows generated for you, they are not used.
 
 If you click "Build", Visual Studio will generate a libpedsim.lib and a libpedsim.dll file.
 
@@ -46,4 +46,4 @@ Run 2dvis from the command line:
 2dvis.exe -n 2222
 ~~~~
 
-This starts a 2dvis that is listening on network port 2222 for incoming data.
+This starts a 2dvis that is listening on network port 2222 for incoming data (used by the UDPOutputWriter class of libpedsim in the examples).

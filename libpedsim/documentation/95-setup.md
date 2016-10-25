@@ -3,9 +3,8 @@ Using PEDSIM on Linux
 
 These are some notes regardng setting up a linux development system for pedsim. If you have written software before, you might have everything needed in place already.
 
-Basically you need a C++ compiler to compile libpedsim (the core library of PEDSIM). Graphical bits of the ecosystem folder require Qt5 - see here <a href="https://www.qt.io/developers/">https://www.qt.io/developers/</a>.
+Basically you need a C++ compiler to compile libpedsim (the core library of PEDSIM). Graphical bits of the ecosystem folder require Qt5 - see here <a href="https://www.qt.io/developers/">https://www.qt.io/developers/</a>. Other compilers might work - make sure they support C++11.
 
-This is for Linux, I don't know much about Windows, since I do not use it. Theoretically, it is possible to compile PEDSIM on any decent C++ compiler. Reportedly NetBeans 7.4 is able to compile it nicely under Windows 8.1. Make sure your compiler supports C++11.
 
 ## C++ Compiler
 
@@ -28,7 +27,7 @@ For the graphical bits install Qt5:
 aptitude install qt5-default qt5-qmake qt5-style-plugins
 ~~~~
 
-PEDSIM uses Google's framework for writing C++ tests, gtest. Not strictly necessary unless you play with the source of libpedsim and want to make sure you've not broken anything. 
+PEDSIM uses Google's test framework for writing C++ tests, _gtest_. Not strictly necessary unless you play with the source of libpedsim and want to make sure you've not broken anything. 
 ~~~~ .sh
 aptitude install libgtest-dev cmake
 cd /usr/src/gtest/
@@ -37,12 +36,14 @@ make
 mv libgtest* /usr/lib/
 ~~~~
 
-To run the test, run this in the libpedsim source folder:
+To run the tests, run this in the libpedsim source folder:
 ~~~~ .sh
 make clean ; make
 export LD_LIBRARY_PATH=.
 make test
 ~~~~
+This export is needed since the library is not installed in a system wide known directory.
+
 
 If you want to update the PEDSIM documentation, you need Doxygen and, if you want pdf output, LaTeX:
 ~~~~ .sh
@@ -50,7 +51,5 @@ aptitude install doxygen
 aptitude install texlive-full
 ~~~~
 
-
-This export is needed since the library is not installed in a system wide known directory.
 
 Good luck!
