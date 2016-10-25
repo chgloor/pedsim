@@ -6,13 +6,13 @@
 #ifndef _ped_outputwriter_h_
 #define _ped_outputwriter_h_ 1
 
-#ifdef WIN32
+#ifdef _WIN32
 #define LIBEXPORT __declspec(dllexport)
 #else
 #define LIBEXPORT
 #endif
 
-#ifdef WIN32
+#ifdef _WIN32
 #include <WinSock2.h>
 #else
 #define SOCKET int

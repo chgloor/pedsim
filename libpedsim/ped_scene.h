@@ -6,7 +6,7 @@
 #ifndef _ped_scene_h_
 #define _ped_scene_h_ 1
 
-#ifdef WIN32
+#ifdef _WIN32
 #define LIBEXPORT __declspec(dllexport)
 #else
 #define LIBEXPORT

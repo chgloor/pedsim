@@ -8,6 +8,11 @@
 #include <cmath>
 #include <string>
 
+#ifdef _WIN32
+const double M_PI = 3.14159265359;
+#endif
+
+
 /// Default constructor, which makes sure that all the values are set to 0.
 /// \date    2012-01-16
 Ped::Tvector::Tvector() : x(0), y(0), z(0) {};
