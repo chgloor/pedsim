@@ -41,7 +41,7 @@ private:
     Ped::Tvector intersection;
     bool has_intersection = false;
     for (auto obstacle : scene->getAllObstacles()) {
-      Ped::Tvector ray = 1000.0 * direction.normalized(); // max sensor view distance
+      Ped::Tvector ray = direction.normalized().scaled(1000.0); // max sensor view distance
       Ped::Tvector possibleintersection;
       if (Ped::Tvector::lineIntersection(p, p + ray, obstacle->getStartPoint(), obstacle->getEndPoint(), &possibleintersection) == 1) {
 	Ped::Tvector distvector = possibleintersection - p;
@@ -66,7 +66,7 @@ private:
     obstacleforce = obstacleForce(neighbors);
     if (obstacleforce.length() > 0.001) {
       sensor_sensitivity += 0.01;
-      auto p1 = p + 100.0*obstacleforce;
+      auto p1 = p + obstacleforce.scaled(100.0);
       ow->drawLine(p, p1, 10, 1.0, 0.0, 0.0);
     }
     lf = v.normalized();
