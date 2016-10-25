@@ -24,16 +24,14 @@ Get Qt from [www.qt.io](https://www.qt.io/)
 
 Compile the library first (libpedsim).
 
-Command line:
+Then use the command line to compile the demo app:
 
-    bash
     qmake
     make
 
 
 You might need to add the path to libpedsim before you can run this:
-
-    bash
+   
     export LD_LIBRARY_PATH=../libpedsim/
 
 

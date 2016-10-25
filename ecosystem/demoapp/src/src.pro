@@ -11,7 +11,7 @@ DESTDIR = ../
 
 LIBS += -L../../../libpedsim -lpedsim
 
-QT += opengl
+#QT += opengl
 QT += widgets
 
 CONFIG += release
