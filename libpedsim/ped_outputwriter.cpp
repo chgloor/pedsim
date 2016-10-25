@@ -322,8 +322,8 @@ void Ped::XMLOutputWriter::drawLine(Tvector &start, Tvector &end, int duration, 
 ///
 /// Example: 
 /// `<metrics>`
-/// `<metric key="name1" value="value1"`
-/// `<metric key="name2" value="value2"`
+/// `<metric key="name1" value="value1">`
+/// `<metric key="name2" value="value2">`
 /// `</metrics/>`
 
 /// Writes an list of metrics
