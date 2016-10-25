@@ -34,7 +34,7 @@ using namespace std;
 /// @page xml_specs XML Messaging Format Specification
 /// This is the message tags supported by _libpedsim_'s outputwriter class. 
 ///
-/// Supported XML Tags
+/// Supported XML Tags {#xml}
 /// ==================
 
 /// Constructor used to open the output mechanism.
@@ -129,7 +129,8 @@ Ped::XMLOutputWriter::XMLOutputWriter (string name) {
 /// Example: 
 /// `<reset />`
 
-// reset not implemented yet.
+// reset not implemented as a API command yet. However, it is sent
+// during initialization by the constructor to reset the scene.
 
 
 /// Constructor used to close the output file
