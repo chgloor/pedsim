@@ -1,0 +1,98 @@
+FAQ {#faq}
+===
+
+PEDSIM Frequently Asked Questions
+
+## Package
+
+> Is PEDSIM suited for evacualtion simulations?
+
+PedSim is an open source implementation typically used to add
+pedestrian dynamics to you own product. Is is therefore not per se
+suited for such evacuation simulations, because it lacks a convenient
+user interface. The provided sample user interface is more seen as a
+demonstration of the possibilities. The target user group is not
+planners, but system developers. However, the model of PedSim is
+perfectly able to simulate such an evacuation scenario.
+
+> I see that PEDSIM can be downloaded as an open-source software or
+> also under a commercial license from yourself, right? Is there any
+> difference in the capabilities and features of these two, or in
+> their functionality?
+
+No, at the moment there is no difference. The availability of a
+commercial license  is just mentioned in case somebody can not use the
+GPL. But if you are interested in getting "professional" support, we
+can find a solution.
+
+## Model
+
+> Is the model able to calculate an individual escape route for each of
+> the persons within a subway station? (This includes the flow of people
+> from/to the trains and the subway station)
+
+Yes. However, at this point, the routing algorithm layer is not
+available for download yet. This means that the nearest escape exit
+(final point) has to be set manually per person or group of persons.
+Once the routing is available, this is done automatically.
+
+> Is the model applicable in case of fire and/or toxic gas attack?
+> (Because of the different characteristics of the different
+> substances)
+
+Yes, theoretically. But the characteristics of these gases has not
+been implemented. You can easily extend the model for your own project.
+
+> How long does the calculation take?
+
+This depends on the number of persons simulated and the complexity of
+the scenario. In "realistic" examples, the speed of the simulation is
+more than 100 times faster than real-time.
+
+> Is the model able to consider the architecture of a subway station
+> e.g. platforms, corridors, stairways, etc.?
+
+Yes, modeling architecture is possible. There are two categoreis of
+items in the model scenario: obstacles and paths. Obstacles can be
+invisible. This allows great flexibility for modelling any kind of
+architectural item.
+
+> Is PEDSIM 3-dimensional?
+
+While the model calculates almost everything in 3D internally, the
+ground is 2D only at the moment (so no level crossings).
+
+> Is the model able to consider inaccessible ways or places (e.g.  in
+> case of a construction site)?
+
+Yes. You can use invisible obstacles for this.
+
+> Is the model able to consider dispersal of pollutants?
+
+No. But again, as this is open source, you can implement this by
+yourself.
+
+> If an agent moves in front of a convex building and the next
+> waypoint is behind this building, the agent gets caught.
+
+Yes, this is normal behavior. The agents try to proceed to the next
+waypoint directly. There is, at the moment, no routing algorithm
+included. Agents do not find their way around obstacles by themselves.
+The easiest solution to avoid this would be to add an additional
+waypoint on one side of the obstacle. Alternatively, you can add an
+'invisible' wall to the obstacle to make it concave. Invisible since
+you add it to the model, but do not display it somewhere.
+
+> If too many agents move through a verry narrow path which is edged
+> with obstcles, the force becomes so high that some of the agents are
+> pushed trough the obstacles.
+
+You can play with the obstacle forces. Usually, if this problem
+arises, it means that something is already wrong with the scenario. If
+pressure is that high, people would die in reality.
+
+> Is it possible to consider further influencing factors?
+
+Yes. As stated above, since the software is open source, it is very
+easy to add more factors.
+
