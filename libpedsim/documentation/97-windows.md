@@ -10,23 +10,26 @@ https://www.qt.io/download/
 libpedsim
 ---------
 
-Basically, in Visual Studio, create a new project of type _Win32 Console Application_, and click "Dynamic .dll" in the wizard. Uncheck the "Precompiled Header" and "Security" boxes. This will open a new project containing a few empty documents. Add all .cpp Files to the "Source Files" filter, and all .h files to the "Header Files" filter. Then remove the files that Windows generated for you, they are not used.
+Basically, in Visual Studio, create a new project of type _Win32 Console Application_, and click "DLL" in the wizard. Uncheck the "Precompiled Header" and "Security Development Lifecycle (SDL) checks" boxes. This will open a new project containing a few empty documents. Add all .cpp Files to the "Source Files" filter, and all .h files to the "Header Files" filter. Then remove the files that Windows generated for you, they are not used.
 
 If you click "Build", Visual Studio will generate a libpedsim.lib and a libpedsim.dll file.
 
-Such a project file is located in the "msvc15" folder. If you have installed Visual Studio, double click libpedsim.sln. Then, once the IDE has opened, use "Build" from the menu.
+Such a solution file is located in the "msvc15" folder. If you have installed Visual Studio, double click libpedsim.sln. Then, once the IDE has opened, use "Build Solution F7" from the menu. This will generate a folder called "x64" (on a 64bit system), with a subfolder called "Debug". In there are the compiled library files. Copy libpedsim.dll and libpedsim.lib into the /pedsim/libpedsim/ folder (where the .cpp and .h files are).
 
 
 Examples (and your own programs):
 ---------------------------------
 
-Again, create a new _Win32 Console Application_ project. This time, do not check he "Dynamic .dll" box (still uncheck the others). I think the default is "Console Application" here; leave that as it is. Again, remove the auto-generated files, and add e.g. the file example03.cpp.
+Again, create a new _Win32 Console Application_ project. This time, do not check he "DLL" box (still uncheck the others). I think the default is "Console Application" here; leave that as it is. Again, remove the auto-generated files, and add e.g. the file example03.cpp.
 
-Now here comes the tricky part. You have to specify the include and library directories. Go to "Project options", "VC++ directories". Add the path to the libpedsim source files to the "Include directories". This is where the ped_*.cpp/.h files are. Then, do the same with "Library directories", where you add the path to the libpedsim.lib file generated while compiling libpedsim.
+Now here comes the tricky part. You have to specify the include and library directories. Go to "Project Properties Alt+F7". You probably have to select the item below the top item in the menu at the left. The forst is the "solution", the second is the "project" which is what we need. Once opened, tehre is a window with "Configuration Properties". 
+Go to "VC++ Directories". Add the path to the libpedsim source files to the "Include Directories". This is where the ped_*.cpp/.h files are. 
+Then, do the same with "Library Directories", where you add the path to the libpedsim.lib file generated while compiling libpedsim.
 
-A bit further down should be a tab called "Linker", and "Dependencies". There you have to add "libpedsim.lib" to the list of libraries to include.
+A bit further down should be a tab called "Linker", and "Input". There you have to add "libpedsim.lib" to the list of libraries to include ("Additional Dependencies).
 
-Now you should be able to build the example. Again, one sample project file is in the examples folder. Theoretically, it should be possible to open that using Visual Studio, and just click on "Build" to compile example03.
+Now you should be able to build the example. Again, one sample project file is in the examples folder. 
+Theoretically, it should be possible to open that using Visual Studio, and just click on "Build Solution F7" to compile example03.
 
 Once you have generated the example03.exe file, you need to copy the libpedsim.dll file into that folder (next to the .exe). This is because libpedsim.dll is not installed in one of the system-wide folders.
 
