@@ -5,19 +5,27 @@
 
 #include "ped_outputwriter.h"
 
+#include <unordered_map>
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <string>
+#include <memory>
+
+#ifndef WIN32
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <string>
-#include <memory>
 #include <sys/types.h>
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <unordered_map>
+#else
+#include <WinSock2.h>
+#pragma comment(lib, "Ws2_32.lib")
+#define socklen_t int
+#endif // !WIN32
+
 
 using namespace std;
 
@@ -59,13 +67,20 @@ Ped::UDPOutputWriter::~UDPOutputWriter () {
 /// Constructor used to open the network socket
 /// \date    2016-10-09
 Ped::UDPOutputWriter::UDPOutputWriter () {
-  cout << "# UDP Network PedSim output generated using libpedsim version " << Ped::LIBPEDSIM_VERSION << endl;
+#ifdef WIN32
+  WSADATA wsaData;
+  int result;
+  result = WSAStartup(MAKEWORD(2, 2), &wsaData);
+  if (result != 0) {
+	  cout << "WSAStartup failed: " << result << endl;
+  }
+#endif
 
-  // open the network socket
   socket_ = socket(AF_INET, SOCK_DGRAM, 0);
+
+  socklen_t optlen = sizeof(int);
   int optval = 1;
-  socklen_t optlen;
-  getsockopt(socket_, SOL_SOCKET, SO_REUSEADDR, &optval, &optlen);
+  getsockopt(socket_, SOL_SOCKET, SO_REUSEADDR, (char*)&optval, &optlen);
 
   write("<reset/>");
 }
@@ -78,14 +93,14 @@ void Ped::UDPOutputWriter::write(string message) {
 
   memset(&to, 0, sizeof(to));
   to.sin_family = AF_INET;
-  to.sin_addr.s_addr   = inet_addr("127.0.0.1");
-  to.sin_port   = htons(2222);
+  to.sin_addr.s_addr = inet_addr("127.0.0.1");
+  to.sin_port = htons(2222);
 
   string ext_message = "<message>" + message + "</message>";
   msg = ext_message.c_str();
   bytes_sent = sendto(socket_, msg, strlen(msg), 0, (struct sockaddr*)&to, sizeof(to));
-  //  cout << ext_message << "(" << bytes_sent << " bytes sent)" << endl;
 }
+
 
 void Ped::FileOutputWriter::write(string message) {
   outfile_ << message << endl;

@@ -10,16 +10,26 @@
 #include "obstacle.h"
 #include "item.h"
 #include "globals.h"
+#include "metricswidget.h"
 
 #include <QtWidgets>
 
 #include <iostream>
 #include <string>
 
+#include <QtGlobal>
+
+#ifdef USE_CHARTS
+#include "chartswidget.h"
+extern ChartsWidget *chartswidget;
+#endif
+
+
 extern QGraphicsScene *scene;
 extern ItemContainer agentcontainer;
 extern ItemContainer waypointcontainer;
 extern ItemContainer obstaclecontainer;
+extern MetricsWidget *metricswidget;
 
 QString scenarioname = "";
 static const double SCALE = 10.0;
@@ -83,9 +93,8 @@ void MessageParser::parse() {
 	  }
 	}
 	
-
 	scene->advance();
-
+	scene->update();
 	
 	if (g_option_writefile) {
 	  int rx = 1280;
@@ -160,6 +169,7 @@ void MessageParser::parse() {
 	obstaclecontainer.for_each(delete_item);
 	obstaclecontainer.clear();
 
+	metricswidget->clear();
       }
 
       if (e.tagName() == "draw") {
@@ -194,6 +204,20 @@ void MessageParser::parse() {
 
       if (e.tagName() == "metrics") {
 	metricslist = e.elementsByTagName("metric");
+
+	for (int i = 0; i<metricslist.length(); ++i) {
+	  QDomNode n = metricslist.item(i);
+	  QDomElement e = n.toElement();
+	  QString key = e.attribute("key", "");
+	  double value = e.attribute("value", "").toDouble();
+	  metricswidget->update(key, value);
+
+#ifdef USE_CHARTS
+	  chartswidget->update(timestep, key, value);
+#endif	  
+
+	}
+
       }
 
       if (e.tagName() == "position") {

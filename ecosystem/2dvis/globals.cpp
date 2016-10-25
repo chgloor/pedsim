@@ -8,5 +8,13 @@
 
 // ALL THE GLOBAL DEFINITIONS
 
+
 bool g_option_writefile = false;
-QString g_option_writefile_directory = ".";
+QString g_option_writefile_directory = "/tmp/";
+
+bool g_option_network = false;
+int g_option_network_port = 2222;
+
+bool g_option_file = false;
+QString g_option_file_name = "pedsim_out.txt";
+

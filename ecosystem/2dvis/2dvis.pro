@@ -4,6 +4,18 @@
 #
 
 QT += network widgets xml
+#CONFIG += c++11
+
+message(" ================ Qt $$[QT_VERSION] ================ ")
+lessThan(QT_MAJOR_VERSION, 6):lessThan(QT_MINOR_VERSION, 7) {
+} else {
+  DEFINES += USE_CHARTS
+}
+
+contains(DEFINES, USE_CHARTS) {
+  message("Using Charts")
+  QT += charts
+}
 
 HEADERS += \
         item.h \
@@ -15,7 +27,15 @@ HEADERS += \
         messageparser.h \
         mygraphicsview.h \
         globals.h \
-        mainwindow.h
+        mainwindow.h \
+        metricswidget.h \
+        metricsfield.h 
+
+contains(DEFINES, USE_CHARTS) {
+HEADERS += \
+        chartswidget.h \
+        chartsfield.h
+}
 
 SOURCES += \
         item.cpp \
@@ -28,7 +48,17 @@ SOURCES += \
         messageparser.cpp \
         mygraphicsview.cpp \
         globals.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+        metricswidget.cpp \
+        metricsfield.cpp
+
+contains(DEFINES, USE_CHARTS) {
+SOURCES += \
+        chartswidget.cpp \
+        chartsfield.cpp
+}
 
 RESOURCES += \
         2dvis.qrc
+
+        message($$HEADERS)

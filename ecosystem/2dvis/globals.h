@@ -15,4 +15,11 @@ class QString;
 extern bool g_option_writefile;
 extern QString g_option_writefile_directory;
 
+extern bool g_option_network;
+extern int g_option_network_port;
+
+extern bool g_option_file;
+extern QString g_option_file_name;
+
+
 #endif // GLOBALS_H

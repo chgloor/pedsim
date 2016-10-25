@@ -12,15 +12,15 @@
 #include "waypoint.h"
 #include "obstacle.h"
 #include "itemcontainer.h"
-#include "receiver.h"
-#include "messageparser.h"
-#include "globals.h"
 #include "mainwindow.h"
+#include "globals.h"
+
+// /opt/Qt/5.7/gcc_64/bin/qmake 
+
 
 //static const int AgentCount = 50;
 static const double SCALE = 1.0;
 
-Receiver *receiver;
 
 ItemContainer agentcontainer;
 ItemContainer waypointcontainer;
@@ -33,6 +33,7 @@ int main(int argc, char **argv) {
     QCommandLineParser cparser;
     cparser.setApplicationDescription("2-dimensional PEDSIM visualizer.");
     cparser.addHelpOption();
+
 
     QCommandLineOption quietOption(QStringList() << "q" << "quiet", "Do not show graphical output");
     cparser.addOption(quietOption);
@@ -52,33 +53,23 @@ int main(int argc, char **argv) {
     g_option_writefile = cparser.isSet(outputOption);
     g_option_writefile_directory = cparser.value(outputOption);
 
+    g_option_network = cparser.isSet(networkOption);
+    g_option_network_port = cparser.value(networkOption).toInt();
+
+    g_option_file = cparser.isSet(fileOption);
+    g_option_file_name = cparser.value(fileOption);
 
     qsrand(QTime(0, 0, 0).secsTo(QTime::currentTime()));
 
 
+    QFile File("darkorange.qss");
+    File.open(QFile::ReadOnly);
+    QString StyleSheet = QLatin1String(File.readAll());
 
-    // use network stream as input
-    QString port = cparser.value(networkOption);
-    if (cparser.isSet(networkOption)) {
-      receiver = new Receiver(port.toInt());
-    }
+    qApp->setStyleSheet(StyleSheet);
+    
 
-    // use provided file as input
-    if (cparser.isSet(fileOption)) {
-        QFile inputFile(cparser.value(fileOption));
-	if (inputFile.open(QIODevice::ReadOnly)) {
-	  QTextStream in(&inputFile);
-	  while (!in.atEnd()) {
-	    QString line = "<message>" + in.readLine() + "</message>";
-	    QByteArray datagram = line.toUtf8();
-	    MessageParser parser(datagram);
-	    parser.parse();
-	  }
-	  inputFile.close();
-	}
-    }
-
-    MainWindow mainWin;
+    MainWindow mainWin(cparser);
     
     // show output if not disabled (quiet)
     if (!cparser.isSet(quietOption)) {

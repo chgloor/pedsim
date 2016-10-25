@@ -8,10 +8,9 @@
 class MainWindow : public QMainWindow {
   Q_OBJECT
 
-public:
-  MainWindow();
+ public:
+  MainWindow(QCommandLineParser &cparser);
   MyGraphicsView *view;
-
 
 };
 

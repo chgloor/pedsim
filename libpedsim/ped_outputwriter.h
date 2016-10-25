@@ -12,6 +12,12 @@
 #define LIBEXPORT
 #endif
 
+#ifdef WIN32
+#include <WinSock2.h>
+#else
+#define SOCKET int
+#endif
+
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
@@ -138,7 +144,7 @@ namespace Ped {
 
     protected:
 	virtual void write(string message);
-	int socket_;
+	SOCKET socket_;
     };
 
 

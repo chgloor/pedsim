@@ -1,5 +1,5 @@
-System Setup Notes
-==================
+Using PEDSIM on Linux
+=====================
 
 These are some notes regardng setting up a linux development system for pedsim. If you have written software before, you might have everything needed in place already.
 
