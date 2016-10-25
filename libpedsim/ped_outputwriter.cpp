@@ -4,6 +4,7 @@
 //
 
 #include "ped_outputwriter.h"
+#include "ped_obstacle.h"
 
 #include <unordered_map>
 #include <iostream>
@@ -48,7 +49,6 @@ Ped::XMLOutputWriter::XMLOutputWriter () {
 /// \date    2016-07-02
 Ped::FileOutputWriter::FileOutputWriter () {
   outfile_.open("pedsim_out.txt");
-  outfile_ << "# PedSim output generated using libpedsim version " << Ped::LIBPEDSIM_VERSION << endl;
   outfile_ << "" << endl;
 }
 
@@ -112,7 +112,6 @@ void Ped::FileOutputWriter::write(string message) {
 /// \param scenarioname Used to generate file filename
 Ped::XMLOutputWriter::XMLOutputWriter (string name) {
   std::ostringstream msg;
-  msg << "# PedSim output generated using libpedsim version " << Ped::LIBPEDSIM_VERSION << endl;
   msg << "" << endl;
   msg << "<scenario name=\"" << name << "\" />" << endl;
   write(msg.str());

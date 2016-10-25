@@ -13,7 +13,9 @@
 #endif
 
 #ifdef _WIN32
+#ifndef _WINSOCKAPI_ 
 #include <WinSock2.h>
+#endif
 #else
 #define SOCKET int
 #endif
@@ -22,7 +24,12 @@
 #include <fstream>
 #include <unordered_map>
 
-#include "ped_includes.h"
+#include "ped_agent.h"
+#include "ped_obstacle.h"
+#include "ped_waypoint.h"
+#include "ped_scene.h"
+#include "ped_outputwriter.h"
+
 
 namespace Ped {
 
