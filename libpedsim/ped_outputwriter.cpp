@@ -312,22 +312,23 @@ void Ped::XMLOutputWriter::drawLine(Tvector &start, Tvector &end, int duration, 
 }
 
 
-///---------------------------------------- vvv ----------- fix ---------------------
-
 /// @page xml_specs
 /// \<metrics\>
 /// ----------
 /// This tag is used to transmit measured metrics
 /// Argument | Description
 /// ---------|------------
-/// hash     | A keyword-value hash
+/// hash     | A keyword-value hash, string string
 ///
 /// Example: 
-/// `<metrics name="Example 01" />` <------------------------------------------------------------- fix !!!
+/// `<metrics>`
+/// `<metric key="name1" value="value1"`
+/// `<metric key="name2" value="value2"`
+/// `</metrics/>`
 
 /// Writes an list of metrics
 /// \date    2016-10-17
-/// \param name -------------------------------------------------------------------------------------- <------------------ fix
+/// \param name hash A unordered_map of metrics to send. E.g. called like ow->writeMetrics({{"name1", "value1"}, {"name2", "value2"}});
 void Ped::XMLOutputWriter::writeMetrics (std::unordered_map<std::string,std::string> hash) {
   std::ostringstream msg;
   msg << "<metrics> ";
