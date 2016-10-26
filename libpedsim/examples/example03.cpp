@@ -1,10 +1,5 @@
 // pedsim - A microscopic pedestrian simulation system.
 // Copyright (c) by Christian Gloor
-//
-// Use somethin like this to compile:
-// g++ examples/example03.cpp -o example03 -lpedsim -L. -I. -std=c++11
-//   export LD_LIBRARY_PATH=.
-//   ./example03
 
 #include "ped_includes.h"
 #include <iostream>
@@ -16,11 +11,6 @@
 
 using namespace std;
 
-/// New class that inherits from the library agent class.  It shows
-/// how the myForce() method can be used to add an additional force
-/// component to an agent to change its behaviour. This here basically
-/// turns the force-based pedestrian model into a Braitenberg vehicle
-/// (type 2a) like agent.
 
 class Tagent2: public Ped::Tagent {
 

@@ -1,10 +1,5 @@
-// pedsim - A microscopic pedestrian simulation system.
-// Copyright (c) by Christian Gloor
-//
-// Use somethin like this to compile:
-// g++ examples/example03.cpp -o example03 -lpedsim -L. -I. -std=c++11
-//   export LD_LIBRARY_PATH=.
-//   ./example03
+/// pedsim - A microscopic pedestrian simulation system.
+/// Copyright (c) by Christian Gloor
 
 #include "ped_includes.h"
 #include <iostream>
