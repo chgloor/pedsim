@@ -5,6 +5,21 @@ PEDSIM Frequently Asked Questions
 
 ## General
 
+> Is there a PEDSIM application that allows me to design, run and
+> analyze my own scenario?
+
+No. At this point, PEDSIM is a library, plus some helper
+applications. This means you basically have to write your own
+application. You need a C++ compiler and some computer science
+knowledge.
+
+Some helper applications are included, however. They allow you to try
+simple scenarios without programming anything. You can e.g. define a
+scenario in XML for the Demo Application (included), and simulate it
+there. It is also possible to extend one of the C++ examples, which is
+very straightforward, and visualize/analyze it using the 2-dimensional
+visualizer 2dvis (included).
+
 > Is PEDSIM suited for evacuation simulations?
 
 PedSim is an open source implementation typically used to add
@@ -37,10 +52,15 @@ Once the routing is available, this is done automatically.
 
 > Is the model applicable in case of fire and/or toxic gas attack?
 > (Because of the different characteristics of the different
-> substances)
+> substances.)
 
-Yes, theoretically. But the characteristics of these gases has not
-been implemented. You can easily extend the model for your own project.
+> Is the model able to consider dispersal of pollutants?
+
+No. However, libpedsim is extensible, you can implement this by
+yourself. Just define a model for the pollutants and add the reaction
+of the agents to you pedsim application. Characteristics of gases have
+not been implemented. You can easily extend the model for your own
+project.
 
 > How long does the calculation take?
 
@@ -65,12 +85,6 @@ ground is 2D only at the moment (so no level crossings).
 > case of a construction site)?
 
 Yes. You can use invisible obstacles for this.
-
-> Is the model able to consider dispersal of pollutants?
-
-No. However, libpedsim is extensible, you can implement this by
-yourself. Just define a model for the pollutants and add the reaction
-of the agents to you pedsim application.
 
 > If an agent moves in front of a convex building and the next
 > waypoint is behind this building, the agent gets caught.
