@@ -24,6 +24,8 @@
 #include "config.h"
 #include "loadscene.h"
 
+#include "ped_outputwriter.h"
+
 using namespace std;
 
 Config config;
@@ -54,6 +56,7 @@ int main(int argc, char *argv[]) {
     graphicsscene->setItemIndexMethod(QGraphicsScene::NoIndex);
 
     Scene *pedscene = new Scene(graphicsscene);
+    pedscene->setOutputWriter(new Ped::UDPOutputWriter());
     gblscene = pedscene;
 
     Loadscene l(scenefile, pedscene, graphicsscene);

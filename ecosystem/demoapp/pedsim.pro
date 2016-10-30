@@ -6,5 +6,3 @@ SUBDIRS = src
 #CONFIG += ordered
 
 CONFIG += release
-
-

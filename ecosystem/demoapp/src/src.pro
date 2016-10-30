@@ -6,10 +6,10 @@ DEPENDPATH += . release
 INCLUDEPATH += . ../../../libpedsim
 DESTDIR = ../
 
-#QMAKE_LIBDIR += ../../../libpedsim
-#QMAKE_LIBS += -llibpedsim
 
-LIBS += -L../../../libpedsim -lpedsim
+LIBS += -L../../../libpedsim
+win32: LIBS += -llibpedsim
+#unix: LIBS += -lpedsim
 
 QT += opengl
 QT += widgets
