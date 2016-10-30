@@ -1,4 +1,4 @@
-2-Dimensional Visualizer 2dvis
+2-Dimensional Visualizer 2dvis {#2dvis}
 ==============================
 
 
@@ -16,8 +16,8 @@ easily!
 _2dvis_ is built on _Qt_. If you want to use all the features (especially
 charts), you need _Qt 5.7_ or above. It should be possible to compile it
 using an oder version. However, you will not see the metrics charts in
-_2dvis_ then. See documenation for compiling on _[Linux](@ref linux)_ and
-_[Windows](@ref windows)_.
+_2dvis_ then. See documenation for compiling on [Linux](@ref linux) and
+[Windows](@ref windows).
 
 
 ## Usage
