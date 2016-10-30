@@ -12,9 +12,11 @@
 // Linux:
 // ---> export LD_LIBRARY_PATH=libpedsim
 
-#include <QGraphicsView>
-#include <QGraphicsScene>
-#include <QtOpenGL>
+#include <QtWidgets>
+
+// #include <QGraphicsView>
+// #include <QGraphicsScene>
+//#include <QtOpenGL>
 
 #include <iostream>
 
@@ -35,7 +37,7 @@ Scene *gblscene;
 /// The programm entry point. Sets up everything, and calls QT exec to start the event loop.
 /// \date    2003-12-29
 /// \return  whatever app.exec() returns.
-int main(int argc, char *argv[]) {
+int main(int argc, char **argv) {
 
     QString scenefile = argv[1];
     if (scenefile == "") {
@@ -62,7 +64,7 @@ int main(int argc, char *argv[]) {
     Loadscene l(scenefile, pedscene, graphicsscene);
 
     mainwindow.graphicsView->setScene(graphicsscene);
-    mainwindow.graphicsView->setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
+    // mainwindow.graphicsView->setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
     mainwindow.graphicsView->setViewportUpdateMode(QGraphicsView::MinimalViewportUpdate);
     mainwindow.graphicsView->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     mainwindow.graphicsView->show();

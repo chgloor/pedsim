@@ -11,7 +11,7 @@ LIBS += -L../../../libpedsim
 win32: LIBS += -llibpedsim
 #unix: LIBS += -lpedsim
 
-QT += opengl
+#QT += opengl
 QT += widgets
 
 CONFIG += release

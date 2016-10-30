@@ -308,7 +308,7 @@ Ped::Tvector Ped::Tagent::desiredForce() {
 
 /// Calculates the social force between this agent and all the other agents
 /// belonging to the same scene.  It iterates over all agents inside the scene,
-/// has therefore the complexity O(N^2). A better agent storing structure in
+/// has therefore complexity \f$O(N^2)\f$. A better agent storing structure in
 /// Tscene would fix this. But for small (less than 10000 agents) scenarios,
 /// this is just fine.
 /// \date    2012-01-17
@@ -431,7 +431,7 @@ Ped::Tvector Ped::Tagent::obstacleForce(const set<const Ped::Tagent*> &neighbors
 
 /// Calculates the mental layer force of the strategy "look ahead". It is
 /// implemented here in the physical layer because of performance reasons. It
-/// iterates over all Tagents in the Tscene, complexity O(N^2).
+/// iterates over all Tagents in the Tscene, complexity \f$O(N^2)\f$.
 /// \date    2012-01-17
 /// \return  Tvector: the calculated force
 /// \param e is a vector defining the direction in which the agent should look
@@ -491,7 +491,10 @@ Ped::Tvector Ped::Tagent::myForce(Ped::Tvector e, const set<const Ped::Tagent*> 
     return lf;
 }
 
-
+/// This is the first step of the 2-step update process used
+/// here. First, all forces are computed, using the t-1 agent
+/// positions as input. Once the forces are computed, all agent
+/// positions for timestep t are updated at the same time.
 void Ped::Tagent::computeForces() {
     const double neighborhoodRange = 20.0;
     auto neighbors = scene->getNeighbors(p.x, p.y, neighborhoodRange);
@@ -510,6 +513,7 @@ void Ped::Tagent::computeForces() {
 /// contributing individual forces are calculated. This will then be
 /// added to the existing velocity, which again is used during the
 /// next time step. See e.g. https://en.wikipedia.org/wiki/Euler_method
+///
 /// \date 2003-12-29 
 /// \param h Integration time step delta t
 void Ped::Tagent::move(double h) {

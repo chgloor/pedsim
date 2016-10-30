@@ -1,0 +1,59 @@
+
+
+/// \example examples/example01.cpp
+///
+/// This is the very basic first example that shows how to use libpedsim.
+/// The output is sent to a file using Ped::FileOutputWriter.
+///
+/// Use something like this to compile:
+/// ~~~~ .sh
+/// g++ examples/example01.cpp -o example01 -lpedsim -L. -I. -std=c++11
+/// export LD_LIBRARY_PATH=.
+/// ./example01
+/// ~~~~
+
+
+/// \example examples/example02.cpp
+///
+/// In this example we can see how to inherit a new agent class with
+/// different behaviour. The Ped::Tagent::myForce() function is extended
+/// for this. All other methods are left untouched.
+///
+/// Use something like this to compile:
+/// ~~~~ .sh
+/// g++ examples/example02.cpp -o example02 -lpedsim -L. -I. -std=c++11
+/// export LD_LIBRARY_PATH=.
+/// ./example02
+/// ~~~~
+
+
+/// \example examples/example03.cpp
+///
+/// This example uses a new class that inherits from the library agent class.  It shows
+/// how the Ped::Tagent::myForce() method can be used to add an additional force
+/// component to an agent to change its behaviour. This here basically
+/// turns the force-based pedestrian model into a Braitenberg vehicle
+/// (type 2a) like agent.
+///
+/// Use something like this to compile:
+/// ~~~~ .sh
+/// g++ examples/example03.cpp -o example03 -lpedsim -L. -I. -std=c++11
+/// export LD_LIBRARY_PATH=.
+/// ./example03
+/// ~~~~
+
+
+/// \example examples/example04.cpp
+///
+/// This is an example that shows how to build a bottleneck. Agents can
+/// not go through as fast as they want, and the queue up in front of
+/// the bottleneck. This is a typical crowd simulation scenario.
+///
+/// Use something like this to compile:
+/// ~~~~ .sh
+/// g++ examples/example04.cpp -o example04 -lpedsim -L. -I. -std=c++11
+/// export LD_LIBRARY_PATH=.
+/// ./example04
+/// ~~~~
+
+

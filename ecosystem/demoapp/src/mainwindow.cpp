@@ -45,7 +45,7 @@ void MainWindow::about() {
                                  "with an interactive GUI, "
                                  "suitable for small experiments. <br>"
                                  "It is based on <b>libpedsim</b>, http://pedsim.silmaril.org/<br>"
-                                 " (c) 2003-2013 by Christian Gloor"));
+                                 " (c) by Christian Gloor"));
 }
 
 

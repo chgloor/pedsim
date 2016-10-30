@@ -103,7 +103,6 @@ TEST_F(DynamicsTest, moveStopsAtLastWaypoint) {
   for (Ped::Tagent* agent : pedscene->getAllAgents()) delete agent;
 }
 
-
 /// This is a numerical stability test. 10 agents are placed very
 /// close to each other spread out on the x axis. Y and Z axis
 /// positions are identical for all agents. The force pushing them

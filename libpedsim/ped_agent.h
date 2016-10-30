@@ -3,6 +3,7 @@
 // Copyright (c) 2003 - 2014 by Christian Gloor
 //
 
+
 #ifndef _ped_agent_h_
 #define _ped_agent_h_ 1
 
@@ -25,10 +26,7 @@ namespace Ped {
     class Tscene;
     class Twaypoint;
 
-/// \example example01.cpp
-/// \example example02.cpp
-
-
+    
 /// This is the main class of the library. It contains the Tagent, which eventually will move through the
 /// Tscene and interact with Tobstacle and other Tagent. You can use it as it is, and access the agent's
 /// coordinates using the getx() etc methods. Or, if you want to change the way the agent behaves, you can
