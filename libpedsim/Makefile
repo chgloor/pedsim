@@ -28,6 +28,15 @@ examples: libpedsim.so examples/example*.cpp
 
 doc: documentation/doxygen.conf
 	doxygen documentation/doxygen.conf
+	cp ../ecosystem/2dvis/documentation/*.png documentation/html
+	cp ../ecosystem/2dvis/documentation/*.png documentation/latex
+	cp ../ecosystem/3dvis/documentation/*.png documentation/html
+	cp ../ecosystem/3dvis/documentation/*.png documentation/latex
+	cp ../ecosystem/demoapp/documentation/*.png documentation/html
+	cp ../ecosystem/demoapp/documentation/*.png documentation/latex
+#	cp ./documentation/*.png documentation/html
+#	cp ./documentation/*.png documentation/latex
+
 
 clean:
 	rm *.o *.so test_all example*
