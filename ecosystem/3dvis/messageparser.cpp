@@ -15,7 +15,7 @@
 #include <cmath>
 
 #ifndef M_PI
-#define M_PI 3.1415
+#define M_PI 3.14159265359
 #endif
 
 #include <QtGlobal>
@@ -29,7 +29,7 @@ extern ItemContainer obstaclecontainer;
 long timestep; 
 
 MessageParser::MessageParser(QByteArray datagram) {
-	std::cout << QString(datagram).toUtf8().constData() << std::endl; // <--- uncomment to show the received message!
+    // std::cout << QString(datagram).toUtf8().constData() << std::endl; // <--- uncomment to show the received message!
     doc = QDomDocument("mydocument");
     if (!doc.setContent(datagram)) {
         std::cout << "Can't parse message" << std::endl;
@@ -80,62 +80,6 @@ void MessageParser::parse() {
 //	scene->advance();
 //	scene->update();
 	
-/*
-	if (g_option_writefile) {
-	  int rx = 1280;
-	  int ry = 720;
-	  qDebug() << "Writing frame " << stimestep << " to directory " << g_option_writefile_directory;
-	  QImage img(rx, ry, QImage::Format_ARGB32_Premultiplied);
-	  //QImage img(scene->sceneRect().size().toSize(), QImage::Format_ARGB32);
-	  QPainter p(&img);
-
-	  p.beginNativePainting();
-	  p.setRenderHint(QPainter::Antialiasing);
-
-	  scene->clearSelection();
-	  scene->setSceneRect(-rx, -ry, 2*rx, 2*ry);
-
-	  //	  scene->advance();
-
-	  scene->render(&p, QRectF(), QRectF(), Qt::KeepAspectRatioByExpanding);
-
-	  // display logo, title, and timestep
-	  QFont font = p.font() ;
-	  font.setPointSize ( 12 );
-	  p.setFont(font);
-
-	  p.setPen(QColor(255, 192, 0));
-	  p.drawText(0, ry-82, rx-40, 22, Qt::AlignRight, scenarioname);
-
-	  p.setPen(QColor(255, 192, 0));
-	  p.drawText(0, ry-60, rx-40, 22, Qt::AlignRight, stimestep.rightJustified(8, '0'));
-
-	  font.setItalic(true);
-	  p.setFont(font);
-	  p.setPen(QColor(128, 128, 128));
-	  p.drawText(0, ry-104, rx-40, 22, Qt::AlignRight, "PEDSIM");
-
-
-	  // display metrics
-	  for (int i = 0; i<metricslist.length(); ++i) {
-	    QDomNode n = metricslist.item(i);
-	    QDomElement e = n.toElement();
-	    QString key = e.attribute("key", "");
-	    QString value = e.attribute("value", "");
-
-	    font.setItalic(false);
-	    p.setFont(font);
-	    p.setPen(QColor(128, 128, 128));
-	    p.drawText( 40, ry-60-22*i, 200, 22, Qt::AlignLeft, key);
-	    p.drawText(240, ry-60-22*i, 200, 22, Qt::AlignLeft, value.left(8));
-	  }
-
-	  p.endNativePainting();
-	  if (!img.save(g_option_writefile_directory + "/" + stimestep.rightJustified(8, '0') + ".png")) {
-	    qDebug() << "Writing frame " << stimestep << " to directory " << g_option_writefile_directory << " failed!";
-	  }
-	}
-	*/
 			}
 
 			if (e.tagName() == "scenario") {
@@ -184,13 +128,13 @@ void MessageParser::parse() {
 			if (e.tagName() == "remove") {
 				std::string type = e.attribute("type", "").toStdString().c_str();
 				QString id = e.attribute("id", "0");
-				/*
+				
 				if (type == "agent") {
 					if (agentcontainer.contains(id)) {
-						agentcontainer.removeItem(id);
+					  agentcontainer.removeItem(id);
 					}
 				}
-				*/
+				
 			}
 
 			/*

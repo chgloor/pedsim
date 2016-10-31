@@ -15,6 +15,7 @@
 class ItemAgent : public Item {
 public:
 	ItemAgent(Qt3DCore::QEntity *rootEntity);
+	virtual void updateComponents();
 
 
 };

@@ -8,6 +8,9 @@
 
 #include <cmath>
 
+extern Qt3DCore::QEntity *scene;
+
+
 ItemContainer::ItemContainer() {}
 
 // Removes all items from the container
@@ -24,7 +27,11 @@ void ItemContainer::for_each(void (*fn)(Item*)) {
 
 void ItemContainer::removeItem(QString id) {
 //  scene->removeItem(container[id]);
+  container[id]->z = -100; // don't know how to remove from scene. Send to agent heaven (which is below 0)
+  container[id]->updateComponents();
   container.remove(id);
+  //container[id]->deleteLater();
+  //  scene->removeComponent(dynamic_cast<Qt3DCore::QComponent*>(container[id]));
 };
 
 void ItemContainer::updatePosition(QString id, double x, double y) {
@@ -45,3 +52,7 @@ void ItemContainer::setRotation(QString id, double r) {
 	container[id]->r = r;
 	container[id]->updateComponents();
 };
+
+Item* ItemContainer::at(QString id) {
+  return container[id];
+}

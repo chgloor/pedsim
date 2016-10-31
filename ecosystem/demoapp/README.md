@@ -38,9 +38,10 @@ quickly play with the various forces of the underlying model.
 
 ## Compilation
 
-Qt is needed to compile and run the demo application!  See
-[Linux](@ref linux) and [Windows](@ref windows) for more indormation
-regarding compillation of the source code.
+Qt is needed to compile and run the demo application!  See the
+installation documentation on [Linux](@ref linux) and [Windows](@ref windows)
+for more information regarding compillation of the source
+code.
 
 ![PEDSIM Demo App](screenshot.png)
 
