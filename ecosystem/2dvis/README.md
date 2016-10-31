@@ -1,5 +1,5 @@
-2-Dimensional Visualizer 2dvis {#2dvis}
-==============================
+2-Dimensional Visualizer {#twodvis}
+========================
 
 
 The 2-dimensional visualizer is a separate application that can be
@@ -55,4 +55,7 @@ channel](https://www.youtube.com/watch?v=CxfTYi6CgNs).
 
 ## Supported XML tags
 
-See [here](@ref xml) for a list of supported XML tags. 
+See [here](@ref xml) for a list of supported XML tags.
+
+![2dvis is a 2-dimensional visualizer for PEDSIM](2dvis.png)
+@image latex 2dvis.png

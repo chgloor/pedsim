@@ -1,4 +1,4 @@
-PEDSIM Demo Application {#mainpage}
+PEDSIM Demo Application {#demoapp}
 =======================
 
 Download and Start
@@ -51,4 +51,9 @@ Copy libpedsim.dll (probably in the Release or Debug folder in libpedsim) into t
 Command Line:
 
     pedsim.exe
+
+
+![2dvis is a 2-dimensional visualizer for PEDSIM](20120204-screenshot-v2-2.png)
+@image latex 20120204-screenshot-v2-2.png
+
 
