@@ -37,4 +37,7 @@ There is no built in video generation mode for 3dvis. In order to caputre a vide
 See [here](@ref xml) for a list of valid XML tags. However, 3dvis does not render all tags. It only renders objects that have a physical representation, e.g. agents or obstacles. 
 
 ![3dvis is a 3-dimensional visualizer for PEDSIM](3dvis.png)
-@image latex 3dvis.png
+
+@latexonly
+\includegraphics[width=\textwidth]{3dvis.png}
+@endlatexonly

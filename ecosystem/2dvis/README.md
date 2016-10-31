@@ -58,4 +58,7 @@ channel](https://www.youtube.com/watch?v=CxfTYi6CgNs).
 See [here](@ref xml) for a list of supported XML tags.
 
 ![2dvis is a 2-dimensional visualizer for PEDSIM](2dvis.png)
-@image latex 2dvis.png
+
+@latexonly
+\includegraphics[width=\textwidth]{2dvis.png}
+@endlatexonly

@@ -54,6 +54,7 @@ Command Line:
 
 
 ![2dvis is a 2-dimensional visualizer for PEDSIM](20120204-screenshot-v2-2.png)
-@image latex 20120204-screenshot-v2-2.png
 
-
+@latexonly
+\includegraphics[width=\textwidth]{20120204-screenshot-v2-2.png}
+@endlatexonly
