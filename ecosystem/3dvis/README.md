@@ -14,8 +14,8 @@ the simulation runs on a separate host.
 The difference between the two visualizers is that [2dvis](@ref 2dvis) is intended for displaying a technical view of the scenario, while 3dvis show a "real" view. 3dvis does not render the scenarion realistically in any way - however, it only shows what would be visible in real live - i.e. no waypoints or forces. 
 
 _3dvis_ is built on _Qt_. You need _Qt 5.7_ or above with Qt3D (might be included, check when you install Qt).
-See further documenation for compiling on _[Linux](@ref linux)_ and
-_[Windows](@ref windows)_.
+See further documenation for compiling on [Linux](@ref linux) and
+[Windows](@ref windows).
 
 
 ## Usage
@@ -36,4 +36,4 @@ There is no built in video generation mode for 3dvis. In order to caputre a vide
 
 See [here](@ref xml) for a list of valid XML tags. However, 3dvis does not render all tags. It only renders objects that have a physical representation, e.g. agents or obstacles. 
 
-![3dvis is a 3-dimensional visualizer for PEDSIM](documenation/3dvis.png)
+![3dvis is a 3-dimensional visualizer for PEDSIM](../../../ecosystem/3dvis/documentation/3dvis.png)
