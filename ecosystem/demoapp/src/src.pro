@@ -9,13 +9,15 @@ DESTDIR = ../
 
 LIBS += -L../../../libpedsim
 win32: LIBS += -llibpedsim
-#unix: LIBS += -lpedsim
+unix: LIBS += -lpedsim
 
 #QT += opengl
 QT += widgets
 
 CONFIG += release
 CONFIG += console
+
+CONFIG += c++11
 
 FORMS = control.ui
 

@@ -99,6 +99,10 @@ A box of four walls is defined, a waypoint on each side. 200 agents walk from on
 
 This is a screenshot of the DemoApp displaying this example scenario:
 
-![demoapp_screenshot](20120204-screenshot-v2-2.png "DemoApp Screenshot")
+![Pedsim Demo App](20120204-screenshot-v2-2.png)
+
+@latexonly
+\includegraphics[width=\textwidth]{20120204-screenshot-v2-2.png}
+@endlatexonly
 
 */

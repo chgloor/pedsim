@@ -1,60 +1,49 @@
 PEDSIM Demo Application {#demoapp}
 =======================
 
-Download and Start
+## Introduction and purpose of the Demo Application
 
-The PedSim Demo App can be downloaded as binary (currently for Linux and Windows), or as source code. More information regarding how to compile the source code is provided below. Once you have the executable, you must make sure it finds the PedSim library, and the Qt libraries. When you use Windows, the easiest way to do this is to just place all those .dlls into the same directory as the executable. The binary package comes already like this. If you use linux, you might have to specify the LD_LIBRARY_PATH environment variable:
+Originally, PEDSIM was a monolithic software package that was capable
+to read simple scenario definitions from a file and run the crowd
+simulation. This was PEDSIM version 1.x. For version 2.x, PEDSIM has
+been separated into a library and the Demo Application. These two
+pieces of software do more or less the same as PEDSIM Version 1.x, but
+with less import/export and scenario analysis features.
 
-    export LD_LIBRARY_PATH=.
+The main focus of development is on the PEDSIM library, since it is
+assumed that interested users are quickly able to develop their own
+software using the library. The Demo Application is still being
+maintained, but no longer extended. Its purpose is now to show how
+`libpedsim` can be used in a flexible way. It uses OOP inheritance to
+achive a tighter integration. These offers possibilities beyond what
+is presented in the code examples.
 
-In this example, it is assumed that the library libpedsim.so is also in the same folder as the executable.
-After that, it should be possible to start the executable from the command line or the explorer.
+At the same time the Demo App is used as a _manual_ integration test
+case. The library contains unit and user acceptance tests, based on
+the Google test framework. These tests are run automatically and are
+supposed to cover all possible aspects of failure. However, I believe
+that in the end a human has to look at the output of the system and
+judge if everything still looks sane. This is what the Demo
+Application is used for internally.
 
-More Documentation
+The scenario input features mentioned above are still a good starting
+point for your own small experiments. It is possible to define a
+scenario by writing a simple XML file, and use the user interface to
+quickly play with the various forces of the underlying model.
+
+## More Documentation
 
 - @ref demoapp_gui
 - @ref demoapp_scenario
 
+## Compilation
 
-Qt is needed to compile and run the demo application!  
-Get Qt from [www.qt.io](https://www.qt.io/)
+Qt is needed to compile and run the demo application!  See
+[Linux](@ref linux) and [Windows](@ref windows) for more indormation
+regarding compillation of the source code.
 
-
-## Linux
-
-Compile the library first (libpedsim).
-
-Then use the command line to compile the demo app:
-
-    qmake
-    make
-
-
-You might need to add the path to libpedsim before you can run this:
-   
-    export LD_LIBRARY_PATH=../libpedsim/
-
-
-## Windows (e.g. Visual Studio Express 2010)
-
-Compile the library first (libpedsim).
-
-copy libpedsim.lib (probably in the Release or Debug folder in libpedsim) into the libpedsim folder, and rename it to pedsim.lib
-
-Command line:
-
-    qmake
-    nmake
-
-Copy libpedsim.dll (probably in the Release or Debug folder in libpedsim) into the demoapp folder.
-
-Command Line:
-
-    pedsim.exe
-
-
-![2dvis is a 2-dimensional visualizer for PEDSIM](20120204-screenshot-v2-2.png)
+![PEDSIM Demo App](screenshot.png)
 
 @latexonly
-\includegraphics[width=\textwidth]{20120204-screenshot-v2-2.png}
+\includegraphics[width=\textwidth]{screenshot.png}
 @endlatexonly
