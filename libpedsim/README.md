@@ -64,13 +64,13 @@ example01.cpp in the examples folder.
 
 <dl class="warning"><dt><b>Please note:</b></dt><dd> Additional steps
 around the example code might be required in order to compile it. If
-you are using _Windows_ and, for example, _MS Visual C++ 2010 Express_,
+you are using _Windows_ and, for example, _Microsoft Visual Studio_,
 you can create a new console application using the wizard. Create a
 file called `example01.cpp` and copy-paste the code into it. In the
 project's _Properties_, under _Linker/Input_, add `libpedsim.lib` in
-front of the _Additional Dependencies_ list. Click run.  </dd></dl>
+front of the _Additional Dependencies_ list. Click run. Also see @ref windows. </dd></dl>
 
-On a typical linux system, if you are in the
+On a typical [linux](@ref linux) system, if you are in the
 _libpedsim_ folder, use this to compile, link and run:
 
 ~~~~ .sh
