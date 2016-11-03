@@ -18,3 +18,5 @@ int g_option_network_port = 2222;
 bool g_option_file = false;
 QString g_option_file_name = "pedsim_out.txt";
 
+bool g_option_charts = false;
+bool g_option_metrics = false;

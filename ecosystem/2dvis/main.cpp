@@ -44,6 +44,12 @@ int main(int argc, char **argv) {
     QCommandLineOption fileOption(QStringList() << "f" << "file", "Read input from <file>", "file");
     cparser.addOption(fileOption);
 
+    QCommandLineOption chartsOption(QStringList() << "c" << "charts", "Display charts DockWidget");
+    cparser.addOption(chartsOption);
+
+    QCommandLineOption metricsOption(QStringList() << "m" << "metrics", "Display metrics DockWidget");
+    cparser.addOption(metricsOption);
+
     QCommandLineOption outputOption(QStringList() << "o" << "outputdirectory", "Write frame-by-frame image output to <directory>", "directory");
     cparser.addOption(outputOption);
 
@@ -59,6 +65,10 @@ int main(int argc, char **argv) {
     g_option_file = cparser.isSet(fileOption);
     g_option_file_name = cparser.value(fileOption);
 
+    g_option_charts = cparser.isSet(chartsOption);
+    g_option_metrics = cparser.isSet(metricsOption);
+
+    
     qsrand(QTime(0, 0, 0).secsTo(QTime::currentTime()));
 
 
@@ -69,7 +79,7 @@ int main(int argc, char **argv) {
     qApp->setStyleSheet(StyleSheet);
     
 
-    MainWindow mainWin(cparser);
+    MainWindow mainWin;
     
     // show output if not disabled (quiet)
     if (!cparser.isSet(quietOption)) {
