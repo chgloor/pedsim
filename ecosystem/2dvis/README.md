@@ -61,6 +61,22 @@ std::string> hash). For example like this:
 ow->writeMetrics({{"name1", "value1"}, {"name2", "value2"}});
 ~~~~
 
+Here is an example with metrics transmitted:
+
+~~~~ .cpp
+ow->writeMetrics({
+  {"Average Timesteps", std::to_string(sum_age/agents.size())},
+  {"Average Theta", std::to_string(sum_theta/agents.size())},
+  {"Average Sensitivity L", std::to_string(sum_sensitivity_l/agents.size())},
+  {"Average Sensitivity R", std::to_string(sum_sensitivity_r/agents.size())},
+  {"Average Reach", std::to_string(sum_reach/agents.size())}
+});
+~~~~
+
+![2dvis is a 2-dimensional visualizer for PEDSIM](2dvis_metrics.png)
+@latexonly
+\includegraphics[width=\textwidth]{2dvis_metrics.png}
+@endlatexonly
 
 ## Video generation
 
@@ -93,7 +109,6 @@ channel](https://www.youtube.com/watch?v=CxfTYi6CgNs).
 See [here](@ref xml) for a list of supported XML tags.
 
 ![2dvis is a 2-dimensional visualizer for PEDSIM](2dvis.png)
-
 @latexonly
 \includegraphics[width=\textwidth]{2dvis.png}
 @endlatexonly
