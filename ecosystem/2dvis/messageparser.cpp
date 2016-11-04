@@ -81,6 +81,10 @@ void MessageParser::parse() {
 	QString stimestep = e.attribute("value", "0");
 	timestep = stimestep.toLong();
 
+	if (g_option_metrics) {
+	  metricswidget->update("Timestep", timestep);
+	}
+	
 	rem(timestep);
 
 	if ((timestep % 10) == 0) { // ideall we would use a priority queue or something like that here ...
@@ -169,7 +173,9 @@ void MessageParser::parse() {
 	obstaclecontainer.for_each(delete_item);
 	obstaclecontainer.clear();
 
-	metricswidget->clear();
+	if (g_option_metrics) {
+	  metricswidget->clear();
+	}
       }
 
       if (e.tagName() == "draw") {
@@ -210,10 +216,14 @@ void MessageParser::parse() {
 	  QDomElement e = n.toElement();
 	  QString key = e.attribute("key", "");
 	  double value = e.attribute("value", "").toDouble();
-	  metricswidget->update(key, value);
-
+	  if (g_option_metrics) {
+	    metricswidget->update(key, value);
+	  }
+	  
 #ifdef USE_CHARTS
+	if (g_option_charts) {
 	  chartswidget->update(timestep, key, value);
+	}
 #endif	  
 
 	}

@@ -7,13 +7,13 @@
 
 MetricsWidget::MetricsWidget() {
 
-  MetricsField *button1 = new MetricsField("Timestep");
+  //  MetricsField *button1 = new MetricsField("Timestep");
   QSpacerItem *spacer = new QSpacerItem(100, 20, QSizePolicy::Expanding, QSizePolicy::Expanding);
   
   layout = new QVBoxLayout;
 
-  layout->addItem(spacer);
-  layout->addWidget(button1);
+    layout->addItem(spacer);
+  //  layout->addWidget(button1);
 
   setLayout(layout);
 };
