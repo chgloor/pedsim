@@ -21,6 +21,7 @@ namespace Ped {
     Elevation();
     virtual ~Elevation();
 
+    void SetData(std::vector<std::vector<double>> data, double xmin, double ymin, double step);
     double GetHeight(double x, double y);
     
   private:
