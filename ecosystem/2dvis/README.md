@@ -22,6 +22,20 @@ _2dvis_ then. See documenation for compiling on [Linux](@ref linux) and
 
 ## Usage
 
+~~~~ .sh
+Usage: ./2dvis [options]
+2-dimensional PEDSIM visualizer.
+
+Options:
+  -h, --help                         Displays this help.
+  -q, --quiet                        Do not show graphical output
+  -n, --network <port>               Read input from network on port <port>
+  -f, --file <file>                  Read input from <file>
+  -c, --charts                       Display charts DockWidget
+  -m, --metrics                      Display metrics DockWidget
+  -o, --outputdirectory <directory>  Write frame-by-frame image output to <directory>
+~~~~
+
 Usually, `2dvis` is started in network mode, where it listens to
 incoming data packets on the specified UDP port.
 
@@ -29,15 +43,52 @@ incoming data packets on the specified UDP port.
  ./2dvis -n 2222
 ~~~~
 
+## Metrics and charts display
+
+2dvis has the ability to display user-defined metrics coming from the
+simulation. It can display the latest metrics in numerical form, and
+also chart the values as line graphs. These two dockable windows are
+enabled by specifying `-m`/`--metrics` or `-c`/`--charts` respectively
+on the command line. Note that the charts window needs _Qt_ version
+5.7 or above. Otherwise the feature will not be compiled in. Numerical
+metrics work for all _Qt_ versions.
+
+These metrics are submitted from the simulation using
+Ped::XMLOutputWriter::writeMetrics(std::unordered_map<std::string,
+std::string> hash). For example like this:
+
+~~~~ .cpp
+ow->writeMetrics({{"name1", "value1"}, {"name2", "value2"}});
+~~~~
+
+Here is an example with metrics transmitted:
+
+~~~~ .cpp
+ow->writeMetrics({
+  {"Average Timesteps", std::to_string(sum_age/agents.size())},
+  {"Average Theta", std::to_string(sum_theta/agents.size())},
+  {"Average Sensitivity L", std::to_string(sum_sensitivity_l/agents.size())},
+  {"Average Sensitivity R", std::to_string(sum_sensitivity_r/agents.size())},
+  {"Average Reach", std::to_string(sum_reach/agents.size())}
+});
+~~~~
+
+![2dvis is a 2-dimensional visualizer for PEDSIM](2dvis_metrics.png)
+@latexonly
+\includegraphics[width=\textwidth]{2dvis_metrics.png}
+@endlatexonly
+
+## Video generation
+
 Instead of a network stream it is also possible to process a XML file
-containing the messages. It can be specified using
+containing the messages. This is meant for creating videos. At the
+moment, 2dvis will try to play all events in full speed, resulting in
+an overloaded graphics engine. Use it together with the `-o` output
+option only. This mode can be specified using
 
 ~~~~ .sh
 ./2dvis -f filename.xml
 ~~~~
-
-
-## Video generation
 
 In order to generate a video sequence out of a PEDSIM run, use these
 steps:
@@ -58,7 +109,6 @@ channel](https://www.youtube.com/watch?v=CxfTYi6CgNs).
 See [here](@ref xml) for a list of supported XML tags.
 
 ![2dvis is a 2-dimensional visualizer for PEDSIM](2dvis.png)
-
 @latexonly
 \includegraphics[width=\textwidth]{2dvis.png}
 @endlatexonly

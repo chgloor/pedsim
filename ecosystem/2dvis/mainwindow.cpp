@@ -21,7 +21,7 @@ QGraphicsScene *scene;
 Receiver *receiver;
 
 
-MainWindow::MainWindow(QCommandLineParser &cparser) {
+MainWindow::MainWindow() {
   scene = new QGraphicsScene();
   scene->setSceneRect(SCALE * -100, SCALE * -100, SCALE * 200, SCALE * 200);
   scene->setItemIndexMethod(QGraphicsScene::NoIndex);
@@ -47,21 +47,21 @@ MainWindow::MainWindow(QCommandLineParser &cparser) {
   // timer.start(1000 / 33);
 
 
-  metricswidget = new MetricsWidget;
-  {
-  QDockWidget *dockWidget = new QDockWidget(tr("Metrics"), this);
-  dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-  dockWidget->setWidget(metricswidget);
-  addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
+  if (g_option_metrics) {
+    metricswidget = new MetricsWidget;
+    QDockWidget *dockWidget = new QDockWidget(tr("Metrics"), this);
+    dockWidget->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    dockWidget->setWidget(metricswidget);
+    addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
   }
 
 #ifdef USE_CHARTS
-  chartswidget = new ChartsWidget;
-  {
-  QDockWidget *dockWidget = new QDockWidget(tr("Charts"), this);
-  dockWidget->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
-  dockWidget->setWidget(chartswidget);
-  addDockWidget(Qt::TopDockWidgetArea, dockWidget);
+  if (g_option_charts) {
+    chartswidget = new ChartsWidget;
+    QDockWidget *dockWidget = new QDockWidget(tr("Charts"), this);
+    dockWidget->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
+    dockWidget->setWidget(chartswidget);
+    addDockWidget(Qt::TopDockWidgetArea, dockWidget);
   }
 #endif
 
