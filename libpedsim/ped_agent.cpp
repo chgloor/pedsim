@@ -540,7 +540,8 @@ void Ped::Tagent::move(double h) {
 ///                          |
 ///                          |
 ///
-/// \param double gradient Altitude gain/loss based on 1 unit. E.g. 0.5 means 50 cm gain over 1 m.
+/// \param gradient Altitude gain/loss based on 1 unit. E.g. 0.5 means 50 cm gain over 1 m.
+/// \return The correction factor [0.05, 1.0]
 double Ped::Tagent::GradientCorrection(double gradient) {
   // up
   if (gradient > 0.8) return 0.05;
