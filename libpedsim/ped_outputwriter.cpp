@@ -231,6 +231,25 @@ void Ped::XMLOutputWriter::drawObstacle (Tobstacle &o) {
   write(msg.str());
 }
 
+/// Writes the camera position, used for 3D output renderes. They might ignore the camera position and use their own.
+/// \date    2016-11-05
+/// \param   pos The position of the camera.
+/// \param   direction The direction the camera lens faces.
+/// \param   id The ID of the camera, if there are more than one. 
+void Ped::XMLOutputWriter::setCamera (Ped::Tvector pos, Ped::Tvector direction, string id) {
+  std::ostringstream msg;
+  msg << "<position type=\"camera\" ";
+  msg << "id=\"" << id << "\" ";
+  msg << "x=\"" << pos.x << "\" ";
+  msg << "y=\"" << pos.y << "\" ";
+  msg << "z=\"" << pos.z << "\" ";
+  msg << "rx=\"" << direction.x << "\" ";
+  msg << "ry=\"" << direction.y << "\" ";
+  msg << "rz=\"" << direction.z << "\" ";
+  msg << "/>" << endl;
+  write(msg.str());
+}
+
 /// Writes a waypoint's position
 /// \date    2016-10-16
 /// \param w The waypoint to be rendered.
