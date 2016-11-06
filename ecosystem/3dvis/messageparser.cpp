@@ -20,8 +20,11 @@
 
 #include <QtGlobal>
 #include <Qt3DCore/QEntity>
+#include <Qt3DRender/QCamera>
+#include <Qt3DRender/QCameraLens>
 
 extern Qt3DCore::QEntity *scene;
+extern Qt3DRender::QCamera *camera;
 
 extern ItemContainer agentcontainer;
 extern ItemContainer obstaclecontainer;
@@ -29,12 +32,12 @@ extern ItemContainer obstaclecontainer;
 long timestep; 
 
 MessageParser::MessageParser(QByteArray datagram) {
-    // std::cout << QString(datagram).toUtf8().constData() << std::endl; // <--- uncomment to show the received message!
-    doc = QDomDocument("mydocument");
-    if (!doc.setContent(datagram)) {
-        std::cout << "Can't parse message" << std::endl;
-        std::cout << QString(datagram).toUtf8().constData()  << std::endl;
-    }
+  std::cout << QString(datagram).toUtf8().constData() << std::endl; // <--- uncomment to show the received message!
+  doc = QDomDocument("mydocument");
+  if (!doc.setContent(datagram)) {
+    std::cout << "Can't parse message" << std::endl;
+    std::cout << QString(datagram).toUtf8().constData()  << std::endl;
+  }
 }
 
 
@@ -158,6 +161,7 @@ void MessageParser::parse() {
 				QString id = e.attribute("id", "0");
 				double x = atof(e.attribute("x", "0.0").toStdString().c_str());
 				double y = atof(e.attribute("y", "0.0").toStdString().c_str());
+				double z = atof(e.attribute("z", "0.0").toStdString().c_str());
 
 				
 				if (type == "agent") {
@@ -165,8 +169,18 @@ void MessageParser::parse() {
 						Item *agent = new ItemAgent(scene);
 						agentcontainer.addItem(id, agent);
 					}
-					agentcontainer.updatePosition(id, x, y);
+					agentcontainer.updatePosition(id, x, y, z);
 				}
+				if (type == "camera") {
+				  double rx = atof(e.attribute("rx", "1.0").toStdString().c_str());
+				  double ry = atof(e.attribute("ry", "0.0").toStdString().c_str());
+				  double rz = atof(e.attribute("rz", "0.0").toStdString().c_str());
+				  camera->setPosition(QVector3D(x, z, y));
+				  camera->setViewCenter(QVector3D(x + rx, z + rz , y + ry));
+				}
+
+
+				
 				/*
 				if (type == "waypoint") {
 					if (!waypointcontainer.contains(id)) {
@@ -182,13 +196,14 @@ void MessageParser::parse() {
 				if (type == "obstacle") {
 					double dx = atof(e.attribute("dx", "0.0").toStdString().c_str());
 					double dy = atof(e.attribute("dy", "0.0").toStdString().c_str());
+					double dz = atof(e.attribute("dz", "0.0").toStdString().c_str());
 					double l = sqrt(dx*dx + dy*dy);
 					if (!obstaclecontainer.contains(id)) {
 						Item *obstacle = new ItemObstacle(scene, l);
 						obstaclecontainer.addItem(id, obstacle);
 					}
-					obstaclecontainer.updatePosition(id, x, y);
-					obstaclecontainer.setRotation(id, 270.0+atan2(dx, dy) * 360.0 / (2.0 * M_PI));
+					obstaclecontainer.updatePosition(id, x, y, z);
+					obstaclecontainer.setRotation(id, 270.0+atan2(dx, dy) * 360.0 / (2.0 * M_PI)); // this is 2D!
 				}
 				
 			}

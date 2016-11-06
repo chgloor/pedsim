@@ -10,7 +10,8 @@ SOURCES += \
 	itemcontainer.cpp \
 	itemobstacle.cpp \
 	messageparser.cpp \
-	receiver.cpp
+        receiver.cpp \
+        ground.cpp
 
 HEADERS += \
 	item.h \ 
@@ -18,5 +19,5 @@ HEADERS += \
 	itemcontainer.h \
 	itemobstacle.h \
 	messageparser.h \
-	receiver.h
-
+        receiver.h \
+        ground.h

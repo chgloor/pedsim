@@ -34,12 +34,13 @@ void ItemContainer::removeItem(QString id) {
   //  scene->removeComponent(dynamic_cast<Qt3DCore::QComponent*>(container[id]));
 };
 
-void ItemContainer::updatePosition(QString id, double x, double y) {
-  double oldx = container[id]->x;
-  double oldy = container[id]->y;
+void ItemContainer::updatePosition(QString id, double x, double y, double z = 0.0) {
+  // double oldx = container[id]->x;
+  // double oldy = container[id]->y;
 
   container[id]->x = x;
   container[id]->y = y;
+  container[id]->z = z;
     
   container[id]->updateComponents();
 //  double newr = atan2(y-oldy, x-oldx) * 180 / 3.1415;

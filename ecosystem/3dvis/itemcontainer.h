@@ -25,8 +25,8 @@ public:
 
 public slots:
     void clear();
-	void setRotation(QString id, double r);
-    void updatePosition(QString id, double x, double y);
+    void setRotation(QString id, double r);
+    void updatePosition(QString id, double x, double y, double z);
    
 
 private:
