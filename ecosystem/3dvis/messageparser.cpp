@@ -32,7 +32,7 @@ extern ItemContainer obstaclecontainer;
 long timestep; 
 
 MessageParser::MessageParser(QByteArray datagram) {
-  std::cout << QString(datagram).toUtf8().constData() << std::endl; // <--- uncomment to show the received message!
+  // std::cout << QString(datagram).toUtf8().constData() << std::endl; // <--- uncomment to show the received message!
   doc = QDomDocument("mydocument");
   if (!doc.setContent(datagram)) {
     std::cout << "Can't parse message" << std::endl;
