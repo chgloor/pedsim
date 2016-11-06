@@ -11,7 +11,8 @@ SOURCES += \
 	itemobstacle.cpp \
 	messageparser.cpp \
         receiver.cpp \
-        ground.cpp
+        ground.cpp \
+        globals.cpp
 
 HEADERS += \
 	item.h \ 
@@ -20,4 +21,5 @@ HEADERS += \
 	itemobstacle.h \
 	messageparser.h \
         receiver.h \
-        ground.h
+        ground.h \
+        globals.h

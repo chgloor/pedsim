@@ -11,11 +11,11 @@
 #include <Qt3DRender/QMesh>
 class Ground : public Qt3DCore::QEntity {
 public:
-	Ground(Qt3DCore::QEntity *rootEntity);
+  Ground(Qt3DCore::QEntity *rootEntity, QString filename);
 
 private:
-	Qt3DCore::QTransform *transform;
-	Qt3DRender::QMesh *mesh;
+  Qt3DCore::QTransform *transform;
+  Qt3DRender::QMesh *mesh;
 
 };
 

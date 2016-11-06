@@ -8,6 +8,7 @@
 #include "item.h"
 #include "itemagent.h"
 #include "itemobstacle.h"
+#include "globals.h"
 
 #include <iostream>
 #include <string>
@@ -172,11 +173,16 @@ void MessageParser::parse() {
 					agentcontainer.updatePosition(id, x, y, z);
 				}
 				if (type == "camera") {
-				  double rx = atof(e.attribute("rx", "1.0").toStdString().c_str());
-				  double ry = atof(e.attribute("ry", "0.0").toStdString().c_str());
-				  double rz = atof(e.attribute("rz", "0.0").toStdString().c_str());
-				  camera->setPosition(QVector3D(x, z, y));
-				  camera->setViewCenter(QVector3D(x + rx, z + rz , y + ry));
+				  if (g_option_camera) {
+				    QString id = e.attribute("id", "");
+				    if (id == g_option_camera_id) {
+				      double rx = atof(e.attribute("rx", "1.0").toStdString().c_str());
+				      double ry = atof(e.attribute("ry", "0.0").toStdString().c_str());
+				      double rz = atof(e.attribute("rz", "0.0").toStdString().c_str());
+				      camera->setPosition(QVector3D(x, z, y));
+				      camera->setViewCenter(QVector3D(x + rx, z + rz , y + ry));
+				    }
+				  }
 				}
 
 

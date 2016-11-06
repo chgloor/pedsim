@@ -15,8 +15,8 @@
 #include <Qt3DCore/QTransform>
 #include <Qt3DRender/QMesh>
 
-Ground::Ground(Qt3DCore::QEntity *rootEntity) : Qt3DCore::QEntity(rootEntity), mesh(new Qt3DRender::QMesh()), transform(new Qt3DCore::QTransform()) {
-  mesh->setSource(QUrl("file:ground2.obj"));
+Ground::Ground(Qt3DCore::QEntity *rootEntity, QString filename) : Qt3DCore::QEntity(rootEntity), mesh(new Qt3DRender::QMesh()), transform(new Qt3DCore::QTransform()) {
+  mesh->setSource(QUrl(filename));
   addComponent(mesh);
 
   //  QMatrix4x4 m;

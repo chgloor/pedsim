@@ -3,7 +3,10 @@
 // Copyright (c) by Christian Gloor
 //
 
+// /opt/Qt/5.7/gcc_64/bin/qmake
+
 #include <QGuiApplication>
+#include <QCommandLineParser>
 
 #include <Qt3DCore/QEntity>
 #include <Qt3DRender/QCamera>
@@ -30,6 +33,8 @@
 #include "itemcontainer.h"
 #include "receiver.h"
 #include "ground.h"
+#include "globals.h"
+
 
 ItemContainer agentcontainer;
 ItemContainer obstaclecontainer;
@@ -56,7 +61,7 @@ Qt3DCore::QEntity *createScene() {
 
     // Light
     Qt3DRender::QDirectionalLight *l = new Qt3DRender::QDirectionalLight();
-    l->setWorldDirection(QVector3D(0.3, -1, 0.3));
+    l->setWorldDirection(QVector3D(0.8, -1, 0.3));
 
     // Plane
     planeEntity = new Qt3DCore::QEntity(rootEntity);
@@ -70,10 +75,40 @@ Qt3DCore::QEntity *createScene() {
 
 int main(int argc, char* argv[]) {
     QGuiApplication app(argc, argv);
+
+    QCommandLineParser cparser;
+    cparser.setApplicationDescription("3-dimensional PEDSIM visualizer.");
+    cparser.addHelpOption();
+
+    QCommandLineOption networkOption(QStringList() << "n" << "network", "Read input from network on port <port>", "port");
+    cparser.addOption(networkOption);
+
+    QCommandLineOption camOption(QStringList() << "c" << "camera", "Display view from camera with ID <camera>", "camera");
+    cparser.addOption(camOption);
+
+    // "file:ground2.obj"
+    QCommandLineOption elevationOption(QStringList() << "e" << "elevation", "Elevation data URL, e.g. file:ground.obj", "URL");
+    cparser.addOption(elevationOption);
+
+    // Process the actual command line arguments given by the user
+    cparser.process(app);
+
+    g_option_network = cparser.isSet(networkOption);
+    g_option_network_port = cparser.value(networkOption).toInt();
+
+    g_option_camera = cparser.isSet(camOption);
+    g_option_camera_id = cparser.value(camOption);
+
+    g_option_elevation = cparser.isSet(elevationOption);
+    g_option_elevation_filename = cparser.value(elevationOption);
+
+
     Qt3DExtras::Qt3DWindow view;
 
     scene = createScene();
-    Ground *g = new Ground(scene);
+    if (g_option_elevation) {
+      Ground *g = new Ground(scene, g_option_elevation_filename);
+    }
     
     receiver = new Receiver(2222);
 	
