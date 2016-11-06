@@ -8,7 +8,7 @@
 #include "ped_outputwriter.h"
 
 namespace Ped {
-    const double LIBEXPORT LIBPEDSIM_VERSION = 2.4;
+    const double LIBEXPORT LIBPEDSIM_VERSION = 3.0;
 }
 
 #endif
