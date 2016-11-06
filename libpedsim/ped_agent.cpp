@@ -404,12 +404,15 @@ Ped::Tvector Ped::Tagent::socialForce(const set<const Ped::Tagent*> &neighbors) 
 }
 
 
-/// Calculates the force between this agent and the nearest obstacle in this scene.
-/// Iterates over all obstacles == O(N).
+/// Calculates the horizontal force between this agent and the nearest
+/// obstacle in this scene. The force is taken in 2d space, even when
+/// the agent has an elevation different from 0. This is because
+/// obstacles are considered to have an infinite height.
+/// The function iterates over all obstacles, which leads to a complexity of \f$O(n)\f$.
 /// \date    2012-01-17
 /// \return  Tvector: the calculated force
+/// \warning Considers nearest obstacle only. Usually this is not a problem, but could lead to oscillations e.g. in narrow paths.
 Ped::Tvector Ped::Tagent::obstacleForce(const set<const Ped::Tagent*> &neighbors) {
-    // obstacle which is closest only
     Ped::Tvector minDiff;
     double minDistanceSquared = INFINITY;
 
@@ -432,7 +435,7 @@ Ped::Tvector Ped::Tagent::obstacleForce(const set<const Ped::Tagent*> &neighbors
 
 /// Calculates the mental layer force of the strategy "look ahead". It is
 /// implemented here in the physical layer because of performance reasons. It
-/// iterates over all Tagents in the Tscene, complexity \f$O(N^2)\f$.
+/// iterates over all Tagents in the Tscene, complexity \f$O(n^2)\f$.
 /// \date    2012-01-17
 /// \return  Tvector: the calculated force
 /// \param e is a vector defining the direction in which the agent should look
