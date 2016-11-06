@@ -416,6 +416,7 @@ Ped::Tvector Ped::Tagent::obstacleForce(const set<const Ped::Tagent*> &neighbors
     for (const Tobstacle* obstacle : scene->obstacles) {
         Ped::Tvector closestPoint = obstacle->closestPoint(p);
         Ped::Tvector diff = p - closestPoint;
+	diff.z = 0; // 2d only, i.e. obstacles have infinite height. Without this correction agents that are not at gound level would feel smaller forces away from obstacles.
         double distanceSquared = diff.lengthSquared();  // use squared distance to avoid computing square root
         if (distanceSquared < minDistanceSquared) {
             minDistanceSquared = distanceSquared;
