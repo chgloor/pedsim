@@ -17,6 +17,8 @@
 #include <map>
 #include <list>
 
+#include "ped_vector.h"
+
 using namespace std;
 
 namespace Ped {
@@ -26,7 +28,8 @@ namespace Ped {
     class Twaypoint;
     class Ttree;
     class OutputWriter;
-
+    class Elevation;
+    
     /// The Tscene class contains the spatial representation of the "world" the agents live in.
     /// Theoretically, in a continuous model, there are no boundaries to the size of the world.
     /// Agents know their position (the x/y co-ordinates). However, to find the nearest neighbors of
@@ -64,19 +67,25 @@ namespace Ped {
         virtual bool removeWaypoint(Twaypoint* w);
 
         virtual void cleanup();
-        virtual void moveAgents(double h);
-
+        virtual void moveAgents(double h);       
+	
         set<const Ped::Tagent*> getNeighbors(double x, double y, double dist) const;
         const vector<Tagent*>& getAllAgents() const { return agents; };
         const vector<Tobstacle*>& getAllObstacles() const { return obstacles; };
         const vector<Twaypoint*>& getAllWaypoints() const { return waypoints; };
 
-        void setOutputWriter(OutputWriter *ow) { outputwriter = ow; }
+	virtual void SetElevation(Elevation* e);
+	virtual double GetElevation(Ped::Tvector p);
+	
+        virtual void setOutputWriter(OutputWriter *ow) { outputwriter = ow; }
 
     protected:
         vector<Tagent*> agents;
         vector<Tobstacle*> obstacles;
         vector<Twaypoint*> waypoints;
+
+	Elevation *elevation_;
+	
         map<const Ped::Tagent*, Ttree*> treehash;
         Ttree *tree;
 

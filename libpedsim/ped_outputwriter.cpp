@@ -45,15 +45,6 @@ Ped::XMLOutputWriter::XMLOutputWriter () {
   //  outfile.open("pedsim_out.txt");
   //  outfile << "# PedSim output generated using libpedsim version " << Ped::LIBPEDSIM_VERSION << endl;
   //  outfile << "" << endl;
-
-  // std::vector<std::vector<double>> data = {{0.0, 5.0}, {0.0, 5.0}};
-  // e_.SetData(data, -10, -10, 20);
-
-  Ped::Elevation e("/home/chgloor/src/pedsim-3dvis/ecosystem/3dvis/ground2.asc");
-  e_ = e;
-  e_.SetMeta(-125, -75, 1.0);
-
-  cout << "Elevation data has " << e_.getwidth() << "/" << e_.getheight() << " values" << endl;
 }
 
 /// Constructor used to open the output file
@@ -148,9 +139,8 @@ Ped::XMLOutputWriter::XMLOutputWriter (string name) {
 /// \date    2016-07-02
 /// \param scenarioname Used to generate file filename
 Ped::XMLOutputWriter::~XMLOutputWriter () {
-  std::ostringstream msg;
-  msg << "# End of PedSim output."<< endl;
-  write(msg.str());
+  // std::ostringstream msg;
+  // write(msg.str());
 }
 
 
@@ -169,7 +159,7 @@ Ped::XMLOutputWriter::~XMLOutputWriter () {
 /// \date    2016-07-02
 void Ped::XMLOutputWriter::writeTimeStep (long int timestep) {
   std::ostringstream msg;
-  msg << "<timestep value=\"" << timestep << "\" />" << endl; 
+  msg << "<timestep value=\"" << timestep << "\" />"; 
   write(msg.str());
 }
 
@@ -191,16 +181,13 @@ void Ped::XMLOutputWriter::writeTimeStep (long int timestep) {
 /// \date    2016-07-02
 /// \param a The agent to be rendered.
 void Ped::XMLOutputWriter::drawAgent (Tagent &a) {
-
-  double z = e_.GetHeight(a.getPosition().x, a.getPosition().y);
-  
   std::ostringstream msg;
   msg << "<position type=\"agent\" ";
   msg << "id=\"" << a.getid() << "\" ";
   msg << "x=\"" << a.getPosition().x << "\" ";
   msg << "y=\"" << a.getPosition().y << "\" ";
-  msg << "z=\"" << z << "\" ";
-  msg << "/>" << endl;
+  msg << "z=\"" << a.getPosition().z << "\" ";
+  msg << "/>";
   write(msg.str());
 }
 
@@ -224,7 +211,7 @@ void Ped::XMLOutputWriter::removeAgent (Tagent &a) {
   std::ostringstream msg;
   msg << "<remove type=\"agent\" ";
   msg << "id=\"" << a.getid() << "\" ";
-  msg << "/>" << endl;
+  msg << "/>";
   write(msg.str());
 }
 
@@ -233,17 +220,14 @@ void Ped::XMLOutputWriter::removeAgent (Tagent &a) {
 /// \date    2016-10-10
 /// \param o The obstacle to be rendered.
 void Ped::XMLOutputWriter::drawObstacle (Tobstacle &o) {
-  double z = e_.GetHeight(o.getStartPoint().x, o.getStartPoint().y);
-
   std::ostringstream msg;
   msg << "<position type=\"obstacle\" ";
   msg << "id=\"" << o.getid() << "\" ";
   msg << "x=\"" << o.getStartPoint().x << "\" ";
   msg << "y=\"" << o.getStartPoint().y << "\" ";
-  msg << "z=\"" << z << "\" ";
   msg << "dx=\"" << o.getEndPoint().x - o.getStartPoint().x << "\" ";
   msg << "dy=\"" << o.getEndPoint().y - o.getStartPoint().y << "\" ";
-  msg << "/>" << endl;
+  msg << "/>";
   write(msg.str());
 }
 
@@ -257,7 +241,7 @@ void Ped::XMLOutputWriter::drawWaypoint (Twaypoint &w) {
   msg << "x=\"" << w.getx() << "\" ";
   msg << "y=\"" << w.gety() << "\" ";
   msg << "radius=\"" << w.getr() << "\" ";
-  msg << "/>" << endl;
+  msg << "/>";
   write(msg.str());
 }
 
@@ -280,7 +264,7 @@ void Ped::XMLOutputWriter::setScenarioName (string name) {
   std::ostringstream msg;
   msg << "<scenario ";
   msg << "name=\"" << name << "\" ";
-  msg << "/>" << endl;
+  msg << "/>";
   write(msg.str());
 }
 
@@ -326,7 +310,7 @@ void Ped::XMLOutputWriter::drawLine(Tvector &start, Tvector &end, int duration, 
   msg << "red=\"" << red << "\" ";
   msg << "green=\"" << green << "\" ";
   msg << "blue=\"" << blue << "\" ";
-  msg << "/>" << endl;
+  msg << "/>";
   write(msg.str());  
 }
 
@@ -352,6 +336,6 @@ void Ped::XMLOutputWriter::writeMetrics (std::unordered_map<std::string,std::str
   std::ostringstream msg;
   msg << "<metrics> ";
   for (auto it = hash.begin(); it != hash.end(); ++it) msg << "<metric key=\"" << it->first << "\" value=\"" << it->second << "\" />";
-  msg << "</metrics>" << endl;
+  msg << "</metrics>";
   write(msg.str());
 }

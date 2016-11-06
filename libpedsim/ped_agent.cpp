@@ -526,25 +526,6 @@ void Ped::Tagent::move(double h) {
   bool has_intersection = false;
   for (auto obstacle : scene->getAllObstacles()) {
     Ped::Tvector intersection;
-    // Ped::Tvector surface = obstacle->getEndPoint() - obstacle->getStartPoint();
-    // Ped::Tvector vd = surface.leftNormalVector().normalized() * 0.30; // min radius of agent
-
-    // // walls left and right
-    // if (Ped::Tvector::lineIntersection(p, p_desired, obstacle->getStartPoint()-vd, obstacle->getEndPoint()-vd, &intersection) == 1) {
-    //   p_desired = intersection - (v*h).normalized()*0.1;
-    // }
-    // if (Ped::Tvector::lineIntersection(p, p_desired, obstacle->getStartPoint()+vd, obstacle->getEndPoint()+vd, &intersection) == 1) {
-    //   p_desired = intersection - (v*h).normalized()*0.1;
-    // }
-
-    // // caps
-    // if (Ped::Tvector::lineIntersection(p, p_desired, obstacle->getStartPoint()-vd, obstacle->getStartPoint()+vd, &intersection) == 1) {
-    //   p_desired = intersection - (v*h).normalized()*0.1;
-    // }
-    // if (Ped::Tvector::lineIntersection(p, p_desired, obstacle->getEndPoint()-vd, obstacle->getEndPoint()+vd, &intersection) == 1) {
-    //   p_desired = intersection - (v*h).normalized()*0.1;
-    // }
-
     if (Ped::Tvector::lineIntersection(p, p_desired, obstacle->getStartPoint(), obstacle->getEndPoint(), &intersection) == 1) {
       p_desired = intersection - (v*h).normalized()*0.1;
     }
@@ -552,6 +533,7 @@ void Ped::Tagent::move(double h) {
 
   p = p_desired;  // update my position
 
+  p.z = scene->GetElevation(p); // update elevation
   
   // weighted sum of all forces --> acceleration
   a = factordesiredforce * desiredforce

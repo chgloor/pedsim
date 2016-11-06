@@ -105,6 +105,22 @@ void Ped::Tscene::addWaypoint(Ped::Twaypoint* w) {
     }
 }
 
+/// Add elevation data to the scene. From here it is shared with e.g. Agents.
+/// \date 2016-11-06
+/// \param Ped::Elevation *e The elevation data to add to the scene.
+void Ped::Tscene::SetElevation(Elevation* e) {
+  elevation_ = e;
+}
+
+/// Calculates the interpolated elevation of point x/y based on the loaded elevation data. 
+/// \date 2016-11-06
+/// \param Ped::Tvector p The point to calculate the elevation of. The z coordinate of point p is ignored. 
+double Ped::Tscene::GetElevation(Ped::Tvector p) {
+  if (elevation_) return elevation_->GetHeight(p.x, p.y);
+  else return 0.0;
+}
+
+
 
 /// Remove an agent from the scene.
 /// \warning Used to delete the agent. I don't think Tscene has ownership of the assigned objects. Will not delete from now on.

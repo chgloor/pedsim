@@ -22,6 +22,10 @@ int main(int argc, char *argv[]) {
     Ped::Tscene *pedscene = new Ped::Tscene();
     pedscene->setOutputWriter(ow);
 
+    Ped::Elevation *e = new Ped::Elevation("/home/chgloor/src/pedsim-3dvis/ecosystem/3dvis/ground2.asc");
+    e->SetMeta(-125, -75, 1.0);
+    pedscene->SetElevation(e);
+    
     // outer boudaries
     pedscene->addObstacle(new Ped::Tobstacle(-125, 70,  125, 70));
     pedscene->addObstacle(new Ped::Tobstacle(-125, -70,  125, -70));

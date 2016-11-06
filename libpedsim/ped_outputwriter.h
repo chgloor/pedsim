@@ -64,8 +64,7 @@ namespace Ped {
         virtual void drawWaypoint(Twaypoint &w) = 0;
 
     protected:
-	Ped::Elevation e_;
-	
+
     };
 
 
