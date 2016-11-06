@@ -30,6 +30,7 @@
 #include "ped_scene.h"
 #include "ped_outputwriter.h"
 
+#include "ped_elevation.h"
 
 namespace Ped {
 
@@ -63,6 +64,8 @@ namespace Ped {
         virtual void drawWaypoint(Twaypoint &w) = 0;
 
     protected:
+	Ped::Elevation e_;
+	
     };
 
 

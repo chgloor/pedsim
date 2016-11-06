@@ -5,7 +5,11 @@
 
 #include "ped_elevation.h"
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <iterator>
 #include <cmath>
+#include <string>
 
 /// Constructor, sets intial values
 /// \date    2016-11-05
@@ -25,6 +29,30 @@ Ped::Elevation::Elevation() {
 Ped::Elevation::~Elevation() {
 }
 
+
+Ped::Elevation::Elevation(std::string filename) {
+  std::ifstream input(filename);
+  std::string line;
+
+  getline(input, line); // ncols
+  getline(input, line); // nrows
+  getline(input, line); // xll
+  getline(input, line); // yll
+  getline(input, line); // size
+  getline(input, line); // nanval
+  
+  //  std::vector<std::vector<double>> data;
+  int i = 0;
+  while (getline(input, line)) {
+    std::istringstream is(line);
+    i++;
+    data_.push_back( 
+		   std::vector<double>(std::istream_iterator<double>(is),
+				       std::istream_iterator<double>()));
+  }
+  std::cout << "Read elevation data from file " << filename << " (" << i << " lines)" << std::endl;
+}
+
 /// Method to set elevation data from a 2d vector.
 /// \date 2016-11-05
 void Ped::Elevation::SetData(std::vector<std::vector<double>> data, double xmin, double ymin, double step) {
@@ -34,11 +62,22 @@ void Ped::Elevation::SetData(std::vector<std::vector<double>> data, double xmin,
   step_ = step;
 }
 
+/// Method to set elevation meta data
+/// \date 2016-11-05
+void Ped::Elevation::SetMeta(double xmin, double ymin, double step) {
+  xmin_ = xmin;
+  ymin_ = ymin;
+  step_ = step;
+}
+
 
 /// Finds the elevation of point x/y by interpolating the known values in the elevation grid.
 /// \date    2016-11-05
 double Ped::Elevation::GetHeight(double x, double y) {
-
+  // std::cout << data_[0].size() << std::endl;
+  // std::cout << data_.size() << std::endl;
+  // std::cout << x << "/" << y << std::endl;
+  
   // Check for x/y outside defined area.
   if (x < xmin_) return 0.0;
   if (x > (xmin_ + (data_[0].size() - 1) * step_)) return 0.0;
@@ -56,7 +95,7 @@ double Ped::Elevation::GetHeight(double x, double y) {
   // std::cout << x << std::endl;
   // std::cout << x1 << std::endl;
   // std::cout << x2 << std::endl;
-  // std::cout << xa << std::endl;
+  //  std::cout << xa << std::endl;
   // std::cout << xb << std::endl;
   // std::cout << xw << std::endl;
 
@@ -69,14 +108,18 @@ double Ped::Elevation::GetHeight(double x, double y) {
   // std::cout << y << std::endl;
   // std::cout << y1 << std::endl;
   // std::cout << y2 << std::endl;
-  // std::cout << ya << std::endl;
+  //  std::cout << ya << std::endl;
   // std::cout << yb << std::endl;
   // std::cout << yw << std::endl;
 
-  double hul = data_[xa][ya];
-  double hur = data_[xb][ya];
-  double hll = data_[xa][yb];
-  double hlr = data_[xb][yb];
+  // double hul = data_[xa][ya];
+  // double hur = data_[xb][ya];
+  // double hll = data_[xa][yb];
+  // double hlr = data_[xb][yb];
+  double hul = data_[ya][xa];
+  double hur = data_[ya][xb];
+  double hll = data_[yb][xa];
+  double hlr = data_[yb][xb];
 
   // std::cout << "--" << std::endl;
   // std::cout << hul << std::endl;

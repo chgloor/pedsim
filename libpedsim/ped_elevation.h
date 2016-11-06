@@ -13,16 +13,23 @@
 #endif
 
 #include <vector>
+#include <string>
 
 namespace Ped {
 
   class LIBEXPORT Elevation {
   public:
     Elevation();
+    Elevation(std::string filename);
+
     virtual ~Elevation();
 
     void SetData(std::vector<std::vector<double>> data, double xmin, double ymin, double step);
+    void SetMeta(double xmin, double ymin, double step);
     double GetHeight(double x, double y);
+
+    int getwidth() {return data_[0].size();};
+    int getheight() {return data_.size();};
     
   private:
     std::vector<std::vector<double>> data_; ///< Raw elevation grid data without coordinates.
