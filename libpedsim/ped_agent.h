@@ -49,6 +49,9 @@ namespace Ped {
         virtual Tvector lookaheadForce(Tvector desired, const set<const Ped::Tagent*> &neighbors);
         virtual Tvector myForce(Tvector desired, const set<const Ped::Tagent*> &neighbors);
 
+	virtual double GradientCorrection(double z);
+
+	
         void setType(int t) { this->type = t; };
         int getType() const { return type; };
 

@@ -308,7 +308,7 @@ Ped::Tvector Ped::Tagent::desiredForce() {
 
 /// Calculates the social force between this agent and all the other agents
 /// belonging to the same scene.  It iterates over all agents inside the scene,
-/// has therefore complexity \f$O(N^2)\f$. A better agent storing structure in
+/// has therefore complexity \f$O(n^2)\f$. A better agent storing structure in
 /// Tscene would fix this. But for small (less than 10000 agents) scenarios,
 /// this is just fine.
 /// \date    2012-01-17
@@ -340,7 +340,7 @@ Ped::Tvector Ped::Tagent::socialForce(const set<const Ped::Tagent*> &neighbors) 
 
         // skip futher computation if they are too far away from each
         // other. Should speed up things.
-        if (diff.lengthSquared() > 64.0) continue; // val to high --chgloor 20160630
+        if (diff.lengthSquared() > 64.0) continue; // val to high --chgloor 2016-06-30
 
         Tvector diffDirection = diff.normalized();
 
@@ -360,11 +360,6 @@ Ped::Tvector Ped::Tagent::socialForce(const set<const Ped::Tagent*> &neighbors) 
         // compute model parameter B = gamma * ||D||
         double B = gamma * interactionLength;
 
-        // According to paper, this should be the sum of the two forces...
-//          force += -exp(-diff.length()/B)
-//              * (exp(-pow(n_prime*B*theta,2)) * interactionDirection
-//                  + exp(-pow(n*B*theta,2)) * interactionDirection.leftNormalVector());
-
         double forceVelocityAmount = -exp(-diff.length()/B - (n_prime*B*theta)*(n_prime*B*theta));
         double forceAngleAmount = -thetaSign * exp(-diff.length()/B - (n*B*theta)*(n*B*theta));
 
@@ -373,32 +368,6 @@ Ped::Tvector Ped::Tagent::socialForce(const set<const Ped::Tagent*> &neighbors) 
 
         force += forceVelocity + forceAngle;
     }
-
-// Old code: (didn't follow papers)
-//      const double maxDistance = 10.0;
-//      const double maxDistSquared = maxDistance*maxDistance;
-//
-//      Ped::Tvector force;
-//      for(set<const Ped::Tagent*>::iterator iter = neighbors.begin(); iter!=neighbors.end(); ++iter) {
-//          const Ped::Tagent* other = *iter;
-//
-//          // don't compute social force to yourself
-//          if (other->id == id)
-//              continue;
-//
-//           // quick distance check
-//          Ped::Tvector diff = other->p - p;
-//          if ((abs(diff.x) < maxDistance)
-//              && (abs(diff.y) < maxDistance)) {
-//              double dist2 = diff.lengthSquared();
-//
-//              // ignore too small forces
-//              if (dist2 < maxDistSquared) {
-//                  double expdist = exp(-sqrt(dist2)/socialForceSigma);
-//                  force += -expdist * diff;
-//              }
-//          }
-//      }
 
     return force;
 }
@@ -521,10 +490,7 @@ void Ped::Tagent::computeForces() {
 /// \date 2003-12-29 
 /// \param h Integration time step delta t
 void Ped::Tagent::move(double h) {
-  // internal position update = actual move
-  //    p = p + v * h;
   Tvector p_desired = p + v * h;
-
 
   Ped::Tvector intersection;
   bool has_intersection = false;
@@ -535,6 +501,7 @@ void Ped::Tagent::move(double h) {
     }
   }
 
+  // internal position update = actual move
   p = p_desired;  // update my position
 
   p.z = scene->GetElevation(p); // update elevation
@@ -549,9 +516,47 @@ void Ped::Tagent::move(double h) {
   // calculate the new velocity
   v = 0.5 * v + a * h; // prob rather (0.5 / h) * v
 
+  // elevation logic
+  double el_z = scene->GetElevation(p + v.normalized()); // gradient based on normalized direction = 1m. same for all.
+  double vmax_terrain = vmax * GradientCorrection(el_z - p.z);
+
   // don't exceed maximal speed
-  if (v.length() > vmax) v = v.normalized() * vmax;
+  if (v.length() > vmax_terrain) v = v.normalized() * vmax_terrain;
 
   // notice scene of movement
   scene->moveAgent(this);
+}
+
+/// Correction factor based on gradient of terrain.
+/// Values roughly based on [Weidmann] p.43. 
+///
+///                        speed
+///                          ^
+///                x x x x x x x x
+///            x x           |     x x
+///         x x              |         x x
+///        x                 |             x
+///       x------------------+---------------x > gradient
+///                          |
+///                          |
+///
+/// \param double gradient Altitude gain/loss based on 1 unit. E.g. 0.5 means 50 cm gain over 1 m.
+double Ped::Tagent::GradientCorrection(double gradient) {
+  // up
+  if (gradient > 0.8) return 0.05;
+  if (gradient > 0.6) return 0.2;
+  if (gradient > 0.4) return 0.4;
+  if (gradient > 0.3) return 0.55;
+  if (gradient > 0.2) return 0.75;
+  if (gradient > 0.1) return 0.9;
+
+  // down
+  if (gradient < -1.4) return 0.05;
+  if (gradient < -1.2) return 0.2;
+  if (gradient < -1.0) return 0.5;
+  if (gradient < -0.8) return 0.7;
+  if (gradient < -0.6) return 0.9;
+
+  // default, i.e. the middle
+  return 1.0;
 }
