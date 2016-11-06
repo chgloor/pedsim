@@ -50,6 +50,7 @@ int main(int argc, char *argv[]) {
     Ped::Twaypoint *w1 = new Ped::Twaypoint(100, 0, 24);
     pedscene->addWaypoint(w1);
 
+    Ped::Tagent *cam_agent;
     for (int i = 0; i<nagents; i++) {
       Ped::Tagent *a = new Ped::Tagent();
         a->setPosition(0.0 + rand()/(RAND_MAX/40.0)-100.0, 0.0 + rand()/(RAND_MAX/30.0)-15.0, 0.0);
@@ -57,18 +58,20 @@ int main(int argc, char *argv[]) {
 	a->setWaypointBehavior(Ped::Tagent::BEHAVIOR_ONCE);
 	a->setfactorsocialforce(10.0);
         pedscene->addAgent(a);
+	if (i == 100) cam_agent = a;
     }
 
     // move all agents for a few steps
     long timestep = 0;
     for (int i=0; i<10000; ++i) {
         pedscene->moveAgents(0.4);
+
+	Ped::Tvector p = cam_agent->getPosition();
+	p.z = p.z + 2.2; // cam location 2.2m above ground = 0.2m above head.
+	ow->setCamera(p, cam_agent->getVelocity().normalized(), "Cam 1");
+
 	std::this_thread::sleep_for(std::chrono::milliseconds(1000/50));
     }
-
-    Ped::Tvector p = agents.front()->getPosition();
-    p.z = p.z + 2.2; // cam location 2.2m above ground = 0.2m above head.
-    ow->setCamera(p, agents.front()->getVelocity().normalized(), "Cam 1");
 
     // cleanup
     for (auto a : pedscene->getAllAgents()) { delete a; };
