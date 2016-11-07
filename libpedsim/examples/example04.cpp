@@ -15,7 +15,7 @@ using namespace std;
 int main(int argc, char *argv[]) {
     cout << "PedSim Example using libpedsim version " << Ped::LIBPEDSIM_VERSION << endl;
 
-    Ped::OutputWriter *ow = new Ped::UDPOutputWriter();
+    Ped::OutputWriter *ow = new Ped::TCPOutputWriter();
     ow->setScenarioName("Example 04");
 
     // setup

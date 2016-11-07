@@ -144,7 +144,7 @@ namespace Ped {
 	ofstream outfile_;
     };
 
-    /// Class that defines a frame-by-frame proprietary XMLOutputWriter that sends output over the network.
+    /// Class that defines a frame-by-frame proprietary XMLOutputWriter that sends output packed-oriented over the network.
     /// For supported tags, see @ref xml_specs.
     /// \author  chgloor
     /// \date    2016-10-09
@@ -152,6 +152,20 @@ namespace Ped {
     public:
       UDPOutputWriter();
       virtual ~UDPOutputWriter();
+
+    protected:
+	virtual void write(string message);
+	SOCKET socket_;
+    };
+
+    /// Class that defines a frame-by-frame proprietary XMLOutputWriter that sends output stream-oriented over the network.
+    /// For supported tags, see @ref xml_specs.
+    /// \author  chgloor
+    /// \date    2016-11-07
+    class LIBEXPORT TCPOutputWriter : public XMLOutputWriter {
+    public:
+      TCPOutputWriter();
+      virtual ~TCPOutputWriter();
 
     protected:
 	virtual void write(string message);

@@ -60,10 +60,12 @@ Ped::FileOutputWriter::~FileOutputWriter () {
   outfile_.close();
 }
 
+// UDP -------------------------------------------------------------------------
+
 /// Destructor used to close the network socket
 /// \date    2016-10-09
 Ped::UDPOutputWriter::~UDPOutputWriter () {
-  //  socket.close()???
+  close(socket_);
 }
 
 /// Constructor used to open the network socket
@@ -104,9 +106,72 @@ void Ped::UDPOutputWriter::write(string message) {
 }
 
 
+// TCP -------------------------------------------------------------------------
+
+/// Destructor used to close the network socket
+/// \date    2016-11-07
+Ped::TCPOutputWriter::~TCPOutputWriter () {
+  close(socket_);
+}
+
+/// Constructor used to open the network socket
+/// \date    2016-11-07
+Ped::TCPOutputWriter::TCPOutputWriter () {
+#ifdef WIN32
+  WSADATA wsaData;
+  int result;
+  result = WSAStartup(MAKEWORD(2, 2), &wsaData);
+  if (result != 0) {
+	  cout << "WSAStartup failed: " << result << endl;
+  }
+#endif
+
+  socket_ = socket(AF_INET, SOCK_STREAM, 0);
+
+  socklen_t optlen = sizeof(int);
+  int optval = 1;
+  getsockopt(socket_, SOL_SOCKET, SO_REUSEADDR, (char*)&optval, &optlen);
+
+  struct sockaddr_in to;
+  memset(&to, 0, sizeof(to));
+  to.sin_family = AF_INET;
+  to.sin_addr.s_addr = inet_addr("127.0.0.1");
+  to.sin_port = htons(2323);
+
+  if (connect(socket_, (struct sockaddr*)&to, sizeof(to)) == -1) {
+    close(socket_);
+    perror("client: connect");
+    //    continue;
+  }
+
+  // send tag to open the document manually
+  int bytes_sent;
+  string message = "<welcome source=\"pedsim\">";
+  const char *msg;
+  msg = message.c_str();
+  bytes_sent = send(socket_, msg, strlen(msg), 0);
+
+  write("<reset/>");
+}
+
+
+void Ped::TCPOutputWriter::write(string message) {
+  int bytes_sent;
+  const char *msg;
+
+  string ext_message = "<message>" + message + "</message>";
+  msg = ext_message.c_str();
+  bytes_sent = send(socket_, msg, strlen(msg), 0);
+}
+
+// File ------------------------------------------------------------------------
+
+
 void Ped::FileOutputWriter::write(string message) {
   outfile_ << message << endl;
 }
+
+// XML -------------------------------------------------------------------------
 
 
 /// Constructor used to open the output file
