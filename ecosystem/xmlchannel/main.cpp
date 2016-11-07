@@ -62,7 +62,7 @@ void XMLCALL xmlStart(void *data, const char *el, const char **attr) {
   }
   s << " />" << ends; 
   outqueue.push(s.str());
-  //  log->add(s.str());
+  log->add(s.str());
 }
 
 void receive(int timeout) {
@@ -220,7 +220,7 @@ int main(int argc, char* argv[]) {
   while(1) {
     receive(100);
  
-    if (!outqueue.empty()) {
+    while (!outqueue.empty()) {
       string s = (string)outqueue.front();
       outqueue.pop();
 
