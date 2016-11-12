@@ -159,9 +159,17 @@ void Ped::TCPOutputWriter::write(string message) {
   int bytes_sent;
   const char *msg;
 
-  string ext_message = "<message>" + message + "</message>";
-  msg = ext_message.c_str();
+  //  string ext_message = "<message>" + message + "</message>";
+  msg = message.c_str();
   bytes_sent = send(socket_, msg, strlen(msg), 0);
+
+  
+  char buf[4096];
+  // if ((numbytes = recv(socket_, buf, 4095, MSG_DONTWAIT)) == -1) {
+  //   perror("recv");
+  //   exit(1);
+  // }
+  recv(socket_, buf, 4095, MSG_DONTWAIT); // receive and discard
 }
 
 // File ------------------------------------------------------------------------
@@ -418,8 +426,11 @@ void Ped::XMLOutputWriter::drawLine(Tvector &start, Tvector &end, int duration, 
 /// \param name hash A unordered_map of metrics to send. E.g. called like ow->writeMetrics({{"name1", "value1"}, {"name2", "value2"}});
 void Ped::XMLOutputWriter::writeMetrics (std::unordered_map<std::string,std::string> hash) {
   std::ostringstream msg;
-  msg << "<metrics> ";
-  for (auto it = hash.begin(); it != hash.end(); ++it) msg << "<metric key=\"" << it->first << "\" value=\"" << it->second << "\" />";
-  msg << "</metrics>";
+  // msg << "<metrics> ";
+  // for (auto it = hash.begin(); it != hash.end(); ++it) msg << "<metric key=\"" << it->first << "\" value=\"" << it->second << "\" />";
+  // msg << "</metrics>";
+  msg << "<metrics ";
+  for (auto it = hash.begin(); it != hash.end(); ++it) msg << "" << it->first << "=\"" << it->second << "\" ";
+  msg << " />";
   write(msg.str());
 }

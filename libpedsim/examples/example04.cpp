@@ -63,12 +63,17 @@ int main(int argc, char *argv[]) {
 
     // move all agents for a few steps
     long timestep = 0;
+    Ped::Tvector p = cam_agent->getPosition();
+    //    Ped::Tvector v = cam_agent->getVelocity().normalized();
+    Ped::Tvector v(1, 0, 0);
     for (int i=0; i<10000; ++i) {
         pedscene->moveAgents(0.4);
 
-	Ped::Tvector p = cam_agent->getPosition();
-	p.z = p.z + 2.2; // cam location 2.2m above ground = 0.2m above head.
-	ow->setCamera(p, cam_agent->getVelocity().normalized(), "Cam 1");
+	p = 0.2 * cam_agent->getPosition() + 0.8 * p;
+	v = 0.005 * cam_agent->getVelocity().normalized() + 0.995 * v;
+	//	p.z = p.z + 2.2; // cam location 2.2m above ground = 0.2m above head.
+	ow->setCamera(Ped::Tvector(p.x, p.y, p.z+2.2), v.normalized(), "Agent 1");
+	ow->setCamera(Ped::Tvector(p.x, p.y+40, p.z+20), Ped::Tvector(0, -2, -1).normalized(), "Cam 1");
 
 	std::this_thread::sleep_for(std::chrono::milliseconds(1000/50));
     }
