@@ -34,6 +34,7 @@
 #include "receiver.h"
 #include "ground.h"
 #include "globals.h"
+#include "serverstream.h"
 
 
 ItemContainer agentcontainer;
@@ -111,7 +112,9 @@ int main(int argc, char* argv[]) {
     }
     
     receiver = new Receiver(2222);
-	
+    ServerStream ss(NULL);
+    ss.open();
+    
     // Camera
     camera = view.camera();
     camera->lens()->setPerspectiveProjection(45.0f, 16.0f/9.0f, 0.1f, 1000.0f);

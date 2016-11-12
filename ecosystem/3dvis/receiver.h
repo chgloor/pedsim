@@ -11,6 +11,7 @@
 class QLabel;
 class QPushButton;
 class QUdpSocket;
+class QTcpSocket;
 class QAction;
 
 class Receiver : public QObject {
@@ -18,12 +19,15 @@ class Receiver : public QObject {
 
 public:
     Receiver(int port);
+    Receiver(QString host, int port);
 
 private slots:
     void processPendingDatagrams();
+    //    void processPendingDatagramsStream();
 
 private:
     QUdpSocket *udpSocket;
+    //    QTcpSocket *tcpSocket;
 };
 
 #endif

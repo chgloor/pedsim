@@ -12,7 +12,8 @@ SOURCES += \
 	messageparser.cpp \
         receiver.cpp \
         ground.cpp \
-        globals.cpp
+        globals.cpp \
+        serverstream.cpp
 
 HEADERS += \
 	item.h \ 
@@ -22,4 +23,6 @@ HEADERS += \
 	messageparser.h \
         receiver.h \
         ground.h \
-        globals.h
+        globals.h \
+        serverstream.h
+
