@@ -8,8 +8,8 @@
 
 // ALL THE GLOBAL DEFINITIONS
 
-bool g_option_network = false;
-int g_option_network_port = 2222;
+// bool g_option_network = false;
+// int g_option_network_port = 2222;
 
 bool g_option_camera = false;
 QString g_option_camera_id = "";

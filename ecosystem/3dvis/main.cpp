@@ -40,9 +40,11 @@
 ItemContainer agentcontainer;
 ItemContainer obstaclecontainer;
 Receiver *receiver;
+ServerStream *serverstream;
 
 Qt3DRender::QCamera *camera;
 Qt3DCore::QEntity *scene;
+
 
 Qt3DCore::QEntity *createScene() {
     // Root entity
@@ -81,21 +83,31 @@ int main(int argc, char* argv[]) {
     cparser.setApplicationDescription("3-dimensional PEDSIM visualizer.");
     cparser.addHelpOption();
 
-    QCommandLineOption networkOption(QStringList() << "n" << "network", "Read input from network on port <port>", "port");
-    cparser.addOption(networkOption);
+    QCommandLineOption udpOption(QStringList() << "u" << "udp", "Read input from network on UDP port <port>", "port");
+    cparser.addOption(udpOption);
+
+    QCommandLineOption hostOption(QStringList() << "s" << "server", "Read input from network on TCP host <host>", "host");
+    cparser.addOption(hostOption);
+
+    QCommandLineOption portOption(QStringList() << "p" << "port", "Read input from network on TCP port <port>", "port");
+    cparser.addOption(portOption);
 
     QCommandLineOption camOption(QStringList() << "c" << "camera", "Display view from camera with ID <camera>", "camera");
     cparser.addOption(camOption);
 
-    // "file:ground2.obj"
     QCommandLineOption elevationOption(QStringList() << "e" << "elevation", "Elevation data URL, e.g. file:ground.obj", "URL");
     cparser.addOption(elevationOption);
 
-    // Process the actual command line arguments given by the user
     cparser.process(app);
 
-    g_option_network = cparser.isSet(networkOption);
-    g_option_network_port = cparser.value(networkOption).toInt();
+    bool g_option_udp = cparser.isSet(udpOption);
+    int g_option_udp_port = cparser.value(udpOption).toInt();
+
+    bool g_option_port = cparser.isSet(portOption);
+    int g_option_port_port = cparser.value(portOption).toInt();
+
+    bool g_option_host = cparser.isSet(hostOption);
+    QString g_option_host_host = cparser.value(hostOption);
 
     g_option_camera = cparser.isSet(camOption);
     g_option_camera_id = cparser.value(camOption);
@@ -110,10 +122,19 @@ int main(int argc, char* argv[]) {
     if (g_option_elevation) {
       Ground *g = new Ground(scene, g_option_elevation_filename);
     }
-    
-    receiver = new Receiver(2222);
-    ServerStream ss(NULL);
-    ss.open();
+
+    if (g_option_udp) {
+      receiver = new Receiver(g_option_udp_port);
+    }
+
+    if (g_option_host) {
+      int port = 2323;
+      if (g_option_port) {
+	port = g_option_port_port;
+      }      
+      serverstream = new ServerStream(NULL, g_option_host_host, g_option_port_port);
+      serverstream->open();
+    }
     
     // Camera
     camera = view.camera();

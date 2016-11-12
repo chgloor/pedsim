@@ -26,9 +26,6 @@
 
 using namespace std;
 
-QString host = "localhost";
-int port = 2323;
-
 extern Qt3DCore::QEntity *scene;
 extern Qt3DRender::QCamera *camera;
 
@@ -36,70 +33,58 @@ extern ItemContainer agentcontainer;
 extern ItemContainer obstaclecontainer;
 
 
-ServerStream::ServerStream(QObject* parent = 0) : QObject(parent) {
+ServerStream::ServerStream(QObject* parent = 0, QString host = "localhost", int port = 2323) : QObject(parent), host_(host), port_(port) {
+  mutex_ = new QMutex(QMutex::Recursive);
+  socket_ = new QTcpSocket();
 
-  m_mutex = new QMutex(QMutex::Recursive);
-  m_socket = new QTcpSocket();
-
-  connect(m_socket, SIGNAL(connected()), this, SIGNAL(connected()));
-  connect(m_socket, SIGNAL(disconnected()), this, SIGNAL(disconnected()));
-  connect(m_socket, SIGNAL(readyRead()), this, SLOT(processData()));
-  connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(handleError(QAbstractSocket::SocketError)));
+  connect(socket_, SIGNAL(connected()), this, SIGNAL(connected()));
+  connect(socket_, SIGNAL(disconnected()), this, SIGNAL(disconnected()));
+  connect(socket_, SIGNAL(readyRead()), this, SLOT(processData()));
+  connect(socket_, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(handleError(QAbstractSocket::SocketError)));
   connect(this, SIGNAL(welcomeReceived()), this, SLOT(sendWelcome()));
 }
 
 
 void ServerStream::open() {
-  QMutexLocker locker(m_mutex);
-
-  m_socket->connectToHost(host, port);
+  QMutexLocker locker(mutex_);
+  socket_->connectToHost(host_, port_);
 }
 
 
 void ServerStream::close () {
-  QMutexLocker locker(m_mutex);
-
-  m_socket->disconnectFromHost();
+  QMutexLocker locker(mutex_);
+  socket_->disconnectFromHost();
   emit disconnected(); // NOTE: disconnectFromHost() should send this, but somehow it doesn't
 }
 
 
 void ServerStream::processData () {
-  while (m_socket->bytesAvailable() > 4096) {
+  while (socket_->bytesAvailable() > 4096) {
     char buffer[4096];
-    int numRead = m_socket->read(buffer, 4096);
+    int numRead = socket_->read(buffer, 4096);
     buffer[numRead] = '\0';
-    m_xmlReader.addData(buffer);
+    xmlReader_.addData(buffer);
   }
 
-  while (!m_xmlReader.atEnd()) {
-    //    QMutexLocker locker(m_mutex);
+  while (!xmlReader_.atEnd()) {
+    QMutexLocker locker(mutex_);
 
-    m_xmlReader.readNext();
+    xmlReader_.readNext();
 
-    if (m_xmlReader.isStartElement()) {
-      if (m_xmlReader.name() == "timestep") {
-	QString value = m_xmlReader.attributes().value("value").toString();
+    if (xmlReader_.isStartElement()) {
+      if (xmlReader_.name() == "timestep") {
+	QString value = xmlReader_.attributes().value("value").toString();
 	cout << "timestep " << value.toStdString() << endl;
-	// Quote *q = new Quote();
-	// q->setInstrumentId(m_xmlReader.attributes().value("instrument").toString().toInt());
-	// q->setBid(m_xmlReader.attributes().value("bid").toString().toDouble());
-	// q->setAsk(m_xmlReader.attributes().value("ask").toString().toDouble());
-	// q->setLast(m_xmlReader.attributes().value("last").toString().toDouble());
-	// q->setBids(m_xmlReader.attributes().value("bids").toString().toInt());
-	// q->setAsks(m_xmlReader.attributes().value("asks").toString().toInt());
 
-	// emit quoteReceived(q);
-
-      } else if (m_xmlReader.name() == "welcome") {
+      } else if (xmlReader_.name() == "welcome") {
 	// emit welcomeReceived();
 
-      } else if (m_xmlReader.name() == "position") { // <position id="249" type="agent" x="27.6718" y="-0.552733" z="6.0119"  />
-	QString type = m_xmlReader.attributes().value("type").toString();
-	QString id = m_xmlReader.attributes().value("id").toString();
-	double x = m_xmlReader.attributes().value("x").toString().toDouble();
-	double y = m_xmlReader.attributes().value("y").toString().toDouble();
-	double z = m_xmlReader.attributes().value("z").toString().toDouble();
+      } else if (xmlReader_.name() == "position") { // <position id="249" type="agent" x="27.6718" y="-0.552733" z="6.0119"  />
+	QString type = xmlReader_.attributes().value("type").toString();
+	QString id = xmlReader_.attributes().value("id").toString();
+	double x = xmlReader_.attributes().value("x").toString().toDouble();
+	double y = xmlReader_.attributes().value("y").toString().toDouble();
+	double z = xmlReader_.attributes().value("z").toString().toDouble();
 
 	if (type == "agent") {
 	  if (!agentcontainer.contains(id)) {
@@ -112,26 +97,22 @@ void ServerStream::processData () {
 	if (type == "camera") {
 	  if (g_option_camera) {
 	    if (id == g_option_camera_id) {
-	      double rx = m_xmlReader.attributes().value("rx").toString().toDouble();
-	      double ry = m_xmlReader.attributes().value("ry").toString().toDouble();
-	      double rz = m_xmlReader.attributes().value("rz").toString().toDouble();
+	      double rx = xmlReader_.attributes().value("rx").toString().toDouble();
+	      double ry = xmlReader_.attributes().value("ry").toString().toDouble();
+	      double rz = xmlReader_.attributes().value("rz").toString().toDouble();
 	      camera->setPosition(QVector3D(x, z, y));
 	      camera->setViewCenter(QVector3D(x + rx, z + rz , y + ry));
 	    }
 	  }
 	}
 
+      }
 
-	
-}
-
-
-
-    // else if (m_xmlReader.isEndElement()) {
-    //   if (m_xmlReader.name() == "position") {
-    //  	this->inPosition = false;
-    //   }
-    // }
+      else if (xmlReader_.isEndElement()) {
+	//   if (xmlReader_.name() == "position") {
+	//  	this->inPosition = false;
+	//   }
+     }
     }
   }
 }
@@ -141,26 +122,20 @@ void ServerStream::handleError (QAbstractSocket::SocketError err) {
   emit socketError(err);
 }
 
+
 void ServerStream::sendWelcome () {
-  QMutexLocker locker(m_mutex);
+  QMutexLocker locker(mutex_);
 
   stringstream ss;
   ss << "<welcome client=\"" << "3dvis\">";
-  m_socket->write(ss.str().c_str());
+  socket_->write(ss.str().c_str());
 }
 
+
 void ServerStream::sendGoodBye () {
-  QMutexLocker locker(m_mutex);
+  QMutexLocker locker(mutex_);
 
   stringstream ss;
   ss << "</welcome>";
-  m_socket->write(ss.str().c_str());
+  socket_->write(ss.str().c_str());
 }
-
-// void ServerStream::sendLogin (QString username, QString password) {
-//   QMutexLocker locker(m_mutex);
-
-//   stringstream ss;
-//   ss << "<login username=\"" << username.toStdString() << "\" password=\"" << password.toStdString() << "\" />";
-//   m_socket->write(ss.str().c_str());
-// }

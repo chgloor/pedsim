@@ -1,13 +1,6 @@
 #ifndef SERVERSTREAM_H
 #define SERVERSTREAM_H
 
-//#include "serverstreamxmlreader.h"
-/* #include "quote.h" */
-/* #include "order.h" */
-/* #include "project.h" */
-/* #include "instrument.h" */
-/* #include "position.h" */
-
 #include <QtCore>
 #include <QtNetwork>
 #include <QObject>
@@ -16,37 +9,32 @@
 #include <QMutex>
 
 class ServerStream : public QObject {
+  Q_OBJECT
 
-	Q_OBJECT
+ public:
+  ServerStream(QObject* parent, QString host, int port); 
 
-	public:
-		ServerStream(QObject* parent); 
+ signals: 
+  void connected();
+  void disconnected();
+  void welcomeReceived();
+  void socketError(QAbstractSocket::SocketError err);
 
-	signals: 
-		void connected();
-		void encrypted();
-		void disconnected();
-		void welcomeReceived();
-		void socketError(QAbstractSocket::SocketError err);
+ public slots:
+  void handleError(QAbstractSocket::SocketError);
+  void open();
+  void close();
+  void sendWelcome();
+  void sendGoodBye();
 
-	public slots:
-		void handleError(QAbstractSocket::SocketError);
-		/* void subscribeInstrument(int iid); */
-		/* void unsubscribeInstrument(int iid); */
-		void open();
-		void close();
-		void sendWelcome();
-		void sendGoodBye();
+ private slots:
+  void processData();
 
-	private slots:
-		void processData();
-
-	private:
-		//		ServerStreamXMLReader m_xmlReader;
-		QXmlStreamReader m_xmlReader;
-		QTcpSocket* m_socket;
-		bool inPosition;
-		QMutex* m_mutex;
-
+ private:
+  QXmlStreamReader xmlReader_;
+  QTcpSocket* socket_;
+  QMutex* mutex_;
+  QString host_;
+  int port_;
 };
 #endif

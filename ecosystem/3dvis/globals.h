@@ -12,8 +12,8 @@ class QString;
 
 //extern QString g_some_string;
 
-extern bool g_option_network;
-extern int g_option_network_port;
+/* extern bool g_option_network; */
+/* extern int g_option_network_port; */
 
 extern bool g_option_camera;
 extern QString g_option_camera_id;
