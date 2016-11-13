@@ -7,6 +7,7 @@
 #include "ped_waypoint.h"
 #include "ped_scene.h"
 #include "ped_obstacle.h"
+#include "ped_mesh.h"
 
 #include <cmath>
 #include <algorithm>
@@ -37,6 +38,7 @@ Ped::Tagent::Tagent() {
     follow = -1;
     mlLookAhead = false;
     scene = NULL;
+    mesh = NULL;
 
     // assign random maximal speed in m/s
     // normal distribution (mean 1.2, std 0.2)
@@ -55,6 +57,7 @@ Ped::Tagent::Tagent() {
     relaxationTime = 0.5;
 
     waypointbehavior = BEHAVIOR_CIRCULAR;
+    
 }
 
 
@@ -93,7 +96,7 @@ Ped::Tscene* Ped::Tagent::getscene() {
 /// \date    2012-01-19
 void Ped::Tagent::addWaypoint(Twaypoint *wp) {
     waypoints.push_back(wp);
-    destination = waypoints.front();
+    // destination = waypoints.front(); <-------------------------------------------------------------------------------------------------------- check! 
 }
 
 
@@ -252,6 +255,12 @@ Ped::Tvector Ped::Tagent::desiredForce() {
         destination = waypoints.front();
         waypoints.pop_front();
 
+	// ---------------------> new mesh
+	if (mesh) delete mesh;
+	mesh = new Ped::Mesh(p, destination->GetPosition(), scene);
+	path = mesh->path_;
+	//	std::cout << "mesh" << std::endl;
+		
         if (waypointbehavior == Ped::Tagent::BEHAVIOR_CIRCULAR) {
             waypoints.push_back(destination);
         }
@@ -264,32 +273,50 @@ Ped::Tvector Ped::Tagent::desiredForce() {
 
     // if there is no destination, don't move
     if (destination == NULL) {
-        //        desiredDirection = Ped::Tvector();
+      //        desiredDirection = Ped::Tvector();
         //        Tvector antiMove = -v / relaxationTime;
         //        return antiMove;
-        // not shure about these lines above
+        // not sure about these lines above
         desiredDirection = Ped::Tvector(0, 0, 0);
     }
 
+
+    // waypoint reached? 
     bool reached = false;
     if  (destination != NULL) {
-        if (lastdestination == NULL) {
-            // create a temporary destination of type point, since no normal from last dest is available
-            Twaypoint tempDestination(destination->getx(), destination->gety(), destination->getr());
-            tempDestination.settype(Ped::Twaypoint::TYPE_POINT);
-            desiredDirection = tempDestination.getForce(p.x,
-                                                        p.y,
-                                                        0,
-                                                        0,
-                                                        &reached);
-        } else {
-            desiredDirection = destination->getForce(p.x,
-                                                     p.y,
-                                                     lastdestination->getx(),
-                                                     lastdestination->gety(),
-                                                     &reached);
-        }
+      if (lastdestination == NULL) {
+	// create a temporary destination of type point, since no normal from last dest is available
+	Twaypoint tempDestination(destination->getx(), destination->gety(), destination->getr());
+	tempDestination.settype(Ped::Twaypoint::TYPE_POINT);
+	desiredDirection = tempDestination.getForce(p.x, p.y, 0, 0, &reached);
+      } else {
+	desiredDirection = destination->getForce(p.x, p.y, lastdestination->getx(), lastdestination->gety(), &reached);
+      }
     }
+
+    // path/mesh logic (overrides waypoint logic above, if path is defined and last poit not yet reached)
+    Ped::Tvector pointdirection;
+    if (!path.empty()) {
+    // for (auto p : path) {	  
+    //   std::cout << p.x << "/" << p.y << std::endl;
+    // }
+      Tvector n = path.back();
+      //      std::cout << "me " << p.to_string() << std::endl;
+      if ((n - p).length2d() < 2.5) { // we are close to the point	
+       	path.pop_back(); // remove point from path
+       	if (!path.empty()) {	  
+       	  n = path.back(); // select next point as active point
+	  //  std::cout << "pop " << n.to_string() << std::endl;
+	  path.pop_back();
+	  path.push_back(n);
+       	}
+      }
+      
+      desiredDirection = (n - p); // in direction of active point
+      desiredDirection.z = 0;
+      //      std::cout << "pt d " << pointdirection.to_string() << std::endl;
+      
+    }	
 
     // mark destination as reached for next time step
     if ((destination != NULL) && (reached == true)) {
@@ -300,6 +327,7 @@ Ped::Tvector Ped::Tagent::desiredForce() {
     // Compute force. This translates to "I want to move into that
     // direction at the maximum speed"
     Tvector force = desiredDirection.normalized() * vmax;
+
     //    cout << force.to_string() << endl;
 
     return force;

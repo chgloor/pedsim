@@ -29,6 +29,7 @@ namespace Ped {
     class Ttree;
     class OutputWriter;
     class Elevation;
+    class Mesh;
     
     /// The Tscene class contains the spatial representation of the "world" the agents live in.
     /// Theoretically, in a continuous model, there are no boundaries to the size of the world.
@@ -51,6 +52,7 @@ namespace Ped {
     class LIBEXPORT Tscene {
         friend class Ped::Tagent;
         friend class Ped::Ttree;
+        friend class Ped::Mesh;
 
     public:
         Tscene();
@@ -79,6 +81,9 @@ namespace Ped {
 	
         virtual void setOutputWriter(OutputWriter *ow) { outputwriter = ow; }
 
+
+	OutputWriter *outputwriter;
+
     protected:
         vector<Tagent*> agents;
         vector<Tobstacle*> obstacles;
@@ -90,7 +95,6 @@ namespace Ped {
         Ttree *tree;
 
 	long int timestep = 0;
-        OutputWriter *outputwriter;
 
         void placeAgent(const Ped::Tagent *a);
         void moveAgent(const Ped::Tagent *a);

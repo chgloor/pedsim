@@ -48,6 +48,8 @@ namespace Ped {
         double getx() const { return x; };
         double gety() const { return y; };
         double getr() const { return r; };
+	
+	Tvector GetPosition() { return Tvector(x, y, 0); };
 
     protected:
         static int staticid;                              ///< last waypoint number

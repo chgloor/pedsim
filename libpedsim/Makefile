@@ -3,12 +3,13 @@ CXXFLAGS = -g -O0 -fno-inline -std=c++11
 
 SOURCES = $(shell echo *.cpp)
 HEADERS = $(shell echo *.h)
+EXAMPLES = $(shell echo examples/*.cpp)
 OBJECTS=$(SOURCES:.cpp=.o)
 
 libpedsim.so: $(OBJECTS)
 	$(CXX) $(CXXFLAGS) -shared -Wl,-soname,libpedsim.so -o libpedsim.so $(OBJECTS)
 
-%.o: %.cpp
+%.o: %.cpp $(HEADERS)
 	$(CXX) $(CXXFLAGS) -fPIC -c $<
 
 test_gtest: libpedsim.so
@@ -20,11 +21,12 @@ test_mem: libpedsim.so examples
 test: test_gtest test_mem
 	LD_LIBRARY_PATH=. ./test_all
 
-examples: libpedsim.so examples/example*.cpp
+examples: libpedsim.so $(EXAMPLES)
 	g++ examples/example01.cpp -o example01 -I. -lpedsim -L. -g -std=c++11
 	g++ examples/example02.cpp -o example02 -I. -lpedsim -L. -g -std=c++11
 	g++ examples/example03.cpp -o example03 -I. -lpedsim -L. -g -std=c++11
 	g++ examples/example04.cpp -o example04 -I. -lpedsim -L. -g -std=c++11
+	g++ examples/example05.cpp -o example05 -I. -lpedsim -L. -g -std=c++11
 
 doc: documentation/doxygen.conf
 	doxygen documentation/doxygen.conf

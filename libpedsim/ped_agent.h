@@ -14,6 +14,7 @@
 #endif
 
 #include "ped_vector.h"
+#include "ped_mesh.h"
 
 #include <deque>
 #include <set>
@@ -106,7 +107,9 @@ namespace Ped {
 
         Ped::Tscene* scene;
 
-        deque<Twaypoint*> waypoints;                      ///< coordinates of the next destinations
+        deque<Twaypoint*> waypoints;                      ///< coordinates of the destinations
+	Mesh *mesh;
+        deque<Tvector> path;                              ///< coordinates of the next steps towards the destination
         Twaypoint* destination;                           ///< coordinates of the next destination
         Twaypoint* lastdestination;                       ///< coordinates of the last destination
         int waypointbehavior;                             ///< waypoints are round queues or not.

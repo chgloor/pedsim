@@ -31,6 +31,14 @@ double Ped::Tvector::length() const {
 }
 
 
+/// Returns the length of the vector in 2 dimensions, ignoring z (==height).
+/// \return the length
+double Ped::Tvector::length2d() const {
+    if ((x == 0) && (y == 0)) return 0;
+    return sqrt(x*x + y*y);
+}
+
+
 /// Returns the length of the vector squared. This is faster than the real length.
 /// \return the length squared
 double Ped::Tvector::lengthSquared() const {

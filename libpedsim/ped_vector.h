@@ -27,6 +27,7 @@ namespace Ped {
 
         // Methods
         double length() const;
+        double length2d() const;
         double lengthSquared() const;
         void normalize();
         Tvector normalized() const;
