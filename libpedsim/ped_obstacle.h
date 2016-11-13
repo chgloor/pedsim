@@ -50,8 +50,10 @@ namespace Ped {
         int id;									///< Obstacle number
         double ax;								///< Position of the obstacle
         double ay;								///< Position of the obstacle
+        double az;								///< Position of the obstacle
         double bx;								///< Position of the obstacle
         double by;								///< Position of the obstacle
+        double bz;								///< Position of the obstacle
         int type;
     };
 }

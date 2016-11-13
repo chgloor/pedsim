@@ -304,6 +304,23 @@ void Ped::XMLOutputWriter::drawObstacle (Tobstacle &o) {
   write(msg.str());
 }
 
+
+/// Writes an point obstacle's position
+/// \date    2016-10-10
+/// \param o The obstacle to be rendered.
+void Ped::XMLOutputWriter::drawPoint (Tobstacle &o, string mesh) {
+  std::ostringstream msg;
+  msg << "<position type=\"point\" ";
+  msg << "id=\"" << o.getid() << "\" ";
+  msg << "x=\"" << o.getStartPoint().x << "\" ";
+  msg << "y=\"" << o.getStartPoint().y << "\" ";
+  msg << "z=\"" << o.getStartPoint().z << "\" ";
+  msg << "mesh=\"" << mesh << "\" ";
+  msg << "/>";
+  write(msg.str());
+}
+
+
 /// Writes the camera position, used for 3D output renderes. They might ignore the camera position and use their own.
 /// \date    2016-11-05
 /// \param   pos The position of the camera.

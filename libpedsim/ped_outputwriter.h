@@ -53,6 +53,7 @@ namespace Ped {
         // szene
         virtual void defineScene(Tscene &s) = 0;
         virtual void addObstacle(Tobstacle &o) = 0;
+        virtual void addPoint(Tobstacle &o) = 0;
         virtual void addAgent(Tagent &a) = 0;
         virtual void removeAgent(Tagent &a) = 0;
         virtual void addWaypoint(Twaypoint &w) = 0;
@@ -61,6 +62,7 @@ namespace Ped {
         virtual void drawAgent(Tagent &a) = 0;
 	// obstacle
         virtual void drawObstacle(Tobstacle &o) = 0;
+        virtual void drawPoint(Tobstacle &o, string mesh) = 0;
 	// waypoint
         virtual void drawWaypoint(Twaypoint &w) = 0;
 
@@ -82,6 +84,7 @@ namespace Ped {
         // szene
         virtual void defineScene(Tscene &s) {};
         virtual void addObstacle(Tobstacle &o) {};
+        virtual void addPoint(Tobstacle &o) {};
         virtual void addAgent(Tagent &a) {};
         virtual void removeAgent(Tagent &a) {};
         virtual void addWaypoint(Twaypoint &w) {};
@@ -112,6 +115,7 @@ namespace Ped {
         // szene
         virtual void defineScene(Tscene &s) {};
         virtual void addObstacle(Tobstacle &o) {};
+        virtual void addPoint(Tobstacle &o) {};
         virtual void addAgent(Tagent &a) {};
         virtual void removeAgent(Tagent &a);
         virtual void addWaypoint(Twaypoint &w) {};
@@ -122,6 +126,7 @@ namespace Ped {
 
         // obstacle
         virtual void drawObstacle(Tobstacle &o);
+        virtual void drawPoint(Tobstacle &o, string mesh);
 
         // waypoint
         virtual void drawWaypoint(Twaypoint &w);

@@ -28,8 +28,8 @@ namespace Ped {
     void SetMeta(double xmin, double ymin, double step);
     double GetHeight(double x, double y);
 
-    int getwidth() {return data_[0].size();};
-    int getheight() {return data_.size();};
+    int GetGridWidth() {return data_[0].size();};
+    int GetGridHeight() {return data_.size();};
     
   private:
     std::vector<std::vector<double>> data_; ///< Raw elevation grid data without coordinates.

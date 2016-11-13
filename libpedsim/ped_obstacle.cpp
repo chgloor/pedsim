@@ -18,8 +18,10 @@ Ped::Tobstacle::Tobstacle() {
     id = staticid++;
     ax = 0;
     ay = 0;
+    az = 0;
     bx = 1;
     by = 1;
+    bz = 0;
     type = 0;
 }
 
@@ -34,8 +36,10 @@ Ped::Tobstacle::Tobstacle(double pax, double pay, double pbx, double pby) {
     id = staticid++;
     ax = pax;
     ay = pay;
+    az = 0;
     bx = pbx;
     by = pby;
+    bz = 0;
     type = 0;
 }
 
@@ -48,8 +52,10 @@ Ped::Tobstacle::Tobstacle(const Tvector& startIn, const Tvector& endIn) {
     id = staticid++;
     ax = startIn.x;
     ay = startIn.y;
+    az = startIn.z;
     bx = endIn.x;
     by = endIn.y;
+    bz = endIn.z;
     type = 0;
 }
 
@@ -61,12 +67,12 @@ Ped::Tobstacle::~Tobstacle() {
 
 
 Ped::Tvector Ped::Tobstacle::getStartPoint() const {
-    return Tvector(ax, ay);
+  return Tvector(ax, ay, az);
 }
 
 
 Ped::Tvector Ped::Tobstacle::getEndPoint() const {
-    return Tvector(bx, by);
+  return Tvector(bx, by, bz);
 }
 
 
@@ -84,17 +90,24 @@ void Ped::Tobstacle::setPosition(double pax, double pay, double pbx, double pby)
 }
 
 void Ped::Tobstacle::setPosition(const Tvector& startIn, const Tvector& endIn) {
-    setPosition(startIn.x, startIn.y, endIn.x, endIn.y);
+  ax = startIn.x;
+  ay = startIn.y;
+  az = startIn.z;
+  bx = endIn.x;
+  by = endIn.y;
+  bz = endIn.z;
 }
 
 void Ped::Tobstacle::setStartPoint(const Tvector& startIn) {
     ax = startIn.x;
     ay = startIn.y;
+    az = startIn.z;
 }
 
 void Ped::Tobstacle::setEndPoint(const Tvector& endIn) {
     bx = endIn.x;
     by = endIn.y;
+    bz = endIn.z;
 }
 
 Ped::Tvector Ped::Tobstacle::closestPoint(const Tvector& pointIn) const {

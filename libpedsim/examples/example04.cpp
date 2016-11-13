@@ -61,6 +61,17 @@ int main(int argc, char *argv[]) {
 	if (i == 100) cam_agent = a;
     }
 
+    Ped::Tobstacle o1(Ped::Tvector(-20, -10, e->GetHeight(-20, -10)), Ped::Tvector(0, 0, 0));
+    ow->drawPoint(o1, "tree");
+    Ped::Tobstacle o2(Ped::Tvector(-10, -10, e->GetHeight(-10, -10)), Ped::Tvector(0, 0, 0));
+    ow->drawPoint(o2, "tree");
+    Ped::Tobstacle o3(Ped::Tvector(0, -10, e->GetHeight(0, -10)), Ped::Tvector(0, 0, 0));
+    ow->drawPoint(o3, "tree");
+    Ped::Tobstacle o4(Ped::Tvector(10, -10, e->GetHeight(10, -10)), Ped::Tvector(0, 0, 0));
+    ow->drawPoint(o4, "tree");
+    Ped::Tobstacle o5(Ped::Tvector(20, -10, e->GetHeight(20, -10)), Ped::Tvector(0, 0, 0));
+    ow->drawPoint(o5, "tree");
+    
     // move all agents for a few steps
     long timestep = 0;
     Ped::Tvector p = cam_agent->getPosition();
@@ -73,7 +84,7 @@ int main(int argc, char *argv[]) {
 	v = 0.005 * cam_agent->getVelocity().normalized() + 0.995 * v;
 	//	p.z = p.z + 2.2; // cam location 2.2m above ground = 0.2m above head.
 	ow->setCamera(Ped::Tvector(p.x, p.y, p.z+2.2), v.normalized(), "Agent 1");
-	ow->setCamera(Ped::Tvector(p.x, p.y+40, p.z+20), Ped::Tvector(0, -2, -1).normalized(), "Cam 1");
+	ow->setCamera(Ped::Tvector(p.x-20, p.y+40, p.z+20), Ped::Tvector(1, -2, -1).normalized(), "Cam 1");
 
 	std::this_thread::sleep_for(std::chrono::milliseconds(1000/50));
     }
