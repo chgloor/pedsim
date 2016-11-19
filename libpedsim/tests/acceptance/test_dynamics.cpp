@@ -6,6 +6,7 @@
 #include "ped_scene.h"
 #include "ped_outputwriter.h"
 
+
 /// @page tests Tests
 ///
 /// PEDSIM uses _Google_'s
@@ -42,7 +43,7 @@
 /// for this purpose, make sure you have it installed on your
 /// system. In order to perform this test the familiar code example
 /// `example01.cpp` will be compiled and executed, dynamically linked
-/// against `libpedsim`. This tests the bulk of the Pedsim
+/// against `libpedsim`. This tests the bulk of the PEDSIM
 /// functionality for memory leaks. An example output is shown here:
 ///
 /// \code{.unparsed}
@@ -99,6 +100,7 @@
 /// Further, since these tests are self-contained small programs, they
 /// can serve naturally as **code examples** quite well. That is why
 /// their source code is included into the documentation verbatimly.
+///
 
 class DynamicsTest : public testing::Test {
 public:
