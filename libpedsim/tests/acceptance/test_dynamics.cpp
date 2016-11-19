@@ -8,12 +8,14 @@
 
 /// @page tests Tests
 ///
-/// PEDSIM uses _Google_'s test framework for writing C++ tests,
-/// _gtest_. Not strictly necessary unless you play with the source of
+/// PEDSIM uses _Google_'s
+/// [gtest](https://github.com/google/googletest) test framework for
+/// writing C++ tests.  As a user of _libpedsim_ running the library
+/// tests is not strictly necessary unless you play with the source of
 /// _libpedsim_ and want to make sure you've not broken anything.
 ///
 /// ~~~~ .sh
-/// aptitude install libgtest-dev cmake
+/// aptitude install libgtest-dev cmake valgrind
 /// cd /usr/src/gtest/
 /// cmake .
 /// make
@@ -36,7 +38,7 @@
 /// Memory Leak Test
 /// =========================================
 ///
-/// Invoking `make test` will run a memory leak test. It uses [valgrind](http://valgrind.org/)
+/// Invoking `make test` will run a memory leak test. It uses [Valgrind](http://valgrind.org/)
 /// for this purpose, make sure you have it installed on your
 /// system. In order to perform this test the familiar code example
 /// `example01.cpp` will be compiled and executed, dynamically linked
@@ -95,8 +97,8 @@
 /// guarantee to the library user.
 ///
 /// Further, since these tests are self-contained small programs, they
-/// can serve naturally as code examples quite well. That is why their
-/// source code is included into the documentation verbatimly.
+/// can serve naturally as **code examples** quite well. That is why
+/// their source code is included into the documentation verbatimly.
 
 class DynamicsTest : public testing::Test {
 public:
@@ -128,8 +130,11 @@ public:
 
 /// @page tests
 /// ### Move not if not Affected
+///
 /// This tests if an agent stays where it was placed as long as there
-/// are no forces affecting him.
+/// are no forces affecting him. This is only the case if it is
+/// basically alone in a world without other agents or obstacles.
+///
 /// \code{.cpp}
 TEST_F(DynamicsTest, moveNotIfNotAffected) {
   Ped::Tagent *a = new Ped::Tagent();
@@ -154,7 +159,9 @@ TEST_F(DynamicsTest, moveNotIfNotAffected) {
 
 /// @page tests
 /// ### Move Towards End Point
-/// This tests if the agent moves towards a waypoint assigned to it. 
+///
+/// This tests if the agent moves towards a waypoint that has been assigned to it.
+///
 /// \code{.cpp}
 TEST_F(DynamicsTest, moveTowardsWaypoint) {
   Ped::Tagent *a = new Ped::Tagent();
@@ -178,11 +185,13 @@ TEST_F(DynamicsTest, moveTowardsWaypoint) {
 
 /// @page tests
 /// ### Move Stops at Last Waypoint
+///
 /// If waypoint mode is set to BEHAVIOR_ONCE, the agent should stop
 /// once reached the last waypoint. This is only the case if the
 /// dynamics work in such a way that the agent's velocity reduced to 0
 /// after a while without any forces affecting it. Like drag, or
 /// decaying momentum.
+///
 /// \code{.cpp}
 TEST_F(DynamicsTest, moveStopsAtLastWaypoint) {
   Ped::Tagent *a = new Ped::Tagent();
@@ -191,14 +200,14 @@ TEST_F(DynamicsTest, moveStopsAtLastWaypoint) {
   a->setWaypointBehavior(Ped::Tagent::WaypointBehavior::BEHAVIOR_ONCE);
   pedscene->addAgent(a);
   
-  // Move all agents for lots of steps
-  for (int i=0; i<200; ++i) { // takes about 100 steps to reach the waypoint
-    pedscene->moveAgents(0.5); // low precision for this
+  // Move all agents for some time steps
+  for (int i=0; i<200; ++i) { // It takes about 100 steps to reach the waypoint
+    pedscene->moveAgents(0.5); // Only low precision required for this
   }
   
   vector<Ped::Tagent*> all = pedscene->getAllAgents();
 
-  // agent should be near the inner corner of the waypoint's
+  // The agent should be near the inner corner of the waypoint's
   // radius. w1 is from -1 to +1 (radius 2)
   EXPECT_NEAR(0.0, all.front()->getPosition().x, 2.0);
   EXPECT_NEAR(0.0, all.front()->getPosition().y, 2.0);
@@ -211,10 +220,12 @@ TEST_F(DynamicsTest, moveStopsAtLastWaypoint) {
 
 /// @page tests
 /// ### Move Axis Stability
+///
 /// This is a numerical stability test. 10 agents are placed very
 /// close to each other spread out on the x axis. Y and Z axis
 /// positions are identical for all agents. The force pushing them
 /// appart should only affect the x axis value of their positions.
+///
 /// \code{.cpp}
 TEST_F(DynamicsTest, moveAxisStability) {
   for (int i = 0; i<10; i++) {
@@ -224,14 +235,14 @@ TEST_F(DynamicsTest, moveAxisStability) {
     pedscene->addAgent(a);
   }
   
-  // Move all agents for some steps, with high precision (0.03)
+  // Move all agents for some steps, with very high precision (0.03).
   for (int i=0; i<1000; ++i) {
     pedscene->moveAgents(0.03);
   }
   
   vector<Ped::Tagent*> all = pedscene->getAllAgents();
 
-  // all agents should stay on y = 1.0 and move only horizontally on the x-axis.
+  // All agents should stay on y = 1.0 and move only horizontally on the x-axis.
   for (Ped::Tagent* agent : pedscene->getAllAgents()) {
     EXPECT_NEAR(1.0, agent->getPosition().y, 0.1);
   }
