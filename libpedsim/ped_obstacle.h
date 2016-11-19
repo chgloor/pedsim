@@ -21,6 +21,7 @@
 #endif
 #else
 #    define LIBEXPORT
+#    define EXPIMP_TEMPLATE
 #endif
 
 #include "ped_vector.h"

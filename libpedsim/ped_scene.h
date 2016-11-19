@@ -21,6 +21,7 @@
 #endif
 #else
 #    define LIBEXPORT
+#    define EXPIMP_TEMPLATE
 #endif
 
 #include <set>
@@ -31,18 +32,20 @@
 using namespace std;
 
 namespace Ped {
+  class OutputWriter;
+  class Tagent;
+  class Tobstacle;
+  class Twaypoint;
+}
 
-    class Tagent;
-    class Tobstacle;
-    class Twaypoint;
+EXPIMP_TEMPLATE template class LIBEXPORT std::vector<Ped::Tagent*>;
+EXPIMP_TEMPLATE template class LIBEXPORT std::vector<Ped::Tobstacle*>;
+EXPIMP_TEMPLATE template class LIBEXPORT std::vector<Ped::Twaypoint*>;
+EXPIMP_TEMPLATE template class LIBEXPORT std::vector<Ped::OutputWriter*>;
+
+namespace Ped {
+
     class Ttree;
-    class OutputWriter;
-
-	EXPIMP_TEMPLATE template class LIBEXPORT std::vector<Tagent*>;
-	EXPIMP_TEMPLATE template class LIBEXPORT std::vector<Tobstacle*>;
-	EXPIMP_TEMPLATE template class LIBEXPORT std::vector<Twaypoint*>;
-	EXPIMP_TEMPLATE template class LIBEXPORT std::vector<OutputWriter*>;
-
 
     /// The Tscene class contains the spatial representation of the "world" the agents live in.
     /// Theoretically, in a continuous model, there are no boundaries to the size of the world.

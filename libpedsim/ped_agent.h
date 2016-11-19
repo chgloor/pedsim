@@ -22,9 +22,11 @@
 #endif
 #else
 #    define LIBEXPORT
+#    define EXPIMP_TEMPLATE
 #endif
 
 #include "ped_vector.h"
+#include "ped_waypoint.h"
 
 #include <deque>
 #include <set>
@@ -33,11 +35,10 @@
 
 using namespace std;
 
+EXPIMP_TEMPLATE template class LIBEXPORT std::deque<Ped::Twaypoint*>;
+
 namespace Ped {
     class Tscene;
-    class Twaypoint;
-
-	EXPIMP_TEMPLATE template class LIBEXPORT std::deque<Twaypoint*>;
 
 /// This is the main class of the library. It contains the Tagent, which eventually will move through the
 /// Tscene and interact with Tobstacle and other Tagent. You can use it as it is, and access the agent's

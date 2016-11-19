@@ -21,6 +21,7 @@
 #endif
 #else
 #    define LIBEXPORT
+#    define EXPIMP_TEMPLATE
 #endif
 
 #include <set>
@@ -30,9 +31,11 @@ using namespace std;
 namespace Ped {
     class Tagent;
     class Tscene;
+}
+   
+EXPIMP_TEMPLATE template class LIBEXPORT std::set<const Ped::Tagent*>;
 
-	EXPIMP_TEMPLATE template class LIBEXPORT std::set<const Ped::Tagent*>;
-
+namespace Ped {
     class LIBEXPORT Ttree {
         friend class Tscene;
 
