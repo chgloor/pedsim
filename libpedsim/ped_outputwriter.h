@@ -6,10 +6,21 @@
 #ifndef _ped_outputwriter_h_
 #define _ped_outputwriter_h_ 1
 
+//disable warnings on 255 char debug symbols
+#pragma warning (disable : 4786)
+//disable warnings on extern before template instantiation
+#pragma warning (disable : 4231)
+
 #ifdef _WIN32
-#define LIBEXPORT __declspec(dllexport)
+#ifdef _DLL
+#    define LIBEXPORT __declspec(dllexport)
+#    define EXPIMP_TEMPLATE
 #else
-#define LIBEXPORT
+#    define LIBEXPORT __declspec(dllimport)
+#    define EXPIMP_TEMPLATE extern
+#endif
+#else
+#    define LIBEXPORT
 #endif
 
 #ifdef _WIN32

@@ -20,21 +20,20 @@ using namespace std;
 /// Default constructor. If this constructor is used, there will be no quadtree created.
 /// This is faster for small scenarios or less than 1000 Tagents.
 /// \date    2012-01-17
-Ped::Tscene::Tscene() : tree(NULL), outputwriter(NULL) {};
+Ped::Tscene::Tscene() : tree(NULL), timestep(0) {};
 
 
 /// Constructor used to create a quadtree statial representation of the Tagents. Use this
 /// constructor when you have a sparsely populated world with many agents (>1000).
 /// The agents must not be outside the boundaries given here. If in doubt, use an initial
-//// boundary that is way to big.
-/// \todo    Get rid of that limitation. A dynamical outer boundary algorithm would be nice.
+/// boundary that is way to big.
+/// \todo    Get rid of that limitation. A dynamic outer boundary algorithm would be nice.
 /// \date    2012-01-17
 /// \param left is the left side of the boundary
 /// \param top is the upper side of the boundary
 /// \param width is the total width of the boundary. Basically from left to right.
 /// \param height is the total height of the boundary. Basically from top to down.
-Ped::Tscene::Tscene(double left, double top, double width, double height) {
-    outputwriter = NULL;
+Ped::Tscene::Tscene(double left, double top, double width, double height) : Tscene() {
     tree = new Ped::Ttree(this, 0, left, top, width, height);
 }
 
@@ -88,10 +87,9 @@ void Ped::Tscene::addObstacle(Ped::Tobstacle *o) {
     obstacles.push_back(o);
 
     // then output their new position if an OutputWriter is given.
-    if (outputwriter != NULL) {
-      outputwriter->drawObstacle(*o);
-    }
-
+	for (auto ow : outputwriters) {
+		ow->drawObstacle(*o);
+	}
 }
 
 void Ped::Tscene::addWaypoint(Ped::Twaypoint* w) {
@@ -100,8 +98,8 @@ void Ped::Tscene::addWaypoint(Ped::Twaypoint* w) {
     waypoints.push_back(w);
 
     // then output their new position if an OutputWriter is given.
-    if (outputwriter != NULL) {
-      outputwriter->drawWaypoint(*w);
+	for (auto ow : outputwriters) {
+      ow->drawWaypoint(*w);
     }
 }
 
@@ -121,9 +119,9 @@ bool Ped::Tscene::removeAgent(Ped::Tagent *a) {
     agents.erase(it);
 
     // notify the outputwriter
-    if (outputwriter != NULL) {
+	for (auto ow : outputwriters) {
       Tagent aa = *a;
-      outputwriter->removeAgent(aa);
+      ow->removeAgent(aa);
     }
 
     return true;
@@ -177,9 +175,9 @@ void Ped::Tscene::moveAgents(double h) {
     for (Tagent* agent : agents) agent->move(h);
 
     // then output their new position if an OutputWriter is given.
-    if (outputwriter != NULL) {
-      outputwriter->writeTimeStep(timestep);
-      for (Tagent* agent : agents) outputwriter->drawAgent(*agent);
+	for (auto ow : outputwriters) {
+      ow->writeTimeStep(timestep);
+      for (Tagent* agent : agents) ow->drawAgent(*agent);
     }
 }
 

@@ -7,10 +7,21 @@
 #ifndef _ped_agent_h_
 #define _ped_agent_h_ 1
 
+//disable warnings on 255 char debug symbols
+#pragma warning (disable : 4786)
+//disable warnings on extern before template instantiation
+#pragma warning (disable : 4231)
+
 #ifdef _WIN32
-#define LIBEXPORT __declspec(dllexport)
+#ifdef _DLL
+#    define LIBEXPORT __declspec(dllexport)
+#    define EXPIMP_TEMPLATE
 #else
-#define LIBEXPORT
+#    define LIBEXPORT __declspec(dllimport)
+#    define EXPIMP_TEMPLATE extern
+#endif
+#else
+#    define LIBEXPORT
 #endif
 
 #include "ped_vector.h"
@@ -26,7 +37,8 @@ namespace Ped {
     class Tscene;
     class Twaypoint;
 
-    
+	EXPIMP_TEMPLATE template class LIBEXPORT std::deque<Twaypoint*>;
+
 /// This is the main class of the library. It contains the Tagent, which eventually will move through the
 /// Tscene and interact with Tobstacle and other Tagent. You can use it as it is, and access the agent's
 /// coordinates using the getx() etc methods. Or, if you want to change the way the agent behaves, you can
@@ -53,7 +65,7 @@ namespace Ped {
         int getType() const { return type; };
 
         void setVmax(double vmax);
-	double getVmax();
+        double getVmax();
 
         void setFollow(int id);
         int getFollow() const;
@@ -77,7 +89,7 @@ namespace Ped {
         void addWaypoint(Twaypoint* wp);
         bool removeWaypoint(const Twaypoint* wp);
         void clearWaypoints();
-	deque<Twaypoint*> getWaypoints() { return waypoints; };
+        //deque<Twaypoint*> getWaypoints() { return waypoints; };
 
 	//        void removeAgentFromNeighbors(const Tagent* agentIn);
 

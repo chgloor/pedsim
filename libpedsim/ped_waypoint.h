@@ -6,10 +6,21 @@
 #ifndef _ped_waypoint_h_
 #define _ped_waypoint_h_ 1
 
+//disable warnings on 255 char debug symbols
+#pragma warning (disable : 4786)
+//disable warnings on extern before template instantiation
+#pragma warning (disable : 4231)
+
 #ifdef _WIN32
-#define LIBEXPORT __declspec(dllexport)
+#ifdef _DLL
+#    define LIBEXPORT __declspec(dllexport)
+#    define EXPIMP_TEMPLATE
 #else
-#define LIBEXPORT
+#    define LIBEXPORT __declspec(dllimport)
+#    define EXPIMP_TEMPLATE extern
+#endif
+#else
+#    define LIBEXPORT
 #endif
 
 #include "ped_vector.h"
@@ -50,7 +61,6 @@ namespace Ped {
         double getr() const { return r; };
 
     protected:
-        static int staticid;                              ///< last waypoint number
         int id;                                           ///< waypoint number
         double x;                                         ///< position of the waypoint
         double y;                                         ///< position of the waypoint
