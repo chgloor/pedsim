@@ -90,7 +90,7 @@ namespace Ped {
         void addWaypoint(Twaypoint* wp);
         bool removeWaypoint(const Twaypoint* wp);
         void clearWaypoints();
-        //deque<Twaypoint*> getWaypoints() { return waypoints; };
+        deque<Twaypoint*> getWaypoints() { return waypoints; };
 
 	//        void removeAgentFromNeighbors(const Tagent* agentIn);
 
