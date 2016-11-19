@@ -5,7 +5,8 @@ the LGPL, while all the rest under the terms of the GPL. This allows
 the library to be used even in commercial or proprietary software, if
 linked against the library dynamically. 
 
-## The library libpedsim
+The library libpedsim {#lgpl_license}
+=====================================
 
 ### GNU LESSER GENERAL PUBLIC LICENSE
 
@@ -165,7 +166,11 @@ apply, that proxy's public statement of acceptance of any version is
 permanent authorization for you to choose that version for the
 Library.
 
-## Examples, DemoApp; i.e. everything except the libpedsim library
+
+
+
+Examples, DemoApp; i.e. everything except the libpedsim library {#gpl_license}
+==============================================================================
 
 ### GNU GENERAL PUBLIC LICENSE
 

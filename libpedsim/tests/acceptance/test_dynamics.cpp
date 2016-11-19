@@ -36,7 +36,7 @@
 
 
 /// @page tests Tests
-/// Memory Leak Test
+/// Memory Leak Test {#memory_test}
 /// =========================================
 ///
 /// Invoking `make test` will run a memory leak test. It uses [Valgrind](http://valgrind.org/)
@@ -72,7 +72,7 @@
 /// \endcode
 
 /// @page tests Tests
-/// Unit Tests
+/// Unit Tests {#unit_tests}
 /// =========================================
 /// 
 /// The folder `libpesim/tests/unit/` contains unit tests for most of
@@ -81,7 +81,7 @@
 /// interested in the unit tests.
 
 /// @page tests Tests
-/// User Acceptance Tests
+/// User Acceptance Tests {#acceptance_tests}
 /// =========================================
 ///
 /// The folder `libpesim/tests/acceptance/` contains user acceptance
@@ -98,7 +98,7 @@
 /// guarantee to the library user.
 ///
 /// Further, since these tests are self-contained small programs, they
-/// can serve naturally as **code examples** quite well. That is why
+/// can serve naturally as **code examples** quite well. This is why
 /// their source code is included into the documentation verbatimly.
 ///
 
