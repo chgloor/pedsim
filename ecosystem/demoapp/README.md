@@ -56,8 +56,10 @@ statically link the library into the code. No need to link the
 library, or specify its location.
 
 This method of including `libpedsim` can also be used by your own
-project. Make sure you do not violate the terms of the GPL doing this
-- e.g. by including the library source into your commercial projects.
+project. Make sure you do not violate the terms of the GPL doing this,
+e.g. by including the library source into your commercial
+projects. (Linking the library is OK under the terms of the
+LGPL.)
 
 ![PEDSIM Demo App](screenshot.png)
 
