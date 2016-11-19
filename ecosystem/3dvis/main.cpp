@@ -90,6 +90,7 @@ int main(int argc, char* argv[]) {
     camController->setCamera(camera);
 
     view.setRootEntity(scene);
+    view.resize(1280, 720);
     view.show();
 
     return app.exec();

@@ -1,7 +1,7 @@
 
 TEMPLATE = app
 
-QT += 3dcore 3drender 3dinput 3dextras XML Network
+QT += 3dcore 3drender 3dinput 3dextras xml network
 
 SOURCES += \
     main.cpp \

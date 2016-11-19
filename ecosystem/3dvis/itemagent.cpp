@@ -29,3 +29,7 @@ ItemAgent::ItemAgent(Qt3DCore::QEntity *rootEntity) : Item(rootEntity) {
 	entity->addComponent(material);
 }
 
+void ItemAgent::updateComponents() {
+	transform->setTranslation(QVector3D(x, 1.0+z, y));
+	//transform->setRotation(QQuaternion::fromAxisAndAngle(QVector3D(0, 1, 0), r));
+};

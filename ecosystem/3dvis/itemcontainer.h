@@ -21,6 +21,7 @@ public:
     void removeItem(QString id);
     bool contains(QString id) { return (container.contains(id)); };
     void for_each(void (*fn)(Item*));
+    Item* at(QString id);
 
 public slots:
     void clear();

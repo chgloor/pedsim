@@ -115,9 +115,9 @@ you can add your own factors.
 
 > Can I get a binary version of PEDSIM?
 
-Yes and no. I do every now an then compile PEDSIM on various operating
-systems to check if everything is still fine there. Theoretically I
-can send these binary files. Please contact me. However, these
+Yes and no. Every now and then I compile PEDSIM on various operating
+systems to check if everything is still fine everywhere. Theoretically
+I can send out these binary files. Please contact me. However, these
 binaries are usually a bit older than the repo release. And you still
 need a C++ compiler to do anything useful with PEDSIM. You can't
 really test your own scenarios using the pre-compiled binaries yet.
@@ -126,8 +126,10 @@ really test your own scenarios using the pre-compiled binaries yet.
 
 I don't know. I do not own a Mac. I think is is possible to compile
 the core library (libpedsim) on any modern operating system, as long
-as a decent C++ compiler is available.
+as a decent C++ compiler is available. Support is available for Linux
+and Windows.
 
 All the graphical parts use the Qt framework, which is compatible with
 Mac, iOS and Android devices. See
-[here](http://doc.qt.io/qt-5/supported-platforms.html).
+[here](http://doc.qt.io/qt-5/supported-platforms.html). So
+theoretically, PEDSIM runs almost everywhere. But I can't test it.

@@ -21,5 +21,8 @@ extern int g_option_network_port;
 extern bool g_option_file;
 extern QString g_option_file_name;
 
+extern bool g_option_charts;
+extern bool g_option_metrics;
+
 
 #endif // GLOBALS_H

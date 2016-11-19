@@ -58,6 +58,7 @@ namespace Ped {
 	virtual void setScenarioName(string name) = 0;
 	virtual void drawLine(Tvector &s, Tvector &e, int duration = 1, double red = 1.0, double green = 1.0, double blue = 1.0) = 0;
 	virtual void writeMetrics(std::unordered_map<std::string,std::string> hash) = 0;
+	virtual void setCamera (Ped::Tvector pos, Ped::Tvector direction, string id = "") = 0;
 
         // szene
         virtual void defineScene(Tscene &s) = 0;
@@ -123,6 +124,7 @@ namespace Ped {
         virtual void addAgent(Tagent &a) {};
         virtual void removeAgent(Tagent &a);
         virtual void addWaypoint(Twaypoint &w) {};
+	virtual void setCamera (Ped::Tvector pos, Ped::Tvector direction, string id = "");
 
         // agent
         virtual void drawAgent(Tagent &a);
