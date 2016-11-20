@@ -76,9 +76,7 @@
 /// \endcode
 ///
 /// ![Example 5 as seen using 2dvis, metrics and charts enabled](pedsim-2dvis-example05-900.png)
-/// @latexonly
-/// \includegraphics[width=\textwidth]{pedsim-2dvis-example05.png}
-/// @endlatexonly
+/// @latexonly \includegraphics[width=\textwidth]{pedsim-2dvis-example05.png} @endlatexonly
  
 
 

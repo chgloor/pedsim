@@ -3,7 +3,7 @@
 // Copyright (c) by Christian Gloor
 //
 // To collect the output in a file::
-// ./main > out.dat
+// ./example05 > out.dat
 //
 // Process output in gnuplot:
 // gnuplot> plot "out.dat"
@@ -23,8 +23,8 @@ int main(int argc, char *argv[]) {
   // setup
   Ped::Tscene *pedscene = new Ped::Tscene(); // no quadtree
 
-  // create an output writer which will send output to a file
-  Ped::OutputWriter *ow = new Ped::FileOutputWriter();
+  // create an output writer which will send output to a visualizer
+  Ped::OutputWriter *ow = new Ped::UDPOutputWriter();
   ow->setScenarioName("Example 05 / Dynamic Obstacles");
   pedscene->setOutputWriter(ow);
     
