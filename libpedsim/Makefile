@@ -25,10 +25,12 @@ examples: libpedsim.so examples/example*.cpp
 	g++ examples/example02.cpp -o example02 -I. -lpedsim -L. -g -std=c++0x
 	g++ examples/example03.cpp -o example03 -I. -lpedsim -L. -g -std=c++0x
 	g++ examples/example04.cpp -o example04 -I. -lpedsim -L. -g -std=c++0x
+	g++ examples/example05.cpp -o example05 -I. -lpedsim -L. -g -std=c++0x
 
 doc: documentation/doxygen.conf
 	doxygen documentation/doxygen.conf
-	cp ./documentation/title.png ./documentation/latex
+	cp ./documentation/*.png ./documentation/latex
+	cp ./documentation/*.png ./documentation/html
 	cp ../ecosystem/2dvis/documentation/*.png documentation/html
 	cp ../ecosystem/2dvis/documentation/*.png documentation/latex
 	cp ../ecosystem/3dvis/documentation/*.png documentation/html

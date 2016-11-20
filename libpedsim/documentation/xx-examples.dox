@@ -57,3 +57,28 @@
 /// ~~~~
 
 
+/// \example examples/example05.cpp
+///
+/// Example 05 is a small program used to demonstrate how
+/// PEDSIM can be used to find the ideal configuration of a
+/// scenario. In this simple demo case, a path width is modified on
+/// several automated simulation runs. The measured metric is the time
+/// until all agents have passed the opening. The output is sent to the
+/// 2-dimensional visualizer 2dvis, if launched.
+///
+/// You can find a [video](https://youtu.be/R7K3zrGz0EE) of this example on PEDSIM's YouTube channel.
+///
+/// Use something like this to compile:
+/// \code{.sh}
+/// g++ examples/example05.cpp -o example05 -lpedsim -L. -I. -std=c++11
+/// export LD_LIBRARY_PATH=.
+/// ./example05
+/// \endcode
+///
+/// ![Example 5 as seen using 2dvis, metrics and charts enabled](pedsim-2dvis-example05-900.png)
+/// @latexonly
+/// \includegraphics[width=\textwidth]{pedsim-2dvis-example05.png}
+/// @endlatexonly
+ 
+
+

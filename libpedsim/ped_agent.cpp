@@ -44,7 +44,7 @@ Ped::Tagent::Tagent() {
     vmax = distribution(generator);
 
     factorsocialforce = 2.1;
-    factorobstacleforce = 5.0; // parameter based on plausible pedsim output, not real measurement!
+    factorobstacleforce = 1.0; // parameter based on plausible pedsim output, not real measurement!
     factordesiredforce = 1.0;
     factorlookaheadforce = 1.0;
 
