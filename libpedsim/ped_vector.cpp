@@ -273,8 +273,8 @@ bool Ped::Tvector::lineIntersection(const Ped::Tvector &p0, const Ped::Tvector &
   Ped::Tvector s1(p1.x - p0.x, p1.y - p0.y);
   Ped::Tvector s2(p3.x - p2.x, p3.y - p2.y);
 
-  float s = (-s1.y * (p0.x - p2.x) + s1.x * (p0.y - p2.y)) / (-s2.x * s1.y + s1.x * s2.y);
-  float t = ( s2.x * (p0.y - p2.y) - s2.y * (p0.x - p2.x)) / (-s2.x * s1.y + s1.x * s2.y);
+  double s = (-s1.y * (p0.x - p2.x) + s1.x * (p0.y - p2.y)) / (-s2.x * s1.y + s1.x * s2.y);
+  double t = ( s2.x * (p0.y - p2.y) - s2.y * (p0.x - p2.x)) / (-s2.x * s1.y + s1.x * s2.y);
 
   if (s >= 0 && s <= 1 && t >= 0 && t <= 1) { // intersection
     if (intersection != NULL) {

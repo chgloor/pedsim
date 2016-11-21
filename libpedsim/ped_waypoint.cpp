@@ -1,14 +1,11 @@
 //
 // pedsim - A microscopic pedestrian simulation system.
-// Copyright (c) 2003 - 2014 by Christian Gloor
+// Copyright (c) by Christian Gloor
 //
 
 #include "ped_waypoint.h"
 
 #include <cmath>
-
-// initialize static variables
-int Ped::Twaypoint::staticid = 0;
 
 
 /// Constructor: Sets some intial values. The agent has to pass within the given radius.
@@ -16,12 +13,19 @@ int Ped::Twaypoint::staticid = 0;
 /// \param   px The x coordinate of the waypoint
 /// \param   py The y coordinate of the waypoint
 /// \param   pr The radius of the waypoint
-Ped::Twaypoint::Twaypoint(double px, double py, double pr) : id(staticid++), x(px), y(py), r(pr), type(Ped::Twaypoint::TYPE_NORMAL) {};
+Ped::Twaypoint::Twaypoint(double px, double py, double pr) : Twaypoint() {
+	x = px;
+	y = py;
+	r = pr;
+};
 
 
 /// Constructor - sets the most basic parameters.
 /// \date    2012-01-07
-Ped::Twaypoint::Twaypoint() : id(staticid++), x(0), y(0), r(1), type(Ped::Twaypoint::TYPE_NORMAL) {};
+Ped::Twaypoint::Twaypoint() : x(0), y(0), r(1), type(Ped::Twaypoint::TYPE_NORMAL) {
+	static int staticid = 0;
+	id = staticid++;
+};
 
 
 /// Default Destructor

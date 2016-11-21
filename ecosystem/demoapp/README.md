@@ -43,6 +43,24 @@ installation documentation on [Linux](@ref linux) and [Windows](@ref windows)
 for more information regarding compillation of the source
 code.
 
+Please note that (at least for the time being) the DemoApp does not
+link `libpedsim` dynamically using the .dll on Windows or the .so
+library on Linux respectively. This is due to bug related to
+incompatible compiler versions or settings in Qt and msvc15, which is
+often used to compile the library on Windows.
+
+The source of `libpedsim` is directly included in the DemoApp Qt
+project file. This means that there is no need to compile the library
+separately at the moment. Compiling the DemoApp will also compile and
+statically link the library into the code. No need to link the
+library, or specify its location.
+
+This method of including `libpedsim` can also be used by your own
+project. Make sure you do not violate the terms of the GPL doing this,
+e.g. by including the library source into your commercial
+projects. (Linking the library is OK under the terms of the
+LGPL.)
+
 ![PEDSIM Demo App](screenshot.png)
 
 @latexonly

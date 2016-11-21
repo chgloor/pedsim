@@ -1,6 +1,6 @@
 //
 // pedsim - A microscopic pedestrian simulation system.
-// Copyright (c) 2003 - 2014 by Christian Gloor
+// Copyright (c) by Christian Gloor
 //
 
 #include "ped_obstacle.h"
@@ -10,19 +10,11 @@
 
 using namespace std;
 
-int Ped::Tobstacle::staticid = 0;
-
 /// Default constructor, places a wall from 0/0 to 1/1
 /// \date    2012-01-07
-Ped::Tobstacle::Tobstacle() {
-    id = staticid++;
-    ax = 0;
-    ay = 0;
-    az = 0;
-    bx = 1;
-    by = 1;
-    bz = 0;
-    type = 0;
+Ped::Tobstacle::Tobstacle() : ax(0), ay(0), az(0), bx(1), by(1), bz(1), type(0) {
+	static int staticid = 0;
+	id = staticid++;
 }
 
 
@@ -32,15 +24,11 @@ Ped::Tobstacle::Tobstacle() {
 /// \param pay y coordinate of the first corner of the obstacle.
 /// \param pbx x coordinate of the second corner of the obstacle.
 /// \param pby y coordinate of the second corner of the obstacle.
-Ped::Tobstacle::Tobstacle(double pax, double pay, double pbx, double pby) {
-    id = staticid++;
-    ax = pax;
-    ay = pay;
-    az = 0;
-    bx = pbx;
-    by = pby;
-    bz = 0;
-    type = 0;
+Ped::Tobstacle::Tobstacle(double pax, double pay, double pbx, double pby) : Tobstacle() {
+  ax = pax;
+  ay = pay;
+  bx = pbx;
+  by = pby;
 }
 
 
@@ -48,15 +36,13 @@ Ped::Tobstacle::Tobstacle(double pax, double pay, double pbx, double pby) {
 /// \date    2013-08-02
 /// \param startIn The first corner of the obstacle.
 /// \param endIn The second corner of the obstacle.
-Ped::Tobstacle::Tobstacle(const Tvector& startIn, const Tvector& endIn) {
-    id = staticid++;
+Ped::Tobstacle::Tobstacle(const Tvector& startIn, const Tvector& endIn) : Tobstacle() {
     ax = startIn.x;
     ay = startIn.y;
     az = startIn.z;
     bx = endIn.x;
     by = endIn.y;
     bz = endIn.z;
-    type = 0;
 }
 
 

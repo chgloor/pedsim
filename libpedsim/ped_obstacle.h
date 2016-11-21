@@ -1,15 +1,27 @@
 //
 // pedsim - A microscopic pedestrian simulation system.
-// Copyright (c) 2003 - 2014 by Christian Gloor
+// Copyright (c) by Christian Gloor
 //
 
 #ifndef _ped_obstacle_h_
 #define _ped_obstacle_h_ 1
 
+//disable warnings on 255 char debug symbols
+#pragma warning (disable : 4786)
+//disable warnings on extern before template instantiation
+#pragma warning (disable : 4231)
+
 #ifdef _WIN32
-#define LIBEXPORT __declspec(dllexport)
+#ifdef _DLL
+#    define LIBEXPORT __declspec(dllexport)
+#    define EXPIMP_TEMPLATE
 #else
-#define LIBEXPORT
+#    define LIBEXPORT __declspec(dllimport)
+#    define EXPIMP_TEMPLATE extern
+#endif
+#else
+#    define LIBEXPORT
+#    define EXPIMP_TEMPLATE
 #endif
 
 #include "ped_vector.h"
@@ -46,7 +58,6 @@ namespace Ped {
         virtual void rotate(double x, double y, double phi);
 
     protected:
-        static int staticid;
         int id;									///< Obstacle number
         double ax;								///< Position of the obstacle
         double ay;								///< Position of the obstacle

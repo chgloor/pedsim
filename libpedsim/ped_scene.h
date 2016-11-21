@@ -1,15 +1,27 @@
 //
 // pedsim - A microscopic pedestrian simulation system.
-// Copyright (c) 2003 - 2014 by Christian Gloor
+// Copyright (c) by Christian Gloor
 //
 
 #ifndef _ped_scene_h_
 #define _ped_scene_h_ 1
 
+//disable warnings on 255 char debug symbols
+#pragma warning (disable : 4786)
+//disable warnings on extern before template instantiation
+#pragma warning (disable : 4231)
+
 #ifdef _WIN32
-#define LIBEXPORT __declspec(dllexport)
+#ifdef _DLL
+#    define LIBEXPORT __declspec(dllexport)
+#    define EXPIMP_TEMPLATE
 #else
-#define LIBEXPORT
+#    define LIBEXPORT __declspec(dllimport)
+#    define EXPIMP_TEMPLATE extern
+#endif
+#else
+#    define LIBEXPORT
+#    define EXPIMP_TEMPLATE
 #endif
 
 #include <set>
@@ -22,15 +34,23 @@
 using namespace std;
 
 namespace Ped {
+  class OutputWriter;
+  class Tagent;
+  class Tobstacle;
+  class Twaypoint;
+}
 
-    class Tagent;
-    class Tobstacle;
-    class Twaypoint;
+EXPIMP_TEMPLATE template class LIBEXPORT std::vector<Ped::Tagent*>;
+EXPIMP_TEMPLATE template class LIBEXPORT std::vector<Ped::Tobstacle*>;
+EXPIMP_TEMPLATE template class LIBEXPORT std::vector<Ped::Twaypoint*>;
+EXPIMP_TEMPLATE template class LIBEXPORT std::vector<Ped::OutputWriter*>;
+
+namespace Ped {
+
     class Ttree;
-    class OutputWriter;
     class Elevation;
     class Mesh;
-    
+
     /// The Tscene class contains the spatial representation of the "world" the agents live in.
     /// Theoretically, in a continuous model, there are no boundaries to the size of the world.
     /// Agents know their position (the x/y co-ordinates). However, to find the nearest neighbors of
@@ -79,10 +99,10 @@ namespace Ped {
 	virtual void SetElevation(Elevation* e);
 	virtual double GetElevation(Ped::Tvector p);
 	
-        virtual void setOutputWriter(OutputWriter *ow) { outputwriter = ow; }
 
 
 	OutputWriter *outputwriter;
+        void setOutputWriter(OutputWriter *ow) { outputwriters.push_back(ow); }
 
     protected:
         vector<Tagent*> agents;
@@ -94,11 +114,16 @@ namespace Ped {
         map<const Ped::Tagent*, Ttree*> treehash;
         Ttree *tree;
 
-	long int timestep = 0;
+        long int timestep;
 
         void placeAgent(const Ped::Tagent *a);
         void moveAgent(const Ped::Tagent *a);
         void getNeighbors(list<const Ped::Tagent*>& neighborList, double x, double y, double dist) const;
-    };
+ 
+	private:
+		vector<OutputWriter*> outputwriters;
+		map<const Ped::Tagent*, Ttree*> treehash;
+
+	};
 }
 #endif
