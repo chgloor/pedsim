@@ -6,6 +6,7 @@
 #include "itemcontainer.h"
 #include "item.h"
 #include "itemagent.h"
+#include "itempoint.h"
 #include "itemobstacle.h"
 #include "globals.h"
 
@@ -30,6 +31,7 @@ extern Qt3DCore::QEntity *scene;
 extern Qt3DRender::QCamera *camera;
 
 extern ItemContainer agentcontainer;
+extern ItemContainer pointcontainer;
 extern ItemContainer obstaclecontainer;
 
 
@@ -93,7 +95,16 @@ void ServerStream::processData () {
 	  }
 	  agentcontainer.updatePosition(id, x, y, z);
 	}
-	
+
+	if (type == "point") {
+	  QString mesh = xmlReader_.attributes().value("mesh").toString();
+	  if (!pointcontainer.contains(id)) {
+	    Item *point = new ItemPoint(scene, mesh);
+	    pointcontainer.addItem(id, point);
+	  }
+	  pointcontainer.updatePosition(id, x, y, z);
+	}
+
 	if (type == "camera") {
 	  if (g_option_camera) {
 	    if (id == g_option_camera_id) {
