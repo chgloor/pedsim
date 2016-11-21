@@ -11,20 +11,26 @@
 #include <Qt3DExtras/QPhongMaterial>
 #include <Qt3DExtras/QGoochMaterial>
 
+#include <Qt3DRender/QMesh>
+
 
 ItemAgent::ItemAgent(Qt3DCore::QEntity *rootEntity) : Item(rootEntity) {
-	Qt3DExtras::QGoochMaterial *material = new Qt3DExtras::QGoochMaterial(rootEntity);
+	Qt3DExtras::QPhongMaterial *material = new Qt3DExtras::QPhongMaterial(rootEntity);
 
 	Qt3DCore::QEntity *entity = new Qt3DCore::QEntity(rootEntity);
-	material->setDiffuse(QColor(QRgb(0xaaaaaa)));
+	material->setDiffuse(QColor(QRgb(0xffffff)));
 
-	Qt3DExtras::QCylinderMesh *m = new Qt3DExtras::QCylinderMesh;
-	m->setRadius(0.75);
-	m->setLength(2);
-	m->setRings(30);
-	m->setSlices(10);
+	QMatrix4x4 m;
+	// m.translate(m_position);
+	// m.rotate(270, QVector3D(1.0f, 0.0f, 0.0f));
+	m.rotate(90, QVector3D(0.0f, 1.0f, 0.0f));
+	m.scale(0.03);
+	transform->setMatrix(m);
 
-	entity->addComponent(m);
+	
+	Qt3DRender::QMesh *mesh = new Qt3DRender::QMesh();
+	mesh->setSource(QUrl("file:agent/stickman.obj"));
+	entity->addComponent(mesh);
 	entity->addComponent(transform);
 	entity->addComponent(material);
 }

@@ -38,6 +38,7 @@
 
 
 ItemContainer agentcontainer;
+ItemContainer pointcontainer;
 ItemContainer obstaclecontainer;
 Receiver *receiver;
 ServerStream *serverstream;

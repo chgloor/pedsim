@@ -7,6 +7,7 @@ SOURCES += \
     main.cpp \
 	item.cpp \ 
 	itemagent.cpp \
+	itempoint.cpp \
 	itemcontainer.cpp \
 	itemobstacle.cpp \
 	messageparser.cpp \
@@ -18,6 +19,7 @@ SOURCES += \
 HEADERS += \
 	item.h \ 
 	itemagent.h \
+	itempoint.h \
 	itemcontainer.h \
 	itemobstacle.h \
 	messageparser.h \
