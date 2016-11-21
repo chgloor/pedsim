@@ -19,8 +19,7 @@ extern Config config;
 
 /// Description: set intial values
 /// \date    2012-01-28
-Scene::Scene(QGraphicsScene *pscene) : Tscene()  {
-  scene = pscene;
+Scene::Scene(QGraphicsScene *pscene) : Tscene(), scene(pscene)  {
   tree = new Tree(pscene, this, 0, -200, -160, 400, 320);
   grid = new Grid(-200, -160, 400, 320, scene);
 
@@ -31,11 +30,6 @@ Scene::Scene(QGraphicsScene *pscene) : Tscene()  {
   cleanuptimer = new QTimer();
   QObject::connect(cleanuptimer, SIGNAL(timeout()), this, SLOT(cleanupSlot()));
   cleanuptimer->start(1000);
-};
-
-
-/// \date    2012-01-28
-Scene::Scene() : Tscene() {
 };
 
 

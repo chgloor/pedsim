@@ -6,10 +6,22 @@
 #ifndef _ped_vector_h_
 #define _ped_vector_h_ 1
 
+//disable warnings on 255 char debug symbols
+#pragma warning (disable : 4786)
+//disable warnings on extern before template instantiation
+#pragma warning (disable : 4231)
+
 #ifdef _WIN32
-#define LIBEXPORT __declspec(dllexport)
+#ifdef _DLL
+#    define LIBEXPORT __declspec(dllexport)
+#    define EXPIMP_TEMPLATE
 #else
-#define LIBEXPORT
+#    define LIBEXPORT __declspec(dllimport)
+#    define EXPIMP_TEMPLATE extern
+#endif
+#else
+#    define LIBEXPORT
+#    define EXPIMP_TEMPLATE
 #endif
 
 #include <string>
@@ -40,8 +52,8 @@ namespace Ped {
         double polarAngle() const;
 
         double angleTo(const Tvector &other) const;
-	void rotate(double theta);
-	Ped::Tvector rotated(double theta) const;
+        void rotate(double theta);
+        Ped::Tvector rotated(double theta) const;
 
         static double scalar(const Tvector &a, const Tvector &b);
         static double dotProduct(const Tvector &a, const Tvector &b);
@@ -49,7 +61,7 @@ namespace Ped {
 
         std::string to_string() const;
 
-	static bool lineIntersection(const Ped::Tvector &p0, const Ped::Tvector &p1, const Ped::Tvector &p2, const Ped::Tvector &p3, Ped::Tvector *intersection);
+        static bool lineIntersection(const Ped::Tvector &p0, const Ped::Tvector &p1, const Ped::Tvector &p2, const Ped::Tvector &p3, Ped::Tvector *intersection);
 
         // Operators
         Tvector operator+(const Tvector& other) const;

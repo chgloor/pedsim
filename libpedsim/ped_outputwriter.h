@@ -1,15 +1,27 @@
 //
 // pedsim - A microscopic pedestrian simulation system.
-// Copyright (c) 2003 - 2014 by Christian Gloor
+// Copyright (c) by Christian Gloor
 //
 
 #ifndef _ped_outputwriter_h_
 #define _ped_outputwriter_h_ 1
 
+//disable warnings on 255 char debug symbols
+#pragma warning (disable : 4786)
+//disable warnings on extern before template instantiation
+#pragma warning (disable : 4231)
+
 #ifdef _WIN32
-#define LIBEXPORT __declspec(dllexport)
+#ifdef _DLL
+#    define LIBEXPORT __declspec(dllexport)
+#    define EXPIMP_TEMPLATE
 #else
-#define LIBEXPORT
+#    define LIBEXPORT __declspec(dllimport)
+#    define EXPIMP_TEMPLATE extern
+#endif
+#else
+#    define LIBEXPORT
+#    define EXPIMP_TEMPLATE
 #endif
 
 #ifdef _WIN32
@@ -47,6 +59,7 @@ namespace Ped {
 	virtual void setScenarioName(string name) = 0;
 	virtual void drawLine(Tvector &s, Tvector &e, int duration = 1, double red = 1.0, double green = 1.0, double blue = 1.0) = 0;
 	virtual void writeMetrics(std::unordered_map<std::string,std::string> hash) = 0;
+	virtual void setCamera (Ped::Tvector pos, Ped::Tvector direction, string id = "") = 0;
 
         // szene
         virtual void defineScene(Tscene &s) = 0;
@@ -112,6 +125,7 @@ namespace Ped {
         virtual void addAgent(Tagent &a) {};
         virtual void removeAgent(Tagent &a);
         virtual void addWaypoint(Twaypoint &w) {};
+	virtual void setCamera (Ped::Tvector pos, Ped::Tvector direction, string id = "");
 
         // agent
         virtual void drawAgent(Tagent &a);

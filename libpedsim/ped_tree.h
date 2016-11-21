@@ -1,15 +1,27 @@
 //
 // pedsim - A microscopic pedestrian simulation system.
-// Copyright (c) 2003 - 2014 by Christian Gloor
+// Copyright (c) by Christian Gloor
 //
 
 #ifndef _ped_tree_h_
 #define _ped_tree_h_ 1
 
+//disable warnings on 255 char debug symbols
+#pragma warning (disable : 4786)
+//disable warnings on extern before template instantiation
+#pragma warning (disable : 4231)
+
 #ifdef _WIN32
-#define LIBEXPORT __declspec(dllexport)
+#ifdef _DLL
+#    define LIBEXPORT __declspec(dllexport)
+#    define EXPIMP_TEMPLATE
 #else
-#define LIBEXPORT
+#    define LIBEXPORT __declspec(dllimport)
+#    define EXPIMP_TEMPLATE extern
+#endif
+#else
+#    define LIBEXPORT
+#    define EXPIMP_TEMPLATE
 #endif
 
 #include <set>
@@ -19,7 +31,11 @@ using namespace std;
 namespace Ped {
     class Tagent;
     class Tscene;
+}
+   
+EXPIMP_TEMPLATE template class LIBEXPORT std::set<const Ped::Tagent*>;
 
+namespace Ped {
     class LIBEXPORT Ttree {
         friend class Tscene;
 
@@ -50,10 +66,6 @@ namespace Ped {
         virtual void addChildren();
         Ttree* getChildByPosition(double x, double y);
 
-    protected:
-        set<const Ped::Tagent*> agents;	// set and not vector, since we need to delete elements from the middle very often
-                                        // set and not list, since deletion is based on pointer (search O(log n) instead of O(n)).
-
         bool isleaf;
         double x;
         double y;
@@ -67,7 +79,13 @@ namespace Ped {
         Ttree *tree4;
 
         Ped::Tscene *scene;
-    };
+
+    private:
+       set<const Ped::Tagent*> agents;	// set and not vector, since we need to delete elements from the middle very often
+										// set and not list, since deletion is based on pointer (search O(log n) instead of O(n)).
+
+	
+	};
 }
 
 #endif

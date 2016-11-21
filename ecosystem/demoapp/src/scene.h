@@ -33,7 +33,7 @@ class Scene : public QObject, public Ped::Tscene {
   void cleanupSlot();
   
  public:
-  Scene();
+//  Scene();
   Scene(QGraphicsScene *scene);
 
   double getGridValue(double x, double y, int value);
