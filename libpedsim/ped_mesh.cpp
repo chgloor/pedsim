@@ -39,12 +39,12 @@ Ped::Mesh::Mesh(Ped::Tvector start, Ped::Tvector end, Ped::Tscene *scene) {
 
   Ped::Tvector d = end - start;
   
-  int npointsx = d.length2d()/2;
-  int npointsy = npointsx+1;
+  int npointsx = d.length2d()/4;
+  int npointsy = 1.5*npointsx+1;
   
+  Ped::Tvector stepx = (end - start) / (1.0 * npointsx) * 1.;
+  Ped::Tvector stepy = ((end - start) / (1.0 * npointsy)).leftNormalVector() * 1.5;
   Ped::Tvector posx = start;
-  Ped::Tvector stepx = (end - start) / (1.0 * npointsx);
-  Ped::Tvector stepy = ((end - start) / (1.0 * npointsy)).leftNormalVector();
   int n = 0;
   for (int i=0; i<=npointsx; i++) {
     //    for (int j=-(npointsy/2); j<=(npointsy/2); j++) {
@@ -72,7 +72,8 @@ Ped::Mesh::Mesh(Ped::Tvector start, Ped::Tvector end, Ped::Tscene *scene) {
       
       n++;
     }
-    posx = start + i * stepx;
+    //    posx = start + i * stepx;
+    posx += stepx;
   }
 
   // cut nodes --> set to 11 or the like
@@ -98,21 +99,6 @@ Ped::Mesh::Mesh(Ped::Tvector start, Ped::Tvector end, Ped::Tscene *scene) {
   }
 
   
-  for (auto node : nodes_) {
-    Ped::Tvector posy = node.position_;
-    Ped::Tvector posy1(posy.x+1, posy.y+1, posy.z+1);
-    //    ow->drawLine(posy, posy1, 10000, 1.0, 1.0, 0.0);
-    //    std::this_thread::sleep_for(std::chrono::milliseconds(1000/300));
-  }
-  
-  for (auto link : links_) {
-    if (link.distance_ < 10) {
-            ow->drawLine(nodes_[link.from_].position_, nodes_[link.to_].position_, 200, 0.0, 0.7, 0.0);
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000/300));
-    }
-  }
-
-
   // dijkstra
 
   int source = nodes_.size()-(npointsy/2);
@@ -151,6 +137,25 @@ Ped::Mesh::Mesh(Ped::Tvector start, Ped::Tvector end, Ped::Tscene *scene) {
     path_.push_front(nodes_[next].position_);
     prev = next;
   }
+
+
+  // node link output
+  for (auto node : nodes_) {
+    Ped::Tvector posy = node.position_;
+    Ped::Tvector posy1(posy.x+1, posy.y+1, posy.z+1);
+    //    ow->drawLine(posy, posy1, 10000, 1.0, 1.0, 0.0);
+    //    std::this_thread::sleep_for(std::chrono::milliseconds(1000/300));
+  }
+  
+  for (auto link : links_) {
+    //if (link.distance_ < 10) {
+    if ((nodes_[link.from_].distance_ < 9999) && (nodes_[link.to_].distance_ < 9999)) {
+      //      ow->drawLine(nodes_[link.from_].position_, nodes_[link.to_].position_, 200, 0.0, 0.7, 0.0);
+      //      std::this_thread::sleep_for(std::chrono::milliseconds(1000/300));
+    }
+  }
+
+
 };
 
 
