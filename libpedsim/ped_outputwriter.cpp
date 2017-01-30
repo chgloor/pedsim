@@ -315,7 +315,7 @@ void Ped::XMLOutputWriter::setScenarioName (string name) {
 /// \param red The amount of red in the line color (between 0.0 and 1.0). Default is white.
 /// \param green The amount of green in the line color (between 0.0 and 1.0)
 /// \param blue The amount of blue in the line color (between 0.0 and 1.0)
-void Ped::XMLOutputWriter::drawLine(Tvector &start, Tvector &end, int duration, double red, double green, double blue) {
+void Ped::XMLOutputWriter::drawLine(const Tvector &start, const Tvector &end, int duration, double red, double green, double blue) {
   std::ostringstream msg;
   msg << "<draw type=\"line\" ";
   //  msg << "name=\"" << name << "\" ";

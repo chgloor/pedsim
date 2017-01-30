@@ -94,7 +94,7 @@ namespace Ped {
 
 	//        void removeAgentFromNeighbors(const Tagent* agentIn);
 
-        bool reachedDestination() { return (destination == NULL); };
+        bool reachedDestination() const { return (destination == NULL); };
         void setWaypointBehavior(int mode) { waypointbehavior = mode; };
 
         enum WaypointBehavior {

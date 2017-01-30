@@ -57,7 +57,7 @@ namespace Ped {
 	// general
 	virtual void writeTimeStep(long int timestep) = 0;
 	virtual void setScenarioName(string name) = 0;
-	virtual void drawLine(Tvector &s, Tvector &e, int duration = 1, double red = 1.0, double green = 1.0, double blue = 1.0) = 0;
+	virtual void drawLine(const Tvector &s, const Tvector &e, int duration = 1, double red = 1.0, double green = 1.0, double blue = 1.0) = 0;
 	virtual void writeMetrics(std::unordered_map<std::string,std::string> hash) = 0;
 	virtual void setCamera (Ped::Tvector pos, Ped::Tvector direction, string id = "") = 0;
 
@@ -116,7 +116,7 @@ namespace Ped {
 	// general
 	virtual void writeTimeStep(long int timestep);
 	virtual void setScenarioName(string name);
-	virtual void drawLine(Tvector &s, Tvector &e, int duration = 1, double red = 1.0, double green = 0.0, double blue = 0.0);
+	virtual void drawLine(const Tvector &s, const Tvector &e, int duration = 1, double red = 1.0, double green = 0.0, double blue = 0.0);
 	virtual void writeMetrics(std::unordered_map<std::string,std::string> hash);
 
         // szene
