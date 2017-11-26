@@ -69,7 +69,7 @@ folders.
 
 2dvis is built on _Qt_. If you want to use all the features (especially
 charts), you need _Qt 5.7_ or above. It should be possible to compile it
-using an oder version. However, you will not see the metrics charts in
+using an older version. However, you will not see the metrics charts in
 2dvis then.
 
 Download the latest version of Qt, and install it. I think you only

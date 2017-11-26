@@ -55,7 +55,7 @@ each other is not affected.</p>
 
 <ul>
 <li><p><b>Precision (h)</b> - In each timestep (frame) of the simulation,
-the agent is allowed to walf forward a tiny step. All the
+the agent is allowed to walk forward a tiny step. All the
 accelerations and velocoties are scaled to match this step length. The
 precision defines how long such a step is (High precision = small
 steps). Setting precision too low will allow the angents to walk
